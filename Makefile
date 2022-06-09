@@ -22,7 +22,7 @@ LIB_COMPIL = $(LIB_FT) #añadir ruta brew info readline -lreadline
 
 SRCS = readline_pruebas.c
 
-OBJS = $(SRCS:%.c=$(BIN_PATH)%.o)
+OBJS = $(SRCS:%.c=bin/%.o)
 
 CC = gcc
 CFLAGS =-Wall -Werror -Wextra -g -O0
@@ -34,7 +34,7 @@ all: $(NAME)
 
 bin/%.o: src/%.c
 	@mkdir -p $(BIN_PATH)
-	@$(CC) $(CFLAGS) $(OBJ_COMPIL)
+	@$(CC) $(CFLAGS) $< -o $@
 
 $(NAME): $(OBJS)
 	@echo $(PURPLE)"[Creating libft]"$(BLUE)
