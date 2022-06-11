@@ -4,7 +4,7 @@ RED		= '\033[1;31m'
 GREEN	= '\033[1;32m'
 PURPLE	= '\033[1;35m'
 YELLOW	= '\033[1;33m'
-WHITE	= '\033;37m'
+NONE	= '\033[0m'
 BLUE	= '\033[1;34m'
 
 
@@ -16,16 +16,15 @@ SRCS_PATH = src/
 INCS_PATH = inc/
 BIN_PATH = bin/
 LIBFT_PATH = libft/
-LIB_FT = -I$(LIBFT_PATH) -L$(LIBFT_PATH) -lft
 
-LIB_COMPIL = $(LIB_FT) #añadir ruta brew info readline -lreadline
-
-SRCS = readline_pruebas.c
+SRCS = main.c readline_pruebas.c
 
 OBJS = $(SRCS:%.c=bin/%.o)
 
 CC = gcc
-CFLAGS =-Wall -Werror -Wextra -g -O0
+CFLAGS = -Wall -Werror -Wextra -g -O0
+LIBFT_FLAGS = -I$(LIBFT_PATH) -L$(LIBFT_PATH) -lft
+LIBRL_FLAGS = -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include -lreadline
 RM = rm -f
 
 ###		RULES		###
@@ -33,26 +32,25 @@ RM = rm -f
 all: $(NAME)
 
 bin/%.o: src/%.c
-	@mkdir -p $(BIN_PATH)
-	@$(CC) $(CFLAGS) $< -o $@
+	@mkdir -p bin
+	@$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c $< -o $@
 
 $(NAME): $(OBJS)
-	@echo $(PURPLE)"[Creating libft]"$(BLUE)
 	@$(MAKE) -C $(LIBFT_PATH) --silent
-	@echo $(PURPLE)"[Creating fdf]"$(BLUE)
-	@$(CC) -o $(NAME) $(OBJS) $(LIB_COMPIL) #-fsanitize=address
-	@echo $(GREEN)"$(NAME): ready to be executed"$(WHITE)
+	@echo $(PURPLE)"[Creating minishell]"$(NONE)
+	@$(CC) -o $(NAME) $(OBJS) $(LIBFT_FLAGS) $(LIBRL_FLAGS) #-fsanitize=address
+	@echo $(GREEN)"$(NAME): ready to be executed"$(NONE)
 
 clean:
 	@$(RM) $(OBJS)
 	@rm -rf bin/
 	@$(MAKE) -C $(LIBFT_PATH) clean --silent
-	@echo $(RED)"[Object Files Deleted]"$(WHITE)
+	@echo $(RED)"[Object Files Deleted]"$(NONE)
 
 fclean: clean
 	@$(RM) $(NAME)
 	@$(MAKE) -C $(LIBFT_PATH) fclean --silent
-	@echo $(RED)"[Executable File Deleted]"$(WHITE)
+	@echo $(RED)"[Executable File Deleted]"$(NONE)
 
 re: fclean 
 	@$(MAKE)

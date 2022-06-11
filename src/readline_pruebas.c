@@ -1,24 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+#include "../inc/minishell.h"
 
-void leakss()
-{
-	system("leaks a.out");
-}
-
-int	main()
+char	*leelinea(void)
 {
 	char	*wololo;
 
-	wololo = NULL;
-	atexit(leakss);
-	while (1)
-	{
-	wololo = readline("\033[1;32mminishell:\033[0m ");
+	wololo = readline("minishell: ");
 	printf("%s y mucho\n", wololo);
-	free (wololo);
-	}
-	return (0);
+	return (wololo);
 }
