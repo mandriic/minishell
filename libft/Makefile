@@ -42,6 +42,7 @@ $(BIN_PATH)%.o: $(SRCS_PATH)%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 	
 $(NAME): $(OBJS)
+	@echo $(PURPLE)"[Creating libft]"$(NONE)
 	@ar rc $(NAME) $?
 	@ranlib $(NAME)
 	@echo $(GREEN)$(NAME) ": successfully compiled"$(NONE)
@@ -49,11 +50,11 @@ $(NAME): $(OBJS)
 clean:	
 	@$(RM) $(OBJS)
 	@rm -rf $(BIN_PATH)
-	@echo $(RED)"[Object Files Deleted]"$(NONE)
+#@echo $(RED)"[Object Files Deleted]"$(NONE)
 
 fclean: clean
 	@$(RM) $(NAME)
-	@echo $(RED)"[Executable File Deleted]"$(NONE)
+#@echo $(RED)"[Executable File Deleted]"$(NONE)
 
 re:	fclean
 	@sleep 2
