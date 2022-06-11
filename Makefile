@@ -31,19 +31,19 @@ RM = rm -f
 
 all: $(NAME)
 
-bin/%.o: src/%.c
-	@mkdir -p bin
+$(BIN_PATH)%.o: $(SRCS_PATH)%.c
+	@mkdir -p $(BIN_PATH)
 	@$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c $< -o $@
 
 $(NAME): $(OBJS)
 	@$(MAKE) -C $(LIBFT_PATH) --silent
-	@echo $(PURPLE)"[Creating minishell]"$(NONE)
+	@echo $(PURPLE)"[Creating $(NAME)]"$(NONE)
 	@$(CC) -o $(NAME) $(OBJS) $(LIBFT_FLAGS) $(LIBRL_FLAGS) #-fsanitize=address
 	@echo $(GREEN)"$(NAME): ready to be executed"$(NONE)
 
 clean:
 	@$(RM) $(OBJS)
-	@rm -rf bin/
+	@rm -rf $(BIN_PATH)
 	@$(MAKE) -C $(LIBFT_PATH) clean --silent
 	@echo $(RED)"[Object Files Deleted]"$(NONE)
 
