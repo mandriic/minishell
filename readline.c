@@ -1,6 +1,7 @@
-#include <stdio.h>
-#include <std>
-#include <readline/readline.h>
+       #include <stdio.h>
+	   #include <stdlib.h>			
+       #include <readline/readline.h>
+       #include <readline/history.h>
 
 void leakss()
 {
@@ -9,15 +10,20 @@ void leakss()
 
 int	main()
 {
-	char	*wololo;
 
-	wololo = NULL;
-	atexit(leakss);
+	char *line;
+	char *history;
+	// atexit(leakss);
 	while (1)
 	{
-        wololo = readline("");
-        printf("%s y mucho\n", wololo);
-        free (wololo);
+	  	// printf("\033[1;31m");
+		// printf("Minishell>");
+		// printf("\033[0m");
+        line = readline (">>");
+		add_history(line);
+        printf("es0 hay que parsear ->(%s) \n", line);
+
+		free(line);
 	}
 	return (0);
 }
