@@ -4,7 +4,7 @@ char	*leelinea(void)
 {
 	char	*wololo;
 
-	wololo = readline("minishell: ");
-	printf("%s y mucho\n", wololo);
+	wololo = readline(">> ");
+	//printf("%s y mucho\n", wololo);
 	return (wololo);
 }
