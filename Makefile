@@ -22,7 +22,7 @@ SRCS = main.c readline_pruebas.c
 OBJS = $(SRCS:%.c=bin/%.o)
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -g -O0
+CFLAGS = -g #-Wall -Werror -Wextra  -O0
 LIBFT_FLAGS = -I$(LIBFT_PATH) -L$(LIBFT_PATH) -lft
 LIBRL_FLAGS = -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include -lreadline
 RM = rm -f
