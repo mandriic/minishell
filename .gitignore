@@ -1,4 +1,6 @@
 minishell
+.vscode
+*/.vscode
 .DS_Store
 *subject*
 *.swp
