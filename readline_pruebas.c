@@ -1,43 +1,15 @@
 #include "../inc/minishell.h"
-char **spliting(char *wololoco, int *type)
-{
-	int i = -1;
-	int i2 = 0;
-	int num_pipes = 0;
-	char **separ;
-	int start = 0;
-	while(wololoco[++i])
-	{
-		if (type[i] == 3)
-			num_pipes++;
-	}
-	// if (num_pipes == 0)
-	// 	return(&wololoco);
-	separ = malloc(sizeof(char *) * num_pipes +1);
-	i = 0;
-	while(wololoco[i] != '\0')
-	{
-		if (type[i] == 3)
-		{
-			separ[i2++] = ft_substr(wololoco, start, i - 1);
-			start = i + 1;
-			// write(1, "1",1);
-		}
-		i++;
-	}
-	return(separ);
-}
+
 int main(void)
 {
 	char	*wololo;
-	char	*wololo_cop;
 	size_t		 line_len;
 	int i;
 	int *type;
 	char *cuotes;
 	char *finline;
 	char d_cuotes;
-	char **split;
+	// char *split[100];
 
 	cuotes  = "'";
 	d_cuotes = '"';
@@ -45,11 +17,12 @@ int main(void)
 	pipe = "|";
 	int i_cuot;
 	i_cuot = 0;
+	// int  i_sub = 0;
+	// int start = 0;
 	while (1)
 	{
 		wololo = readline(">> ");
 		 add_history(wololo);
-		 wololo_cop = ft_strdup(wololo);
 		line_len = ft_strlen(wololo);
 		// printf("%zu\n", line_len	);
 		type = malloc(sizeof(int) * line_len);
@@ -72,15 +45,18 @@ int main(void)
 					type[i] = 0;
 				type[i] = 2;
 			}
-			else if (wololo[i] == pipe[0])
-				type[i] = 3;
+			// else if (wololo[i] == pipe[0])
+			// {
+			// 	type[i] = 3;
+			// }
+
 			else
 				type[i] = 0;
+			 // printf("%d", type[i]);
 		}
-		split = spliting(wololo_cop, type);	
-		printf("%s\n", split[1]);
 		i = 0;
 		finline = malloc(sizeof(char) * line_len + 1);
+		// finline[line_len - i_cuot + 1] = '\0';
 		int i2 = 0;
 		while (wololo[i])
 		{
@@ -94,11 +70,36 @@ int main(void)
 			i2++;
 		}
 		finline[i2] = '\0';
-		// printf("%s\n", finline);
-		// printf("%s\n", wololo_cop);
-	// 	for(i = 0; i < line_len; i++)
-	// 		printf("%d\n", type[i]);
+		// while(split[++i])
+			// printf("%c\n", split[i][0]);
+		printf("%s\n", finline);
 	}
+		// i = -1;
+		// while (wololo[++i])
+		// {
+		// 	if (wololo[i] == cuotes[0])
+		// 	{
+		// 		while (wololo[i] != cuotes[0])
+		// 		{
+		// 			type[i++] = 0;
+		// 		}
+		// 	}
+		// 	if (wololo[i] == d_cuotes)
+		// 	{
+		// 		while(wololo[i] != d_cuotes)
+		// 		{
+		// 			type[i++] = 0;
+		// 		}
+		// 	}
+		// }
+		i = -1;
+		while (++i != (int)line_len)
+			printf("%d", type[i]);
+		// i= -1;
+		// // write(1, "\n", 1);
+		// while (wololo[++i])
+		// 	printf("%c", wololo[i]);
+
 
 		return (0);
 }
