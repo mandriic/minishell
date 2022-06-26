@@ -17,7 +17,7 @@ INCS_PATH = inc/
 BIN_PATH = bin/
 LIBFT_PATH = libft/
 
-SRCS = readline_pruebas.c signals.c wololo.c
+SRCS = readline_pruebas.c
 
 OBJS = $(SRCS:%.c=bin/%.o)
 
