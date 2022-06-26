@@ -13,11 +13,11 @@ NAME = minishell
 
 
 SRCS_PATH = src/
-INCS_PATH = inc/
+INCS_PATH = inc/minishell.h
 BIN_PATH = bin/
 LIBFT_PATH = libft/
 
-SRCS = readline_pruebas.c signals.c wololo.c
+SRCS = parser.c
 
 OBJS = $(SRCS:%.c=bin/%.o)
 
@@ -32,7 +32,7 @@ RM = rm -f
 
 all: $(NAME)
 
-$(BIN_PATH)%.o: $(SRCS_PATH)%.c
+$(BIN_PATH)%.o: $(SRCS_PATH)%.c $(INCS_PATH)
 	@mkdir -p $(BIN_PATH)
 	@$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c $< -o $@
 

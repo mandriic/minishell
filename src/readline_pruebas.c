@@ -1,10 +1,10 @@
 #include "../inc/minishell.h"
 
-char	*leelinea(void)
+char	*ft_leelinea(void)
 {
-	char	*wololo;
+	char	*input;
 
-	wololo = readline(">> ");
+	input = readline(">> ");
 	//printf("%s y mucho\n", wololo);
-	return (wololo);
+	return (input);
 }
