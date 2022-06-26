@@ -17,7 +17,7 @@ INCS_PATH = inc/
 BIN_PATH = bin/
 LIBFT_PATH = libft/
 
-SRCS = main.c readline_pruebas.c
+SRCS = readline_pruebas.c signals.c wololo.c
 
 OBJS = $(SRCS:%.c=bin/%.o)
 
@@ -25,6 +25,7 @@ CC = gcc
 CFLAGS = -g #-Wall -Werror -Wextra  -O0
 LIBFT_FLAGS = -I$(LIBFT_PATH) -L$(LIBFT_PATH) -lft
 LIBRL_FLAGS = -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include -lreadline
+LIBRL_FLAGS += -L/Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include -lreadline
 RM = rm -f
 
 ###		RULES		###
