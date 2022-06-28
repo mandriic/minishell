@@ -1,4 +1,5 @@
 #include "../inc/minishell.h"
+int	*ft_mask(char *line, t_vars *vars);
 t_data *ft_create_data(char *str, t_list *prev)
 {
 	t_data *data;
@@ -62,7 +63,7 @@ size_t ft_numpipes(char *wololoco, int *type)
 	}
 	return (num_pipes);
 }
-char **spliting(char *wololoco, int *type, size_t num_pipes)
+char **spliting(char *wololoco, int *type, size_t num_pipes, t_vars *vars)
 {
 	int i = -1;
 	int i2 = 0;
@@ -87,12 +88,68 @@ char **spliting(char *wololoco, int *type, size_t num_pipes)
 	separ[i2++] = ft_substr(wololoco, start, i  - start);
 	i = -1;
 	separ[i2] = NULL;
+	int i3;
+	int i4;
+	int *sub_type;
 	while (separ[++i])
+	{
 		temp[i] = ft_strtrim(separ[i], " ");
+		sub_type = ft_mask(temp[i], vars);
+
+		// free(separ[i]);
+		i2 = -1;
+		i3 = 0;
+		while (temp[i][++i2])
+		{
+			printf("%d\n",sub_type[i]);
+
+			if (temp[i][i2] == ' ' && temp[i][i2 + 1] == ' ' && sub_type[i2] != 5)
+				continue ;
+			separ[i][i3] = temp[i][i2];
+			i3++;
+		}
+		free(sub_type);
+		separ[i][i3] = '\0';
+	}
 	temp[i] = NULL;
 	// for(i= 0; temp[i] != '\0'; i++)
 	// 	printf("%s\n", temp[i]);
- 	return(temp);
+ 	return(separ);
+}
+int	*ft_mask(char *line, t_vars *vars)
+{
+	int i;
+	int len;
+	int *type;
+
+	i = -1;
+	len = ft_strlen(line);
+	type = malloc(sizeof(int) * len);
+
+	while (line[++i] != '\0')
+	{
+		if(line[i] == vars->quotes[0])
+		{
+			type[i] = 1;
+			while (line[++i] != vars->quotes[0])
+				type[i] = 5;
+			type[i] = 1;
+		}
+		else if (line[i] == '"')
+		{
+			type[i] = 2;
+			while (line[++i] != '"')
+				type[i] = 5;
+			type[i] = 2;
+		}
+		else if (line[i] == '|' && line[i + 1] != '\0')
+			type[i] = 3;
+		else if (line[i] == '|' && line[i + 1] == '\0')
+			type[i] = 4;
+		else
+			type[i] = 0;
+	}
+	return (type);
 }
 int main(void)
 {
@@ -110,34 +167,10 @@ int main(void)
 		// line_cop = ft_strdup(wololo);
 		vars.line_len = ft_strlen(vars.line);
 		// printf("%zu\n", line_len	);
-		vars.type = malloc(sizeof(int) * vars.line_len);
-		i = -1;
-		while (vars.line[++i] != '\0')
-		{
-			if(vars.line[i] == vars.quotes[0])
-			{
-				vars.type[i] = 1;
-				while (vars.line[++i] != vars.quotes[0])
-					vars.type[i] = 0;
-				vars.type[i] = 1;
-			}
-			else if (vars.line[i] == '"')
-			{
-				vars.type[i] = 2;
-				while (vars.line[++i] != '"')
-					vars.type[i] = 0;
-				vars.type[i] = 2;
-			}
-			else if (vars.line[i] == '|' && vars.line[i + 1] != '\0')
-				vars.type[i] = 3;
-			else if (vars.line[i] == '|' && vars.line[i + 1] == '\0')
-				vars.type[i] = 4;
-			else
-				vars.type[i] = 0;
-		}
+		vars.type = ft_mask(vars.line, &vars);
 		vars.num_pipes = ft_numpipes(vars.line, vars.type);
 		if (vars.num_pipes)
-			vars.split = spliting(vars.line, vars.type, vars.num_pipes);
+			vars.split = spliting(vars.line, vars.type, vars.num_pipes, &vars);
 		else
 		{
 			vars.split = malloc(sizeof(char *) * 2);
