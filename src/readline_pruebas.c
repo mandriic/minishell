@@ -1,4 +1,53 @@
 #include "../inc/minishell.h"
+t_data *ft_create_data(char *str, t_list *prev)
+{
+	t_data *data;
+
+	data = malloc(sizeof(t_data));
+	data->cmd_arg = str;
+	data->prev = prev;
+}
+void ft_lst_cmd(t_vars *vars)
+{
+	t_list *lst_cmd;
+	t_list *prev;
+	t_list *temp;
+	t_data *data;
+
+	int i;
+
+	i = -1;
+	lst_cmd = NULL;
+	while (vars->split[++i])
+	{
+		// data.cmd_arg = vars->split[i];
+		// free(vars->split[i]);
+		data = ft_create_data(vars->split[i], prev);
+		// printf("fitst data %s\n", data->cmd_arg);
+		if (lst_cmd == NULL)
+		{
+			data->prev = NULL;
+			lst_cmd = ft_lstnew((t_data *)data);
+			// printf("lsst_cmd %s\n", ((t_data *)lst_cmd->content)->cmd_arg);
+			temp = lst_cmd;
+		}
+		else 
+		{
+			temp = ft_lstnew(((t_data *)data));
+			ft_lstadd_back(&lst_cmd, temp);
+		}
+		prev = temp;
+		temp = temp->next;
+
+	}
+	temp = lst_cmd;
+	while (temp)
+	{
+		printf("print puntero from list ->%s\n", ((t_data *)temp->content)->cmd_arg);
+		temp = temp->next;
+	}
+
+}
 size_t ft_numpipes(char *wololoco, int *type)
 {
 	int num_pipes;
@@ -18,9 +67,11 @@ char **spliting(char *wololoco, int *type, size_t num_pipes)
 	int i = -1;
 	int i2 = 0;
 	char **separ;
+	char **temp;
 	int start = 0;
 	
 	separ = malloc(sizeof(char *) * num_pipes + 2);
+	temp = malloc(sizeof(char *) * num_pipes + 2);
 	i = 1;
 	while(wololoco[i - 1] != '\0')
 	{
@@ -29,14 +80,19 @@ char **spliting(char *wololoco, int *type, size_t num_pipes)
 			separ[i2++] = ft_substr(wololoco, start, i - start - 1);
 			start = i;
 			// printf("%d\n", i);
-		printf("%s\n", separ[i2 - 1]);
+		// printf("%s\n", separ[i2 - 1]);
 		}
 		i++;
 	}
 	separ[i2++] = ft_substr(wololoco, start, i  - start);
-	printf("%s\n", separ[i2 - 1]);
+	i = -1;
 	separ[i2] = NULL;
- 	return(separ);
+	while (separ[++i])
+		temp[i] = ft_strtrim(separ[i], " ");
+	temp[i] = NULL;
+	// for(i= 0; temp[i] != '\0'; i++)
+	// 	printf("%s\n", temp[i]);
+ 	return(temp);
 }
 int main(void)
 {
@@ -87,7 +143,9 @@ int main(void)
 			vars.split = malloc(sizeof(char *) * 2);
 			vars.split[0] = vars.line;
 		}
-		printf("%s\n", vars.split[0]);
+		ft_lst_cmd(&vars);
+
+		// printf("%s\n", vars.split[0]);
 		// i = -1;
 			// printf("%s\n", split[0]);
 
