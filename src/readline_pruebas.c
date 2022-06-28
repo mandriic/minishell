@@ -40,87 +40,82 @@ char **spliting(char *wololoco, int *type, size_t num_pipes)
 }
 int main(void)
 {
-	char	*wololo;
-	char	*wololo_cop;
-	size_t		 line_len;
+	t_vars vars;
+	vars = (t_vars){};
+
 	int i;
-	int *type;
-	char *cuotes;
-	char *finline;
-	char d_cuotes;
-	char **split;
-	cuotes  = "'";
-	int i_cuot;
-	i_cuot = 0;
+	// char *finline;
+	// char **split;
+	vars.quotes  = "'";
 	while (1)
 	{
-		wololo = readline(">> ");
-		 add_history(wololo);
-		 wololo_cop = ft_strdup(wololo);
-		line_len = ft_strlen(wololo);
+		vars.line = readline(">> ");
+		add_history(vars.line);
+		// line_cop = ft_strdup(wololo);
+		vars.line_len = ft_strlen(vars.line);
 		// printf("%zu\n", line_len	);
-		type = malloc(sizeof(int) * line_len);
+		vars.type = malloc(sizeof(int) * vars.line_len);
 		i = -1;
-		while (wololo[++i] != '\0')
+		while (vars.line[++i] != '\0')
 		{
-			if(wololo[i] == cuotes[0])
+			if(vars.line[i] == vars.quotes[0])
 			{
-				i_cuot = i_cuot + 2;
-				type[i] = 1;
-				while (wololo[++i] != cuotes[0])
-					type[i] = 0;
-				type[i] = 1;
+				vars.type[i] = 1;
+				while (vars.line[++i] != vars.quotes[0])
+					vars.type[i] = 0;
+				vars.type[i] = 1;
 			}
-			else if (wololo[i] == '"')
+			else if (vars.line[i] == '"')
 			{
-				i_cuot = i_cuot + 2;
-				type[i] = 2;
-				while (wololo[++i] != d_cuotes)
-					type[i] = 0;
-				type[i] = 2;
+				vars.type[i] = 2;
+				while (vars.line[++i] != '"')
+					vars.type[i] = 0;
+				vars.type[i] = 2;
 			}
-			else if (wololo[i] == '|' && wololo[i + 1] != '\0')
-				type[i] = 3;
-			else if (wololo[i] == '|' && wololo[i + 1] == '\0')
-				type[i] = 4;
+			else if (vars.line[i] == '|' && vars.line[i + 1] != '\0')
+				vars.type[i] = 3;
+			else if (vars.line[i] == '|' && vars.line[i + 1] == '\0')
+				vars.type[i] = 4;
 			else
-				type[i] = 0;
+				vars.type[i] = 0;
 		}
-		size_t num_pipes = 0;
-		num_pipes = ft_numpipes(wololo_cop, type);
-		if (num_pipes)
-			split = spliting(wololo_cop, type, num_pipes);
+		vars.num_pipes = ft_numpipes(vars.line, vars.type);
+		if (vars.num_pipes)
+			vars.split = spliting(vars.line, vars.type, vars.num_pipes);
 		else
 		{
-			split = malloc(sizeof(char *) * 2);
-			split[0] = wololo_cop;
+			vars.split = malloc(sizeof(char *) * 2);
+			vars.split[0] = vars.line;
 		}
-		printf("%s\n", split[0]);
+		printf("%s\n", vars.split[0]);
 		// i = -1;
 			// printf("%s\n", split[0]);
 
 		// while (split[++i])
-		// 	printf("%s\n", split[i]);
-		i = 0;
-		finline = malloc(sizeof(char) * line_len + 1);
-		int i2 = 0;
-		while (wololo[i])
-		{
-			if (type[i] == 1 || type[i] == 2)
-			{
-				i++;
-				continue ;
-			}
-			finline[i2] = wololo[i];
-			i++;
-			i2++;
-		}
-		finline[i2] = '\0';
+		// 	printf("%s\n", split[i]);\
+		//-----------------------------------
+		// i = 0;
+		// finline = malloc(sizeof(char) * line_len + 1);
+		// int i2 = 0;
+		// while (wololo[i])
+		// {
+		// 	if (type[i] == 1 || type[i] == 2)
+		// 	{
+		// 		i++;
+		// 		continue ;
+		// 	}
+		// 	finline[i2] = wololo[i];
+		// 	i++;
+		// 	i2++;
+		// }
+		// finline[i2] = '\0';
+		//----------------------------------
+
 		// printf("%s\n", finline);
-		 // printf("%s\n", wololo_cop);
+		 // printf("%s\n", line_cop);
 		// for(i = 0; i < line_len; i++)
 		// 	printf("%d\n", type[i]);
-		i = -1;
+		// i = -1;
 		// while (split[++i] != NULL)
 		// 	free(split[i]);
 		// free(split);
