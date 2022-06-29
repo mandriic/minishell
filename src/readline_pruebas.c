@@ -1,10 +1,36 @@
 #include "../inc/minishell.h"
 int	*ft_mask(char *line, t_vars *vars);
+int	ft_lastpipe(char *str);
 t_data *ft_create_data(char *str, t_list *prev)
 {
 	t_data *data;
+	int	i;
 
-	data = malloc(sizeof(t_data));
+	i = -1;
+	data = calloc(sizeof(t_data), sizeof(t_data));
+	// if (ft_lastpipe (str))
+	// {
+	// 	// readline(">");
+	// 	sleep (2);
+	// }
+	// printf("createD %s\n", str);
+	if (!str[0])
+	{
+		while (!str[0])
+		{
+			str = readline(">");
+			// printf("data |%s|\n", data->cmd_arg);
+			// if (data->cmd_arg == "" || data->cmd_arg == NULL)
+			// 	free(data->cmd_arg);
+		}
+
+	}
+	// while (str[++i])
+	// {
+	// 	if (str[i] == '|')
+	// 		readline (">");
+	// }
+
 	data->cmd_arg = str;
 	data->prev = prev;
 }
@@ -101,7 +127,7 @@ char **spliting(char *wololoco, int *type, size_t num_pipes, t_vars *vars)
 		i3 = 0;
 		while (temp[i][++i2])
 		{
-			printf("%d\n",sub_type[i]);
+			// printf("%d\n",sub_type[i]);
 
 			if (temp[i][i2] == ' ' && temp[i][i2 + 1] == ' ' && sub_type[i2] != 5)
 				continue ;
@@ -115,6 +141,17 @@ char **spliting(char *wololoco, int *type, size_t num_pipes, t_vars *vars)
 	// for(i= 0; temp[i] != '\0'; i++)
 	// 	printf("%s\n", temp[i]);
  	return(separ);
+}
+int	ft_lastpipe(char *str)
+{
+	int i;
+
+	i = -1;
+	while (str[++i])
+		if (str[i] == '|')
+			return (0);
+	printf("%c\n", str[i]);
+	return (1);
 }
 int	*ft_mask(char *line, t_vars *vars)
 {
@@ -142,12 +179,21 @@ int	*ft_mask(char *line, t_vars *vars)
 				type[i] = 5;
 			type[i] = 2;
 		}
-		else if (line[i] == '|' && line[i + 1] != '\0')
+		else if (line[i] == '|'  ) //&& line[i + 1] != '\0' && !ft_lastpipe(line + i + 1)
 			type[i] = 3;
+		// else if (ft_lastpipe(line + i + 1))
+		// {
+		// 	while (line[i])
+		// 	{
+		// 		if (ft_isalnum(line[i]))
+
+		// 	}
+		// }
 		else if (line[i] == '|' && line[i + 1] == '\0')
 			type[i] = 4;
 		else
 			type[i] = 0;
+		// printf("type %d\n", type[i]);
 	}
 	return (type);
 }
@@ -162,7 +208,7 @@ int main(void)
 	vars.quotes  = "'";
 	while (1)
 	{
-		vars.line = readline(">> ");
+		vars.line = readline("$ ");
 		add_history(vars.line);
 		// line_cop = ft_strdup(wololo);
 		vars.line_len = ft_strlen(vars.line);
