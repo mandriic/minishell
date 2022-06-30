@@ -221,6 +221,7 @@ int main(void)
 		{
 			vars.split = malloc(sizeof(char *) * 2);
 			vars.split[0] = vars.line;
+			vars.split[1] = '\0';
 		}
 		ft_lst_cmd(&vars);
 
