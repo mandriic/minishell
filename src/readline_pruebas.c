@@ -1,6 +1,7 @@
 #include "../inc/minishell.h"
 int	*ft_mask(char *line, t_vars *vars);
 int	ft_lastpipe(char *str);
+
 t_data *ft_create_data(char *str, t_list *prev)
 {
 	t_data *data;
@@ -209,7 +210,14 @@ int main(void)
 	while (1)
 	{
 		vars.line = readline("$ ");
-		add_history(vars.line);
+		if (!ft_strncmp ("exit", vars.line, ft_strlen(vars.line)))
+		{
+			write(1, "exit\n", 5);
+			free(vars.line);
+			exit (0);
+		}
+
+		//add_history(vars.line); //solo añadir si es válido
 		// line_cop = ft_strdup(wololo);
 		vars.line_len = ft_strlen(vars.line);
 		// printf("%zu\n", line_len	);
