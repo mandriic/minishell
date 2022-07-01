@@ -17,7 +17,7 @@ INCS_PATH = inc/
 BIN_PATH = bin/
 LIBFT_PATH = libft/
 
-SRCS = readline_pruebas.c signals.c wololo.c
+SRCS = enviroment_variables.c
 
 OBJS = $(SRCS:%.c=bin/%.o)
 
@@ -53,7 +53,13 @@ fclean: clean
 	@$(MAKE) -C $(LIBFT_PATH) fclean --silent
 	@echo $(RED)"[Executable File Deleted]"$(NONE)
 
+install:
+	@sudo cp $(NAME) /usr/local/bin
+
+uninstall:
+	@sudo rm -f /usr/local/bin/$(NAME)
+
 re: fclean 
 	@$(MAKE)
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean install uninstall re
