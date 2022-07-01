@@ -34,6 +34,7 @@ t_data *ft_create_data(char *str, t_list *prev)
 
 	data->cmd_arg = str;
 	data->prev = prev;
+	return (data);
 }
 void ft_lst_cmd(t_vars *vars)
 {
@@ -54,8 +55,8 @@ void ft_lst_cmd(t_vars *vars)
 		// printf("fitst data %s\n", data->cmd_arg);
 		if (lst_cmd == NULL)
 		{
-			data->prev = NULL;
 			lst_cmd = ft_lstnew((t_data *)data);
+			data->prev = NULL;
 			// printf("lsst_cmd %s\n", ((t_data *)lst_cmd->content)->cmd_arg);
 			temp = lst_cmd;
 		}
@@ -116,7 +117,6 @@ char **spliting(char *wololoco, int *type, size_t num_pipes, t_vars *vars)
 	i = -1;
 	separ[i2] = NULL;
 	int i3;
-	int i4;
 	int *sub_type;
 	while (separ[++i])
 	{
@@ -203,7 +203,7 @@ int main(void)
 	t_vars vars;
 	vars = (t_vars){};
 
-	int i;
+	//int i;
 	// char *finline;
 	// char **split;
 	vars.quotes  = "'";
@@ -229,7 +229,7 @@ int main(void)
 		{
 			vars.split = malloc(sizeof(char *) * 2);
 			vars.split[0] = vars.line;
-			vars.split[1] = '\0';
+			vars.split[1] = NULL;
 		}
 		ft_lst_cmd(&vars);
 
