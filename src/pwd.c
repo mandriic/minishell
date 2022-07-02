@@ -73,9 +73,27 @@ void	ft_pwd(char **env)
 	return ;
 }
 
+void	ft_pwd_2(void)
+{
+	char	*directory;
+
+	directory = getcwd(NULL, 0);
+	printf("%s\n", directory);
+	free(directory);
+	return ;
+}
+
+void leaks()
+{
+	system ("leaks -fullContent minishell");
+}
 int	main(int argc, char* argv[], char *envp[])
 {
-	t_list	*env_copy_list;
+	(void)argv;
+	(void)argc;
+	(void)envp;
+	atexit(leaks);
+	/* t_list	*env_copy_list;
 	char	**env_copy_array;
 	int		i = 0;
 	(void)argv;
@@ -91,7 +109,7 @@ int	main(int argc, char* argv[], char *envp[])
 		printf("%d - %s\n", i+1, env_copy_array[i]);
 		i++;
 	}
-	ft_pwd(env_copy_array);
-
+	// ft_pwd(env_copy_array);
+	 */ft_pwd_2();
 	return (0);
 }
