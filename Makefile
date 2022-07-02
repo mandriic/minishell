@@ -17,7 +17,7 @@ INCS_PATH = inc/
 BIN_PATH = bin/
 LIBFT_PATH = libft/
 
-SRCS = enviroment_variables.c
+SRCS = pwd.c
 
 OBJS = $(SRCS:%.c=bin/%.o)
 
