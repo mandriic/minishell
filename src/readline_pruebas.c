@@ -91,16 +91,47 @@ size_t ft_numpipes(char *wololoco, int *type)
 	}
 	return (num_pipes);
 }
+char	**ft_triming(char **separ, size_t num_pipes, t_vars *vars)
+{
+	int	i;
+	int	i2;
+	int	i3;
+	char **temp;
+	int *sub_type;
+	temp = malloc(sizeof(char *) * num_pipes + 2);
+
+	i = -1;
+		while (separ[++i])
+		{
+			temp[i] = ft_strtrim(separ[i], " ");
+			sub_type = ft_mask(temp[i], vars);
+
+			// free(separ[i]);
+			i2 = -1;
+			i3 = 0;
+			while (temp[i][++i2])
+			{
+				// printf("%d\n",sub_type[i]);
+
+				if (temp[i][i2] == ' ' && temp[i][i2 + 1] == ' ' && sub_type[i2] != 5)
+					continue ;
+				separ[i][i3] = temp[i][i2];
+				i3++;
+			}
+			free(sub_type);
+			separ[i][i3] = '\0';
+	}
+	temp[i] = NULL;
+	return(separ);
+}
 char **spliting(char *wololoco, int *type, size_t num_pipes, t_vars *vars)
 {
 	int i = -1;
 	int i2 = 0;
 	char **separ;
-	char **temp;
 	int start = 0;
 	
 	separ = malloc(sizeof(char *) * num_pipes + 2);
-	temp = malloc(sizeof(char *) * num_pipes + 2);
 	i = 1;
 	while(wololoco[i - 1] != '\0')
 	{
@@ -114,31 +145,10 @@ char **spliting(char *wololoco, int *type, size_t num_pipes, t_vars *vars)
 		i++;
 	}
 	separ[i2++] = ft_substr(wololoco, start, i  - start);
-	i = -1;
 	separ[i2] = NULL;
-	int i3;
-	int *sub_type;
-	while (separ[++i])
-	{
-		temp[i] = ft_strtrim(separ[i], " ");
-		sub_type = ft_mask(temp[i], vars);
-
-		// free(separ[i]);
-		i2 = -1;
-		i3 = 0;
-		while (temp[i][++i2])
-		{
-			// printf("%d\n",sub_type[i]);
-
-			if (temp[i][i2] == ' ' && temp[i][i2 + 1] == ' ' && sub_type[i2] != 5)
-				continue ;
-			separ[i][i3] = temp[i][i2];
-			i3++;
-		}
-		free(sub_type);
-		separ[i][i3] = '\0';
-	}
-	temp[i] = NULL;
+	// int i3;
+	// int *sub_type;
+	separ = ft_triming(separ, num_pipes, vars);
 	// for(i= 0; temp[i] != '\0'; i++)
 	// 	printf("%s\n", temp[i]);
  	return(separ);
@@ -181,7 +191,7 @@ int	*ft_mask(char *line, t_vars *vars)
 			type[i] = 2;
 		}
 		else if (line[i] == '|'  ) //&& line[i + 1] != '\0' && !ft_lastpipe(line + i + 1)
-			type[i] = 3;
+			type[i] = 3; 
 		// else if (ft_lastpipe(line + i + 1))
 		// {
 		// 	while (line[i])
@@ -217,7 +227,7 @@ int main(void)
 			exit (0);
 		}
 
-		//add_history(vars.line); //solo añadir si es válido
+		add_history(vars.line); //solo añadir si es válido
 		// line_cop = ft_strdup(wololo);
 		vars.line_len = ft_strlen(vars.line);
 		// printf("%zu\n", line_len	);
@@ -228,7 +238,7 @@ int main(void)
 		else
 		{
 			vars.split = malloc(sizeof(char *) * 2);
-			vars.split[0] = vars.line;
+			vars.split = ft_triming(&vars.line, 0, &vars);
 			vars.split[1] = NULL;
 		}
 		ft_lst_cmd(&vars);
