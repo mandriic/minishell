@@ -93,8 +93,8 @@ void	ft_pwd(char **env)
 				j++;
 			}
 			j++;
-			ft_putstr_fd(&env[i][j], 1);
-			ft_putstr_fd("\n", 1);
+			// ft_putstr_fd(&env[i][j], 1);
+			// ft_putstr_fd("\n", 1);
 		}
 		i++;
 	}
@@ -106,7 +106,7 @@ void	ft_pwd_2(void)
 	char	*directory;
 
 	directory = getcwd(NULL, 0);
-	printf("%s\n", directory);
+	//printf("%s\n", directory);
 	free(directory);
 	return ;
 }
@@ -120,24 +120,24 @@ int	main(int argc, char* argv[], char *envp[])
 	(void)argv;
 	(void)argc;
 	(void)envp;
-	atexit(leaks);
+	// atexit(leaks);
 	t_list	*env_copy_list;
 	char	**env_copy_array;
-	// int		i = 0;
 
 	env_copy_list = 0;
 	ft_copy_enviroment_vars_into_list(&env_copy_list, envp);
-	// ft_print_list(env_copy_list);
-	// printf("-----------------------------------------------------\n");
 	env_copy_array = ft_copy_enviroment_vars_into_matrix(envp);
-	/* while (env_copy_array[i])
-	{
-		printf("%d - %s\n", i+1, env_copy_array[i]);
-		i++;
-	} */
 	ft_pwd(env_copy_array);
 	ft_pwd_2();
+	ft_cd("");
 	ft_free_list(env_copy_list);
 	ft_free_array(env_copy_array);
 	return (0);
 }
+	// ft_print_list(env_copy_list);
+	// printf("-----------------------------------------------------\n");
+	// while (env_copy_array[i])
+	// {
+	// 	printf("%d - %s\n", i+1, env_copy_array[i]);
+	// 	i++;
+	// }
