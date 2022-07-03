@@ -17,9 +17,9 @@ INCS_PATH = inc/
 BIN_PATH = bin/
 LIBFT_PATH = libft/
 
-HEADER = ./$(INC)/minishell.h
+HEADER = $(INCS_PATH)/$(NAME).h
 
-SRCS = pwd.c cd.c
+SRCS = pwd.c cd.c execve.c
 
 OBJS = $(SRCS:%.c=bin/%.o)
 
@@ -41,7 +41,7 @@ $(BIN_PATH)%.o: $(SRCS_PATH)%.c
 $(NAME): $(OBJS) $(HEADER)
 	@$(MAKE) -C $(LIBFT_PATH) --silent
 	@echo $(PURPLE)"[Creating $(NAME)]"$(NONE)
-	@$(CC) -o $(NAME) $(OBJS) $(LIBFT_FLAGS) $(LIBRL_FLAGS) #-fsanitize=address
+	@$(CC) -o $(NAME) $(OBJS) $(LIBFT_FLAGS) $(LIBRL_FLAGS) -fsanitize=address
 	@echo $(GREEN)"$(NAME): ready to be executed"$(NONE)
 
 clean:

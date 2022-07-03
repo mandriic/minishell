@@ -9,12 +9,13 @@ char	**ft_copy_enviroment_vars_into_matrix(char *envp_original[])
 	i = 0;
 	num_vars = -1;
 	while (envp_original[++num_vars]);
-	envp_copy = malloc(sizeof(char *) * num_vars);
+	envp_copy = malloc(sizeof(char *) * (num_vars + 1));
 	while (envp_original[i])
 	{
 		envp_copy[i] = ft_strdup(envp_original[i]);
 		i++;
 	}
+	envp_copy[i] = NULL;
 	//esto hay que liberarlo
 	return (envp_copy);
 }
@@ -111,11 +112,11 @@ void	ft_pwd_2(void)
 	return ;
 }
 
-void leaks()
+/* void leaks()
 {
 	system ("leaks -fullContent minishell");
-}
-int	main(int argc, char* argv[], char *envp[])
+} */
+/* int	main(int argc, char* argv[], char *envp[])
 {
 	(void)argv;
 	(void)argc;
@@ -133,7 +134,7 @@ int	main(int argc, char* argv[], char *envp[])
 	ft_free_list(env_copy_list);
 	ft_free_array(env_copy_array);
 	return (0);
-}
+} */
 	// ft_print_list(env_copy_list);
 	// printf("-----------------------------------------------------\n");
 	// while (env_copy_array[i])
