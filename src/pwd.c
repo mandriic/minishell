@@ -15,7 +15,35 @@ char	**ft_copy_enviroment_vars_into_matrix(char *envp_original[])
 		envp_copy[i] = ft_strdup(envp_original[i]);
 		i++;
 	}
+	//esto hay que liberarlo
 	return (envp_copy);
+}
+
+void	ft_free_array(char **envp_copy)
+{
+	int	i;
+
+	i = 0;
+	while (envp_copy[i])
+	{
+		free(envp_copy[i]);
+		i++;
+	}
+	free(envp_copy);
+}
+
+void	ft_free_list(t_list *lst)
+{
+	t_list	*aux;
+	t_list	*aux2;
+
+	aux = lst;
+	while (aux)
+	{
+		aux2 = aux->next;
+		free(aux);
+		aux = aux2;
+	}
 }
 
 t_list	**ft_copy_enviroment_vars_into_list(t_list **env_copy, char **envp)
@@ -28,6 +56,7 @@ t_list	**ft_copy_enviroment_vars_into_list(t_list **env_copy, char **envp)
 		ft_lstadd_back(env_copy, ft_lstnew((void *)envp[i]));
 		i++;
 	}
+	//esto hay que liberarlo
 	return (0);
 }
 
@@ -44,7 +73,6 @@ void	ft_print_list(t_list *env_copy)
 		aux = aux->next;
 	}
 	printf("%d - %s\n", ++i, (char *)(aux->content));
-	
 }
 
 void	ft_pwd(char **env)
@@ -93,23 +121,23 @@ int	main(int argc, char* argv[], char *envp[])
 	(void)argc;
 	(void)envp;
 	atexit(leaks);
-	/* t_list	*env_copy_list;
+	t_list	*env_copy_list;
 	char	**env_copy_array;
-	int		i = 0;
-	(void)argv;
-	(void)argc;
+	// int		i = 0;
 
 	env_copy_list = 0;
 	ft_copy_enviroment_vars_into_list(&env_copy_list, envp);
-	ft_print_list(env_copy_list);
-	printf("-----------------------------------------------------\n");
+	// ft_print_list(env_copy_list);
+	// printf("-----------------------------------------------------\n");
 	env_copy_array = ft_copy_enviroment_vars_into_matrix(envp);
-	while (env_copy_array[i])
+	/* while (env_copy_array[i])
 	{
 		printf("%d - %s\n", i+1, env_copy_array[i]);
 		i++;
-	}
-	// ft_pwd(env_copy_array);
-	 */ft_pwd_2();
+	} */
+	ft_pwd(env_copy_array);
+	ft_pwd_2();
+	ft_free_list(env_copy_list);
+	ft_free_array(env_copy_array);
 	return (0);
 }
