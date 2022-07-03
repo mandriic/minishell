@@ -25,3 +25,4 @@ typedef struct s_vars
 
 }t_vars;
 char	*leelinea(void);
+void    ft_cd(char *route);

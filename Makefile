@@ -17,7 +17,9 @@ INCS_PATH = inc/
 BIN_PATH = bin/
 LIBFT_PATH = libft/
 
-SRCS = pwd.c
+HEADER = ./$(INC)/minishell.h
+
+SRCS = pwd.c cd.c
 
 OBJS = $(SRCS:%.c=bin/%.o)
 
@@ -36,7 +38,7 @@ $(BIN_PATH)%.o: $(SRCS_PATH)%.c
 	@mkdir -p $(BIN_PATH)
 	@$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c $< -o $@
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) $(HEADER)
 	@$(MAKE) -C $(LIBFT_PATH) --silent
 	@echo $(PURPLE)"[Creating $(NAME)]"$(NONE)
 	@$(CC) -o $(NAME) $(OBJS) $(LIBFT_FLAGS) $(LIBRL_FLAGS) #-fsanitize=address
