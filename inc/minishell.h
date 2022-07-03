@@ -26,3 +26,16 @@ typedef struct s_vars
 }t_vars;
 char	*leelinea(void);
 void    ft_cd(char *route);
+
+/* pwd.c */
+
+char	**ft_copy_enviroment_vars_into_matrix(char *envp_original[]);
+void	ft_free_array(char **envp_copy);
+void	ft_free_list(t_list *lst);
+t_list	**ft_copy_enviroment_vars_into_list(t_list **env_copy, char **envp);
+void	ft_print_list(t_list *env_copy);
+void	ft_pwd(char **env);
+void	ft_pwd_2(void);
+
+
+
