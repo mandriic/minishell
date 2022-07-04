@@ -41,7 +41,7 @@ $(BIN_PATH)%.o: $(SRCS_PATH)%.c
 $(NAME): $(OBJS) $(HEADER)
 	@$(MAKE) -C $(LIBFT_PATH) --silent
 	@echo $(PURPLE)"[Creating $(NAME)]"$(NONE)
-	@$(CC) -o $(NAME) $(OBJS) $(LIBFT_FLAGS) $(LIBRL_FLAGS) -fsanitize=address
+	@$(CC) -o $(NAME) $(OBJS) $(LIBFT_FLAGS) $(LIBRL_FLAGS) #-fsanitize=address
 	@echo $(GREEN)"$(NAME): ready to be executed"$(NONE)
 
 clean:
