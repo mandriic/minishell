@@ -1,9 +1,9 @@
 #include "../libft/libft.h"
 #include <stdio.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>	
-#include <dirent.h>
 #include <signal.h>
 
 typedef struct s_data
