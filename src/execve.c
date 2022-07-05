@@ -96,30 +96,11 @@ char	*ft_get_path_to_execve(char **envp, char *arg)
 	return (NULL);	//no se si esto tan simple dará problemas al liberar
 
 	
-	//find linea de PATH
-	//recortar desde el primer =
-	//split en :
-	//iterar en split[i] el access
-		//si alguno da 0->mandar al hijo y execve
-		//si ninguno da 0->comprobar ruta instroducida por el usuario
-			//si no access -> ft_putstr_fd(2, "minishell: command not found\n", 29) ¿Desde hijo?
-			//si accsess -> mandar al hijo y execve
+	
 }
 
-int main(int argc, char *argv[], char *envp[])
+void	ft_execute(char *path_to_execve, char **args, char **envp_copy)
 {
-atexit(leaks);
-	(void)argc;
-	(void)argv;
-	char **envp_copy;
-	char	*path_to_execve;
-	char *args[] = {"ls", "-la", "/Users/josgarci/Desktop", NULL};
-	// char *args[] = {"a.out", NULL};
-
-	envp_copy = ft_copy_enviroment_vars_into_matrix(envp);
-	path_to_execve = ft_get_path_to_execve(envp_copy, args[0]);
-	ft_putstr_fd(path_to_execve, 1);
-	ft_putstr_fd("\n", 1);
 	if (path_to_execve == NULL)
 	{
 		if (ft_strchr(args[0], '/'))
@@ -139,7 +120,45 @@ atexit(leaks);
 	}
 	else
 		execve(path_to_execve, args, envp_copy);
+}
+
+//find linea de PATH
+	//recortar desde el primer =
+	//split en :
+	//iterar en split[i] el access
+		//si alguno da 0->mandar al hijo y execve
+		//si ninguno da 0->comprobar ruta instroducida por el usuario
+			//si no access -> ft_putstr_fd(2, "minishell: command not found\n", 29) ¿Desde hijo?
+			//si accsess -> mandar al hijo y execve
+
+
+int main(int argc, char *argv[], char *envp[])
+{
+atexit(leaks);
+	(void)argc;
+	(void)argv;
+
+	char **envp_copy;
+	char	*path_to_execve;
+	pid_t	pid;	//int o pid_t?
+	// char *args[] = {"ls", "-la", "/Users/josgarci/Desktop", NULL};
+	char *args[] = {"ls", "-la", "/Users/JoseGF/Desktop", NULL};
+	// char *args[] = {"a.out", NULL};
+
+	envp_copy = ft_copy_enviroment_vars_into_matrix(envp);
+	path_to_execve = ft_get_path_to_execve(envp_copy, args[0]);
 	//crear hijo
+	pid = fork();
+	if (pid == 0)
+	{
+		printf("estoy en el hijo, mi PID es %d\n", getpid());
+		ft_execute(path_to_execve, args, envp_copy);
+	}
+	else
+	{
+		wait(NULL);
+		printf("estoy en el padre, mi PID es %d\n", getpid());
+	}
 	free(path_to_execve);
 	ft_free_array(envp_copy);
 
