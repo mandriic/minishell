@@ -1,44 +1,77 @@
 #include "../inc/minishell.h"
 int	*ft_mask(char *line, t_vars *vars);
 int	ft_lastpipe(char *str);
+void	ft_subpars(char *str, t_data *data)
+{
+	// (void) vars;
+	int		i;
+	int		start;
 
+	i = 0;
+	start = 0;
+	while (str[++i])
+		if (str[i] == ' ')
+			break ;
+	data->command = ft_substr(str, start, i);
+	start = i + 1;
+	while (str[++i])
+		if (str[i] == '\0' || str[i] == '<' || str[i] == '>')
+			break ;
+	data->arg = ft_substr(str, start, i - start);
+	start = i + 1;
+	if (str[i] == '<' && str[i + 1] == '<')
+	{
+		start++;
+		data->menos_dob = 1;
+	}
+	else if(str[i] == '<' )
+		data->menos = 1;
+	else if (str[i] == '>' && str[i + 1] == '>')
+	{
+		start++;
+		data->mas_dob = 1;
+	}
+	else if (str[i] == '>')
+		data->mas = 1;
+	if (str[i] != '\0')
+	{
+		while (str[++i])
+			;
+		data->sub_arg = ft_substr(str, start + 1, i - start);
+	}
+
+	printf("command\t|%s\n", data->command);
+	printf("arg\t\t|%s\n", data->arg);
+	printf("redir_men\t|%d\n", data->menos);
+	printf("redir_men_d\t|%d\n", data->menos_dob);
+	printf("redir_mas\t|%d\n", data->mas);
+	printf("redir_mas_d\t|%d\n", data->mas_dob);
+	printf("sub-arg\t\t|%s\n", data->sub_arg);
+	
+}
 t_data *ft_create_data(char *str, t_list *prev)
 {
 	t_data *data;
-	int	i;
 
-	i = -1;
 	data = calloc(sizeof(t_data), sizeof(t_data));
-	// if (ft_lastpipe (str))
-	// {
-	// 	// readline(">");
-	// 	sleep (2);
-	// }
-	// printf("createD %s\n", str);
+	*data = (t_data){};
+	data->cmd_splited = malloc(sizeof(char *) * 3);
+	data->cmd_splited[0] = data->command;
+	data->cmd_splited[1] = data->arg;
 	if (!str[0])
 	{
 		while (!str[0])
-		{
 			str = readline(">");
-			// printf("data |%s|\n", data->cmd_arg);
-			// if (data->cmd_arg == "" || data->cmd_arg == NULL)
-			// 	free(data->cmd_arg);
-		}
-
 	}
-	// while (str[++i])
-	// {
-	// 	if (str[i] == '|')
-	// 		readline (">");
-	// }
 
-	data->cmd_arg = str;
+	data->cmd_arg_full = str;
+	ft_subpars(str, data);
 	data->prev = prev;
 	return (data);
 }
 void ft_lst_cmd(t_vars *vars)
 {
-	t_list *lst_cmd;
+
 	t_list *prev;
 	t_list *temp;
 	t_data *data;
@@ -46,33 +79,33 @@ void ft_lst_cmd(t_vars *vars)
 	int i;
 
 	i = -1;
-	lst_cmd = NULL;
+	vars->list = NULL;
 	while (vars->split[++i])
 	{
 		// data.cmd_arg = vars->split[i];
 		// free(vars->split[i]);
 		data = ft_create_data(vars->split[i], prev);
 		// printf("fitst data %s\n", data->cmd_arg);
-		if (lst_cmd == NULL)
+		if (vars->list == NULL)
 		{
-			lst_cmd = ft_lstnew((t_data *)data);
+			vars->list = ft_lstnew((t_data *)data);
 			data->prev = NULL;
-			// printf("lsst_cmd %s\n", ((t_data *)lst_cmd->content)->cmd_arg);
-			temp = lst_cmd;
+			// printf("lsst_cmd %s\n", ((t_data *)vars->list->content)->cmd_arg);
+			temp = vars->list;
 		}
 		else 
 		{
 			temp = ft_lstnew(((t_data *)data));
-			ft_lstadd_back(&lst_cmd, temp);
+			ft_lstadd_back(&vars->list, temp);
 		}
 		prev = temp;
 		temp = temp->next;
 
 	}
-	temp = lst_cmd;
+	temp = vars->list;
 	while (temp)
 	{
-		printf("print puntero from list ->%s\n", ((t_data *)temp->content)->cmd_arg);
+		// printf("print puntero from list ->%s\n", ((t_data *)temp->content)->cmd_arg_full);
 		temp = temp->next;
 	}
 
@@ -248,7 +281,7 @@ int main(void)
 			// printf("%s\n", split[0]);
 
 		// while (split[++i])
-		// 	printf("%s\n", split[i]);\
+		// 	printf("%s\n", split[i]);
 		//-----------------------------------
 		// i = 0;
 		// finline = malloc(sizeof(char) * line_len + 1);
