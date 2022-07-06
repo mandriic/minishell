@@ -140,24 +140,30 @@ atexit(leaks);
 
 	char **envp_copy;
 	char	*path_to_execve;
-	pid_t	pid;	//int o pid_t?
+	int	id;
 	// char *args[] = {"ls", "-la", "/Users/josgarci/Desktop", NULL};
-	char *args[] = {"ls", "-la", "/Users/JoseGF/Desktop", NULL};
+	char *args[] = {"echo", "-la", "/Users/JoseGF/Desktop", NULL};
 	// char *args[] = {"a.out", NULL};
 
 	envp_copy = ft_copy_enviroment_vars_into_matrix(envp);
 	path_to_execve = ft_get_path_to_execve(envp_copy, args[0]);
 	//crear hijo
-	pid = fork();
-	if (pid == 0)
+	id = fork();
+	if (id == 0)
 	{
-		printf("estoy en el hijo, mi PID es %d\n", getpid());
+		// sleep(2);
+		// printf("estoy en el hijo, mi PID es %d\n", getpid());
+		// printf("env_copy address in child: %p\n", envp_copy);
+		// printf("path_to_execve address in child: %p\n", path_to_execve);
 		ft_execute(path_to_execve, args, envp_copy);
+		//liberar en el hijo no hace nada, ni doble free ni leaks... curioso
 	}
 	else
 	{
 		wait(NULL);
-		printf("estoy en el padre, mi PID es %d\n", getpid());
+		// printf("env_copy address in parent: %p\n", envp_copy);
+		// printf("path_to_execve address in parent: %p\n", path_to_execve);
+		// printf("estoy en el padre, mi PID es %d\n", getpid());
 	}
 	free(path_to_execve);
 	ft_free_array(envp_copy);
