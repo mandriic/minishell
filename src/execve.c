@@ -122,16 +122,7 @@ void	ft_execute(char *path_to_execve, char **args, char **envp_copy)
 		execve(path_to_execve, args, envp_copy);
 }
 
-//find linea de PATH
-	//recortar desde el primer =
-	//split en :
-	//iterar en split[i] el access
-		//si alguno da 0->mandar al hijo y execve
-		//si ninguno da 0->comprobar ruta instroducida por el usuario
-			//si no access -> ft_putstr_fd(2, "minishell: command not found\n", 29) ¿Desde hijo?
-			//si accsess -> mandar al hijo y execve
-
-
+/* 
 int main(int argc, char *argv[], char *envp[])
 {
 atexit(leaks);
@@ -170,3 +161,14 @@ atexit(leaks);
 
 	return (0);
 }
+ */
+
+
+//find linea de PATH
+	//recortar desde el primer =
+	//split en :
+	//iterar en split[i] el access
+		//si alguno da 0->mandar al hijo y execve
+		//si ninguno da 0->comprobar ruta instroducida por el usuario
+			//si no access -> ft_putstr_fd(2, "minishell: command not found\n", 29) ¿Desde hijo?
+			//si accsess -> mandar al hijo y execve
