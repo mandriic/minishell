@@ -40,7 +40,7 @@ void	ft_subpars(char *str, t_data *data)
 		data->sub_arg = ft_substr(str, start + 1, i - start);
 	}
 
-	printf("command\t|%s\n", data->command);
+	printf("command\t\t|%s\n", data->command);
 	printf("arg\t\t|%s\n", data->arg);
 	printf("redir_men\t|%d\n", data->menos);
 	printf("redir_men_d\t|%d\n", data->menos_dob);
