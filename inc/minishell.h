@@ -8,12 +8,21 @@
 
 typedef struct s_data
 {
-	char 	*cmd_arg;
+	char	**cmd_splited;
+	char 	*cmd_arg_full;
+	char	*command;
+	char	*arg;
+	int		menos;
+	int		menos_dob;
+	int		mas;
+	int		mas_dob;
+	char 	*sub_arg;
 	t_list	*prev;
 }t_data;
 
 typedef struct s_vars
 {
+	t_list	*list;
 	char	**split;
 	char	*quotes;
 	char	*line;
