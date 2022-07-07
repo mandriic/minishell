@@ -1,34 +1,5 @@
 # include "../inc/minishell.h"
 
-int	ft_child(int *fd)
-{
-	int x;
-
-	close(fd[0]);
-	x = 10;
-	if (write(fd[1], &x, sizeof(int)) == -1)
-	{
-		printf("Error writing to the pipe\n");
-		return (1);
-	}
-	close(fd[1]);
-	return (x);
-}
-
-int	ft_parent(int *fd)
-{
-	int y;
-
-	close (fd[1]);
-	if (read(fd[0], &y, sizeof(int)) == -1)
-	{
-		printf("Error reading from the pipe\n");
-		return (1);
-	}
-	close (fd[0]);
-	return (y);
-}
-
 void	ft_error_exit(char *err_msg)
 {
 	printf("%s\n", err_msg);
@@ -84,11 +55,12 @@ int main(int argc, char *argv[], char *envp[])
 		{
 
 			//if hay redirección
-			fd2 = open(outfile, O_WRONLY | O_CREAT, 0777);
+			fd2 = open(outfile, O_WRONLY | O_CREAT, 0744);
 			dup2(fd1[0], STDIN_FILENO);
 			close(fd1[0]);
 			dup2(fd2, STDOUT_FILENO);
 			write(1, "XXXX\n", 5);
+			close(fd2);
 			//end if
 			if (execve("/usr/bin/wc", cmd2, envp) == -1)
 				write(2, "Oh oh\n", 6);
