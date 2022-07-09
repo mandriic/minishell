@@ -31,7 +31,7 @@ OBJS = $(SRCS:%.c=bin/%.o)
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra  
+CFLAGS = -g -O0 -Wall -Werror -Wextra  
 
 RM = rm -f
 
