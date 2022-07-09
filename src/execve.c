@@ -3,10 +3,6 @@
 
 
 
-void leaks()
-{
-	system ("leaks -fullContent --list minishell");
-}
 
 char	*path_string_from_env_copy(char **envp)
 {

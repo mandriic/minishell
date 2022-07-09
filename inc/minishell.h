@@ -39,5 +39,9 @@ void	ft_print_list(t_list *env_copy);
 void	ft_pwd(char **env);
 void	ft_pwd_2(void);
 
+/* execve.c */
+char	**ft_copy_enviroment_vars_into_matrix(char *envp_original[]);
+char	*ft_get_path_to_execve(char **envp, char *arg);
+void	ft_execute(char *path_to_execve, char **args, char **envp_copy);
 
 

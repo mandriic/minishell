@@ -7,11 +7,16 @@ void	ft_error_exit(char *err_msg)
 	exit(EXIT_FAILURE);
 }
 
+void leaks ()
+{
+	system ("leaks -fullContent --list minishell");
+}
 int main(int argc, char *argv[], char *envp[])
 {
+	atexit(leaks);
 	(void)argc;
 	(void)argv;
-	(void)envp;
+
 	char *cmd1[] = {
 		"ls",
 		"-la",
@@ -23,6 +28,12 @@ int main(int argc, char *argv[], char *envp[])
 		NULL
 	};
 	char	outfile[] = "wololo.txt";
+
+	char **envp_copy;
+	char	*path_to_execve;
+
+	envp_copy = ft_copy_enviroment_vars_into_matrix(envp);
+	path_to_execve = ft_get_path_to_execve(envp_copy, cmd1[0]);
 
 	int	id;
 	int	id2;
@@ -43,13 +54,16 @@ int main(int argc, char *argv[], char *envp[])
 			ft_error_exit("Error dup");
 		if (close(fd1[1]) == -1)
 			ft_error_exit("Error close");
-		if (execve("/bin/ls", cmd1, envp) == -1)
-			ft_error_exit("Error comando ejecución");
+		ft_execute(path_to_execve, cmd1, envp_copy);
+		// if (execve("/bin/ls", cmd1, envp) == -1)
+			// ft_error_exit("Error comando ejecución");
 	}
 	else
 	{
 		close(fd1[1]);
 		// close(fd1[0]);
+		path_to_execve = ft_get_path_to_execve(envp_copy, cmd2[0]);
+
 		id2 = fork();
 		if (id2 == 0)
 		{
@@ -62,8 +76,9 @@ int main(int argc, char *argv[], char *envp[])
 			write(1, "XXXX\n", 5);
 			close(fd2);
 			//end if
-			if (execve("/usr/bin/wc", cmd2, envp) == -1)
-				write(2, "Oh oh\n", 6);
+			ft_execute(path_to_execve, cmd2, envp_copy);
+			// if (execve("/usr/bin/wc", cmd2, envp) == -1)
+			// 	write(2, "Oh oh\n", 6);
 		}
 		else
 		{
