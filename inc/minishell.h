@@ -7,6 +7,7 @@
 #include <signal.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <sys/wait.h>//para linux funcion wait
 
 typedef struct s_data
 {

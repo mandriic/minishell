@@ -13,14 +13,15 @@ void leaks ()
 }
 int main(int argc, char *argv[], char *envp[])
 {
-	atexit(leaks);
+//	atexit(leaks);
 	(void)argc;
 	(void)argv;
 
 	char *cmd1[] = {
 		"ls",
 		"-la",
-		"/Users/JoseGF/Desktop",
+		//"/Users/JoseGF/Desktop",
+		"/home/josgarci/minishell",
 		NULL
 	};
 	char *cmd2[] = {
@@ -60,6 +61,7 @@ int main(int argc, char *argv[], char *envp[])
 	}
 	else
 	{
+		free(path_to_execve);
 		close(fd1[1]);
 		// close(fd1[0]);
 		path_to_execve = ft_get_path_to_execve(envp_copy, cmd2[0]);
@@ -73,19 +75,17 @@ int main(int argc, char *argv[], char *envp[])
 			dup2(fd1[0], STDIN_FILENO);
 			close(fd1[0]);
 			dup2(fd2, STDOUT_FILENO);
-			write(1, "XXXX\n", 5);
 			close(fd2);
 			//end if
 			ft_execute(path_to_execve, cmd2, envp_copy);
 			// if (execve("/usr/bin/wc", cmd2, envp) == -1)
 			// 	write(2, "Oh oh\n", 6);
 		}
-		else
-		{
-			close(fd1[0]);
-		}
-		wait(NULL);
-		wait(NULL);
+	close(fd1[0]);
+	wait(NULL);
+	wait(NULL);
+	free(path_to_execve);
+	ft_free_array(envp_copy);
 
 	}
 
