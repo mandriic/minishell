@@ -6,13 +6,14 @@ void	ft_split_args(t_data *data, t_vars *vars)
 	int i;
 	int i2;
 	int start;
+	int *type;
 	size_t len;
 
 	len = ft_strlen(data->arg);
 	i = -1;
 	i2 = 0;
 	start = 0;
-	ft_mask(data->arg, vars);
+	type = ft_mask(data->arg, vars);
 	while (data->arg[++i])
 		if (data->arg[i] == ' ')
 			i2++;
@@ -33,15 +34,14 @@ void	ft_split_args(t_data *data, t_vars *vars)
 			// data->arg_splited[i2++] = '\0';
 		}
 		// printf("im i%d\n", i);
-		if (data->arg[i++] == ' ')
+		if (data->arg[i++] == ' ' )//&& type[i] != 5 && type[i] != 6)
 		{
-			while (data->arg[i] != ' ' 	&& data->arg[i] != '\0')
+			while ((data->arg[i] != ' ' && data->arg[i] != '\0') || type[i] == 6 || type[i] == 5)
 				i++;
 			data->arg_splited[i2++] = ft_substr(data->arg, start, i - start + 1);
 			start = i + 1;
 			printf("arg %d \t\t|%s\n", i2 - 1, data->arg_splited[i2 - 1]);
-		i--;
-
+		 i--;
 		}
 			// printf("first i\t|%c\n", data->arg[i]);
 			// printf("first arg\t|%s\n", data->arg_splited[i2]);
