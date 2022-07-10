@@ -1,6 +1,18 @@
 #include "../inc/minishell.h"
 int	*ft_mask(char *line, t_vars *vars);
 int	ft_lastpipe(char *str);
+char	*ft_checkif_var (char *str)
+{
+	char *temp;
+
+	if (str[0] == '$')
+	{
+		temp = getenv(str + 1);
+		free(str);
+		return (temp);
+	}
+	return (str);
+}
 void	ft_split_args(t_data *data, t_vars *vars)
 {
 	int i;
@@ -34,14 +46,17 @@ void	ft_split_args(t_data *data, t_vars *vars)
 			// data->arg_splited[i2++] = '\0';
 		}
 		// printf("im i%d\n", i);
-		if (data->arg[i++] == ' ' )//&& type[i] != 5 && type[i] != 6)
+		// if (data->arg)
+		if (data->arg[i] == ' ' )//&& type[i] != 5 && type[i] != 6)
 		{
-			while ((data->arg[i] != ' ' && data->arg[i] != '\0') || type[i] == 6 || type[i] == 5)
+			i++;
+			while ((data->arg[i] != ' ' && data->arg[i] != '\0'))
 				i++;
 			data->arg_splited[i2++] = ft_substr(data->arg, start, i - start + 1);
 			start = i + 1;
+			data->arg_splited[i2 - 1] = ft_checkif_var(data->arg_splited[i2 - 1]);
 			printf("arg %d \t\t|%s\n", i2 - 1, data->arg_splited[i2 - 1]);
-		 i--;
+			i--;
 		}
 			// printf("first i\t|%c\n", data->arg[i]);
 			// printf("first arg\t|%s\n", data->arg_splited[i2]);
@@ -300,7 +315,7 @@ int main(void)
 	vars.quotes  = "'";
 	while (1)
 	{
-		vars.line = readline("$ ");
+		vars.line = readline("Minishell $ ");
 		if (!ft_strncmp ("exit", vars.line, ft_strlen(vars.line)))
 		{
 			write(1, "exit\n", 5);
@@ -323,6 +338,7 @@ int main(void)
 			vars.split[1] = NULL;
 		}
 		ft_lst_cmd(&vars);
+		ft_test(&vars);
 
 		// printf("%s\n", vars.split[0]);
 		// i = -1;

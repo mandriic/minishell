@@ -28,10 +28,12 @@ typedef struct s_vars
 	char	*quotes;
 	char	*line;
 	int		*type;
+	char	*env_var;
 	
 	size_t 	num_pipes;
 	size_t	line_len;
 
 
 }t_vars;
+void ft_test(t_vars *vars);
 char	*leelinea(void);
