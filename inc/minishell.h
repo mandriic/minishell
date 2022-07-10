@@ -8,8 +8,9 @@
 
 typedef struct s_data
 {
-	char	**cmd_splited;
+	char	**cmd_splited; //data->cmd_splited[0] [1] - args
 	char 	*cmd_arg_full;
+	char	**arg_splited;
 	char	*command;
 	char	*arg;
 	int		menos;

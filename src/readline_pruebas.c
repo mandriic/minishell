@@ -1,6 +1,53 @@
 #include "../inc/minishell.h"
 int	*ft_mask(char *line, t_vars *vars);
 int	ft_lastpipe(char *str);
+void	ft_split_args(t_data *data, t_vars *vars)
+{
+	int i;
+	int i2;
+	int start;
+	size_t len;
+
+	len = ft_strlen(data->arg);
+	i = -1;
+	i2 = 0;
+	start = 0;
+	ft_mask(data->arg, vars);
+	while (data->arg[++i])
+		if (data->arg[i] == ' ')
+			i2++;
+	data->arg_splited = malloc (sizeof(char *) * i2 + 1);
+	i = -1;
+	i2 = 0;
+
+	while(data->arg[++i])
+	{
+		if(data->arg[i] == '-' && data->arg[i + 1] != ' ')
+		{
+			while(data->arg[i] != ' ' || data->arg[i + 1] == '-')
+				i++;
+			// data->arg_splited[i2] = malloc (sizeof (char) * i + 1);
+			data->arg_splited[i2++] = ft_substr(data->arg, start, i);
+			start = i + 1;
+			printf("solo flag\t|%s\n", data->arg_splited[i2 - 1]);
+			// data->arg_splited[i2++] = '\0';
+		}
+		// printf("im i%d\n", i);
+		if (data->arg[i++] == ' ')
+		{
+			while (data->arg[i] != ' ' 	&& data->arg[i] != '\0')
+				i++;
+			data->arg_splited[i2++] = ft_substr(data->arg, start, i - start + 1);
+			start = i + 1;
+			printf("arg %d \t\t|%s\n", i2 - 1, data->arg_splited[i2 - 1]);
+		i--;
+
+		}
+			// printf("first i\t|%c\n", data->arg[i]);
+			// printf("first arg\t|%s\n", data->arg_splited[i2]);
+
+	}
+}
 void	ft_subpars(char *str, t_data *data)
 {
 	// (void) vars;
@@ -39,7 +86,6 @@ void	ft_subpars(char *str, t_data *data)
 			;
 		data->sub_arg = ft_substr(str, start + 1, i - start);
 	}
-
 	printf("command\t\t|%s\n", data->command);
 	printf("arg\t\t|%s\n", data->arg);
 	printf("redir_men\t|%d\n", data->menos);
@@ -49,7 +95,7 @@ void	ft_subpars(char *str, t_data *data)
 	printf("sub-arg\t\t|%s\n", data->sub_arg);
 	
 }
-t_data *ft_create_data(char *str, t_list *prev)
+t_data *ft_create_data(char *str, t_list *prev, t_vars *vars)
 {
 	t_data *data;
 
@@ -58,6 +104,7 @@ t_data *ft_create_data(char *str, t_list *prev)
 	data->cmd_splited = malloc(sizeof(char *) * 3);
 	data->cmd_splited[0] = data->command;
 	data->cmd_splited[1] = data->arg;
+	data->cmd_splited[2] = NULL;
 	if (!str[0])
 	{
 		while (!str[0])
@@ -66,6 +113,7 @@ t_data *ft_create_data(char *str, t_list *prev)
 
 	data->cmd_arg_full = str;
 	ft_subpars(str, data);
+	ft_split_args(data, vars);
 	data->prev = prev;
 	return (data);
 }
@@ -84,7 +132,7 @@ void ft_lst_cmd(t_vars *vars)
 	{
 		// data.cmd_arg = vars->split[i];
 		// free(vars->split[i]);
-		data = ft_create_data(vars->split[i], prev);
+		data = ft_create_data(vars->split[i], prev, vars);
 		// printf("fitst data %s\n", data->cmd_arg);
 		if (vars->list == NULL)
 		{
@@ -146,7 +194,7 @@ char	**ft_triming(char **separ, size_t num_pipes, t_vars *vars)
 			{
 				// printf("%d\n",sub_type[i]);
 
-				if (temp[i][i2] == ' ' && temp[i][i2 + 1] == ' ' && sub_type[i2] != 5)
+				if (temp[i][i2] == ' ' && temp[i][i2 + 1] == ' ' && sub_type[i2] != 5 && sub_type[i2] != 6)
 					continue ;
 				separ[i][i3] = temp[i][i2];
 				i3++;
@@ -220,7 +268,7 @@ int	*ft_mask(char *line, t_vars *vars)
 		{
 			type[i] = 2;
 			while (line[++i] != '"')
-				type[i] = 5;
+				type[i] = 6;
 			type[i] = 2;
 		}
 		else if (line[i] == '|'  ) //&& line[i + 1] != '\0' && !ft_lastpipe(line + i + 1)
