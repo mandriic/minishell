@@ -17,7 +17,7 @@ INCS_PATH = inc/
 BIN_PATH = bin/
 LIBFT_PATH = libft/
 
-SRCS = readline_pruebas.c
+SRCS = readline_pruebas.c env_test.c
 
 OBJS = $(SRCS:%.c=bin/%.o)
 
