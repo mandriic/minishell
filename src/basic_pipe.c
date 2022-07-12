@@ -13,33 +13,44 @@ void leaks ()
 }
 int main(int argc, char *argv[], char *envp[])
 {
+
 //	atexit(leaks);
 	(void)argc;
 	(void)argv;
+	int		number_of_pipes;
 
+	
+	char	infile[] = "lotr.txt";
+	char	outfile[] = "wololo.txt";
+
+	char	**envp_copy;
+	char	*path_to_execve;
+
+	envp_copy = ft_copy_enviroment_vars_into_matrix(envp);
+	
+	return (0);
+}
+
+/* 
 	char *cmd1[] = {
 		"ls",
 		"-la",
-		//"/Users/JoseGF/Desktop",
-		"/home/josgarci/minishell",
+		// "/Users/JoseGF/Desktop",
+		// "/home/josgarci/minishell",
+		"/Users/josgarci/Desktop",
 		NULL
 	};
 	char *cmd2[] = {
 		"wc",
 		NULL
 	};
-	char	outfile[] = "wololo.txt";
-
-	char **envp_copy;
-	char	*path_to_execve;
-
-	envp_copy = ft_copy_enviroment_vars_into_matrix(envp);
-	path_to_execve = ft_get_path_to_execve(envp_copy, cmd1[0]);
 
 	int	id;
 	int	id2;
 	int	fd1[2]; //0 leer, 1 escribir
 	int	fd2;
+
+	path_to_execve = ft_get_path_to_execve(envp_copy, cmd1[0]);
 
 	if (pipe(fd1) == -1)
 		ft_error_exit("Error pipe");
@@ -87,48 +98,5 @@ int main(int argc, char *argv[], char *envp[])
 	free(path_to_execve);
 	ft_free_array(envp_copy);
 
-	}
-
-
-
-	return (0);
-}
-
-/* 
-(void)cmd1;
-(void)cmd2;
-
-	int	 fd[2];
-	int	 id;
-	int		z;
-
-	if (pipe(fd) == -1)
-	{
-		printf("Error abriendo el pipe\n");
-		return (-1);
-	}
-	id = fork();
-	if (id == -1)
-	{
-		printf("Error forking\n");
-		return (-1);
-	}
-	if (id == 0)
-	{
-		ft_child(fd);
-	}
-	else
-	{
-		z = ft_parent(fd);
-		if (z == 1)
-		{
-			printf("Check errors please\n");
-			return (2);
-		}
-		else
-		{
-			printf("10 x 2 es %d\n", z * 2);
-		}
-		return (0);
 	}
  */
