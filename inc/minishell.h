@@ -32,7 +32,6 @@ typedef struct s_vars
 	char	*line;
 	int		*type;
 	char	*env_var;
-	
 	size_t 	num_pipes;
 	size_t	line_len;
 }t_vars;
@@ -45,8 +44,8 @@ typedef struct s_command
 	char		**infiles;
 	char		**outfiles;
 	int			fd[2];
-	t_command	*next;
-	t_command	*prev;
+	struct s_command	*next;
+	struct s_command	*prev;
 }t_command;
 
 

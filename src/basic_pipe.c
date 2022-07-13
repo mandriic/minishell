@@ -11,6 +11,38 @@ void leaks ()
 {
 	system ("leaks -fullContent --list minishell");
 }
+
+void	dar_datos_a_los_cmd(t_command **cmd1, t_command **cmd2, t_command **cmd3)
+{
+	*cmd1 = malloc(sizeof(t_command));
+	*cmd2 = malloc(sizeof(t_command));
+	*cmd3 = malloc(sizeof(t_command));
+
+	(*cmd1)->comando_a_pelo = ft_strdup("<lotr.txt cat");
+	(*cmd1)->comando_con_flags = ft_strdup("cat");
+	(*cmd1)->comando_bonito = ft_split("cat", ' ');
+	(*cmd1)->infiles = ft_split("lotr.txt", ' ');
+	(*cmd1)->outfiles = NULL;
+	(*cmd1)->next = *cmd2;
+	(*cmd1)->prev = NULL;
+
+	(*cmd2)->comando_a_pelo = ft_strdup("grep Moria");
+	(*cmd2)->comando_con_flags = ft_strdup("grep Moria");
+	(*cmd2)->comando_bonito = ft_split("grep Moria", ' ');
+	(*cmd2)->infiles = NULL;
+	(*cmd2)->outfiles = NULL;
+	(*cmd2)->next = *cmd3;
+	(*cmd2)->prev = *cmd1;
+
+	(*cmd3)->comando_a_pelo = ft_strdup("grep -n Moria");
+	(*cmd3)->comando_con_flags = ft_strdup("grep -n Moria");
+	(*cmd3)->comando_bonito = ft_split("grep -n Moria", ' ');
+	(*cmd3)->infiles = NULL;
+	(*cmd3)->outfiles = ft_split("mierda.txt", ' ');
+	(*cmd3)->next = NULL;
+	(*cmd3)->prev = *cmd2;
+}
+
 int main(int argc, char *argv[], char *envp[])
 {
 
@@ -26,8 +58,25 @@ int main(int argc, char *argv[], char *envp[])
 	char	**envp_copy;
 	char	*path_to_execve;
 
+	t_command *cmd1 = NULL;
+	t_command *cmd2 = NULL;
+	t_command *cmd3 = NULL;
+
+	(void)cmd1;
+	(void)cmd2;
+	(void)cmd3;
+	(void)infile;
+	(void)outfile;
+	(void)envp_copy;
+	(void)path_to_execve;
+	(void)number_of_pipes;
+
 	envp_copy = ft_copy_enviroment_vars_into_matrix(envp);
 	
+	dar_datos_a_los_cmd(&cmd1, &cmd2, &cmd3);
+	printf("%s\n", cmd1->next->next->outfiles[0]);
+	printf("%s\n", cmd3->prev->prev->infiles[0]);
+
 	return (0);
 }
 
