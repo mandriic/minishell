@@ -18,7 +18,7 @@ void	dar_datos_a_los_cmd(t_command **cmd1, t_command **cmd2, t_command **cmd3)
 	*cmd2 = malloc(sizeof(t_command));
 	*cmd3 = malloc(sizeof(t_command));
 
-	(*cmd1)->comando_a_pelo = ft_strdup("<lotr.txt cat");
+	(*cmd1)->comando_a_pelo = ft_strdup("cat");
 	(*cmd1)->comando_con_flags = ft_strdup("cat");
 	(*cmd1)->comando_bonito = ft_split("cat", ' ');
 	(*cmd1)->infiles = ft_split("lotr.txt", ' ');
@@ -26,7 +26,7 @@ void	dar_datos_a_los_cmd(t_command **cmd1, t_command **cmd2, t_command **cmd3)
 	(*cmd1)->next = *cmd2;
 	(*cmd1)->prev = NULL;
 
-	(*cmd2)->comando_a_pelo = ft_strdup("grep Moria");
+	(*cmd2)->comando_a_pelo = ft_strdup("grep");
 	(*cmd2)->comando_con_flags = ft_strdup("grep Moria");
 	(*cmd2)->comando_bonito = ft_split("grep Moria", ' ');
 	(*cmd2)->infiles = NULL;
@@ -34,7 +34,7 @@ void	dar_datos_a_los_cmd(t_command **cmd1, t_command **cmd2, t_command **cmd3)
 	(*cmd2)->next = *cmd3;
 	(*cmd2)->prev = *cmd1;
 
-	(*cmd3)->comando_a_pelo = ft_strdup("grep -n Moria");
+	(*cmd3)->comando_a_pelo = ft_strdup("grep");
 	(*cmd3)->comando_con_flags = ft_strdup("grep -n Moria");
 	(*cmd3)->comando_bonito = ft_split("grep -n Moria", ' ');
 	(*cmd3)->infiles = NULL;
@@ -49,11 +49,14 @@ int main(int argc, char *argv[], char *envp[])
 //	atexit(leaks);
 	(void)argc;
 	(void)argv;
-	int		number_of_pipes;
+	int		id;
+	int		fd_infile;
+	int		fd_outfile;
+	// int		number_of_pipes = 3;
 
 	
-	char	infile[] = "lotr.txt";
-	char	outfile[] = "wololo.txt";
+	// char	infile[] = "lotr.txt";
+	// char	outfile[] = "wololo.txt";
 
 	char	**envp_copy;
 	char	*path_to_execve;
@@ -61,21 +64,41 @@ int main(int argc, char *argv[], char *envp[])
 	t_command *cmd1 = NULL;
 	t_command *cmd2 = NULL;
 	t_command *cmd3 = NULL;
+	t_command *aux;
 
 	(void)cmd1;
 	(void)cmd2;
 	(void)cmd3;
-	(void)infile;
-	(void)outfile;
+	// (void)infile;
+	// (void)outfile;
 	(void)envp_copy;
 	(void)path_to_execve;
-	(void)number_of_pipes;
 
 	envp_copy = ft_copy_enviroment_vars_into_matrix(envp);
 	
 	dar_datos_a_los_cmd(&cmd1, &cmd2, &cmd3);
-	printf("%s\n", cmd1->next->next->outfiles[0]);
-	printf("%s\n", cmd3->prev->prev->infiles[0]);
+	aux = cmd1;
+	/*
+	<lotr.txt cat | grep Moria | grep -n mine >mierda.txt
+	*/
+	while (aux)
+	{
+		path_to_execve = ft_get_path_to_execve(envp_copy, aux->comando_a_pelo);
+		pipe(aux->fd);
+		id = fork();
+		if (id == 0)
+		{
+			if (access(*aux->infiles, R_OK)) != 0)
+				exit(EXIT_FAILURE);//mejorar esta salida de error, solo vale para pruebas
+			fd_infile = open(*aux->infiles);
+			dup2(fd_infile, STDIN_FILENO);
+			close(fd_infile);
+			
+			return (0);
+		}
+		aux = aux->next;
+		wait(NULL);
+	}
 
 	return (0);
 }
