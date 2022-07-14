@@ -46,12 +46,14 @@ void	dar_datos_a_los_cmd(t_command **cmd1, t_command **cmd2, t_command **cmd3)
 int main(int argc, char *argv[], char *envp[])
 {
 
-//	atexit(leaks);
+	atexit(leaks);
 	(void)argc;
 	(void)argv;
 	int		id;
 	int		fd_infile;
 	int		fd_outfile;
+	(void)	fd_infile;
+	(void)	fd_outfile;
 	// int		number_of_pipes = 3;
 
 	
@@ -83,23 +85,30 @@ int main(int argc, char *argv[], char *envp[])
 	*/
 	while (aux)
 	{
-		path_to_execve = ft_get_path_to_execve(envp_copy, aux->comando_a_pelo);
 		pipe(aux->fd);
 		id = fork();
+		path_to_execve = ft_get_path_to_execve(envp_copy, aux->comando_a_pelo);
 		if (id == 0)
 		{
-			if (access(*aux->infiles, R_OK)) != 0)
+			//revisar que haya infile
+			//revisar que todos los infile sean accesibles
+			//si no hay infile esto no hay que hacerlo
+			printf("%s\n", path_to_execve);
+			if (access(*aux->infiles, R_OK) != 0)
 				exit(EXIT_FAILURE);//mejorar esta salida de error, solo vale para pruebas
-			fd_infile = open(*aux->infiles);
+			fd_infile = open(*aux->infiles, O_RDONLY);
 			dup2(fd_infile, STDIN_FILENO);
 			close(fd_infile);
-			
 			return (0);
 		}
 		aux = aux->next;
 		wait(NULL);
+		free(path_to_execve);
 	}
-
+	ft_free_array(envp_copy);
+	free(cmd1);
+	free(cmd2);
+	free(cmd3);
 	return (0);
 }
 
