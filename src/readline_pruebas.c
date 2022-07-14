@@ -1,38 +1,75 @@
 #include "../inc/minishell.h"
 int	*ft_mask(char *line, t_vars *vars);
 int	ft_lastpipe(char *str);
-char	*ft_checkif_var (char *str, t_vars *vars)
+char	*ft_checkif_var(char *str, t_vars *vars)
 {
 	char *temp;
 	char *temp2;
+	char *temp4;
+	char *temp3;
 	char start;
-	int *type;
+	// int *type;
 	int i;
 
 	i =-1;
 	start = 0;
-	temp2 = NULL;
-	type = ft_mask(str, vars);
+	(void) vars;
+	temp3 = NULL;
+	// type = ft_mask(str, vars);
 	if (str[0] == '"')
 	{
-		while(str[i] != '$' || str[i] != '"')
-			i++;
-		start = i + 1;
-		if (str[i] == '$')
+		while (str[i] != '\0')
 		{
-			while(str[i] != ' ' || str[i] != '"')
+
+			while (str[i] != '$' && str[i] != '\0')
 				i++;
+			// printf("%d\n", i);
+			// if (str[i] == '\0' && !temp3)
+			// 	return (str);
+			if ((str[i] == '$' && i != 0) || str[i] == '\0')
+			{
+				temp = ft_substr(str, start, i );
+				printf("substr 1 %s\n", temp);
+				start = i + 1;
+				while (str[i] != ' ' && str[i] != '\0')
+					i++;
+				temp2 = ft_substr(str, start, i  - start);
+				start = i ;
+				printf("sub str 2 %s\n", temp2);
+				if (str[i] == ' ')
+					temp4 = getenv(temp2);
+				else
+					temp4 = temp;
+				free(temp2);
+
+				printf("getenv %s\n", temp4);
+				if (temp3 == NULL)
+					temp3 = ft_strjoin(temp, temp4);
+				else 
+				{
+					temp2 = temp3;
+					temp3 = ft_strjoin(temp3, temp4);
+					free(temp2);
+				}
+				printf("join %s\n", temp3);
+				free(temp);
+				// free(temp4);
+				// if (str[i] == '\0')
+				// 	return (temp3);
+			}
+			i++;
 		}
+		return (temp3);
 
 	}
-	if (str[0] == '$')
+	else if (str[0] == '$')
 	{
 		temp = getenv(str + 1);
 		free(str);
 		return (temp);
 	}
-	
-	return (str);
+	else
+		return (str);
 }
 void	ft_split_args(t_data *data, t_vars *vars)
 {
@@ -40,6 +77,7 @@ void	ft_split_args(t_data *data, t_vars *vars)
 	int i2;
 	int start;
 	int *type;
+	char *test;
 	size_t len;
 
 	len = ft_strlen(data->arg);
@@ -75,8 +113,10 @@ void	ft_split_args(t_data *data, t_vars *vars)
 				i++;
 			data->arg_splited[i2++] = ft_substr(data->arg, start, i - start + 1);
 			start = i + 1;
-			data->arg_splited[i2 - 1] = ft_checkif_var(data->arg_splited[i2 - 1], vars);
-			printf("arg %d \t\t|%s\n", i2 - 1, data->arg_splited[i2 - 1]);
+			// data->arg_splited[i2 - 1] = ft_checkif_var(data->arg_splited[i2 - 1], vars);
+			test = ft_checkif_var(data->arg_splited[i2 - 1], vars);
+			printf("test %s\n", test);
+			// printf("arg %d \t\t|%s\n", i2 - 1, data->arg_splited[i2 - 1]);
 			i--;
 		}
 			// printf("first i\t|%c\n", data->arg[i]);
@@ -359,7 +399,7 @@ int main(void)
 			vars.split[1] = NULL;
 		}
 		ft_lst_cmd(&vars);
-		ft_test(&vars);
+		// ft_test(&vars);
 
 		// printf("%s\n", vars.split[0]);
 		// i = -1;
