@@ -43,6 +43,70 @@ void	dar_datos_a_los_cmd(t_command **cmd1, t_command **cmd2, t_command **cmd3)
 	(*cmd3)->prev = *cmd2;
 }
 
+void	ft_create_pipes(t_command *command)
+{
+	t_command *aux;
+
+	aux = command;
+	while (aux->next)
+	{
+		pipe(aux->fd);
+		aux = aux->next;
+	}
+	return ;
+}
+
+void ft_duplicate_and_close_fd(t_command *command, int number_of_pipes)//number of pipes estará en la variable global
+{
+	t_command	*aux;
+(void)number_of_pipes;
+	aux = command;
+	// while (aux)
+	// {
+		if (aux->next != NULL)
+		{
+			ft_putnbr_fd((close((aux->fd)[0]) -1)*2, 2);//puede que parentesis innecesario
+			dup2(aux->fd[1], STDOUT_FILENO);
+			ft_putnbr_fd( close((aux->fd)[1]),2);
+		}
+		if (aux->prev != NULL)
+		{
+			ft_putnbr_fd(close((aux->prev->fd)[1]), 2);
+			dup2((aux->prev->fd)[0], STDIN_FILENO);
+			ft_putnbr_fd(close((aux->prev->fd)[0]), 2);
+		}
+		// aux = aux->next;
+
+/* 		ESTOS DOS BLOQUES EN MI CABEZA HACEN LO MISMO
+		// write(2, aux->comando_a_pelo, ft_strlen(aux->comando_a_pelo));
+		if (aux->prev == NULL) //es el primero
+		{
+			close((aux->fd)[0]);//puede que parentesis innecesario
+			dup2(aux->fd[1], STDOUT_FILENO);
+			close((aux->fd)[1]);
+			// write(2, "Es el primero\n", 14);
+		}
+		else if (aux->next != NULL) //no es el primero ni el último
+		{
+			close((aux->prev->fd)[1]);
+			dup2((aux->prev->fd)[0], STDIN_FILENO);
+			close((aux->prev->fd)[0]);
+			close((aux->fd)[0]);
+			dup2((aux->fd)[1], STDOUT_FILENO);
+			close((aux->fd)[1]);
+			// write(2, "Ni primero ni ultimo\n", 21);
+		}
+		else if (aux->next == NULL) //es el ultimo
+		{
+			close((aux->prev->fd)[1]);
+			dup2((aux->prev->fd)[0], STDIN_FILENO);
+			close((aux->prev->fd)[0]);
+			// write(2, " ultimo\n", 8);
+		}
+*/
+	// }
+}
+
 int main(int argc, char *argv[], char *envp[])
 {
 
@@ -50,13 +114,12 @@ int main(int argc, char *argv[], char *envp[])
 	(void)argc;
 	(void)argv;
 	int		id;
-	int		fd_infile;
-	int		fd_outfile;
-	// int		number_of_pipes = 3;
+	// int		fd_infile;
+	// int		fd_outfile;
+	int		number_of_pipes = 3;
 
-	
-	// char	infile[] = "lotr.txt";
-	// char	outfile[] = "wololo.txt";
+	char	infile[] = "lotr.txt";
+	char	outfile[] = "wololo.txt";
 
 	char	**envp_copy;
 	char	*path_to_execve;
@@ -69,35 +132,33 @@ int main(int argc, char *argv[], char *envp[])
 	(void)cmd1;
 	(void)cmd2;
 	(void)cmd3;
-	// (void)infile;
-	// (void)outfile;
+	(void)infile;
+	(void)outfile;
 	(void)envp_copy;
 	(void)path_to_execve;
 
 	envp_copy = ft_copy_enviroment_vars_into_matrix(envp);
 	
 	dar_datos_a_los_cmd(&cmd1, &cmd2, &cmd3);
-	aux = cmd1;
+
 	/*
 	<lotr.txt cat | grep Moria | grep -n mine >mierda.txt
 	*/
+	
+	ft_create_pipes(cmd1);
+	aux = cmd1;
 	while (aux)
 	{
-		path_to_execve = ft_get_path_to_execve(envp_copy, aux->comando_a_pelo);
-		pipe(aux->fd);
 		id = fork();
 		if (id == 0)
 		{
-			if (access(*aux->infiles, R_OK)) != 0)
-				exit(EXIT_FAILURE);//mejorar esta salida de error, solo vale para pruebas
-			fd_infile = open(*aux->infiles);
-			dup2(fd_infile, STDIN_FILENO);
-			close(fd_infile);
-			
-			return (0);
+			ft_duplicate_and_close_fd(aux, number_of_pipes);//esto debería estar en los hijos
 		}
-		aux = aux->next;
-		wait(NULL);
+		else
+		{
+			wait(NULL);
+		}
+			aux = aux->next;
 	}
 
 	return (0);
