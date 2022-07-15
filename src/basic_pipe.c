@@ -110,7 +110,7 @@ void ft_duplicate_and_close_fd(t_command *command, int number_of_pipes)//number 
 int main(int argc, char *argv[], char *envp[])
 {
 
-//	atexit(leaks);
+	atexit(leaks);
 	(void)argc;
 	(void)argv;
 	int		id;
@@ -150,6 +150,7 @@ int main(int argc, char *argv[], char *envp[])
 	while (aux)
 	{
 		id = fork();
+		path_to_execve = ft_get_path_to_execve(envp_copy, aux->comando_a_pelo);
 		if (id == 0)
 		{
 			ft_duplicate_and_close_fd(aux, number_of_pipes);//esto debería estar en los hijos
@@ -160,7 +161,10 @@ int main(int argc, char *argv[], char *envp[])
 		}
 			aux = aux->next;
 	}
-
+	ft_free_array(envp_copy);
+	free(cmd1);
+	free(cmd2);
+	free(cmd3);
 	return (0);
 }
 
