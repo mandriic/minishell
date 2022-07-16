@@ -56,25 +56,57 @@ void	ft_create_pipes(t_command *command)
 	return ;
 }
 
+void	ft_check_in_and_out_files(t_command *command)
+{
+	(void)command;
+	int	fdinfile;
+	int	fdoutfile;
+	// if (command->infiles != NULL)
+	// ft_putstr_fd(*command->infiles, 2);
+	// if (command->outfiles != NULL)
+	// ft_putstr_fd(*command->outfiles, 2);
+	ft_putstr_fd("\n\n", 2);
+	if (command->infiles != NULL)
+	{
+		fdinfile = open(*command->infiles, O_RDONLY);
+		//if fdinfile < 0 -> gestionar error
+		dup2(fdinfile, STDIN_FILENO);
+		ft_putnbr_fd( close(fdinfile), 2);
+	}
+	if (command->outfiles != NULL)
+	{
+		fdoutfile = open(*command->outfiles, O_WRONLY | O_CREAT, 0666);
+		//if fdinfile < 0 -> gestionar error
+		dup2(fdoutfile, STDOUT_FILENO);
+		ft_putnbr_fd( close(fdoutfile), 2);
+	}
+	ft_putstr_fd("\n\n", 2);
+	// comprobar si hay algo almacenado en las variables infile y outfile
+	// si hay infiles hacer access a cada archivo
+	// si algún infile da access malo -> qué hacer???
+	// si algún outfile da access malo -> qué ahcer??
+	// si todo está bien redireccionar el fd del infile correspondiente
+	// si todo está bien redireccionar el fd del outfile correspondiente
+}
+
+
 void ft_duplicate_and_close_fd(t_command *command, int number_of_pipes)//number of pipes estará en la variable global
 {
-	t_command	*aux;
 (void)number_of_pipes;
-	aux = command;
-	// while (aux)
-	// {
-		if (aux->next != NULL)
-		{
-			ft_putnbr_fd( close((aux->fd)[0]), 2);//puede que parentesis innecesario
-			dup2(aux->fd[1], STDOUT_FILENO);
-			ft_putnbr_fd (close((aux->fd)[1]), 2);
-		}
-		if (aux->prev != NULL)
-		{
-			ft_putnbr_fd( close((aux->prev->fd)[1]),2);
-			dup2((aux->prev->fd)[0], STDIN_FILENO);
-			ft_putnbr_fd( close((aux->prev->fd)[0]), 2);
-		}
+	ft_check_in_and_out_files(command);
+
+	if (command->next != NULL)
+	{
+		ft_putnbr_fd( close((command->fd)[0]), 2);//puede que parentesis innecesario
+		dup2(command->fd[1], STDOUT_FILENO);
+		ft_putnbr_fd (close((command->fd)[1]), 2);
+	}
+	if (command->prev != NULL)
+	{
+		ft_putnbr_fd( close((command->prev->fd)[1]),2);
+		dup2((command->prev->fd)[0], STDIN_FILENO);
+		ft_putnbr_fd( close((command->prev->fd)[0]), 2);
+	}
 }
 
 int main(int argc, char *argv[], char *envp[])
@@ -132,6 +164,7 @@ int main(int argc, char *argv[], char *envp[])
 			aux = aux->next;
 		}
 	}
+	ft_putstr_fd("\n", 2);
 	ft_free_array(envp_copy);
 	free(cmd1);
 	free(cmd2);
