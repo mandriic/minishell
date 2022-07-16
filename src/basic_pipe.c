@@ -48,7 +48,7 @@ void	ft_create_pipes(t_command *command)
 	t_command *aux;
 
 	aux = command;
-	while (aux->next)
+	while (aux)
 	{
 		pipe(aux->fd);
 		aux = aux->next;
@@ -58,6 +58,7 @@ void	ft_create_pipes(t_command *command)
 
 void ft_duplicate_and_close_fd(t_command *command, int number_of_pipes)//number of pipes estará en la variable global
 {
+	static int i = 0;
 	t_command	*aux;
 (void)number_of_pipes;
 	aux = command;
@@ -65,16 +66,17 @@ void ft_duplicate_and_close_fd(t_command *command, int number_of_pipes)//number 
 	// {
 		if (aux->next != NULL)
 		{
-			ft_putnbr_fd((close((aux->fd)[0]) -1)*2, 2);//puede que parentesis innecesario
+			close((aux->fd)[0]);//puede que parentesis innecesario
 			dup2(aux->fd[1], STDOUT_FILENO);
-			ft_putnbr_fd( close((aux->fd)[1]),2);
+			close((aux->fd)[1]);
 		}
 		if (aux->prev != NULL)
 		{
-			ft_putnbr_fd(close((aux->prev->fd)[1]), 2);
+			close((aux->prev->fd)[1]);
 			dup2((aux->prev->fd)[0], STDIN_FILENO);
-			ft_putnbr_fd(close((aux->prev->fd)[0]), 2);
+			close((aux->prev->fd)[0]);
 		}
+		i++;
 		// aux = aux->next;
 
 /* 		ESTOS DOS BLOQUES EN MI CABEZA HACEN LO MISMO
@@ -110,7 +112,7 @@ void ft_duplicate_and_close_fd(t_command *command, int number_of_pipes)//number 
 int main(int argc, char *argv[], char *envp[])
 {
 
-	atexit(leaks);
+	//atexit(leaks);
 	(void)argc;
 	(void)argv;
 	int		id;
