@@ -35,8 +35,8 @@ void	dar_datos_a_los_cmd(t_command **cmd1, t_command **cmd2, t_command **cmd3)
 	(*cmd2)->prev = *cmd1;
 
 	(*cmd3)->comando_a_pelo = ft_strdup("grep");
-	(*cmd3)->comando_con_flags = ft_strdup("grep -n Moria");
-	(*cmd3)->comando_bonito = ft_split("grep -n Moria", ' ');
+	(*cmd3)->comando_con_flags = ft_strdup("grep -n mines");
+	(*cmd3)->comando_bonito = ft_split("grep -n mines", ' ');
 	(*cmd3)->infiles = NULL;
 	(*cmd3)->outfiles = ft_split("mierda.txt", ' ');
 	(*cmd3)->next = NULL;
@@ -58,7 +58,6 @@ void	ft_create_pipes(t_command *command)
 
 void ft_duplicate_and_close_fd(t_command *command, int number_of_pipes)//number of pipes estará en la variable global
 {
-	static int i = 0;
 	t_command	*aux;
 (void)number_of_pipes;
 	aux = command;
@@ -66,47 +65,16 @@ void ft_duplicate_and_close_fd(t_command *command, int number_of_pipes)//number 
 	// {
 		if (aux->next != NULL)
 		{
-			close((aux->fd)[0]);//puede que parentesis innecesario
+			ft_putnbr_fd( close((aux->fd)[0]), 2);//puede que parentesis innecesario
 			dup2(aux->fd[1], STDOUT_FILENO);
-			close((aux->fd)[1]);
+			ft_putnbr_fd (close((aux->fd)[1]), 2);
 		}
 		if (aux->prev != NULL)
 		{
-			close((aux->prev->fd)[1]);
+			ft_putnbr_fd( close((aux->prev->fd)[1]),2);
 			dup2((aux->prev->fd)[0], STDIN_FILENO);
-			close((aux->prev->fd)[0]);
+			ft_putnbr_fd( close((aux->prev->fd)[0]), 2);
 		}
-		i++;
-		// aux = aux->next;
-
-/* 		ESTOS DOS BLOQUES EN MI CABEZA HACEN LO MISMO
-		// write(2, aux->comando_a_pelo, ft_strlen(aux->comando_a_pelo));
-		if (aux->prev == NULL) //es el primero
-		{
-			close((aux->fd)[0]);//puede que parentesis innecesario
-			dup2(aux->fd[1], STDOUT_FILENO);
-			close((aux->fd)[1]);
-			// write(2, "Es el primero\n", 14);
-		}
-		else if (aux->next != NULL) //no es el primero ni el último
-		{
-			close((aux->prev->fd)[1]);
-			dup2((aux->prev->fd)[0], STDIN_FILENO);
-			close((aux->prev->fd)[0]);
-			close((aux->fd)[0]);
-			dup2((aux->fd)[1], STDOUT_FILENO);
-			close((aux->fd)[1]);
-			// write(2, "Ni primero ni ultimo\n", 21);
-		}
-		else if (aux->next == NULL) //es el ultimo
-		{
-			close((aux->prev->fd)[1]);
-			dup2((aux->prev->fd)[0], STDIN_FILENO);
-			close((aux->prev->fd)[0]);
-			// write(2, " ultimo\n", 8);
-		}
-*/
-	// }
 }
 
 int main(int argc, char *argv[], char *envp[])
@@ -156,12 +124,13 @@ int main(int argc, char *argv[], char *envp[])
 		if (id == 0)
 		{
 			ft_duplicate_and_close_fd(aux, number_of_pipes);//esto debería estar en los hijos
+			return (0);
 		}
 		else
 		{
 			wait(NULL);
-		}
 			aux = aux->next;
+		}
 	}
 	ft_free_array(envp_copy);
 	free(cmd1);
