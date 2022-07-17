@@ -48,7 +48,8 @@ void	ft_create_pipes(t_command *command)
 	t_command *aux;
 
 	aux = command;
-	while (aux)
+	while (aux->next)	//tiene que ser hasta el penúltimo, el último no tiene que hacer pipe 
+						//para conectar con el siguiente porque no hay siguiente 
 	{
 		pipe(aux->fd);
 		aux = aux->next;
@@ -65,7 +66,6 @@ void	ft_check_in_and_out_files(t_command *command)
 	// ft_putstr_fd(*command->infiles, 2);
 	// if (command->outfiles != NULL)
 	// ft_putstr_fd(*command->outfiles, 2);
-	ft_putstr_fd("\n\n", 2);
 	if (command->infiles != NULL)
 	{
 		fdinfile = open(*command->infiles, O_RDONLY);
@@ -80,7 +80,7 @@ void	ft_check_in_and_out_files(t_command *command)
 		dup2(fdoutfile, STDOUT_FILENO);
 		ft_putnbr_fd( close(fdoutfile), 2);
 	}
-	ft_putstr_fd("\n\n", 2);
+	ft_putstr_fd("\n", 2);
 	// comprobar si hay algo almacenado en las variables infile y outfile
 	// si hay infiles hacer access a cada archivo
 	// si algún infile da access malo -> qué hacer???
@@ -89,24 +89,37 @@ void	ft_check_in_and_out_files(t_command *command)
 	// si todo está bien redireccionar el fd del outfile correspondiente
 }
 
+void	ft_close_pipes(t_command *command)
+{
+	t_command *aux;
+
+	aux = command;
+	while (aux->next)
+	{
+		close(aux->fd[0]);
+		close(aux->fd[1]);
+		aux = aux->next;
+	}
+}
 
 void ft_duplicate_and_close_fd(t_command *command, int number_of_pipes)//number of pipes estará en la variable global
 {
 (void)number_of_pipes;
-	ft_check_in_and_out_files(command);
 
 	if (command->next != NULL)
 	{
-		ft_putnbr_fd( close((command->fd)[0]), 2);//puede que parentesis innecesario
+		//ft_putnbr_fd( close((command->fd)[0]), 2);//puede que parentesis innecesario
 		dup2(command->fd[1], STDOUT_FILENO);
 		ft_putnbr_fd (close((command->fd)[1]), 2);
 	}
 	if (command->prev != NULL)
 	{
-		ft_putnbr_fd( close((command->prev->fd)[1]),2);
+		//ft_putnbr_fd( close((command->prev->fd)[1]),2);
 		dup2((command->prev->fd)[0], STDIN_FILENO);
 		ft_putnbr_fd( close((command->prev->fd)[0]), 2);
 	}
+	ft_close_pipes(command);
+	ft_check_in_and_out_files(command);
 }
 
 int main(int argc, char *argv[], char *envp[])
@@ -116,12 +129,8 @@ int main(int argc, char *argv[], char *envp[])
 	(void)argc;
 	(void)argv;
 	int		id;
-	// int		fd_infile;
-	// int		fd_outfile;
-	int		number_of_pipes = 3;
 
-	char	infile[] = "lotr.txt";
-	char	outfile[] = "wololo.txt";
+	int		number_of_pipes = 3;
 
 	char	**envp_copy;
 	char	*path_to_execve;
@@ -130,14 +139,6 @@ int main(int argc, char *argv[], char *envp[])
 	t_command *cmd2 = NULL;
 	t_command *cmd3 = NULL;
 	t_command *aux;
-
-	(void)cmd1;
-	(void)cmd2;
-	(void)cmd3;
-	(void)infile;
-	(void)outfile;
-	(void)envp_copy;
-	(void)path_to_execve;
 
 	envp_copy = ft_copy_enviroment_vars_into_matrix(envp);
 	
@@ -155,16 +156,17 @@ int main(int argc, char *argv[], char *envp[])
 		path_to_execve = ft_get_path_to_execve(envp_copy, aux->comando_a_pelo);
 		if (id == 0)
 		{
-			ft_duplicate_and_close_fd(aux, number_of_pipes);//esto debería estar en los hijos
+			ft_duplicate_and_close_fd(aux, number_of_pipes);
+			ft_execute(path_to_execve, aux->comando_bonito, envp_copy);
 			return (0);
 		}
 		else
 		{
-			wait(NULL);
+			// wait(NULL);
 			aux = aux->next;
 		}
 	}
-	ft_putstr_fd("\n", 2);
+	ft_putstr_fd("-------------------\n", 20);
 	ft_free_array(envp_copy);
 	free(cmd1);
 	free(cmd2);
