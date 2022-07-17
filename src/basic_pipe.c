@@ -38,7 +38,7 @@ void	dar_datos_a_los_cmd(t_command **cmd1, t_command **cmd2, t_command **cmd3)
 	(*cmd3)->comando_con_flags = ft_strdup("grep -n mines");
 	(*cmd3)->comando_bonito = ft_split("grep -n mines", ' ');
 	(*cmd3)->infiles = NULL;
-	(*cmd3)->outfiles = ft_split("mierda.txt", ' ');
+	(*cmd3)->outfiles = ft_split("wololo.txt", ' ');
 	(*cmd3)->next = NULL;
 	(*cmd3)->prev = *cmd2;
 }
@@ -71,16 +71,17 @@ void	ft_check_in_and_out_files(t_command *command)
 		fdinfile = open(*command->infiles, O_RDONLY);
 		//if fdinfile < 0 -> gestionar error
 		dup2(fdinfile, STDIN_FILENO);
-		ft_putnbr_fd( close(fdinfile), 2);
+		close(fdinfile);
+		ft_putstr_fd("Infile fd closed\n", 2);
 	}
 	if (command->outfiles != NULL)
 	{
 		fdoutfile = open(*command->outfiles, O_WRONLY | O_CREAT, 0666);
 		//if fdinfile < 0 -> gestionar error
 		dup2(fdoutfile, STDOUT_FILENO);
-		ft_putnbr_fd( close(fdoutfile), 2);
+		close(fdoutfile);
+		ft_putstr_fd("Outfile fd closed\n", 2);
 	}
-	ft_putstr_fd("\n", 2);
 	// comprobar si hay algo almacenado en las variables infile y outfile
 	// si hay infiles hacer access a cada archivo
 	// si algún infile da access malo -> qué hacer???
@@ -108,18 +109,16 @@ void ft_duplicate_and_close_fd(t_command *command, int number_of_pipes)//number 
 
 	if (command->next != NULL)
 	{
-		//ft_putnbr_fd( close((command->fd)[0]), 2);//puede que parentesis innecesario
 		dup2(command->fd[1], STDOUT_FILENO);
-		ft_putnbr_fd (close((command->fd)[1]), 2);
+		close((command->fd)[1]);
 	}
 	if (command->prev != NULL)
 	{
-		//ft_putnbr_fd( close((command->prev->fd)[1]),2);
 		dup2((command->prev->fd)[0], STDIN_FILENO);
-		ft_putnbr_fd( close((command->prev->fd)[0]), 2);
+		close((command->prev->fd)[0]);
 	}
-	ft_close_pipes(command);
 	ft_check_in_and_out_files(command);
+	ft_close_pipes(command);
 }
 
 int main(int argc, char *argv[], char *envp[])
