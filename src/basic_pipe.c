@@ -52,6 +52,7 @@ int main(int argc, char *argv[], char *envp[])
 	(void)argv;
 	int		id;
 	int		fd_in;
+	int		fd_out;
 
 	char	**envp_copy;
 	char	*path_to_execve;
@@ -74,29 +75,12 @@ int main(int argc, char *argv[], char *envp[])
 		id = fork();
 		if (id == 0)
 		{
-			if(aux->prev == NULL)
-				{
-					fd_in = open(*aux->infiles, O_RDONLY);
-					dup2(fd_in, 0);
-					close(fd_in);
-				}
 			path_to_execve = ft_get_path_to_execve(envp_copy, aux->comando_a_pelo);
-			dup2(fd_in, 0);
-			if (aux->next != NULL)
-				dup2(aux->fd[1], 1);
-			close(aux->fd[0]);
-			ft_execute(path_to_execve, aux->comando_bonito, envp_copy);
 		}
 		else
 		{
-			// wait(NULL);
-			close(aux->fd[1]);
-			fd_in = aux->fd[0];
-			aux = aux->next;
 		}
-
 	}
-
 	return (0);
 }
 
