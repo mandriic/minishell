@@ -43,84 +43,6 @@ void	dar_datos_a_los_cmd(t_command **cmd1, t_command **cmd2, t_command **cmd3)
 	(*cmd3)->prev = *cmd2;
 }
 
-void	ft_create_pipes(t_command *command)
-{
-	t_command *aux;
-
-	aux = command;
-	while (aux->next)	//tiene que ser hasta el penúltimo, el último no tiene que hacer pipe 
-						//para conectar con el siguiente porque no hay siguiente 
-	{
-		pipe(aux->fd);
-		aux = aux->next;
-	}
-	return ;
-}
-
-void	ft_check_in_and_out_files(t_command *command)
-{
-	int	fdinfile;
-	int	fdoutfile;
-
-	if (command->infiles != NULL)
-	{
-		fdinfile = open(*command->infiles, O_RDONLY);
-		//if fdinfile < 0 -> gestionar error
-		dup2(fdinfile, STDIN_FILENO);
-		close(fdinfile);
-	}
-	if (command->outfiles != NULL)
-	{
-		fdoutfile = open(*command->outfiles, O_WRONLY | O_CREAT, 0666);
-		//if fdinfile < 0 -> gestionar error
-		dup2(fdoutfile, STDOUT_FILENO);
-		close(fdoutfile);
-	}
-	// comprobar si hay algo almacenado en las variables infile y outfile
-	// si hay infiles hacer access a cada archivo
-	// si algún infile da access malo -> qué hacer???
-	// si algún outfile da access malo -> qué ahcer??
-	// si todo está bien redireccionar el fd del infile correspondiente
-	// si todo está bien redireccionar el fd del outfile correspondiente
-}
-
-void	ft_close_pipes(t_command *command)
-{
-	t_command *aux;
-
-	aux = command;
-	if (aux->next)
-	{
-		close(aux->fd[0]);
-		close(aux->fd[1]);
-		
-	// 	aux = aux->next;
-	}
-}
-
-void ft_duplicate_and_close_fd(t_command *command)//number of pipes estará en la variable global
-{
-	int	i, j;
-
-	ft_check_in_and_out_files(command);
-	if (command->next != NULL)
-	{
-		close(command->fd[0]);
-		i = dup2((command->fd)[1], STDOUT_FILENO);
-		if (i != 0)
-			perror("\ni ");
-		close(command->fd[1]);
-	}
-	if (command->prev != NULL)
-	{
-		close(command->prev->fd[1]);
-		j = dup2(command->prev->fd[0], STDIN_FILENO);
-		if (j != 0)
-			perror("\nj ");
-		close(command->prev->fd[0]);
-	}
-
-}
 
 int main(int argc, char *argv[], char *envp[])
 {
@@ -129,51 +51,52 @@ int main(int argc, char *argv[], char *envp[])
 	(void)argc;
 	(void)argv;
 	int		id;
-
-	// int		number_of_pipes = 3;
+	int		fd_in;
 
 	char	**envp_copy;
 	char	*path_to_execve;
+
+(void)id;
+(void)path_to_execve;
 
 	t_command *cmd1 = NULL;
 	t_command *cmd2 = NULL;
 	t_command *cmd3 = NULL;
 	t_command *aux;
 
-	envp_copy = ft_copy_enviroment_vars_into_matrix(envp);
-	
+	envp_copy = ft_copy_enviroment_vars_into_matrix(envp);	
 	dar_datos_a_los_cmd(&cmd1, &cmd2, &cmd3);
-
-	/*
-	<lotr.txt cat | grep Moria | grep -n mine >mierda.txt
-	*/
-	
-	ft_create_pipes(cmd1);
 	aux = cmd1;
+
 	while (aux)
 	{
-		path_to_execve = ft_get_path_to_execve(envp_copy, aux->comando_a_pelo);
+		pipe(aux->fd);
 		id = fork();
 		if (id == 0)
 		{
-			ft_duplicate_and_close_fd(aux);
-			//sleep(2);
+			if(aux->prev == NULL)
+				{
+					fd_in = open(*aux->infiles, O_RDONLY);
+					dup2(fd_in, 0);
+					close(fd_in);
+				}
+			path_to_execve = ft_get_path_to_execve(envp_copy, aux->comando_a_pelo);
+			dup2(fd_in, 0);
+			if (aux->next != NULL)
+				dup2(aux->fd[1], 1);
+			close(aux->fd[0]);
 			ft_execute(path_to_execve, aux->comando_bonito, envp_copy);
-			return (0);
 		}
 		else
 		{
-			// waitpid(id, NULL, 0);
-			usleep(1000);
-			ft_close_pipes(aux);
+			// wait(NULL);
+			close(aux->fd[1]);
+			fd_in = aux->fd[0];
 			aux = aux->next;
 		}
+
 	}
-	ft_putstr_fd("-------------------\n", 2);
-	ft_free_array(envp_copy);
-	free(cmd1);
-	free(cmd2);
-	free(cmd3);
+
 	return (0);
 }
 

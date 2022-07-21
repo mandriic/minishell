@@ -8,6 +8,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <sys/wait.h>//para linux funcion wait
+#include <string.h>
 
 typedef struct s_data
 {
