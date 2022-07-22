@@ -12,6 +12,36 @@ void leaks ()
 	system ("leaks -fullContent --list minishell");
 }
 
+void	ft_free_nodes(t_command *cmd)
+{
+	t_command	*aux;
+
+	aux = cmd;
+	while (aux)
+	{
+		free(aux->comando_a_pelo);
+		free(aux->comando_con_flags);
+		ft_free_array(aux->comando_bonito);
+		ft_free_array(aux->infiles);
+		ft_free_array(aux->outfiles);
+		aux = aux->next;
+	}
+}
+
+void	ft_close_pipes(t_command *cmd)
+{
+	t_command	*aux;
+
+	aux = cmd;
+	while (aux->next)
+	{
+		close(aux->fd[0]);
+		close(aux->fd[1]);
+		aux = aux->next;
+	}
+	return ;
+}
+
 void	dar_datos_a_los_cmd(t_command **cmd1, t_command **cmd2, t_command **cmd3, t_command **cmd4)
 {
 	*cmd1 = malloc(sizeof(t_command));
@@ -114,7 +144,7 @@ void	dar_datos_a_los_cmd(t_command **cmd1, t_command **cmd2, t_command **cmd3, t
 int main(int argc, char *argv[], char *envp[])
 {
 
-	//atexit(leaks);
+	atexit(leaks);
 	(void)argc;
 	(void)argv;
 	int		id;
@@ -130,7 +160,6 @@ int main(int argc, char *argv[], char *envp[])
 	t_command	*cmd3 = NULL;
 	t_command	*cmd4 = NULL;
 	t_command	*aux;
-	t_command	*aux2;
 
 	envp_copy = ft_copy_enviroment_vars_into_matrix(envp);	
 	dar_datos_a_los_cmd(&cmd1, &cmd2, &cmd3, &cmd4);
@@ -189,24 +218,12 @@ int main(int argc, char *argv[], char *envp[])
 				}
 				close(fd_in);
 			}
-			aux2 = cmd1;
-			while (aux2->next)
-			{
-				close(aux2->fd[0]);
-				close(aux2->fd[1]);
-				aux2 = aux2->next;
-			}
+			ft_close_pipes(cmd1);
 			ft_execute(path_to_execve, aux->comando_bonito, envp_copy);
 		}
 		aux = aux->next;
 	}
-	aux = cmd1;
-	while (aux->next)
-	{
-		close(aux->fd[0]);
-		close(aux->fd[1]);
-		aux = aux->next;
-	}
+	ft_close_pipes(cmd1);
 	aux = cmd1;
 	while (aux)
 	{
@@ -215,8 +232,16 @@ int main(int argc, char *argv[], char *envp[])
 		ft_putstr_fd("\n", 2);
 		aux = aux->next;
 	}
+	ft_free_array(envp_copy);
+	ft_free_nodes(cmd1);
+	free(cmd1);
+	free(cmd2);
+	free(cmd3);
+	free(cmd4);
 	return (0);
 }
+
+
 
 /* 
 	char *cmd1[] = {
