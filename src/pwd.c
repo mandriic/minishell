@@ -24,6 +24,8 @@ void	ft_free_array(char **envp_copy)
 {
 	int	i;
 
+	if (envp_copy == NULL)
+		return ;
 	i = 0;
 	while (envp_copy[i])
 	{
