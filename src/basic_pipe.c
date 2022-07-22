@@ -12,12 +12,13 @@ void leaks ()
 	system ("leaks -fullContent --list minishell");
 }
 
-void	dar_datos_a_los_cmd(t_command **cmd1, t_command **cmd2, t_command **cmd3)
+void	dar_datos_a_los_cmd(t_command **cmd1, t_command **cmd2, t_command **cmd3, t_command **cmd4)
 {
 	*cmd1 = malloc(sizeof(t_command));
 	*cmd2 = malloc(sizeof(t_command));
 	*cmd3 = malloc(sizeof(t_command));
-	
+	*cmd4 = malloc(sizeof(t_command));
+/* 	
 	(*cmd1)->comando_a_pelo = ft_strdup("ls");
 	(*cmd1)->comando_con_flags = ft_strdup("ls -la");
 	(*cmd1)->comando_bonito = ft_split("ls -la", ' ');
@@ -41,7 +42,8 @@ void	dar_datos_a_los_cmd(t_command **cmd1, t_command **cmd2, t_command **cmd3)
 	(*cmd3)->outfiles = NULL;
 	(*cmd3)->next = NULL;
 	(*cmd3)->prev = *cmd2;
-/* 
+ */
+
 	(*cmd1)->comando_a_pelo = ft_strdup("cat");
 	(*cmd1)->comando_con_flags = ft_strdup("cat");
 	(*cmd1)->comando_bonito = ft_split("cat", ' ');
@@ -58,54 +60,55 @@ void	dar_datos_a_los_cmd(t_command **cmd1, t_command **cmd2, t_command **cmd3)
 	(*cmd2)->next = *cmd3;
 	(*cmd2)->prev = *cmd1;
 
-	(*cmd3)->comando_a_pelo = ft_strdup("wc");
-	(*cmd3)->comando_con_flags = ft_strdup("wc -l");
-	(*cmd3)->comando_bonito = ft_split("wc -l", ' ');
+	(*cmd3)->comando_a_pelo = ft_strdup("grep");
+	(*cmd3)->comando_con_flags = ft_strdup("grep -n mines");
+	(*cmd3)->comando_bonito = ft_split("grep -n mines", ' ');
 	(*cmd3)->infiles = NULL;
-	(*cmd3)->outfiles = ft_split("wololo.txt", ' ');
-	(*cmd3)->next = NULL;
+	(*cmd3)->outfiles = NULL;
+	(*cmd3)->next = *cmd4;
 	(*cmd3)->prev = *cmd2;
+
+	(*cmd4)->comando_a_pelo = ft_strdup("nl");
+	(*cmd4)->comando_con_flags = ft_strdup("nl");
+	(*cmd4)->comando_bonito = ft_split("nl", ' ');
+	(*cmd4)->infiles = NULL;
+	(*cmd4)->outfiles = ft_split("wololo.txt", ' ');
+	(*cmd4)->next = NULL;
+	(*cmd4)->prev = *cmd3;
+
+/* 
+	(*cmd1)->comando_a_pelo = ft_strdup("cat");
+	(*cmd1)->comando_con_flags = ft_strdup("cat");
+	(*cmd1)->comando_bonito = ft_split("cat", ' ');
+	(*cmd1)->infiles = NULL;
+	(*cmd1)->outfiles = NULL;
+	(*cmd1)->next = *cmd2;
+	(*cmd1)->prev = NULL;
+
+	(*cmd2)->comando_a_pelo = ft_strdup("cat");
+	(*cmd2)->comando_con_flags = ft_strdup("cat");
+	(*cmd2)->comando_bonito = ft_split("cat", ' ');
+	(*cmd2)->infiles = NULL;
+	(*cmd2)->outfiles = NULL;
+	(*cmd2)->next = *cmd3;
+	(*cmd2)->prev = *cmd1;
+
+	(*cmd3)->comando_a_pelo = ft_strdup("cat");
+	(*cmd3)->comando_con_flags = ft_strdup("cat");
+	(*cmd3)->comando_bonito = ft_split("cat", ' ');
+	(*cmd3)->infiles = NULL;
+	(*cmd3)->outfiles = NULL;
+	(*cmd3)->next = *cmd4;
+	(*cmd3)->prev = *cmd2;
+
+	(*cmd4)->comando_a_pelo = ft_strdup("cat");
+	(*cmd4)->comando_con_flags = ft_strdup("cat");
+	(*cmd4)->comando_bonito = ft_split("cat", ' ');
+	(*cmd4)->infiles = NULL;
+	(*cmd4)->outfiles = NULL;
+	(*cmd4)->next = NULL;
+	(*cmd4)->prev = *cmd3;
  */
-}
-
-int	ft_check_infile(t_command *command)
-{
-	int	fdinfile;
-
-	if (command->infiles != NULL)
-	{
-		fdinfile = open(*command->infiles, O_RDONLY);
-		//if fdinfile < 0 -> gestionar error
-		if (dup2(fdinfile, STDIN_FILENO) < 0)
-		{
-			perror("dup2 infile");//cambiar esto
-			exit(EXIT_FAILURE);
-		}
-		close(fdinfile);
-		return (fdinfile);
-	}
-	else
-		return (-1);
-}
-
-int	ft_chech_outfile(t_command *command)
-{
-	int	fdoutfile;
-
-	if (command->outfiles != NULL)
-	{
-		fdoutfile = open(*command->infiles, O_RDONLY);
-		//if fdinfile < 0 -> gestionar error
-		if (dup2(fdoutfile, STDOUT_FILENO) < 0)
-		{
-			perror("dup2 outfile");//cambiar esto
-			exit(EXIT_FAILURE);
-		}
-		close(fdoutfile);
-		return (fdoutfile);
-	}
-	else
-		return (-1);
 }
 
 int main(int argc, char *argv[], char *envp[])
@@ -116,25 +119,22 @@ int main(int argc, char *argv[], char *envp[])
 	(void)argv;
 	int		id;
 	int		status;
-	// int		fd_in;
-	// int		fd_out;
+	int		fd_in;
+	int		fd_out;
 
 	char	**envp_copy;
 	char	*path_to_execve;
 
-(void)id;
-(void)path_to_execve;
-
 	t_command	*cmd1 = NULL;
 	t_command	*cmd2 = NULL;
 	t_command	*cmd3 = NULL;
+	t_command	*cmd4 = NULL;
 	t_command	*aux;
 	t_command	*aux2;
 
 	envp_copy = ft_copy_enviroment_vars_into_matrix(envp);	
-	dar_datos_a_los_cmd(&cmd1, &cmd2, &cmd3);
+	dar_datos_a_los_cmd(&cmd1, &cmd2, &cmd3, &cmd4);
 	aux = cmd1;
-
 	while (aux->next)
 	{
 		if (pipe(aux->fd))
@@ -155,25 +155,39 @@ int main(int argc, char *argv[], char *envp[])
 			path_to_execve = ft_get_path_to_execve(envp_copy, aux->comando_a_pelo);
 			if (aux->next != NULL)
 			{
-				// if (ft_chech_outfile < 0)
-				// {
 					if (dup2(aux->fd[1], 1) < 0)
 					{
 						perror("dup2");
 						exit(EXIT_FAILURE);
 					}
-				// }
+			}
+			else if (aux->outfiles != NULL)
+			{
+				fd_out = open(*aux->outfiles, O_WRONLY | O_CREAT, 0744 );
+				if (dup2(fd_out, STDOUT_FILENO) < 0)
+				{
+						perror("dup2 outfile");
+						exit(EXIT_FAILURE);
+				}
+				close(fd_out);
 			}
 			if (aux->prev != NULL)
 			{
-				// if (ft_check_infile < 0)
-				// {
 					if (dup2(aux->prev->fd[0], 0) < 0)
 					{
 						perror("dup2");
 						exit(EXIT_FAILURE);
 					}
-				// }
+			}
+			else if (aux->infiles != NULL)
+			{
+				fd_in = open(*aux->infiles, O_RDONLY);
+				if (dup2(fd_in, STDIN_FILENO) < 0)
+				{
+						perror("dup2 infile");
+						exit(EXIT_FAILURE);
+				}
+				close(fd_in);
 			}
 			aux2 = cmd1;
 			while (aux2->next)
@@ -194,16 +208,13 @@ int main(int argc, char *argv[], char *envp[])
 		aux = aux->next;
 	}
 	aux = cmd1;
-	wait(&status);
-	wait(&status);
-	wait(&status);
-	// while (aux)
-	// {
-	// 	wait(NULL);
-	// 	aux = aux->next;
-	// }
-	
-	
+	while (aux)
+	{
+		wait(&status);
+		ft_putnbr_fd(status, 2);
+		ft_putstr_fd("\n", 2);
+		aux = aux->next;
+	}
 	return (0);
 }
 
