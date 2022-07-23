@@ -223,6 +223,13 @@ int main(int argc, char *argv[], char *envp[])
 	envp_copy = ft_copy_enviroment_vars_into_matrix(envp);	
 	dar_datos_a_los_cmd(&cmd1, &cmd2, &cmd3);
 	aux = cmd1;
+
+	/* Esto crea los pipes y los hijos, en los hijos hace las redirecciones necesarias
+	cierra los extremos de los pipes y ejecuta los comandos
+	No hay gestión de errores
+	No hay gestión de << ni >>, solo < y >
+	No hay control de buildins
+	 */
 	while (aux->next)
 	{
 		if (pipe(aux->fd))
