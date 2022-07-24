@@ -68,4 +68,19 @@ char	**ft_copy_enviroment_vars_into_matrix(char *envp_original[]);
 char	*ft_get_path_to_execve(char **envp, char *arg);
 void	ft_execute(char *path_to_execve, char **args, char **envp_copy);
 
+/* hardcoded.c */
+void	dar_datos_a_los_cmd(t_command **cmd1, t_command **cmd2, t_command **cmd3);
+
+/* aux_functions.c */
+void	ft_error_exit(char *err_msg);
+void	ft_free_nodes(t_command *cmd);
+
+void leaks ();
+
+/* pipe.c */
+void	ft_close_pipes(t_command *cmd);
+void	ft_dup_infile(t_command *cmd);
+void	ft_dup_outfile(t_command *cmd);
+void	ft_redirections(t_command *cmd);
+
 
