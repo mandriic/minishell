@@ -78,69 +78,13 @@ void	ft_print_list(t_list *env_copy)
 	printf("%d - %s\n", ++i, (char *)(aux->content));
 }
 
-void	ft_pwd(char **env)
-{
-	// char	*directory;
-	int		i;
-	int		j;
-
-	i = 0;
-	while (env[i])
-	{
-		// que pasa si una variable empieza por PWD pero no es la ruta???
-		if (!ft_strncmp("PWD", env[i], 3))
-		{
-			j = 0;
-			while (env[i][j] != '=')
-			{
-				j++;
-			}
-			j++;
-			// ft_putstr_fd(&env[i][j], 1);
-			// ft_putstr_fd("\n", 1);
-		}
-		i++;
-	}
-	return ;
-}
-
 void	ft_pwd_2(void)
 {
 	char	*directory;
 
 	directory = getcwd(NULL, 0);
+	// error de getcwd
 	//printf("%s\n", directory);
 	free(directory);
 	return ;
 }
-
-/* void leaks()
-{
-	system ("leaks -fullContent minishell");
-} */
-/* int	main(int argc, char* argv[], char *envp[])
-{
-	(void)argv;
-	(void)argc;
-	(void)envp;
-	// atexit(leaks);
-	t_list	*env_copy_list;
-	char	**env_copy_array;
-
-	env_copy_list = 0;
-	ft_copy_enviroment_vars_into_list(&env_copy_list, envp);
-	env_copy_array = ft_copy_enviroment_vars_into_matrix(envp);
-	ft_pwd(env_copy_array);
-	ft_pwd_2();
-	ft_cd("");
-	ft_free_list(env_copy_list);
-	ft_free_array(env_copy_array);
-	return (0);
-} */
-	// ft_print_list(env_copy_list);
-	// printf("-----------------------------------------------------\n");
-	// while (env_copy_array[i])
-	// {
-	// 	printf("%d - %s\n", i+1, env_copy_array[i]);
-	// 	i++;
-	// }
