@@ -1,5 +1,7 @@
 #include "../inc/minishell.h"
 
+t_data	g_data;
+
 int	ft_count_cmd(t_command *cmd)
 {
 	t_command	*aux;
@@ -17,27 +19,23 @@ int	ft_count_cmd(t_command *cmd)
 	return (i);
 }
 
-void	ft_initialize_data()
+void	ft_initialize_global_var(char **envp)
 {
-	g_data.num_cmds = 0;
+	g_data.cmd_list = dar_datos_a_los_cmd();
+	g_data.envp_copy = ft_copy_enviroment_vars_into_matrix(envp);
+	g_data.num_cmds = ft_count_cmd(g_data.cmd_list);
 	g_data.num_pipes = 0;
 	g_data.last_code = 0;
-	g_data.cmd_list = dar_datos_a_los_cmd();
-	// inicializado en harcoded.c
-	g_data.envp_copy = NULL;
 }
 
 int main(int argc, char *argv[], char *envp[])
 {
-	// atexit(leaks);
+	atexit(leaks);
 
 
 	ft_preliminar_check(argc, argv);
-	ft_initialize_data();
-	g_data.envp_copy = ft_copy_enviroment_vars_into_matrix(envp);//comprobar malloc, no se pensó para ser una variable global
-	g_data.num_cmds = ft_count_cmd(g_data.cmd_list);
-	ft_putnbr_fd(g_data.num_cmds, 2);
-	ft_putstr_fd("\n", 2);
+	ft_initialize_global_var(envp);
+
 	if (g_data.num_cmds > 1)
 		ft_multiple_pipes();
 
