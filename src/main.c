@@ -1,78 +1,54 @@
 #include "../inc/minishell.h"
 
+int	ft_count_cmd(t_command *cmd)
+{
+	t_command	*aux;
+	int			i;
+
+	if (cmd == NULL)
+		return (0);
+	i = 0;
+	aux = cmd;
+	while (aux)
+	{
+		i++;
+		aux = aux->next;
+	}
+	return (i);
+}
+
+void	ft_initialize_data()
+{
+	g_data.num_cmds = 0;
+	g_data.num_pipes = 0;
+	g_data.last_code = 0;
+	g_data.cmd_list = dar_datos_a_los_cmd();
+	// inicializado en harcoded.c
+	g_data.envp_copy = NULL;
+}
 
 int main(int argc, char *argv[], char *envp[])
 {
-
 	// atexit(leaks);
-	(void)argc;
-	(void)argv;
-	int		id;
-	int		status;
-	// int		fd_in;
-	// int		fd_out;
 
-	char	**envp_copy;
-	char	*path_to_execve;
 
-	t_command	*cmd1 = NULL;
-	t_command	*cmd2 = NULL;
-	t_command	*cmd3 = NULL;
-	// t_command	*cmd4 = NULL;
-	t_command	*aux;
+	ft_preliminar_check(argc, argv);
+	ft_initialize_data();
+	g_data.envp_copy = ft_copy_enviroment_vars_into_matrix(envp);//comprobar malloc, no se pensó para ser una variable global
+	g_data.num_cmds = ft_count_cmd(g_data.cmd_list);
+	ft_putnbr_fd(g_data.num_cmds, 2);
+	ft_putstr_fd("\n", 2);
+	if (g_data.num_cmds > 1)
+		ft_multiple_pipes();
 
-	envp_copy = ft_copy_enviroment_vars_into_matrix(envp);	
-	dar_datos_a_los_cmd(&cmd1, &cmd2, &cmd3);
-	aux = cmd1;
-
+	
 	/* Esto crea los pipes y los hijos, en los hijos hace las redirecciones necesarias
 	cierra los extremos de los pipes y ejecuta los comandos
 	No hay gestión de errores
 	No hay gestión de << ni >>, solo < y >
 	No hay control de buildins
 	 */
-	while (aux->next)
-	{
-		if (pipe(aux->fd))
-			perror("pipe");//mejorar esto
-		aux = aux->next;
-	}
-	aux = cmd1;
-	while (aux)
-	{
-		path_to_execve = ft_get_path_to_execve(envp_copy, aux->comando_a_pelo);
-		id = fork();
-		if (id < 0)
-		{
-			perror("fork");//mejorar esto
-			exit(EXIT_FAILURE);
-		}
-		if (id == 0)
-		{
-			ft_redirections(aux);
-			ft_close_pipes(cmd1);
-			ft_execute(path_to_execve, aux->comando_bonito, envp_copy);
-		}
-		free(path_to_execve);
-		aux = aux->next;
-	}
-	ft_close_pipes(cmd1);
-	aux = cmd1;
-	while (aux)
-	{
-		wait(&status);
-		ft_putnbr_fd(status, 2);
-		ft_putstr_fd("\n", 2);
-		aux = aux->next;
-	}
-	ft_free_array(envp_copy);
-	ft_free_nodes(cmd1);
-	aux = cmd1;
-
-	free(cmd1);
-	free(cmd2);
-	free(cmd3);
-	// free(cmd4);
+	
 	return (0);
 }
 

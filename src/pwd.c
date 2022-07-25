@@ -9,7 +9,7 @@ char	**ft_copy_enviroment_vars_into_matrix(char *envp_original[])
 	i = 0;
 	num_vars = -1;
 	while (envp_original[++num_vars]);
-	envp_copy = malloc(sizeof(char *) * (num_vars + 1));
+	envp_copy = malloc(sizeof(char *) * (num_vars + 1));//puede no ser necesario
 	while (envp_original[i])
 	{
 		envp_copy[i] = ft_strdup(envp_original[i]);

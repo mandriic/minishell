@@ -19,7 +19,7 @@ LIBFT_PATH = libft/
 
 HEADER = $(INCS_PATH)/$(NAME).h
 
-SRCS = main.c pwd.c cd.c execve.c pipe.c hardcoded.c aux_functions.c
+SRCS = main.c pwd.c cd.c execve.c pipe.c hardcoded.c aux_functions.c multiple_pipes.c
 
 OBJS = $(SRCS:%.c=bin/%.o)
 
@@ -41,7 +41,7 @@ $(BIN_PATH)%.o: $(SRCS_PATH)%.c
 $(NAME): $(OBJS) $(HEADER)
 	@$(MAKE) -C $(LIBFT_PATH) --silent
 	@echo $(PURPLE)"[Creating $(NAME)]"$(NONE)
-	@$(CC) -o $(NAME) $(OBJS) $(LIBFT_FLAGS) $(LIBRL_FLAGS) #-fsanitize=address
+	@$(CC) -o $(NAME) $(OBJS) $(LIBFT_FLAGS) $(LIBRL_FLAGS) -fsanitize=address
 	@echo $(GREEN)"$(NAME): ready to be executed"$(NONE)
 
 clean:

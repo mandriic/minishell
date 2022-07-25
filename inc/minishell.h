@@ -1,3 +1,6 @@
+#ifndef MINISHELL_H
+# define MINISHELL_H
+
 #include "../libft/libft.h"
 #include <stdio.h>
 #include <unistd.h>
@@ -12,18 +15,13 @@
 
 typedef struct s_data
 {
-	char	**cmd_splited; //data->cmd_splited[0] [1] - args
-	char 	*cmd_arg_full;
-	char	**arg_splited;
-	char	*command;
-	char	*arg;
-	int		menos;
-	int		menos_dob;
-	int		mas;
-	int		mas_dob;
-	char 	*sub_arg;
-	t_list	*prev;
-}t_data;
+	int					num_cmds;
+	int					num_pipes;
+	int					last_code;
+	struct s_command	*cmd_list;
+	char				**envp_copy;
+
+}	t_data;
 
 typedef struct s_vars
 {
@@ -35,7 +33,7 @@ typedef struct s_vars
 	char	*env_var;
 	size_t 	num_pipes;
 	size_t	line_len;
-}t_vars;
+}	t_vars;
 
 typedef struct s_command
 {
@@ -47,8 +45,10 @@ typedef struct s_command
 	int			fd[2];
 	struct s_command	*next;
 	struct s_command	*prev;
-}t_command;
+	
+}	t_command;
 
+t_data	g_data;
 
 char	*leelinea(void);
 void    ft_cd(char *route);
@@ -69,11 +69,12 @@ char	*ft_get_path_to_execve(char **envp, char *arg);
 void	ft_execute(char *path_to_execve, char **args, char **envp_copy);
 
 /* hardcoded.c */
-void	dar_datos_a_los_cmd(t_command **cmd1, t_command **cmd2, t_command **cmd3);
+t_command	*dar_datos_a_los_cmd();
 
 /* aux_functions.c */
 void	ft_error_exit(char *err_msg);
 void	ft_free_nodes(t_command *cmd);
+void	ft_preliminar_check(int argc, char *argv[]);
 
 void leaks ();
 
@@ -83,4 +84,7 @@ void	ft_dup_infile(t_command *cmd);
 void	ft_dup_outfile(t_command *cmd);
 void	ft_redirections(t_command *cmd);
 
+/* multiple_pipes */
+void	ft_multiple_pipes(void);
 
+#endif
