@@ -2,18 +2,12 @@
 
 void	ft_multiple_pipes()
 {
-	t_command	*cmd1 = NULL;
-	t_command	*cmd2 = NULL;
-	t_command	*cmd3 = NULL;
-	// t_command	*cmd4 = NULL;
 	t_command	*aux;
-
 	char	*path_to_execve;
 	int		id;
 	int		status;
 
-	dar_datos_a_los_cmd();
-	aux = cmd1;
+	aux = g_data.cmd_list;
 
 	while (aux->next)
 	{
@@ -21,7 +15,7 @@ void	ft_multiple_pipes()
 			perror("pipe");//mejorar esto
 		aux = aux->next;
 	}
-	aux = cmd1;
+	aux = g_data.cmd_list;
 	while (aux)
 	{
 		path_to_execve = ft_get_path_to_execve(g_data.envp_copy, aux->comando_a_pelo);
@@ -34,14 +28,14 @@ void	ft_multiple_pipes()
 		if (id == 0)
 		{
 			ft_redirections(aux);
-			ft_close_pipes(cmd1);
+			ft_close_pipes(g_data.cmd_list);
 			ft_execute(path_to_execve, aux->comando_bonito, g_data.envp_copy);
 		}
 		free(path_to_execve);
 		aux = aux->next;
 	}
-	ft_close_pipes(cmd1);
-	aux = cmd1;
+	ft_close_pipes(g_data.cmd_list);
+	aux = g_data.cmd_list;
 	while (aux)
 	{
 		wait(&status);
@@ -50,11 +44,5 @@ void	ft_multiple_pipes()
 		aux = aux->next;
 	}
 	ft_free_array(g_data.envp_copy);
-	ft_free_nodes(cmd1);
-	aux = cmd1;
-
-	free(cmd1);
-	free(cmd2);
-	free(cmd3);
-	// free(cmd4);
+	ft_free_nodes(g_data.cmd_list);
 }

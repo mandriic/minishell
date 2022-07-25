@@ -1,17 +1,17 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include "../libft/libft.h"
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>	
-#include <signal.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <sys/wait.h>//para linux funcion wait
-#include <string.h>
+# include "../libft/libft.h"
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <readline/readline.h>
+# include <readline/history.h>	
+# include <signal.h>
+# include <errno.h>
+# include <fcntl.h>
+# include <sys/wait.h>//para linux funcion wait
+# include <string.h>
 
 typedef struct s_data
 {
@@ -31,7 +31,7 @@ typedef struct s_vars
 	char	*line;
 	int		*type;
 	char	*env_var;
-	size_t 	num_pipes;
+	size_t	num_pipes;
 	size_t	line_len;
 }	t_vars;
 
@@ -45,13 +45,13 @@ typedef struct s_command
 	int			fd[2];
 	struct s_command	*next;
 	struct s_command	*prev;
-	
+
 }	t_command;
 
-t_data	g_data;
+extern t_data	g_data;
 
 char	*leelinea(void);
-void    ft_cd(char *route);
+void	ft_cd(char *route);
 
 /* pwd.c */
 
