@@ -1,9 +1,5 @@
 # include "../inc/minishell.h"
 
-
-
-
-
 char	*path_string_from_env_copy(char **envp)
 {
 	int		i;
@@ -90,9 +86,6 @@ char	*ft_get_path_to_execve(char **envp, char *arg)
 		ft_free_array(each_path_in_PATH);
 	}
 	return (NULL);	//no se si esto tan simple dará problemas al liberar
-
-	
-	
 }
 
 void	ft_execute(char *path_to_execve, char **args, char **envp_copy)
@@ -117,47 +110,6 @@ void	ft_execute(char *path_to_execve, char **args, char **envp_copy)
 	else
 		execve(path_to_execve, args, envp_copy);
 }
-
-/* 
-int main(int argc, char *argv[], char *envp[])
-{
-atexit(leaks);
-	(void)argc;
-	(void)argv;
-
-	char **envp_copy;
-	char	*path_to_execve;
-	int	id;
-	// char *args[] = {"ls", "-la", "/Users/josgarci/Desktop", NULL};
-	char *args[] = {"echo", "-la", "/Users/JoseGF/Desktop", NULL};
-	// char *args[] = {"a.out", NULL};
-
-	envp_copy = ft_copy_enviroment_vars_into_matrix(envp);
-	path_to_execve = ft_get_path_to_execve(envp_copy, args[0]);
-	//crear hijo
-	id = fork();
-	if (id == 0)
-	{
-		// sleep(2);
-		// printf("estoy en el hijo, mi PID es %d\n", getpid());
-		// printf("env_copy address in child: %p\n", envp_copy);
-		// printf("path_to_execve address in child: %p\n", path_to_execve);
-		ft_execute(path_to_execve, args, envp_copy);
-		//liberar en el hijo no hace nada, ni doble free ni leaks... curioso
-	}
-	else
-	{
-		wait(NULL);
-		// printf("env_copy address in parent: %p\n", envp_copy);
-		// printf("path_to_execve address in parent: %p\n", path_to_execve);
-		// printf("estoy en el padre, mi PID es %d\n", getpid());
-	}
-	free(path_to_execve);
-	ft_free_array(envp_copy);
-
-	return (0);
-}
- */
 
 
 //find linea de PATH

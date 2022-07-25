@@ -27,3 +27,14 @@ void	ft_free_nodes(t_command *cmd)
 		aux = aux->next;
 	}
 }
+
+void		ft_preliminar_check(int argc, char *argv[])
+{
+	(void)argv;
+
+	if (argc > 1)
+	{
+		ft_putstr_fd("Usage: ./minishell\n", 1);
+		exit(EXIT_SUCCESS);
+	}
+}
