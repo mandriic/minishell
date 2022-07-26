@@ -2,6 +2,21 @@
 
 t_data	g_data;
 
+bool	ft_is_builtin(t_command cmd)//pasar puntero y proteger??
+{
+	if (ft_strncmp("echo", cmd.comando_a_pelo, ft_strlen("echo"))
+		|| ft_strncmp("cd", cmd.comando_a_pelo, ft_strlen("cd"))
+		|| ft_strncmp("pwd", cmd.comando_a_pelo, ft_strlen("pwd"))
+		|| ft_strncmp("export", cmd.comando_a_pelo, ft_strlen("export"))
+		|| ft_strncmp("unset", cmd.comando_a_pelo, ft_strlen("unset"))
+		|| ft_strncmp("env", cmd.comando_a_pelo, ft_strlen("env"))
+		|| ft_strncmp("exit", cmd.comando_a_pelo, ft_strlen("exit")))
+		return (true);
+
+	return (false);
+	/* echo, cd, pwd, export, unset, env, exit */
+}
+
 int	ft_count_cmd(t_command *cmd)
 {
 	t_command	*aux;

@@ -10,6 +10,7 @@
 # include <signal.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <stdbool.h>
 # include <sys/wait.h>//para linux funcion wait
 # include <string.h>
 
