@@ -12,6 +12,7 @@
 # include <fcntl.h>
 # include <stdbool.h>
 # include <sys/wait.h>//para linux funcion wait
+# include <sys/param.h>
 # include <string.h>
 
 typedef struct s_data
@@ -87,5 +88,17 @@ void	ft_redirections(t_command *cmd);
 
 /* multiple_pipes */
 void	ft_multiple_pipes(void);
+
+/* builtins.c */
+void	ft_echo_builtin(t_command cmd);
+void	ft_cd_builtin(t_command cmd);
+void	ft_pwd_builtin(t_command cmd);
+void	ft_export_builtin(t_command cmd);
+void	ft_unset_builtin(t_command cmd);
+void	ft_env_builtin(t_command cmd);
+void	ft_exit_builtin(t_command cmd);
+
+bool	ft_is_builtin(t_command cmd);
+void	ft_execute_buitlin(t_command cmd);
 
 #endif

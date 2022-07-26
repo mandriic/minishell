@@ -78,13 +78,3 @@ void	ft_print_list(t_list *env_copy)
 	printf("%d - %s\n", ++i, (char *)(aux->content));
 }
 
-void	ft_pwd_2(void)
-{
-	char	*directory;
-
-	directory = getcwd(NULL, 0);
-	// error de getcwd
-	//printf("%s\n", directory);
-	free(directory);
-	return ;
-}
