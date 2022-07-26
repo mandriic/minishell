@@ -8,25 +8,25 @@ t_command	*dar_datos_a_los_cmd(void)
 	//t_command *cmd4 = malloc(sizeof(t_command));
 	
 
-	(cmd1)->comando_a_pelo = ft_strdup("ls");
-	(cmd1)->comando_con_flags = ft_strdup("ls -la");
-	(cmd1)->comando_bonito = ft_split("ls -la", ' ');
+	(cmd1)->comando_a_pelo = ft_strdup("pwd");
+	(cmd1)->comando_con_flags = ft_strdup("pwd");
+	(cmd1)->comando_bonito = ft_split("pwd", ' ');
 	(cmd1)->infiles = NULL;
 	(cmd1)->outfiles = NULL;
 	(cmd1)->next = cmd2;
 	(cmd1)->prev = NULL;
 	
-	(cmd2)->comando_a_pelo = ft_strdup("nl");
-	(cmd2)->comando_con_flags = ft_strdup("nl");
-	(cmd2)->comando_bonito = ft_split("nl", ' ');
+	(cmd2)->comando_a_pelo = ft_strdup("ls");
+	(cmd2)->comando_con_flags = ft_strdup("ls -la");
+	(cmd2)->comando_bonito = ft_split("ls -la", ' ');
 	(cmd2)->infiles = NULL;
 	(cmd2)->outfiles = NULL;
 	(cmd2)->next = cmd3;
 	(cmd2)->prev = cmd1;
 	
-	(cmd3)->comando_a_pelo = ft_strdup("wc");
-	(cmd3)->comando_con_flags = ft_strdup("wc -l");
-	(cmd3)->comando_bonito = ft_split("wc -l", ' ');
+	(cmd3)->comando_a_pelo = ft_strdup("nl");
+	(cmd3)->comando_con_flags = ft_strdup("nl");
+	(cmd3)->comando_bonito = ft_split("nl", ' ');
 	(cmd3)->infiles = NULL;
 	(cmd3)->outfiles = ft_split("salida", ' ');
 	(cmd3)->next = NULL;
