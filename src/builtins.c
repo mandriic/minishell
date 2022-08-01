@@ -21,10 +21,10 @@ void	ft_pwd_builtin(t_command cmd)
 	free(directory);
 	return ;
 }
-void	ft_export_builtin(t_command cmd)
+/* void	ft_export_builtin(t_command cmd)
 {
     (void)cmd;
-}
+} */
 void	ft_unset_builtin(t_command cmd)
 {
     (void)cmd;
@@ -63,6 +63,7 @@ bool	ft_is_builtin(t_command cmd)//pasar puntero y proteger??
 
 void	ft_execute_buitlin(t_command cmd)
 {
+
 	if (ft_strncmp("echo", cmd.comando_a_pelo, ft_strlen("echo")) == 0)
 		ft_echo_builtin(cmd);
 	if (ft_strncmp("cd", cmd.comando_a_pelo, ft_strlen("cd")) == 0)

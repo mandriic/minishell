@@ -8,12 +8,12 @@ t_command	*dar_datos_a_los_cmd(void)
 	//t_command *cmd4 = malloc(sizeof(t_command));
 	
 
-	(cmd1)->comando_a_pelo = ft_strdup("pwd");
-	(cmd1)->comando_con_flags = ft_strdup("pwd");
-	(cmd1)->comando_bonito = ft_split("pwd", ' ');
+	(cmd1)->comando_a_pelo = ft_strdup("export");
+	(cmd1)->comando_con_flags = ft_strdup("export");
+	(cmd1)->comando_bonito = ft_split("export      ", ' ');
 	(cmd1)->infiles = NULL;
 	(cmd1)->outfiles = NULL;
-	(cmd1)->next = cmd2;
+	(cmd1)->next = NULL;
 	(cmd1)->prev = NULL;
 	
 	(cmd2)->comando_a_pelo = ft_strdup("ls");

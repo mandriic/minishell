@@ -15,6 +15,8 @@
 # include <sys/param.h>
 # include <string.h>
 
+//no hay nada preparado para $_ (el último comando utilizado, se guarda en las variables de entorno)
+
 typedef struct s_data
 {
 	int					num_cmds;
@@ -93,7 +95,7 @@ void	ft_multiple_pipes(void);
 void	ft_echo_builtin(t_command cmd);
 void	ft_cd_builtin(t_command cmd);
 void	ft_pwd_builtin(t_command cmd);
-void	ft_export_builtin(t_command cmd);
+int	ft_export_builtin(t_command cmd);
 void	ft_unset_builtin(t_command cmd);
 void	ft_env_builtin(t_command cmd);
 void	ft_exit_builtin(t_command cmd);
