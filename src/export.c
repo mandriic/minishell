@@ -5,10 +5,95 @@ int	ft_check_error_export(char *argument)
 	(void)argument;
 	//errores para comprobar:
 		//primer caracter az_AZ
-		//hay un =
+		//hay un = -> si no hay no tira error pero no hace nada
 		//no hay espacios antes ni después del primer =
 	return 0;
 }
+
+void	ft_copy_matrix(char **envp_copy, char **aux)
+{
+	int	i;
+
+	i = 0;
+	while (envp_copy[i])
+	{
+		aux[i] = envp_copy[i];
+		i++;
+	}
+	return ;
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+	int	aux;
+
+	i = 0;
+	while (s1[i] || s2[i])
+	{
+		if (s1[i] != s2[i])
+		{
+			ft_putendl_fd(s1, 1);
+			aux = (unsigned char)s1[i] - (unsigned char)s2[i];
+			return (aux);
+		}
+		i++;
+	}
+	return (0);
+}
+
+void	ft_sort_int_tab(char **tab, int size)
+{
+	int		index;
+	int		counter;
+	char	*temp;
+
+	counter = 0;
+	while (counter < size)
+	{
+		index = 0;
+		while (index < size - 1)
+		{
+			if (ft_strcmp(tab[index], tab[index + 1]) > 0)
+			{
+				temp = tab[index];
+				tab[index] = tab[index + 1];
+				tab[index + 1] = temp;
+			}
+			index++;
+		}
+		counter++;
+	}
+}
+
+char	**ft_copy_envp_copy_to_export_matrix(char **envp_copy)
+{
+	int	i;
+	int	j;
+	int	matrix_len;
+	char	**aux;
+
+	i = 0;
+	j = 0;
+	while(envp_copy[i++]);
+	matrix_len = i;
+	aux = malloc(sizeof(char *) * (matrix_len + 1));
+	if (aux == NULL)
+		return (NULL);//esto hay que mejorarlo
+	aux[matrix_len] = NULL;
+	ft_copy_matrix(envp_copy, aux);
+	ft_sort_int_tab(aux, matrix_len);
+	i = 0;
+	while (aux[i])
+	{
+		ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		ft_putendl_fd(aux[i], STDOUT_FILENO);
+		i++;
+	}
+	free(aux);//los punteros los tiene almacenados envp_copy, no hay que liberarlos, solo el puntero doble
+	return (NULL);
+}
+
 
 int	ft_export_without_anything_else(char **envp_copy)
 {
@@ -17,12 +102,16 @@ int	ft_export_without_anything_else(char **envp_copy)
 	if (envp_copy == NULL)
 		return (0);
 	i = 0;
-	while (envp_copy[i] != NULL)
+
+	ft_copy_envp_copy_to_export_matrix(envp_copy);
+	/* while (envp_copy[i] != NULL)
 	{
+		ft_putnbr_fd(i, 1);
+		ft_putstr_fd(" ", 1);
 		ft_putstr_fd("declare -x ", 1);
 		ft_putendl_fd(envp_copy[i], STDOUT_FILENO);
 		i++;
-	}
+	} */
 	return (0);
 }
 
