@@ -30,7 +30,7 @@ void	ft_initialize_global_var(char **envp)
 
 int main(int argc, char *argv[], char *envp[])
 {
-	// atexit(leaks);
+	atexit(leaks);
 
 	ft_preliminar_check(argc, argv);
 	ft_initialize_global_var(envp);

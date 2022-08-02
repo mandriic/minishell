@@ -76,7 +76,6 @@ char	**ft_copy_envp_copy_to_export_matrix(char **envp_copy)
 	j = 0;
 	while(envp_copy[i])
 		i++;
-	printf("\n**********%d***************\n", i);
 	matrix_len = i;
 	aux = malloc(sizeof(char *) * (matrix_len + 1));
 	if (aux == NULL)
@@ -84,6 +83,7 @@ char	**ft_copy_envp_copy_to_export_matrix(char **envp_copy)
 	aux[matrix_len] = NULL;
 	ft_copy_matrix(envp_copy, aux);
 	ft_sort_int_tab(aux, matrix_len);
+	return (aux);
 	i = 0;
 	while (aux[i])
 	{
@@ -99,20 +99,19 @@ char	**ft_copy_envp_copy_to_export_matrix(char **envp_copy)
 int	ft_export_without_anything_else(char **envp_copy)
 {
 	int	i;
+	char **aux;
 
 	if (envp_copy == NULL)
 		return (0);
 	i = 0;
 
-	ft_copy_envp_copy_to_export_matrix(envp_copy);
-	/* while (envp_copy[i] != NULL)
+	aux = ft_copy_envp_copy_to_export_matrix(envp_copy);
+	while (aux[i] != NULL)
 	{
-		ft_putnbr_fd(i, 1);
-		ft_putstr_fd(" ", 1);
 		ft_putstr_fd("declare -x ", 1);
-		ft_putendl_fd(envp_copy[i], STDOUT_FILENO);
+		ft_putendl_fd(aux[i], STDOUT_FILENO);
 		i++;
-	} */
+	}
 	return (0);
 }
 
