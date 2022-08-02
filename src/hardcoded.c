@@ -3,8 +3,8 @@
 t_command	*dar_datos_a_los_cmd(void)
 {
 	t_command *cmd1 = malloc(sizeof(t_command));
-	t_command *cmd2 = malloc(sizeof(t_command));
-	t_command *cmd3 = malloc(sizeof(t_command));
+	// t_command *cmd2 = malloc(sizeof(t_command));
+	// t_command *cmd3 = malloc(sizeof(t_command));
 	//t_command *cmd4 = malloc(sizeof(t_command));
 	
 
@@ -16,7 +16,7 @@ t_command	*dar_datos_a_los_cmd(void)
 	(cmd1)->next = NULL;
 	(cmd1)->prev = NULL;
 	
-	(cmd2)->comando_a_pelo = ft_strdup("ls");
+/* 	(cmd2)->comando_a_pelo = ft_strdup("ls");
 	(cmd2)->comando_con_flags = ft_strdup("ls -la");
 	(cmd2)->comando_bonito = ft_split("ls -la", ' ');
 	(cmd2)->infiles = NULL;
@@ -31,7 +31,7 @@ t_command	*dar_datos_a_los_cmd(void)
 	(cmd3)->outfiles = ft_split("salida", ' ');
 	(cmd3)->next = NULL;
 	(cmd3)->prev = cmd2;
-
+ */
 	return (cmd1);
 
 /* 
