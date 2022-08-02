@@ -24,7 +24,6 @@ typedef struct s_data
 	int					last_code;
 	struct s_command	*cmd_list;
 	char				**envp_copy;
-
 }	t_data;
 
 typedef struct s_vars
