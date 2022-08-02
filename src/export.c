@@ -33,7 +33,6 @@ int	ft_strcmp(char *s1, char *s2)
 	{
 		if (s1[i] != s2[i])
 		{
-			ft_putendl_fd(s1, 1);
 			aux = (unsigned char)s1[i] - (unsigned char)s2[i];
 			return (aux);
 		}
@@ -75,7 +74,9 @@ char	**ft_copy_envp_copy_to_export_matrix(char **envp_copy)
 
 	i = 0;
 	j = 0;
-	while(envp_copy[i++]);
+	while(envp_copy[i])
+		i++;
+	printf("\n**********%d***************\n", i);
 	matrix_len = i;
 	aux = malloc(sizeof(char *) * (matrix_len + 1));
 	if (aux == NULL)
