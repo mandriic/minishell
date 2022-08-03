@@ -137,11 +137,11 @@ int	ft_check_existing_variable(char *var_name)
 {
 	int	i;
 	int	len_var_name;
-	int wololo;
+	int len_key;
+	int	wololo;
+	int	mierda;
 
-printf("\n***********\n    %s\n*************\n", var_name);
-	i = 0;
-	len_var_name = ft_strlen(var_name);
+// printf("\n***********\n    %s\n*************\n", var_name);
 	//recorrer todas las lineas
 		//recorrer cada caracter de la variable guardada desde el primero hasta que haya un = o se termine
 		//si ese caracter coincide con el corresondiente de la variable que se quiere comprobar pasar al siguiente
@@ -149,17 +149,24 @@ printf("\n***********\n    %s\n*************\n", var_name);
 			//es una variable ya guardada -> terminar la función devolver 1
 			//si no son = y nulo, romper el bucle
 		//si llega al final del bucle grande y no ha habido match, devolver 0
+	i = 0;
+	len_var_name = ft_env_var_key_len(var_name);
+	printf("%d <- %s\n\n", len_var_name, var_name);
 	while(g_data.envp_copy[i])
 		{	
+			len_key = ft_env_var_key_len(g_data.envp_copy[i]);
+			printf("%d <- %s\n", len_key, g_data.envp_copy[i]);
 			wololo = ft_strncmp(g_data.envp_copy[i], var_name, len_var_name);
-			if (wololo == 0
+			mierda = ft_strncmp(g_data.envp_copy[i], var_name, len_key);
+			printf("%d -*- %d\n", wololo, mierda);
+			/* if (wololo == 0
 				&& (var_name[len_var_name] == '\0' || var_name[len_var_name] == '\0')
 				&& (g_data.envp_copy[i][len_var_name] == '='
 				|| g_data.envp_copy[i][len_var_name] == '\0'))
 				{
 					printf("Si es una variable de entorno\n");
 					return (1);
-				}
+				} */
 			i++;
 		}
 	printf("NO es una variable de entorno\n");
@@ -176,7 +183,7 @@ int	ft_export_builtin(t_command cmd)
 {
 	int	i;
 	//export solo
-
+printf("%s\n", cmd.comando_bonito[1]);
 	if (/* ft_strncmp("export", cmd.comando_a_pelo, ft_strlen("export")) == 0
 		&&  */cmd.comando_bonito[1] == NULL)
 		return (ft_export_without_anything_else(g_data.envp_copy));

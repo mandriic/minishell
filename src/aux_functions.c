@@ -54,3 +54,19 @@ int	ft_strchr_index(char *str, char c)
 	}
 	return (-1);
 }
+
+int	ft_env_var_key_len(char *env_var)
+{
+	int	i;
+
+	if (!env_var)
+		return (-1);
+	i = 0;
+	while (env_var[i])
+	{
+		if (env_var[i] == '=')
+			return (i);
+		i++;
+	}
+	return (i);
+}

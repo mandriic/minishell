@@ -28,11 +28,24 @@ void	ft_initialize_global_var(char **envp)
 	g_data.last_code = 0;
 }
 
+void ft_print_matrix(char **matrix)
+{
+	int i = 0;
+	while (matrix[i])
+	{
+		printf("%s\n", matrix[i]);
+		i++;
+	}
+}
+
 int main(int argc, char *argv[], char *envp[])
 {
 	// atexit(leaks);
 
 	ft_preliminar_check(argc, argv);
+
+	ft_print_matrix(envp);
+/* 
 	ft_initialize_global_var(envp);
 	if (g_data.num_cmds > 1)
 		ft_multiple_pipes();
@@ -44,7 +57,7 @@ int main(int argc, char *argv[], char *envp[])
 				}
 		}
 
-	
+ */	
 	/* Esto crea los pipes y los hijos, en los hijos hace las redirecciones necesarias
 	cierra los extremos de los pipes y ejecuta los comandos
 	No hay gestión de errores
