@@ -79,6 +79,8 @@ void	ft_error_exit(char *err_msg);
 void	ft_free_nodes(t_command *cmd);
 void	ft_preliminar_check(int argc, char *argv[]);
 int		ft_strchr_index(char *str, char c);
+int		ft_env_var_key_len(char *env_var);
+
 
 void leaks ();
 
