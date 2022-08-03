@@ -134,26 +134,33 @@ void	ft_add_line_to_envp_copy(char *line)
 int	ft_check_existing_variable(char *var_name)
 {
 	int	i;
-	int	j;
+	int	len_var_name;
+	int wololo;
 
 printf("\n***********\n    %s\n*************\n", var_name);
 	i = 0;
+	len_var_name = ft_strlen(var_name);
+	//recorrer todas las lineas
+		//recorrer cada caracter de la variable guardada desde el primero hasta que haya un = o se termine
+		//si ese caracter coincide con el corresondiente de la variable que se quiere comprobar pasar al siguiente
+		//si cuando no coincide es el = de la variable y el nulo del añadido
+			//es una variable ya guardada -> terminar la función devolver 1
+			//si no son = y nulo, romper el bucle
+		//si llega al final del bucle grande y no ha habido match, devolver 0
 	while(g_data.envp_copy[i])
-		{
-			j = 0;
-			while(g_data.envp_copy[i][j] != '=' && g_data.envp_copy[i][j] != '\0')
-			{
-				if (g_data.envp_copy[i][j] != var_name[j])
+		{	
+			wololo = ft_strncmp(g_data.envp_copy[i], var_name, len_var_name);
+			if (wololo == 0
+				&& var_name[len_var_name] == '\0' && (g_data.envp_copy[i][len_var_name] == '='
+				|| g_data.envp_copy[i][len_var_name] == '\0'))
 				{
-					printf("No es una variable de entorno\n");
-					return (0);
+					printf("Si es una variable de entorno\n");
+					return (1);
 				}
-				j++;
-			}
 			i++;
 		}
 	printf("Si es una variable de entorno\n");
-	return (1);
+	return (0);
 }
 
 void	ft_replace_line_in_envp_copy(char *line)
