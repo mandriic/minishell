@@ -38,3 +38,19 @@ void		ft_preliminar_check(int argc, char *argv[])
 		exit(EXIT_SUCCESS);
 	}
 }
+
+int	ft_strchr_index(char *str, char c)
+{
+	int	i;
+
+	if (!str)
+		return (-1);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
