@@ -10,7 +10,7 @@ t_command	*dar_datos_a_los_cmd(void)
 
 	(cmd1)->comando_a_pelo = ft_strdup("export");
 	(cmd1)->comando_con_flags = ft_strdup("export");
-	(cmd1)->comando_bonito = ft_split("export     KKKKK ", ' ');
+	(cmd1)->comando_bonito = ft_split("export     __ZZ=YYY ", ' ');
 	(cmd1)->infiles = NULL;
 	(cmd1)->outfiles = NULL;
 	(cmd1)->next = NULL;
