@@ -10,14 +10,14 @@ int	ft_check_error_export(char *argument)
 	return 0;
 }
 
-void	ft_copy_matrix(char **envp_copy, char **aux)
+void	ft_copy_matrix(char **source, char **destiny)
 {
 	int	i;
 
 	i = 0;
-	while (envp_copy[i])
+	while (source[i])
 	{
-		aux[i] = envp_copy[i];
+		destiny[i] = source[i];
 		i++;
 	}
 	return ;
@@ -76,7 +76,6 @@ char	**ft_copy_envp_copy_to_export_matrix(char **envp_copy)
 	j = 0;
 	while(envp_copy[i])
 		i++;
-	printf("\n**********%d***************\n", i);
 	matrix_len = i;
 	aux = malloc(sizeof(char *) * (matrix_len + 1));
 	if (aux == NULL)
@@ -116,6 +115,53 @@ int	ft_export_without_anything_else(char **envp_copy)
 	return (0);
 }
 
+void	ft_add_line_to_envp_copy(char *line)
+{
+	char	**aux;
+	int		len_matrix;
+
+	len_matrix = 0;
+	while (g_data.envp_copy[len_matrix])
+		len_matrix++;
+	aux = malloc(sizeof(char *) * (len_matrix + 2));
+	ft_copy_matrix(g_data.envp_copy, aux);
+	aux[len_matrix - 1] = ft_strdup(line);
+	aux[len_matrix] = NULL;
+	free(g_data.envp_copy);//por si no viene de la variable global q no se olvide liberar
+	g_data.envp_copy = aux;
+}
+
+int	ft_check_existing_variable(char *var_name)
+{
+	int	i;
+	int	j;
+
+printf("\n***********\n    %s\n*************\n", var_name);
+	i = 0;
+	while(g_data.envp_copy[i])
+		{
+			j = 0;
+			while(g_data.envp_copy[i][j] != '=' && g_data.envp_copy[i][j] != '\0')
+			{
+				if (g_data.envp_copy[i][j] != var_name[j])
+				{
+					printf("No es una variable de entorno\n");
+					return (0);
+				}
+				j++;
+			}
+			i++;
+		}
+	printf("Si es una variable de entorno\n");
+	return (1);
+}
+
+void	ft_replace_line_in_envp_copy(char *line)
+{
+	(void)line;
+	return ;
+}
+
 int	ft_export_builtin(t_command cmd)
 {
 	int	i;
@@ -128,7 +174,12 @@ int	ft_export_builtin(t_command cmd)
 	i = 1;
 	while (cmd.comando_bonito[i])
 	{
-		ft_check_error_export(cmd.comando_bonito[i]);
+		if (ft_check_error_export(cmd.comando_bonito[i]) != 0)
+			continue;//tiene que mostrar el error
+		if (ft_check_existing_variable(cmd.comando_bonito[i]) == 1)
+			ft_replace_line_in_envp_copy(cmd.comando_bonito[i]);
+		else
+			ft_add_line_to_envp_copy(cmd.comando_bonito[i]);
 		i++;
 	}
 
