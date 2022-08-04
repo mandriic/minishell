@@ -29,16 +29,6 @@ void	ft_initialize_global_var(char **envp)
 	g_data.last_code = 0;
 }
 
-void ft_print_matrix(char **matrix)
-{
-	int i = 0;
-	while (matrix[i])
-	{
-		printf("%s\n", matrix[i]);
-		i++;
-	}
-}
-
 int main(int argc, char *argv[], char *envp[])
 {
 	// atexit(leaks);

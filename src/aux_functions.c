@@ -70,3 +70,18 @@ int	ft_env_var_key_len(char *env_var)
 	}
 	return (i);
 }
+
+void	ft_print_matrix(char **matrix)
+{
+	int i;
+
+	if (!matrix)
+		return ;
+	i = 0;
+	while (matrix[i])
+	{
+		ft_putendl_fd(matrix[i], STDOUT_FILENO);
+		i++;
+	}
+	return ;
+}
