@@ -23,6 +23,7 @@ void	ft_initialize_global_var(char **envp)
 {
 	g_data.cmd_list = dar_datos_a_los_cmd();
 	g_data.envp_copy = ft_copy_enviroment_vars_into_matrix(envp);
+	g_data.export = ft_copy_enviroment_vars_into_matrix(envp);
 	g_data.num_cmds = ft_count_cmd(g_data.cmd_list);
 	g_data.num_pipes = 0;
 	g_data.last_code = 0;
@@ -44,8 +45,8 @@ int main(int argc, char *argv[], char *envp[])
 
 	ft_preliminar_check(argc, argv);
 
-	ft_print_matrix(envp);
-/* 
+	//ft_print_matrix(envp);
+
 	ft_initialize_global_var(envp);
 	if (g_data.num_cmds > 1)
 		ft_multiple_pipes();
@@ -57,7 +58,7 @@ int main(int argc, char *argv[], char *envp[])
 				}
 		}
 
- */	
+	
 	/* Esto crea los pipes y los hijos, en los hijos hace las redirecciones necesarias
 	cierra los extremos de los pipes y ejecuta los comandos
 	No hay gestión de errores

@@ -4,20 +4,20 @@ char	**ft_copy_enviroment_vars_into_matrix(char *envp_original[])
 {
 	int		i;
 	int		num_vars;
-	char	**envp_copy;
+	char	**matrix;
 
 	i = 0;
 	num_vars = -1;
 	while (envp_original[++num_vars]);
-	envp_copy = malloc(sizeof(char *) * (num_vars + 1));//puede no ser necesario
+	matrix = malloc(sizeof(char *) * (num_vars + 1));//puede no ser necesario
 	while (envp_original[i])
 	{
-		envp_copy[i] = ft_strdup(envp_original[i]);
+		matrix[i] = ft_strdup(envp_original[i]);
 		i++;
 	}
-	envp_copy[i] = NULL;
+	matrix[i] = NULL;
 	//esto hay que liberarlo
-	return (envp_copy);
+	return (matrix);
 }
 
 void	ft_free_array(char **envp_copy)
