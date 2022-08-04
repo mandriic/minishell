@@ -1,13 +1,23 @@
 #include "../inc/minishell.h"
 
-int	ft_check_error_export(char *argument)
+void	ft_print_error_export(char *argument)
 {
-	(void)argument;
-	//errores para comprobar:
-		//primer caracter az_AZ
-		//hay un = -> si no hay no tira error pero no hace nada
-		//no hay espacios antes ni después del primer =
-	return 0;
+	ft_putstr_fd("bash: export: `", 2);
+	ft_putstr_fd(argument, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+}
+
+int	ft_check_export_input(char *argument)
+{	
+	if ((argument[0] >= 'A' && argument[0]<= 'Z') 
+		|| (argument[0] >= 'a' && argument[0] <= 'z') 
+		|| argument[0] == '_')
+		return 0;
+	else
+	{
+		ft_print_error_export (argument);
+		return (1);
+	}
 }
 
 void	ft_copy_matrix(char **source, char **destiny)
@@ -141,56 +151,39 @@ int	ft_export_without_anything_else(char **envp_copy)
 }
 
 
-
-int	ft_check_existing_variable(char *var_name)
+int	ft_check_existing_variable_in_matrix(char **matrix, char *var_name, int *index)
 {
 	int	i;
 	int	len_var_name;
 	int len_key;
-	int	wololo;
-	int	mierda;
 
-// printf("\n***********\n    %s\n*************\n", var_name);
-	//recorrer todas las lineas
-		//recorrer cada caracter de la variable guardada desde el primero hasta que haya un = o se termine
-		//si ese caracter coincide con el corresondiente de la variable que se quiere comprobar pasar al siguiente
-		//si cuando no coincide es el = de la variable y el nulo del añadido
-			//es una variable ya guardada -> terminar la función devolver 1
-			//si no son = y nulo, romper el bucle
-		//si llega al final del bucle grande y no ha habido match, devolver 0
-	i = 0;
+	i = *index;
 	len_var_name = ft_env_var_key_len(var_name);
-	printf("%d <- %s\n\n", len_var_name, var_name);
-	while(g_data.envp_copy[i])
+	while(matrix[i])
 		{	
-			len_key = ft_env_var_key_len(g_data.envp_copy[i]);
-			printf("%d <- %s\n", len_key, g_data.envp_copy[i]);
-			wololo = ft_strncmp(g_data.envp_copy[i], var_name, len_var_name);
-			mierda = ft_strncmp(g_data.envp_copy[i], var_name, len_key);
-			printf("%d -*- %d\n", wololo, mierda);
-			/* if (wololo == 0
-				&& (var_name[len_var_name] == '\0' || var_name[len_var_name] == '\0')
-				&& (g_data.envp_copy[i][len_var_name] == '='
-				|| g_data.envp_copy[i][len_var_name] == '\0'))
+			len_key = ft_env_var_key_len(matrix[i]);
+			if (ft_strncmp(matrix[i], var_name, len_var_name) 
+				== ft_strncmp(var_name, matrix[i], len_key))
 				{
-					printf("Si es una variable de entorno\n");
+					*index = i;
 					return (1);
-				} */
+				}
 			i++;
 		}
-	printf("NO es una variable de entorno\n");
 	return (0);
 }
 
-void	ft_replace_line_in_envp_copy(char *line)
+void	ft_replace_line_in_envp_copy(char **envp_copy, char *line, int index)
 {
-	(void)line;
+	free(envp_copy[index]);
+	envp_copy[index] = ft_strdup(line);
 	return ;
 }
 
 int	ft_export_builtin(t_command cmd)
 {
 	int	i;
+	int	j;
 	//export solo
 	if (cmd.comando_bonito[1] == NULL)
 		return (ft_export_without_anything_else(g_data.export));
@@ -198,24 +191,25 @@ int	ft_export_builtin(t_command cmd)
 	i = 1;
 	while (cmd.comando_bonito[i])
 	{
-		if (ft_check_error_export(cmd.comando_bonito[i]) != 0)
+		j = 0;
+		if (ft_check_export_input(cmd.comando_bonito[i]) != 0)
+		{
+			i++;
 			continue;//tiene que mostrar el error
-		if (ft_check_existing_variable(cmd.comando_bonito[i]) == 1)
-			ft_replace_line_in_envp_copy(cmd.comando_bonito[i]);
+		}
+		if (ft_check_existing_variable_in_matrix(g_data.envp_copy, cmd.comando_bonito[i], &j) == 1)
+			ft_replace_line_in_envp_copy(g_data.envp_copy, cmd.comando_bonito[i], j);
 		else
-			ft_add_line_to_matrix(&g_data.export, cmd.comando_bonito[i]);
+			ft_add_line_to_matrix(&g_data.envp_copy, cmd.comando_bonito[i]);
 		i++;
 	}
+	ft_print_matrix(g_data.envp_copy);
 
-	//bucle para cada argumento de export
-	//chequear errores de sintaxis -> escupir error
-	//buscar si ya existe
-		//si existe reemplazar puntero
-		//si no existe
-			//preparar matrix con envp_copy len+1
-			//copiar todos los punteros
-			//añadir nueva linea
-			//añadir null final
+	//si es digno de entrar en envp_copy (name=[value opcional]) -> meter en envp_copy y en export
+	//si no es digno para envp_copy -> meter solo en export
+
+	//¿Cuando comprobar si existe, antes o después 
+
 			
 	return (0);
 }
