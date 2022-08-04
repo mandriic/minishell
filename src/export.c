@@ -11,7 +11,7 @@ int	ft_check_error_export(char *argument)
 }
 
 void	ft_copy_matrix(char **source, char **destiny)
-{
+{//esta funcion copia una matrix en otra a excepción del nulo del final
 	int	i;
 
 	i = 0;
@@ -84,21 +84,31 @@ char	**ft_copy_envp_copy_to_export_matrix(char **envp_copy)
 	ft_copy_matrix(envp_copy, aux);
 	ft_sort_int_tab(aux, matrix_len);
 	return (aux);
-	i = 0;
-	while (aux[i])
-	{
-		ft_putstr_fd("declare -x ", STDOUT_FILENO);
-		ft_putendl_fd(aux[i], STDOUT_FILENO);
-		i++;
-	}
-	free(aux);//los punteros los tiene almacenados envp_copy, no hay que liberarlos, solo el puntero doble
-	return (NULL);
 }
 
+void	ft_add_line_to_matrix(char ***matrix, char *line)
+{
+	char	**aux;
+	int		len_matrix;
+
+	len_matrix = 0;
+	while ((*matrix)[len_matrix])
+		len_matrix++;
+	aux = malloc(sizeof(char *) * (len_matrix + 2));
+	if (!aux)
+		return ;
+	ft_copy_matrix(*matrix, aux);
+	aux[len_matrix - 1] = ft_strdup(line);
+	aux[len_matrix] = NULL;
+	free(*matrix);
+	*matrix = aux;
+	return ;
+}
 
 int	ft_export_without_anything_else(char **envp_copy)
 {
 	int	i;
+	int	j;
 	char **aux;
 
 	if (envp_copy == NULL)
@@ -108,30 +118,29 @@ int	ft_export_without_anything_else(char **envp_copy)
 	aux = ft_copy_envp_copy_to_export_matrix(envp_copy);
 	while (aux[i] != NULL)
 	{
+		j = 0;
 		ft_putstr_fd("declare -x ", 1);
-		ft_putendl_fd(aux[i], STDOUT_FILENO);
+		while (aux[i][j] != '=' && aux[i][j] != '\0')
+		{
+			ft_putchar_fd(aux[i][j], 1);
+			j++;
+		}
+		while (aux[i][j])
+		{
+			ft_putchar_fd(aux[i][j], 1);
+			if (aux[i][j] == '=')
+				ft_putchar_fd('"', 1);
+			j++;
+		}
+		 if (ft_strchr(aux[i], '='))
+			ft_putchar_fd('\"', 1);
+		ft_putchar_fd('\n', 1);
 		i++;
 	}
 	return (0);
 }
 
-void	ft_add_line_to_matrix(char *line)
-{
-	char	**aux;
-	int		len_matrix;
 
-	len_matrix = 0;
-	while (g_data.envp_copy[len_matrix])
-		len_matrix++;
-	aux = malloc(sizeof(char *) * (len_matrix + 2));
-	if (!aux)
-		return ;
-	ft_copy_matrix(g_data.envp_copy, aux);
-	aux[len_matrix - 1] = ft_strdup(line);
-	aux[len_matrix] = NULL;
-	free(g_data.envp_copy);//por si no viene de la variable global q no se olvide liberar
-	g_data.envp_copy = aux;
-}
 
 int	ft_check_existing_variable(char *var_name)
 {
@@ -183,11 +192,9 @@ int	ft_export_builtin(t_command cmd)
 {
 	int	i;
 	//export solo
-printf("%s\n", cmd.comando_bonito[1]);
-	if (/* ft_strncmp("export", cmd.comando_a_pelo, ft_strlen("export")) == 0
-		&&  */cmd.comando_bonito[1] == NULL)
-		return (ft_export_without_anything_else(g_data.envp_copy));
-	//ignorar espacios en blanco entre export y varibale=valor -> ya lo hace split
+	if (cmd.comando_bonito[1] == NULL)
+		return (ft_export_without_anything_else(g_data.export));
+	//ignorar espacios en blanco entre export y varible=valor -> ya lo hace split
 	i = 1;
 	while (cmd.comando_bonito[i])
 	{
@@ -196,7 +203,7 @@ printf("%s\n", cmd.comando_bonito[1]);
 		if (ft_check_existing_variable(cmd.comando_bonito[i]) == 1)
 			ft_replace_line_in_envp_copy(cmd.comando_bonito[i]);
 		else
-			ft_add_line_to_matrix(cmd.comando_bonito[i]);
+			ft_add_line_to_matrix(&g_data.export, cmd.comando_bonito[i]);
 		i++;
 	}
 
