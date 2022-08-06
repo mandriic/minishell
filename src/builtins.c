@@ -21,14 +21,12 @@ void	ft_pwd_builtin(t_command cmd)
 	free(directory);
 	return ;
 }
-/* void	ft_export_builtin(t_command cmd)
-{
-    (void)cmd;
-} */
+
 void	ft_unset_builtin(t_command cmd)
 {
     (void)cmd;
 }
+/* 
 void	ft_env_builtin(t_command cmd)
 {
     int i;
@@ -42,6 +40,7 @@ void	ft_env_builtin(t_command cmd)
     }
     //estado de salida
 }
+*/
 void	ft_exit_builtin(t_command cmd)
 {
     (void)cmd;
