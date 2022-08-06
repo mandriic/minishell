@@ -180,13 +180,17 @@ void	ft_replace_line_in_matrix(char **matrix, char *line, int index)
 	return ;
 }
 
-
+/* 	Queda pendiente gestionar cosas con comillas, por ejemplo:
+export ___ZZZ="kjdf asf", al ejecutar env no debe mostrar las comillas, perro
+export ___ZZZ='"kjdf asf"', sí las tiene que mostrar
+no lo implemento ahora porque es posible que se gestione durante el parser/lexer
+ */
 
 int	ft_export_builtin(t_command cmd)
 {
 	int	i;
 	int	matrix_index;
-	
+
 	if (cmd.comando_bonito[1] == NULL)
 		return (ft_export_without_anything_else(g_data.export));
 	i = 1;
