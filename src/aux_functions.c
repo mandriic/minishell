@@ -71,7 +71,7 @@ int	ft_env_var_key_len(char *env_var)
 	return (i);
 }
 
-void	ft_print_matrix(char **matrix)
+void	ft_print_matrix(char **matrix, int fd)
 {
 	int i;
 
@@ -80,7 +80,7 @@ void	ft_print_matrix(char **matrix)
 	i = 0;
 	while (matrix[i])
 	{
-		ft_putendl_fd(matrix[i], STDOUT_FILENO);
+		ft_putendl_fd(matrix[i], fd);
 		i++;
 	}
 	return ;

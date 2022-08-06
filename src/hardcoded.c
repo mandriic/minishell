@@ -10,28 +10,37 @@ t_command	*dar_datos_a_los_cmd(void)
 
 	(cmd1)->comando_a_pelo = ft_strdup("export");
 	(cmd1)->comando_con_flags = ft_strdup("export");
-	(cmd1)->comando_bonito = ft_split("export  __VV___VV=jj __ZZ_______ZZ=madeleine   ", ' ');
+	(cmd1)->comando_bonito = ft_split("export  _________VV___VV=jj   ________________XXX 3978= 0983yyy ", ' ');
 	(cmd1)->infiles = NULL;
 	(cmd1)->outfiles = NULL;
 	(cmd1)->next = NULL;
 	(cmd1)->prev = NULL;
 	
-/* 	(cmd2)->comando_a_pelo = ft_strdup("ls");
-	(cmd2)->comando_con_flags = ft_strdup("ls -la");
-	(cmd2)->comando_bonito = ft_split("ls -la", ' ');
+/* 
+	(cmd1)->comando_a_pelo = ft_strdup("cat");
+	(cmd1)->comando_con_flags = ft_strdup("cat");
+	(cmd1)->comando_bonito = ft_split("cat", ' ');
+	(cmd1)->infiles = NULL;
+	(cmd1)->outfiles = NULL;
+	(cmd1)->next = cmd2;
+	(cmd1)->prev = NULL;
+	
+ 	(cmd2)->comando_a_pelo = ft_strdup("cat");
+	(cmd2)->comando_con_flags = ft_strdup("cat");
+	(cmd2)->comando_bonito = ft_split("cat", ' ');
 	(cmd2)->infiles = NULL;
 	(cmd2)->outfiles = NULL;
 	(cmd2)->next = cmd3;
 	(cmd2)->prev = cmd1;
 	
-	(cmd3)->comando_a_pelo = ft_strdup("nl");
-	(cmd3)->comando_con_flags = ft_strdup("nl");
-	(cmd3)->comando_bonito = ft_split("nl", ' ');
+	(cmd3)->comando_a_pelo = ft_strdup("ls");
+	(cmd3)->comando_con_flags = ft_strdup("ls");
+	(cmd3)->comando_bonito = ft_split("ls", ' ');
 	(cmd3)->infiles = NULL;
-	(cmd3)->outfiles = ft_split("salida", ' ');
+	(cmd3)->outfiles = NULL;
 	(cmd3)->next = NULL;
 	(cmd3)->prev = cmd2;
- */
+  */
 	return (cmd1);
 
 /* 

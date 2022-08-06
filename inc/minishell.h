@@ -81,7 +81,7 @@ void	ft_free_nodes(t_command *cmd);
 void	ft_preliminar_check(int argc, char *argv[]);
 int		ft_strchr_index(char *str, char c);
 int		ft_env_var_key_len(char *env_var);
-void	ft_print_matrix(char **matrix);
+void	ft_print_matrix(char **matrix, int fd);
 
 void leaks ();
 
