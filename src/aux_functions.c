@@ -80,6 +80,8 @@ void	ft_print_matrix(char **matrix, int fd)
 	i = 0;
 	while (matrix[i])
 	{
+		ft_putnbr_fd(i, fd);
+		ft_putstr_fd("\t", fd);
 		ft_putendl_fd(matrix[i], fd);
 		i++;
 	}
