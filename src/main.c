@@ -34,9 +34,6 @@ int main(int argc, char *argv[], char *envp[])
 	// atexit(leaks);
 
 	ft_preliminar_check(argc, argv);
-
-	//ft_print_matrix(envp);
-
 	ft_initialize_global_var(envp);
 	if (g_data.num_cmds > 1)
 		ft_multiple_pipes();

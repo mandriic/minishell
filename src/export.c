@@ -75,7 +75,7 @@ void	ft_sort_int_tab(char **tab, int size)
 	}
 }
 
-char	**ft_copy_envp_copy_to_export_matrix(char **envp_copy)
+char	**ft_sort_export_matrix(char **export)
 {
 	int	i;
 	int	j;
@@ -84,14 +84,14 @@ char	**ft_copy_envp_copy_to_export_matrix(char **envp_copy)
 
 	i = 0;
 	j = 0;
-	while(envp_copy[i])
+	while(export[i])
 		i++;
 	matrix_len = i;
 	aux = malloc(sizeof(char *) * (matrix_len + 1));
 	if (aux == NULL)
 		return (NULL);//esto hay que mejorarlo
 	aux[matrix_len] = NULL;
-	ft_copy_matrix(envp_copy, aux);
+	ft_copy_matrix(export, aux);
 	ft_sort_int_tab(aux, matrix_len);
 	return (aux);
 }
@@ -100,33 +100,32 @@ void	ft_add_line_to_matrix(char ***matrix, char *line)
 {
 	char	**aux;
 	int		len_matrix;
-
 	len_matrix = 0;
 	while ((*matrix)[len_matrix])
 		len_matrix++;
-	aux = malloc(sizeof(char *) * (len_matrix + 2));
+	len_matrix += 2;
+	aux = malloc(sizeof(char *) * (len_matrix));
 	if (!aux)
 		return ;
+	aux[len_matrix - 1] = NULL;
 	ft_copy_matrix(*matrix, aux);
-	aux[len_matrix - 1] = ft_strdup(line);
-	aux[len_matrix] = NULL;
+	aux[len_matrix - 2] = ft_strdup(line);
 	free(*matrix);
 	*matrix = aux;
-	printf("X-X-X-X-X-\t\t%s\t\t-X-X-X-X-X-X-X-X-\n", line);
 	return ;
 }
 
-int	ft_export_without_anything_else(char **envp_copy)
+int	ft_export_without_anything_else(char **export)
 {
 	int	i;
 	int	j;
 	char **aux;
 
-	if (envp_copy == NULL)
+	if (export == NULL)
 		return (0);
 	i = 0;
 
-	aux = ft_copy_envp_copy_to_export_matrix(envp_copy);
+	aux = ft_sort_export_matrix(export);
 	while (aux[i] != NULL)
 	{
 		j = 0;
@@ -187,18 +186,10 @@ int	ft_export_builtin(t_command cmd)
 {
 	int	i;
 	int	matrix_index;
-	//export solo
+	
 	if (cmd.comando_bonito[1] == NULL)
 		return (ft_export_without_anything_else(g_data.export));
-	//ignorar espacios en blanco entre export y varible=valor -> ya lo hace split
 	i = 1;
-	int fd = open("wololo.txt", O_CREAT | O_WRONLY | O_TRUNC, 0666);
-	ft_putendl_fd("ENVP_COPY antes:", fd);
-	ft_print_matrix(g_data.envp_copy, fd);
-	ft_putendl_fd("\n\n *-*--*-*-*-*-*-*-*-*-*-*--*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n\n", fd);
-	ft_putendl_fd("EXPORT antes:", fd);
-	ft_print_matrix(g_data.export, fd);
-	close(fd);
 	while (cmd.comando_bonito[i])
 	{
 		matrix_index = 0;
@@ -218,27 +209,7 @@ int	ft_export_builtin(t_command cmd)
 			else
 				ft_add_line_to_matrix(&g_data.envp_copy, cmd.comando_bonito[i]);
 		}
-
 		i++;
 	}
-	ft_putstr_fd("\n", 1);
-	ft_putstr_fd("\n", 1);
-	ft_putstr_fd("\n", 1);
-	ft_putstr_fd("\n", 1);
-	ft_putstr_fd("\n", 1);
-	ft_putendl_fd("ENVP_COPY:", 1);
-	ft_print_matrix(g_data.envp_copy, 1);
-	ft_putendl_fd("\n\n *-*--*-*-*-*-*-*-*-*-*-*--*--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-\n\n", 1);
-	ft_putendl_fd("EXPORT:", 1);
-	ft_print_matrix(g_data.export, 1);
-	ft_putstr_fd("\n", 1);
-	ft_putstr_fd("\n", 1);
-
-	//si es digno de entrar en envp_copy (name=[value opcional]) -> meter en envp_copy y en export
-	//si no es digno para envp_copy -> meter solo en export
-
-	//¿Cuando comprobar si existe, antes o después 
-
-			
 	return (0);
 }
