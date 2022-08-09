@@ -23,8 +23,6 @@ void	ft_pwd_builtin(t_command cmd)
 	return ;
 }
 
-
-
 void	ft_env_builtin(t_command cmd)
 {
     int i;
