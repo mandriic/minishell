@@ -8,6 +8,7 @@ void	ft_cd_builtin(t_command cmd)
 {
     (void)cmd;
 }
+
 void	ft_pwd_builtin(t_command cmd)
 {
     (void)cmd;
@@ -17,15 +18,12 @@ void	ft_pwd_builtin(t_command cmd)
 	// if (directory == NULL) ->gestión error de getcwd
 	ft_putstr_fd(directory, 1);
     ft_putstr_fd("\n", 1);
-    // código salida de ejecición
+    // código salida de ejecución
 	free(directory);
 	return ;
 }
 
-void	ft_unset_builtin(t_command cmd)
-{
-    (void)cmd;
-}
+
 
 void	ft_env_builtin(t_command cmd)
 {
