@@ -99,6 +99,7 @@ void	ft_delete_line_index_from_matrix(char ***matrix, int index)
 		}
 		i++;
 	}
+    free(*matrix);
 	*matrix = aux;
 }
 
@@ -112,7 +113,6 @@ int main(int argc, char *argv[])
     int i = 0;
     char **aux;
     aux = malloc(sizeof (char *) * argc);
-    printf("\n\n\t\t%lu\n\n", sizeof(aux));
     aux[argc] = NULL;
     while (argv[i])
     {
