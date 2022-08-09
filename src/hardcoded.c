@@ -18,12 +18,12 @@ t_command	*dar_datos_a_los_cmd(void)
 
 
 	char **aux = malloc(sizeof (char *) * 3);
-	aux[0] = ft_strdup("export");
-	aux[1] = ft_strdup("___ZZZ=\"    ysdf woithj weroi wyy\"");
+	aux[0] = ft_strdup("unset");
+	aux[1] = ft_strdup("");
 	aux[2] = NULL;
 
-	(cmd1)->comando_a_pelo = ft_strdup("export");
-	(cmd1)->comando_con_flags = ft_strdup("export");
+	(cmd1)->comando_a_pelo = ft_strdup("unset");
+	(cmd1)->comando_con_flags = ft_strdup("unset");
 	//(cmd1)->comando_bonito = ft_split("export 234243", ' ');
 	(cmd1)->infiles = NULL;
 	(cmd1)->outfiles = NULL;

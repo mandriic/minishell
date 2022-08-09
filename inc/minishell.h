@@ -82,6 +82,8 @@ void	ft_preliminar_check(int argc, char *argv[]);
 int		ft_strchr_index(char *str, char c);
 int		ft_env_var_key_len(char *env_var);
 void	ft_print_matrix(char **matrix, int fd);
+int		ft_matrix_len(char **matrix);
+
 
 void leaks ();
 

@@ -19,7 +19,8 @@ LIBFT_PATH = libft/
 
 HEADER = $(INCS_PATH)/$(NAME).h
 
-SRCS = main.c pwd.c cd.c execve.c pipe.c hardcoded.c aux_functions.c multiple_pipes.c builtins.c export.c
+SRCS = main.c pwd.c cd.c execve.c pipe.c hardcoded.c aux_functions.c multiple_pipes.c builtins.c export.c \
+		unset.c
 
 OBJS = $(SRCS:%.c=bin/%.o)
 
