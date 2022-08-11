@@ -3,7 +3,7 @@
 t_command	*dar_datos_a_los_cmd(void)
 {
 	t_command *cmd1 = malloc(sizeof(t_command));
-	// t_command *cmd2 = malloc(sizeof(t_command));
+	t_command *cmd2 = malloc(sizeof(t_command));
 	// t_command *cmd3 = malloc(sizeof(t_command));
 	//t_command *cmd4 = malloc(sizeof(t_command));
 
@@ -16,7 +16,7 @@ t_command	*dar_datos_a_los_cmd(void)
 	(cmd1)->prev = NULL;
  */	
 
-
+ 
 	char **aux = malloc(sizeof (char *) * 3);
 	aux[0] = ft_strdup("unset");
 	aux[1] = ft_strdup("");
@@ -34,9 +34,9 @@ t_command	*dar_datos_a_los_cmd(void)
 
 
 /* 
-	(cmd1)->comando_a_pelo = ft_strdup("cat");
-	(cmd1)->comando_con_flags = ft_strdup("cat");
-	(cmd1)->comando_bonito = ft_split("cat", ' ');
+	(cmd1)->comando_a_pelo = ft_strdup("exit");
+	(cmd1)->comando_con_flags = ft_strdup("exit");
+	(cmd1)->comando_bonito = ft_split("exit", ' ');
 	(cmd1)->infiles = NULL;
 	(cmd1)->outfiles = NULL;
 	(cmd1)->next = cmd2;
@@ -47,7 +47,7 @@ t_command	*dar_datos_a_los_cmd(void)
 	(cmd2)->comando_bonito = ft_split("cat", ' ');
 	(cmd2)->infiles = NULL;
 	(cmd2)->outfiles = NULL;
-	(cmd2)->next = cmd3;
+	(cmd2)->next = NULL;
 	(cmd2)->prev = cmd1;
 	
 	(cmd3)->comando_a_pelo = ft_strdup("ls");
