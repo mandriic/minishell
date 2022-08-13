@@ -101,11 +101,14 @@ void	ft_echo_builtin(t_command cmd);
 void	ft_cd_builtin(t_command cmd);
 void	ft_pwd_builtin(t_command cmd);
 int	ft_export_builtin(t_command cmd);
-void	ft_unset_builtin(t_command cmd);
+void	ft_unset_builtin(t_command cmd, t_data *g_data);
 void	ft_env_builtin(t_command cmd);
 void	ft_exit_builtin(t_command cmd);
 
 bool	ft_is_builtin(t_command cmd);
 void	ft_execute_buitlin(t_command cmd);
+
+/* export.c */
+int	ft_check_existing_variable_in_matrix(char **matrix, char *var_name, int *index);
 
 #endif

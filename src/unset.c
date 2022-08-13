@@ -2,6 +2,7 @@
 
 void	ft_delete_line_from_matrix(char ***matrix, char *line, int index)
 {
+(void)line;
 	char	**aux;
 	int		i;
 	int		j;
