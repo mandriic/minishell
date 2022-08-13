@@ -3,7 +3,7 @@
 t_command	*dar_datos_a_los_cmd(void)
 {
 	t_command *cmd1 = malloc(sizeof(t_command));
-	t_command *cmd2 = malloc(sizeof(t_command));
+	//t_command *cmd2 = malloc(sizeof(t_command));
 	// t_command *cmd3 = malloc(sizeof(t_command));
 	//t_command *cmd4 = malloc(sizeof(t_command));
 
