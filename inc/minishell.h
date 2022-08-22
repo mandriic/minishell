@@ -108,5 +108,7 @@ void	ft_exit_builtin(t_command cmd);
 bool	ft_is_builtin(t_command cmd);
 void	ft_execute_buitlin(t_command cmd);
 
+/* export.c */
 int	ft_check_existing_variable_in_matrix(char **matrix, char *var_name, int *index);
+
 #endif
