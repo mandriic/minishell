@@ -1,6 +1,6 @@
 #include "../inc/minishell.h"
 
-void	ft_delete_line_from_matrix(char ***matrix, char *line, int index)
+void	ft_delete_line_from_matrix(char ***matrix, int index)
 {
 	char	**aux;
 	int		i;
@@ -39,9 +39,9 @@ void	ft_unset_builtin(t_command cmd, t_data *g_data)
 	while (cmd.comando_bonito[i])
 	{
 		if (ft_check_existing_variable_in_matrix(g_data->envp_copy, cmd.comando_bonito[i], &index) == 1)
-			ft_delete_line_from_matrix(&g_data->envp_copy, cmd.comando_bonito[i], index);
+			ft_delete_line_from_matrix(&g_data->envp_copy, index);
 		if (ft_check_existing_variable_in_matrix(g_data->export, cmd.comando_bonito[i], &index) == 1)
-			ft_delete_line_from_matrix(&g_data->export, cmd.comando_bonito[i], index);
+			ft_delete_line_from_matrix(&g_data->export, index);
 		i++;
 	}
     return ;
