@@ -279,29 +279,30 @@ char	**ft_triming(char **separ, size_t num_pipes, t_vars *vars)
 	int *sub_type;
 
 	mem = separ;
-	temp = malloc(sizeof(char *) * (num_pipes + 3));
+	temp = malloc(sizeof(char *) * (num_pipes + 2));
 	printf("sizeof%lu\n", sizeof(separ));
 	i = -1;
 		while (separ[++i])
 		{
 			printf("i%d\n", i);
 			printf("separ%s\n", separ[i]);
-			temp[i] = ft_strtrim(separ[i], " ");
-			sub_type = ft_mask(temp[i], vars);
+			temp[0] = ft_strtrim(separ[i], " ");
+			sub_type = ft_mask(temp[0], vars);
 			// free(separ[i]);
 			i2 = -1;
 			i3 = 0;
-			while (temp[i][++i2])
+			while (temp[0][++i2])
 			{
 				// printf("%d\n",sub_type[i]);
 				printf("check\n");
 // 				sleep(1);
-				if (temp[i][i2] == ' ' && temp[i][i2 + 1] == ' ' && sub_type[i2] != 5 && sub_type[i2] != 6)
+				if (temp[0][i2] == ' ' && temp[0][i2 + 1] == ' ' && sub_type[i2] != 5 && sub_type[i2] != 6)
 					continue ;
-				separ[i][i3] = temp[i][i2];
+				separ[i][i3] = temp[0][i2];
 				i3++;
 			}
 			free(sub_type);
+			free(temp[0]);
 			separ[i][i3] = '\0';
 	}
 	free(temp);
@@ -340,7 +341,11 @@ char **spliting(char *wololoco, int *type, size_t num_pipes, t_vars *vars)
 	separ[i2] = NULL;
 	// int i3;
 	// int *sub_type;
+
 	separ2 = ft_triming(separ, num_pipes, vars);
+	while(i2 != -1)
+		free(separ[i2--]);
+	free(separ);
 	// for(i= 0; temp[i] != '\0'; i++)
 	// 	printf("%s\n", temp[i]);
  	return(separ2);
@@ -425,6 +430,12 @@ int main(void)
 	while (1)
 	{
 		vars.line = readline("Minishell $ ");
+		// if (ft_strlen(vars.line) == 0)
+		// {
+		// 	write(1, "exit\n", 5);
+		// 	free(vars.line);
+		// 	exit (0);
+		// }
 		if (!ft_strncmp ("exit", vars.line, ft_strlen(vars.line)))
 		{
 			write(1, "exit\n", 5);
@@ -440,16 +451,18 @@ int main(void)
 		vars.num_pipes = ft_numpipes(vars.line, vars.type);
 		if (vars.num_pipes)
 			vars.split = spliting(vars.line, vars.type, vars.num_pipes, &vars);
-		else
-		{
-			// vars.split = malloc(sizeof(char *) * 2);
-			vars.split = ft_triming(&vars.line, 0, &vars);
-			// vars.split[1] = NULL;
-		}
-		ft_lst_cmd(&vars);
+		// else
+		// {
+		// 	// vars.split = malloc(sizeof(char *) * 2);
+		// 	vars.split = ft_triming(&vars.line, 0, &vars);
+		// 	vars.split[1] = NULL;
+		// }
+		// ft_lst_cmd(&vars);
 // 		ft_clear_list(vars.list);
-		free(vars.type);
+		// free(vars.type);
 		printf("\n\n\n ! check !\n\n\n");
+		free(vars.line);
+		free(vars.type);
 // 		system("leaks minishell");
 
 
