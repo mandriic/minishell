@@ -25,16 +25,17 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 	// int *type;
 	int i;
 
-	i =-1;
+	i = 0;   			//was -1 
 	start = 0;
 	(void) vars;
 	temp3 = NULL;
 	// type = ft_mask(str, vars);
 	if (str[0] == '"')
 	{
+		printf("str 0 %c\n", str[0]);
 		while (str[i] != '\0')
 		{
-
+			printf("str i %c\n", str[i]);
 			while (str[i] != '$' && str[i] != '\0')
 				i++;
 			// printf("%d\n", i);
@@ -43,20 +44,20 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 			if ((str[i] == '$' && i != 0) || str[i] == '\0')
 			{
 				temp = ft_substr(str, start, i );
-				printf("substr 1 %s\n", temp);
+				// printf("substr 1 %s\n", temp);
 				start = i + 1;
 				while (str[i] != ' ' && str[i] != '\0')
 					i++;
 				temp2 = ft_substr(str, start, i  - start);
 				start = i ;
-				printf("sub str 2 %s\n", temp2);
+				// printf("sub str 2 %s\n", temp2);
 				if (str[i] == ' ')
 					temp4 = getenv(temp2);
 				else
 					temp4 = temp;
 				free(temp2);
 
-				printf("getenv %s\n", temp4);
+				// printf("getenv %s\n", temp4);
 				if (temp3 == NULL)
 					temp3 = ft_strjoin(temp, temp4);
 				else 
@@ -65,13 +66,14 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 					temp3 = ft_strjoin(temp3, temp4);
 					free(temp2);
 				}
-				printf("join %s\n", temp3);
+				// printf("join %s\n", temp3);
 				free(temp);
 				// free(temp4);
 				// if (str[i] == '\0')
 				// 	return (temp3);
 			}
 			i++;
+
 		}
 		return (temp3);
 
@@ -104,7 +106,7 @@ void	ft_split_args(t_data *data, t_vars *vars)
 		while (data->arg[++i])
 			if (data->arg[i] == ' ')
 				i2++;
-		data->arg_splited = malloc (sizeof(char *) * i2 + 1);     ///free
+		data->arg_splited = malloc (sizeof(char *) * (i2 + 1));     ///free
 		i = -1;
 		i2 = 0;
 
@@ -113,28 +115,37 @@ void	ft_split_args(t_data *data, t_vars *vars)
 			if(data->arg[i] == '-' && data->arg[i + 1] != ' ')
 			{
 				while(data->arg[i] != ' ' && data->arg[i + 1] != '-')
+				{
 					i++;
+					if (!data->arg[i + 1])
+						break;
+				}
 				// data->arg_splited[i2] = malloc (sizeof (char) * i + 1);
 				data->arg_splited[i2++] = ft_substr(data->arg, start, i);
 				start = i + 1;
-				printf("solo flag\t|%s\n", data->arg_splited[i2 - 1]);
+				// printf("solo flag\t|%s\n", data->arg_splited[i2 - 1]);
 				// data->arg_splited[i2++] = '\0';
 			}
 			// printf("im i%d\n", i);
 			// if (data->arg)
-			if (data->arg[i] == ' ' )//&& type[i] != 5 && type[i] != 6)
+			if (data->arg[i] == ' ' && type[i] != 5 && type[i] != 6)
 			{
 				i++;
 				if(data->arg[i] && type[i])
 				{
 					while ((data->arg[i] != ' ' && data->arg[i] != '\0') || type[i] == 6 || type[i] == 5)
+					{
 						i++;
+						if(!data->arg[i] || !type[i])
+							break ;
+					}
+					printf("data arg %s\n", data->arg);
 					data->arg_splited[i2++] = ft_substr(data->arg, start, i - start + 1);
 					start = i + 1;
 					// data->arg_splited[i2 - 1] = ft_checkif_var(data->arg_splited[i2 - 1], vars);
-					test = ft_checkif_var(data->arg_splited[i2 - 1], vars);
-					printf("test %s\n", test);
-					free(test);
+					// test = ft_checkif_var(data->arg_splited[i2 - 1], vars);
+					// printf("test %s\n", test);
+					// free(test);
 					// printf("arg %d \t\t|%s\n", i2 - 1, data->arg_splited[i2 - 1]);
 					i--;
 				}
@@ -283,12 +294,12 @@ char	**ft_triming(char **separ, size_t num_pipes, t_vars *vars)
 
 	mem = separ;
 	temp = malloc(sizeof(char *) * (num_pipes + 2));
-	printf("sizeof%lu\n", sizeof(separ));
+	// printf("sizeof%lu\n", sizeof(separ));
 	i = -1;
 		while (separ[++i])
 		{
-			printf("i%d\n", i);
-			printf("separ%s\n", separ[i]);
+			// printf("i%d\n", i);
+			// printf("separ%s\n", separ[i]);
 			temp[0] = ft_strtrim(separ[i], " ");
 			sub_type = ft_mask(temp[0], vars);
 			// free(separ[i]);
@@ -297,7 +308,7 @@ char	**ft_triming(char **separ, size_t num_pipes, t_vars *vars)
 			while (temp[0][++i2])
 			{
 				// printf("%d\n",sub_type[i]);
-				printf("check\n");
+				// printf("check\n");
 // 				sleep(1);
 				if (temp[0][i2] == ' ' && temp[0][i2 + 1] == ' ' && sub_type[i2] != 5 && sub_type[i2] != 6)
 					continue ;
@@ -374,7 +385,7 @@ int	*ft_mask(char *line, t_vars *vars)
 	len = ft_strlen(line);
 	if (len == 0)
 		return(type);
-	printf("len %d", len);
+	// printf("len %d", len);
 	type = malloc(sizeof(int) * len);
 
 	while (line[++i] != '\0')
@@ -468,7 +479,7 @@ int main(void)
 		ft_lst_cmd(&vars);
 // 		ft_clear_list(vars.list);
 		// free(vars.type);
-		printf("\n\n\n ! check !\n\n\n");
+		// printf("\n\n\n ! check !\n\n\n");
 		free(vars.line);
 		free(vars.type);
 		vars.type = NULL;
