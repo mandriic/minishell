@@ -125,16 +125,19 @@ void	ft_split_args(t_data *data, t_vars *vars)
 			if (data->arg[i] == ' ' )//&& type[i] != 5 && type[i] != 6)
 			{
 				i++;
-				while ((data->arg[i] != ' ' && data->arg[i] != '\0') || type[i] == 6 || type[i] == 5)
-					i++;
-				data->arg_splited[i2++] = ft_substr(data->arg, start, i - start + 1);
-				start = i + 1;
-				// data->arg_splited[i2 - 1] = ft_checkif_var(data->arg_splited[i2 - 1], vars);
-				test = ft_checkif_var(data->arg_splited[i2 - 1], vars);
-				printf("test %s\n", test);
-				free(test);
-				// printf("arg %d \t\t|%s\n", i2 - 1, data->arg_splited[i2 - 1]);
-				i--;
+				if(data->arg[i] && type[i])
+				{
+					while ((data->arg[i] != ' ' && data->arg[i] != '\0') || type[i] == 6 || type[i] == 5)
+						i++;
+					data->arg_splited[i2++] = ft_substr(data->arg, start, i - start + 1);
+					start = i + 1;
+					// data->arg_splited[i2 - 1] = ft_checkif_var(data->arg_splited[i2 - 1], vars);
+					test = ft_checkif_var(data->arg_splited[i2 - 1], vars);
+					printf("test %s\n", test);
+					free(test);
+					// printf("arg %d \t\t|%s\n", i2 - 1, data->arg_splited[i2 - 1]);
+					i--;
+				}
 			}
 			// printf("first i\t|%c\n", data->arg[i]);
 			// printf("first arg\t|%s\n", data->arg_splited[i2]);
@@ -343,9 +346,9 @@ char **spliting(char *wololoco, int *type, size_t num_pipes, t_vars *vars)
 	// int *sub_type;
 
 	separ2 = ft_triming(separ, num_pipes, vars);
-	while(i2 != -1)
-		free(separ[i2--]);
-	free(separ);
+	// while(i2 != -1)
+	// 	free(separ[i2--]);
+	// free(separ);
 	// for(i= 0; temp[i] != '\0'; i++)
 	// 	printf("%s\n", temp[i]);
  	return(separ2);
@@ -366,10 +369,12 @@ int	*ft_mask(char *line, t_vars *vars)
 	int i;
 	int len;
 	int *type;
-	if (line == 0)
-		return (0);
 	i = -1;
+	type = NULL;
 	len = ft_strlen(line);
+	if (len == 0)
+		return(type);
+	printf("len %d", len);
 	type = malloc(sizeof(int) * len);
 
 	while (line[++i] != '\0')
@@ -439,11 +444,12 @@ int main(void)
 		if (!ft_strncmp ("exit", vars.line, ft_strlen(vars.line)))
 		{
 			write(1, "exit\n", 5);
+			free(vars.type);
 			free(vars.line);
 			exit (0);
 		}
 
-		add_history(vars.line); //solo añadir si es válido
+		// add_history(vars.line); //solo añadir si es válido
 		// line_cop = ft_strdup(wololo);
 		vars.line_len = ft_strlen(vars.line);
 		// printf("%zu\n", line_len	);sad
@@ -451,18 +457,21 @@ int main(void)
 		vars.num_pipes = ft_numpipes(vars.line, vars.type);
 		if (vars.num_pipes)
 			vars.split = spliting(vars.line, vars.type, vars.num_pipes, &vars);
-		// else
-		// {
-		// 	// vars.split = malloc(sizeof(char *) * 2);
-		// 	vars.split = ft_triming(&vars.line, 0, &vars);
-		// 	vars.split[1] = NULL;
-		// }
-		// ft_lst_cmd(&vars);
+		else
+		{
+			// vars.split = malloc(sizeof(char *) * 2);
+			free(vars.type);
+			vars.type = NULL;
+			vars.split = ft_triming(&vars.line, 0, &vars);
+			vars.split[1] = NULL;
+		}
+		ft_lst_cmd(&vars);
 // 		ft_clear_list(vars.list);
 		// free(vars.type);
 		printf("\n\n\n ! check !\n\n\n");
 		free(vars.line);
 		free(vars.type);
+		vars.type = NULL;
 // 		system("leaks minishell");
 
 
