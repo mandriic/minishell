@@ -127,7 +127,7 @@ void	ft_split_args(t_data *data, t_vars *vars)
 		while (data->arg[++i])
 			if (data->arg[i] == ' ')
 				i2++;
-		data->arg_splited = malloc (sizeof(char *) * (i2 + 1));     ///free
+		data->arg_splited = malloc (sizeof(char *) * (i2 + 2));     ///free
 		i = -1;
 		i2 = 0;
 
@@ -174,6 +174,11 @@ void	ft_split_args(t_data *data, t_vars *vars)
 			// printf("first i\t|%c\n", data->arg[i]);
 			// printf("first arg\t|%s\n", data->arg_splited[i2]);
 		}
+		while(i2 != 0)
+		{
+			free(data->arg_splited[--i2]);
+		}
+		free(data->arg_splited);
 	}
 	free(type);
 }
