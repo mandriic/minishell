@@ -1,6 +1,8 @@
 #include "../inc/minishell.h"
 int	*ft_mask(char *line, t_vars *vars);
 int	ft_lastpipe(char *str);
+void ft_end_of_cicle(t_vars *vars);
+void ft_submain(t_vars * vars);
 void ft_del_list(t_list *list)
 {
 	t_list *last;
@@ -182,7 +184,7 @@ void	ft_split_args(t_data *data, t_vars *vars)
 	}
 	free(type);
 }
-void	ft_subpars(char *str, t_data *data)
+void	ft_subpars(char *str, t_data *data, t_vars * vars)
 {
 	// (void) vars;
 	int		i;
@@ -200,37 +202,47 @@ void	ft_subpars(char *str, t_data *data)
 		while (str[++i])
 			if (str[i] == '\0' || str[i] == '<' || str[i] == '>')
 				break ;
-		data->arg = ft_substr(str, start, i - start);
-		start = i + 1;
-		if (str[i] == '<' && str[i + 1] == '<')
+		if ((str[i] == '<' || str [i] == '>') && str[i + 1] == '\0')
 		{
-			start++;
-			data->menos_dob = 1;
+			printf("bash: syntax error near unexpected token 'newline'\n");
+			if (vars->list)
+				ft_del_list(vars->list);
+			ft_end_of_cicle(vars);
+			ft_submain(vars);
 		}
-		else if(str[i] == '<' )
-			data->menos = 1;
-		else if (str[i] == '>' && str[i + 1] == '>')
+		else
 		{
-			start++;
-			data->mas_dob = 1;
+			data->arg = ft_substr(str, start, i - start);
+			start = i + 1;
+			if (str[i] == '<' && str[i + 1] == '<')
+			{
+				start++;
+				data->menos_dob = 1;
+			}
+			else if(str[i] == '<' )
+				data->menos = 1;
+			else if (str[i] == '>' && str[i + 1] == '>')
+			{
+				start++;
+				data->mas_dob = 1;
+			}
+			else if (str[i] == '>')
+				data->mas = 1;
+			if (str[i] != '\0')
+			{
+				while (str[++i])
+					;
+				data->sub_arg = ft_substr(str, start + 1, i - start);
+			}
 		}
-		else if (str[i] == '>')
-			data->mas = 1;
-		if (str[i] != '\0')
-		{
-			while (str[++i])
-				;
-			data->sub_arg = ft_substr(str, start + 1, i - start);
-		}
-	}
-	printf("command\t\t|%s\n", data->command);
-	printf("arg\t\t|%s\n", data->arg);
-	printf("redir_men\t|%d\n", data->menos);
-	printf("redir_men_d\t|%d\n", data->menos_dob);
-	printf("redir_mas\t|%d\n", data->mas);
-	printf("redir_mas_d\t|%d\n", data->mas_dob);
-	printf("sub-arg\t\t|%s\n", data->sub_arg);
-	
+		printf("command\t\t|%s\n", data->command);
+		printf("arg\t\t|%s\n", data->arg);
+		printf("redir_men\t|%d\n", data->menos);
+		printf("redir_men_d\t|%d\n", data->menos_dob);
+		printf("redir_mas\t|%d\n", data->mas);
+		printf("redir_mas_d\t|%d\n", data->mas_dob);
+		printf("sub-arg\t\t|%s\n", data->sub_arg);
+	}	
 }
 t_data *ft_create_data(char *str, t_list *prev, t_vars *vars)
 {
@@ -249,7 +261,7 @@ t_data *ft_create_data(char *str, t_list *prev, t_vars *vars)
 	}
 
 	data->cmd_arg_full = str;
-	ft_subpars(str, data);
+	ft_subpars(str, data, vars);
 	ft_split_args(data, vars);
 	data->prev = prev;
 	return (data);
@@ -464,6 +476,58 @@ int	*ft_mask(char *line, t_vars *vars)
 // 	}
 // 	free(temp);
 // }
+void ft_end_of_cicle(t_vars *vars)
+{
+
+
+		free(vars->line);
+		vars->line = NULL;
+		free(vars->type);
+		// free(vars.split);
+		vars->type = NULL;
+}
+void ft_submain(t_vars * vars)
+{
+	while (1)
+	{
+		vars->line = readline("Minishell $ ");
+		// if (ft_strlen(vars.line) == 0)
+		// {
+		// 	write(1, "exit\n", 5);
+		// 	free(vars.line);
+		// 	exit (0);
+		// }
+		if (!ft_strncmp ("exit", vars->line, ft_strlen(vars->line)))
+		{
+			write(1, "exit\n", 5);
+			free(vars->type);
+			free(vars->line);
+			exit (0);
+		}
+
+		// add_history(vars->line); //solo añadir si es válido
+		// line_cop = ft_strdup(wololo);
+		vars->line_len = ft_strlen(vars->line);
+		// printf("%zu\n", line_len	);sad
+		vars->type = ft_mask(vars->line, vars); //free
+		vars->num_pipes = ft_numpipes(vars->line, vars->type);
+		if (vars->num_pipes)
+			vars->split = spliting(vars->line, vars->type, vars->num_pipes, vars);
+		else
+		{
+			// vars->split = malloc(sizeof(char *) * 2);
+			free(vars->type);
+			vars->type = NULL;
+			ft_triming(&vars->line, 0, vars, 1);
+			vars->split[1] = NULL;
+		}
+		ft_lst_cmd(vars);
+// 		ft_clear_list(vars->list);
+		// free(vars->type);
+		// printf("\n\n\n ! check !\n\n\n");
+		ft_end_of_cicle(vars);
+	}
+}
 int main(void)
 {
 	t_vars vars;
@@ -471,52 +535,12 @@ int main(void)
 	vars = (t_vars){};
 	vars.split = NULL;
 	vars.list = NULL;
+	vars.line = NULL;
 	//int i;
 	// char *finline;
 	// char **split;
 	vars.quotes  = "'";
-	while (1)
-	{
-		vars.line = readline("Minishell $ ");
-		// if (ft_strlen(vars.line) == 0)
-		// {
-		// 	write(1, "exit\n", 5);
-		// 	free(vars.line);
-		// 	exit (0);
-		// }
-		if (!ft_strncmp ("exit", vars.line, ft_strlen(vars.line)))
-		{
-			write(1, "exit\n", 5);
-			free(vars.type);
-			free(vars.line);
-			exit (0);
-		}
-
-		// add_history(vars.line); //solo añadir si es válido
-		// line_cop = ft_strdup(wololo);
-		vars.line_len = ft_strlen(vars.line);
-		// printf("%zu\n", line_len	);sad
-		vars.type = ft_mask(vars.line, &vars); //free
-		vars.num_pipes = ft_numpipes(vars.line, vars.type);
-		if (vars.num_pipes)
-			vars.split = spliting(vars.line, vars.type, vars.num_pipes, &vars);
-		else
-		{
-			// vars.split = malloc(sizeof(char *) * 2);
-			free(vars.type);
-			vars.type = NULL;
-			ft_triming(&vars.line, 0, &vars, 1);
-			vars.split[1] = NULL;
-		}
-		ft_lst_cmd(&vars);
-// 		ft_clear_list(vars.list);
-		// free(vars.type);
-		// printf("\n\n\n ! check !\n\n\n");
-		free(vars.line);
-		vars.line = NULL;
-		free(vars.type);
-		// free(vars.split);
-		vars.type = NULL;
+	ft_submain(&vars);
 // 		system("leaks minishell");
 
 
@@ -554,6 +578,5 @@ int main(void)
 		// while (split[++i] != NULL)
 		// 	free(split[i]);
 		// free(split);
-	}
 		return (0);
 }
