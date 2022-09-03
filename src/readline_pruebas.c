@@ -1,6 +1,27 @@
 #include "../inc/minishell.h"
 int	*ft_mask(char *line, t_vars *vars);
 int	ft_lastpipe(char *str);
+void ft_del_list(t_list *list)
+{
+	t_list *last;
+	t_list *temp;
+	temp = list;
+	last = ft_lstlast(list);
+	while(1)
+	{
+		temp = list->next;
+		free(((t_data *)list->content)->command);
+		free(((t_data *)list->content)->arg);
+		free(((t_data *)list->content)->cmd_splited);
+		// free(((t_data *)temp->content)->cmd_arg_full);
+		free(list->content);
+		free(list);
+		if(list  == last)
+			break ;
+		list = temp;
+	}
+	
+}
 void ft_free_double_arr(char **str)
 {
 	int i = -1;
@@ -237,6 +258,8 @@ void ft_lst_cmd(t_vars *vars)
 	int i;
 
 	i = -1;
+	if (vars->list)
+		ft_del_list(vars->list);
 	prev = NULL;
 	vars->list = NULL;
 	while (vars->split[++i])
@@ -264,7 +287,7 @@ void ft_lst_cmd(t_vars *vars)
 	temp = vars->list;
 	while (temp)
 	{
-		// printf("print puntero from list ->%s\n", ((t_data *)temp->content)->cmd_arg_full);
+		 printf("print puntero from list ->%s\n", ((t_data *)temp->content)->cmd_arg_full);
 		temp = temp->next;
 	}
 
@@ -283,16 +306,14 @@ size_t ft_numpipes(char *wololoco, int *type)
 	}
 	return (num_pipes);
 }
-char	**ft_triming(char **separ, size_t num_pipes, t_vars *vars)
+void	ft_triming(char **separ, size_t num_pipes, t_vars *vars, int one_comand)
 {
 	int	i;
 	int	i2;
 	int	i3;
 	char **temp;
-	char **mem;
 	int *sub_type;
 
-	mem = separ;
 	temp = malloc(sizeof(char *) * (num_pipes + 2));
 	// printf("sizeof%lu\n", sizeof(separ));
 	i = -1;
@@ -326,7 +347,9 @@ char	**ft_triming(char **separ, size_t num_pipes, t_vars *vars)
 	// free(mem[0]);
 // 	ft_free_double_arr(mem);
 	// temp[i] = NULL;
-	return(separ);
+	if (one_comand)
+		vars->split = separ;
+	// return(separ);
 }
 char **spliting(char *wololoco, int *type, size_t num_pipes, t_vars *vars)
 {
@@ -356,13 +379,16 @@ char **spliting(char *wololoco, int *type, size_t num_pipes, t_vars *vars)
 	// int i3;
 	// int *sub_type;
 
-	separ2 = ft_triming(separ, num_pipes, vars);
-	// while(i2 != -1)
-	// 	free(separ[i2--]);
+	ft_triming(separ, num_pipes, vars, 0);
+	// while(--i2 != 0)
+	// {
+	// 	free(separ[i2]);
+	// 	separ[i2] = NULL;
+	// }
 	// free(separ);
 	// for(i= 0; temp[i] != '\0'; i++)
 	// 	printf("%s\n", temp[i]);
- 	return(separ2);
+ 	return(separ);
 }
 int	ft_lastpipe(char *str)
 {
@@ -438,7 +464,8 @@ int main(void)
 	t_vars vars;
 
 	vars = (t_vars){};
-
+	vars.split = NULL;
+	vars.list = NULL;
 	//int i;
 	// char *finline;
 	// char **split;
@@ -473,7 +500,7 @@ int main(void)
 			// vars.split = malloc(sizeof(char *) * 2);
 			free(vars.type);
 			vars.type = NULL;
-			vars.split = ft_triming(&vars.line, 0, &vars);
+			ft_triming(&vars.line, 0, &vars, 1);
 			vars.split[1] = NULL;
 		}
 		ft_lst_cmd(&vars);
@@ -481,7 +508,9 @@ int main(void)
 		// free(vars.type);
 		// printf("\n\n\n ! check !\n\n\n");
 		free(vars.line);
+		vars.line = NULL;
 		free(vars.type);
+		// free(vars.split);
 		vars.type = NULL;
 // 		system("leaks minishell");
 
