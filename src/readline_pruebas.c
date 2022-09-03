@@ -7,6 +7,7 @@ void ft_del_list(t_list *list)
 {
 	t_list *last;
 	t_list *temp;
+
 	temp = list;
 	last = ft_lstlast(list);
 	while(1)
@@ -436,16 +437,33 @@ int	*ft_mask(char *line, t_vars *vars)
 		if(line[i] == vars->quotes[0])
 		{
 			type[i] = 1;
-			while (line[++i] != vars->quotes[0])
+			while (line[++i] != vars->quotes[0] && line[i] != '\0')
 				type[i] = 5;
+			if (line[i] == '\0')
+				{
+					printf("Not interpret unclosed quotes \n");
+					free(type);
+					if(vars->list)
+						ft_del_list(vars->list);
+					return(NULL);
+				}
 			type[i] = 1;
 		}
 		else if (line[i] == '"')
 		{
 			type[i] = 2;
-			while (line[++i] != '"')
+			while (line[++i] != '"' && line[i] != '\0')
 				type[i] = 6;
-			type[i] = 2;
+			if (line[i] == '\0')
+				{
+					printf("Not interpret unclosed quotes \n");
+					free(type);
+					if(vars->list)
+						ft_del_list(vars->list);
+					return(NULL);
+				}
+			else
+				type[i] = 2;
 		}
 		else if (line[i] == '|'  ) //&& line[i + 1] != '\0' && !ft_lastpipe(line + i + 1)
 			type[i] = 3; 
@@ -510,21 +528,20 @@ void ft_submain(t_vars * vars)
 		vars->line_len = ft_strlen(vars->line);
 		// printf("%zu\n", line_len	);sad
 		vars->type = ft_mask(vars->line, vars); //free
-		vars->num_pipes = ft_numpipes(vars->line, vars->type);
-		if (vars->num_pipes)
-			vars->split = spliting(vars->line, vars->type, vars->num_pipes, vars);
-		else
+		if (vars->type != NULL)
 		{
-			// vars->split = malloc(sizeof(char *) * 2);
-			free(vars->type);
-			vars->type = NULL;
-			ft_triming(&vars->line, 0, vars, 1);
-			vars->split[1] = NULL;
+			vars->num_pipes = ft_numpipes(vars->line, vars->type);
+			if (vars->num_pipes)
+				vars->split = spliting(vars->line, vars->type, vars->num_pipes, vars);
+			else
+			{
+				free(vars->type);
+				vars->type = NULL;
+				ft_triming(&vars->line, 0, vars, 1);
+				vars->split[1] = NULL;
+			}
+			ft_lst_cmd(vars);
 		}
-		ft_lst_cmd(vars);
-// 		ft_clear_list(vars->list);
-		// free(vars->type);
-		// printf("\n\n\n ! check !\n\n\n");
 		ft_end_of_cicle(vars);
 	}
 }
@@ -536,47 +553,8 @@ int main(void)
 	vars.split = NULL;
 	vars.list = NULL;
 	vars.line = NULL;
-	//int i;
-	// char *finline;
-	// char **split;
 	vars.quotes  = "'";
 	ft_submain(&vars);
 // 		system("leaks minishell");
-
-
-		// ft_test(&vars);
-
-		// printf("%s\n", vars.split[0]);
-		// i = -1;
-			// printf("%s\n", split[0]);
-
-		// while (split[++i])
-		// 	printf("%s\n", split[i]);
-		//-----------------------------------
-		// i = 0;
-		// finline = malloc(sizeof(char) * line_len + 1);
-		// int i2 = 0;
-		// while (wololo[i])
-		// {
-		// 	if (type[i] == 1 || type[i] == 2)
-		// 	{
-		// 		i++;
-		// 		continue ;
-		// 	}
-		// 	finline[i2] = wololo[i];
-		// 	i++;
-		// 	i2++;
-		// }
-		// finline[i2] = '\0';
-		//----------------------------------
-
-		// printf("%s\n", finline);
-		 // printf("%s\n", line_cop);
-		// for(i = 0; i < line_len; i++)
-		// 	printf("%d\n", type[i]);
-		// i = -1;
-		// while (split[++i] != NULL)
-		// 	free(split[i]);
-		// free(split);
 		return (0);
 }
