@@ -3,38 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josgarci <josgarci@student.42madrid>       +#+  +:+       +#+        */
+/*   By: mandriic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/24 10:33:41 by josgarci          #+#    #+#             */
-/*   Updated: 2022/01/16 12:07:17 by josgarci         ###   ########.fr       */
+/*   Created: 2021/10/01 16:33:58 by mandriic          #+#    #+#             */
+/*   Updated: 2021/10/01 16:34:03 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+static char	*ft_asign(char const *s, unsigned int start, size_t len, int size)
+{
+	char	*p;
+	size_t	count;
+
+	p = (char *)malloc(sizeof(char) * size + 1);
+	if (NULL == p)
+		return (0);
+	count = 0;
+	while (s[start] != '\0' && len != 0)
+	{
+		p[count] = s[start];
+		start++;
+		count++;
+		len--;
+	}
+	p[count] = '\0';
+	return (p);
+}
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	*str;
-	size_t	i;
-	size_t	len_s;
+	int		size;
 
-	i = 0;
 	if (!s)
-		return (0);
-	len_s = ft_strlen(s);
-	if (start >= len_s)
-		len = 0;
-	if (len > len_s)
-		len = len_s;
-	str = (char *)ft_calloc(sizeof(char) * (len + 1), sizeof(char));
-	if (str == NULL)
-		return (0);
-	if (len == 0)
-		return (str);
-	while (i < len && i + start < ft_strlen(s))
+		return (NULL);
+	if (ft_strlen(s) > start)
 	{
-		str[i] = s[start + i];
-		i++;
+		if (ft_strlen(s) >= start + len)
+			size = len;
+		else
+			size = ft_strlen(s) - start;
 	}
-	return (str);
+	else
+		return (ft_strdup(""));
+	return (ft_asign(s, start, len, size));
 }

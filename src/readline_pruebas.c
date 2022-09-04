@@ -45,10 +45,10 @@ char 	*ft_get_env(char *str, int len)
 	printf("valor %s\n", valor);
 	printf("str[mem] %c\n", str[mem]);
 
-	// if (str[mem + 1] == ' ')
-	// 	temp = ft_strjoin(valor, " ");
-	// else
-	temp = ft_strdup(valor);
+	if (str[mem + 1] == ' ')
+		temp = ft_strjoin(valor, " ");
+	else
+		temp = ft_strdup(valor);
 	return (temp);
 }
 char *ft_acumulate(char *dest, char *part)
