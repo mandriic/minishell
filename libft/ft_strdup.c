@@ -3,24 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josgarci <josgarci@student.42madrid>       +#+  +:+       +#+        */
+/*   By: mandriic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/23 13:32:46 by josgarci          #+#    #+#             */
-/*   Updated: 2021/10/02 12:47:10 by josgarci         ###   ########.fr       */
+/*   Created: 2021/10/01 12:12:26 by mandriic          #+#    #+#             */
+/*   Updated: 2021/10/01 12:12:30 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s1)
+char	*ft_strdup(const char *s)
 {
-	char	*ptr;
-	size_t	lens1;
+	char	*p;
+	int		count;
 
-	lens1 = ft_strlen(s1);
-	ptr = (char *)malloc(sizeof(char) * (lens1 + 1));
-	if (ptr == NULL)
+	p = malloc(sizeof(char) * ft_strlen(s) + 1);
+	if (NULL == p)
 		return (0);
-	ft_strlcpy(ptr, s1, lens1 + 1);
-	return (ptr);
+	count = 0;
+	while (s[count] != '\0')
+	{
+		p[count] = s[count];
+		count++;
+	}
+	p[count] = '\0';
+	return (p);
 }

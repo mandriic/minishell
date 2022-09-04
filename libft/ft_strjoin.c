@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josgarci <josgarci@student.42madrid>       +#+  +:+       +#+        */
+/*   By: mandriic <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/24 12:36:37 by josgarci          #+#    #+#             */
-/*   Updated: 2021/10/02 14:00:34 by josgarci         ###   ########.fr       */
+/*   Created: 2021/10/01 17:10:38 by mandriic          #+#    #+#             */
+/*   Updated: 2021/10/01 17:10:42 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,28 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*str;
-	size_t	i;
-	size_t	s1len;
-	size_t	s2len;
+	char	*p;
+	int		count;
+	int		count2;
 
-	if (!s2 && !s1)
+	if (!s1 || !s2)
 		return (0);
-	if (!s2)
-		return ((char *)s1);
-	if (!s1)
-		return ((char *)s2);
-	s1len = ft_strlen(s1);
-	s2len = ft_strlen(s2);
-	str = (char *)ft_calloc(sizeof(char) * (s1len + s2len + 1), sizeof(char));
-	if (!str)
+	p = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (NULL == p)
 		return (0);
-	i = -1;
-	while (++i < s1len)
-		str[i] = s1[i];
-	i = -1;
-	while (++i < s2len)
-		str[i + s1len] = s2[i];
-	return (str);
+	count = 0;
+	while (s1[count] != '\0')
+	{
+		p[count] = s1[count];
+		count++;
+	}
+	count2 = 0;
+	while (s2[count2] != '\0')
+	{
+		p[count] = s2[count2];
+		count++;
+		count2++;
+	}
+	p[count] = '\0';
+	return (p);
 }
