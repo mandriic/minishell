@@ -26,7 +26,7 @@ void ft_del_list(t_list *list)
 	
 }
 
-char 	*ft_get_env(char *str, int start, int len)
+char 	*ft_get_env(char *str, int len)
 {
 	char var[len];
 	char *valor;
@@ -34,7 +34,8 @@ char 	*ft_get_env(char *str, int start, int len)
 	int mem;
 
 	mem = len;
-	while (len != 0)
+	// len-=1;
+	while (len != -1)
 	{
 		var[len] = str[len--];
 	}
@@ -42,10 +43,12 @@ char 	*ft_get_env(char *str, int start, int len)
 	printf("var %s\n", var);
 	valor = getenv(var);
 	printf("valor %s\n", valor);
-	if (str[mem] != '\0')
-		temp = ft_strjoin(valor, " ");
-	else
-		temp = valor;
+	printf("str[mem] %c\n", str[mem]);
+
+	// if (str[mem + 1] == ' ')
+	// 	temp = ft_strjoin(valor, " ");
+	// else
+	temp = ft_strdup(valor);
 	return (temp);
 }
 char *ft_acumulate(char *dest, char *part)
@@ -72,14 +75,14 @@ char *ft_acumulate(char *dest, char *part)
 	// {
 		printf("CHARC2\n");
 		temp = ft_strjoin(dest, part);
-		if(dest)
+		if(dest != NULL)
 		{
 			printf("dest %s\n", dest);
 			free(dest);
 			// dest = NULL;
 		}
-		// if (part)
-		// 	free(part);
+		if (part != NULL)
+			free(part);
 		part = NULL;
 	// }
 	return (temp);
@@ -108,26 +111,30 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 				{
 					temp = ft_substr(str, start, i - start);
 					acum = ft_acumulate(acum, temp);
-					free(temp);
+					// free(temp);
 				}
 				start = i + 1;
 				while (str[i] != ' ' && str[i] != '\0' && str[i] != '"')
 					i++;
 				printf("i %d\n", i);
-				var = ft_get_env(str, start, i - start);
+				var = ft_get_env(str + start - 1, i - start);
 				start = i + 1;
 				acum = ft_acumulate(acum, var);
-				printf("accumulate %s\n", acum);
+				// printf("accumulate %s\n", acum);
 		}
-		if (str[i] != '\0')
-			i++;
+		// if (str[i] != '\0')
+		if (str[i] == '\0')
+			break;
+		i++;
 	}
-	temp = ft_substr(str, start, i - start);
+	printf("char %c\n", str[start - 1]);
+	temp = ft_substr(str, start - 1, i - start + 1);
 	printf("temp %s\n", temp);
+	printf("char %c\n", str[start] );
 	if (temp != NULL)
 		{
 			acum = ft_acumulate(acum, temp);
-			free(temp);
+			// free(temp);
 		}
 	free(type);
 	printf("accumulate2 %s\n", acum);
