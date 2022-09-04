@@ -65,14 +65,14 @@ char *ft_acumulate(char *dest, char *part)
 		return (dest);
 	}
 	printf("part %s\n", part);
-	// if (!dest)
-	// {
-	// 	printf("CHARC\n");
-	// 	temp = ft_strdup(part);
-	// 	free(part);
-	// }
-	// else
-	// {
+	if (!dest)
+	{
+		printf("CHARC\n");
+		temp = ft_strdup(part);
+		free(part);
+	}
+	else
+	{
 		printf("CHARC2\n");
 		temp = ft_strjoin(dest, part);
 		if(dest != NULL)
@@ -84,7 +84,7 @@ char *ft_acumulate(char *dest, char *part)
 		if (part != NULL)
 			free(part);
 		part = NULL;
-	// }
+	}
 	return (temp);
 }
 char	*ft_checkif_var(char *str, t_vars *vars)
@@ -120,7 +120,7 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 				var = ft_get_env(str + start - 1, i - start);
 				start = i + 1;
 				acum = ft_acumulate(acum, var);
-				// printf("accumulate %s\n", acum);
+				printf("accumulate %s\n", acum);
 		}
 		// if (str[i] != '\0')
 		if (str[i] == '\0')
