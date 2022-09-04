@@ -81,7 +81,7 @@ char *ft_acumulate(char *dest, char *part)
 			free(dest);
 			// dest = NULL;
 		}
-		if (part != NULL)
+		// if (part != NULL)
 			free(part);
 		part = NULL;
 	}
@@ -127,10 +127,11 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 			break;
 		i++;
 	}
-	printf("char %c\n", str[start - 1]);
-	temp = ft_substr(str, start - 1, i - start + 1);
+	// printf("char %c\n", str[start - 1]);
+	temp = ft_substr(str, start, i - start + 1); //start - 1
 	printf("temp %s\n", temp);
-	printf("char %c\n", str[start] );
+	// printf("char %c\n", str[start] );
+
 	if (temp != NULL)
 		{
 			acum = ft_acumulate(acum, temp);
