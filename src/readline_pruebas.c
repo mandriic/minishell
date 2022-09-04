@@ -25,92 +25,198 @@ void ft_del_list(t_list *list)
 	}
 	
 }
-void ft_free_double_arr(char **str)
+
+char 	*ft_get_env(char *str, int start, int len)
 {
-	int i = -1;
-	if (str[0])
+	char var[len];
+	char *valor;
+	char *temp;
+	int mem;
+
+	mem = len;
+	while (len != 0)
 	{
-		while (str[++i] != NULL)
-		{
-			if(str[i])
-				free(str[i]);
-		}
-		if (str)
-			free(str);
+		var[len] = str[len--];
 	}
+	var[mem] = '\0';
+	printf("var %s\n", var);
+	valor = getenv(var);
+	printf("valor %s\n", valor);
+	if (str[mem] != '\0')
+		temp = ft_strjoin(valor, " ");
+	else
+		temp = valor;
+	return (temp);
+}
+char *ft_acumulate(char *dest, char *part)
+{
+
+	int lenpart;
+	char *temp;
+
+
+	lenpart = ft_strlen(part);
+	if (lenpart == 0)
+	{
+		printf("lenpart %d\n", lenpart);
+		return (dest);
+	}
+	printf("part %s\n", part);
+	// if (!dest)
+	// {
+	// 	printf("CHARC\n");
+	// 	temp = ft_strdup(part);
+	// 	free(part);
+	// }
+	// else
+	// {
+		printf("CHARC2\n");
+		temp = ft_strjoin(dest, part);
+		if(dest)
+		{
+			printf("dest %s\n", dest);
+			free(dest);
+			// dest = NULL;
+		}
+		// if (part)
+		// 	free(part);
+		part = NULL;
+	// }
+	return (temp);
 }
 char	*ft_checkif_var(char *str, t_vars *vars)
 {
-	char *temp;
-	char *temp2;
-	char *temp4;
-	char *temp3;
-	char start;
-	// int *type;
+	int *type;
+	char *acum;
+	char *var;
 	int i;
+	int start;
+	char *temp;
+	char *test;
 
-	i = 0;   			//was -1 
+	i = 0;
 	start = 0;
-	(void) vars;
-	temp3 = NULL;
-	// type = ft_mask(str, vars);
-	if (str[0] == '"')
+	type  = ft_mask(str, vars);
+	acum = NULL;
+	temp = NULL;
+	printf("str full %s\n", str);
+	while (str[i] != '\0')
 	{
-		printf("str 0 %c\n", str[0]);
-		while (str[i] != '\0')
+		if (str[i] == '$' && (type[i] == 6 || type[i] == 0))
 		{
-			printf("str i %c\n", str[i]);
-			while (str[i] != '$' && str[i] != '\0')
-				i++;
-			// printf("%d\n", i);
-			// if (str[i] == '\0' && !temp3)
-			// 	return (str);
-			if ((str[i] == '$' && i != 0) || str[i] == '\0')
-			{
-				temp = ft_substr(str, start, i );
-				// printf("substr 1 %s\n", temp);
-				start = i + 1;
-				while (str[i] != ' ' && str[i] != '\0')
-					i++;
-				temp2 = ft_substr(str, start, i  - start);
-				start = i ;
-				// printf("sub str 2 %s\n", temp2);
-				if (str[i] == ' ')
-					temp4 = getenv(temp2);
-				else
-					temp4 = temp;
-				free(temp2);
-
-				// printf("getenv %s\n", temp4);
-				if (temp3 == NULL)
-					temp3 = ft_strjoin(temp, temp4);
-				else 
+				if (i - start != 0)
 				{
-					temp2 = temp3;
-					temp3 = ft_strjoin(temp3, temp4);
-					free(temp2);
+					temp = ft_substr(str, start, i - start);
+					acum = ft_acumulate(acum, temp);
+					free(temp);
 				}
-				// printf("join %s\n", temp3);
-				free(temp);
-				// free(temp4);
-				// if (str[i] == '\0')
-				// 	return (temp3);
-			}
-			i++;
-
+				start = i + 1;
+				while (str[i] != ' ' && str[i] != '\0' && str[i] != '"')
+					i++;
+				printf("i %d\n", i);
+				var = ft_get_env(str, start, i - start);
+				start = i + 1;
+				acum = ft_acumulate(acum, var);
+				printf("accumulate %s\n", acum);
 		}
-		return (temp3);
-
+		if (str[i] != '\0')
+			i++;
 	}
-	else if (str[0] == '$')
-	{
-		temp = getenv(str + 1);
-		// free(str);
-		return (temp);
-	}
-	else
-		return (str);
+	temp = ft_substr(str, start, i - start);
+	printf("temp %s\n", temp);
+	if (temp != NULL)
+		{
+			acum = ft_acumulate(acum, temp);
+			free(temp);
+		}
+	free(type);
+	printf("accumulate2 %s\n", acum);
+	return(acum);
 }
+// 	char *temp;
+// 	char *temp2;
+// 	char *temp4;
+// 	char *temp3;
+// 	char start;
+// 	int *type;
+// 	int i;
+
+// 	i = 0;   			//was -1 
+// 	start = 0;
+// 	(void) vars;
+// 	temp3 = NULL;
+// 	type = ft_mask(str, vars);
+// 	int q = -1;
+// 	int len;
+// 	printf("chechk\n");
+// 	printf("str %s\n", str);
+// 	len = sizeof(type) / sizeof(int);
+// 	while (++q <= len)
+// 		printf("char %c str [%d],TYPE %d\n", str[q], q, type[q]);
+	// if (str[0] == '"' )
+	// {
+	// 	printf("str 0 %c\n", str[0]);
+	// 	printf("str FULL %s\n", str);
+
+	// 	while (str[i] != '\0')
+	// 	{
+	// 		printf("str i %c i->%d\n", str[i], i);
+
+	// 		while (str[i] != '$' && str[i] != '\0')
+	// 			i++;
+	// 		printf("str i %c i->%d\n", str[i], i);
+
+	// 		// printf("%d\n", i);
+	// 		// if (str[i] == '\0' && !temp3)
+	// 		// 	return (str);
+	// 		if ((str[i] == '$' && i != 0) || str[i] == '\0') //if ((str[i] == '$' && i != 0) || str[i] == '\0')
+	// 		{
+	// 			temp = ft_substr(str, start, i);
+	// 			 printf("substr 1 %s\n", temp);
+	// 			start = i + 1;
+	// 			while (str[i] != ' ' && str[i] != '"' && str[i] != '\0')
+	// 				i++;
+	// 			temp2 = ft_substr(str, start, i  - start);
+	// 			start = i ;
+	// 			 printf("sub str 2 %s\n", temp2);
+	// 			if (str[i] == ' ')
+	// 				temp4 = getenv(temp2);
+	// 			else
+	// 				temp4 = temp;
+	// 			free(temp2);
+
+	// 			// printf("getenv %s\n", temp4);
+	// 			if (temp3 == NULL)
+	// 				temp3 = ft_strjoin(temp, temp4);
+	// 			else 
+	// 			{
+	// 				temp2 = temp3;
+	// 				temp3 = ft_strjoin(temp3, temp4);
+	// 				free(temp2);
+	// 			}
+	// 			// printf("join %s\n", temp3);
+	// 			free(temp);
+	// 			// free(temp4);
+	// 			// if (str[i] == '\0')
+	// 			// 	return (temp3);
+	// 		}
+	// 		if (str[i] != '\0')
+	// 			i++;
+	// 		else
+	// 			break ;
+	// 	}
+	// 	return (temp3);
+
+	// }
+	// else if (str[0] == '$')
+	// {
+	// 	temp = getenv(str + 1);
+	// 	// free(str);
+	// 	return (temp);
+	// }
+	// else
+	// 	// return (str);
+// }
 void	ft_split_args(t_data *data, t_vars *vars)
 {
 	int i;
@@ -190,6 +296,7 @@ void	ft_subpars(char *str, t_data *data, t_vars * vars)
 	// (void) vars;
 	int		i;
 	int		start;
+	char	*temp;
 
 	i = -1;   						//antes i = 0; leak was found
 	start = 0;
@@ -213,7 +320,9 @@ void	ft_subpars(char *str, t_data *data, t_vars * vars)
 		}
 		else
 		{
-			data->arg = ft_substr(str, start, i - start);
+			temp = ft_substr(str, start, i - start);
+		data->arg = ft_checkif_var(temp, vars);
+			free(temp);
 			start = i + 1;
 			if (str[i] == '<' && str[i + 1] == '<')
 			{
@@ -523,7 +632,7 @@ void ft_submain(t_vars * vars)
 			exit (0);
 		}
 
-		// add_history(vars->line); //solo añadir si es válido
+		add_history(vars->line); //solo añadir si es válido
 		// line_cop = ft_strdup(wololo);
 		vars->line_len = ft_strlen(vars->line);
 		// printf("%zu\n", line_len	);sad
