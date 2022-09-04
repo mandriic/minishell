@@ -40,10 +40,10 @@ char 	*ft_get_env(char *str, int len)
 		var[len] = str[len--];
 	}
 	var[mem] = '\0';
-	printf("var %s\n", var);
+	// printf("var %s\n", var);
 	valor = getenv(var);
-	printf("valor %s\n", valor);
-	printf("str[mem] %c\n", str[mem]);
+	// printf("valor %s\n", valor);
+	// printf("str[mem] %c\n", str[mem]);
 
 	if (str[mem + 1] == ' ')
 		temp = ft_strjoin(valor, " ");
@@ -61,23 +61,23 @@ char *ft_acumulate(char *dest, char *part)
 	lenpart = ft_strlen(part);
 	if (lenpart == 0)
 	{
-		printf("lenpart %d\n", lenpart);
+		// printf("lenpart %d\n", lenpart);
 		return (dest);
 	}
-	printf("part %s\n", part);
+	// printf("part %s\n", part);
 	if (!dest)
 	{
-		printf("CHARC\n");
+		// printf("CHARC\n");
 		temp = ft_strdup(part);
 		free(part);
 	}
 	else
 	{
-		printf("CHARC2\n");
+		// printf("CHARC2\n");
 		temp = ft_strjoin(dest, part);
 		if(dest != NULL)
 		{
-			printf("dest %s\n", dest);
+			// printf("dest %s\n", dest);
 			free(dest);
 			// dest = NULL;
 		}
@@ -116,11 +116,11 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 				start = i + 1;
 				while (str[i] != ' ' && str[i] != '\0' && str[i] != '"')
 					i++;
-				printf("i %d\n", i);
+				// printf("i %d\n", i);
 				var = ft_get_env(str + start - 1, i - start);
 				start = i + 1;
 				acum = ft_acumulate(acum, var);
-				printf("accumulate %s\n", acum);
+				// printf("accumulate %s\n", acum);
 		}
 		// if (str[i] != '\0')
 		if (str[i] == '\0')
@@ -128,8 +128,8 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 		i++;
 	}
 	// printf("char %c\n", str[start - 1]);
-	temp = ft_substr(str, start, i - start + 1); //start - 1
-	printf("temp %s\n", temp);
+	temp = ft_substr(str, start - 1, i - start + 1); //start - 1
+	// printf("temp %s\n", temp);
 	// printf("char %c\n", str[start] );
 
 	if (temp != NULL)
@@ -138,7 +138,7 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 			// free(temp);
 		}
 	free(type);
-	printf("accumulate2 %s\n", acum);
+	// printf("accumulate2 %s\n", acum);
 	return(acum);
 }
 // 	char *temp;
@@ -419,12 +419,16 @@ void ft_lst_cmd(t_vars *vars)
 		temp = temp->next;
 
 	}
+
 	temp = vars->list;
 	while (temp)
 	{
 		 printf("print puntero from list ->%s\n", ((t_data *)temp->content)->cmd_arg_full);
 		temp = temp->next;
 	}
+	while (i != -1)
+		free(vars->split[i--]);
+	free(vars->split);
 
 }
 size_t ft_numpipes(char *wololoco, int *type)
@@ -484,6 +488,7 @@ void	ft_triming(char **separ, size_t num_pipes, t_vars *vars, int one_comand)
 	// temp[i] = NULL;
 	if (one_comand)
 		vars->split = separ;
+	
 	// return(separ);
 }
 char **spliting(char *wololoco, int *type, size_t num_pipes, t_vars *vars)
