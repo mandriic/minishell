@@ -8,10 +8,20 @@
 
 typedef struct s_data
 {
+	int					num_cmds;
+	int					num_pipes;
+	int					last_code;
+	struct s_command	*cmd_list;
+	char				**envp_copy;
+	char				**export;
+}	t_data;
+
+typedef struct s_command
+{
 	char	**cmd_splited; //data->cmd_splited[0] [1] - args
-	char 	*cmd_arg_full;
-	char	**arg_splited;
-	char	*command;
+	char 	*comando_con_flags;
+	char	**comando_bonito;
+	char	*comando_a_pelo;
 	char	*arg;
 	int		menos;
 	int		menos_dob;
@@ -19,7 +29,7 @@ typedef struct s_data
 	int		mas_dob;
 	char 	*sub_arg;
 	t_list	*prev;
-}t_data;
+}t_command;
 
 typedef struct s_vars
 {
