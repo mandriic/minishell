@@ -1,51 +1,127 @@
-#include "../inc/minishell.h"
+#include <stdio.h>
+#include <unistd.h>
+#include "../libft/libft.h"
 
-void leakss()
+size_t	ft_strlen(const char *s)
 {
-	system("leaks minishell");
+	int	i;
+
+	if (!s)
+		return (0);
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }
 
-void	ft_prompt(void)
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	char *input;
-	while (1)
+	size_t	i;
+	size_t	srclen;
+
+	i = 0;
+	srclen = ft_strlen(src);
+	if (dstsize == 0)
+		return (srclen);
+	while (src[i] && i < (dstsize - 1) && dstsize != 0)
 	{
-		input = leelinea();
-		if (!ft_strncmp ("exit", input, ft_strlen(input)))
-		{
-			write(1, "exit\n", 5);
-			exit (0);
-		}
-		free (input);
+		dst[i] = src[i];
+		i++;
 	}
+	dst[i] = '\0';
+	return (srclen);
 }
 
-void	ft_ctrl_c_handler(int signal)
+char	*ft_strdup(const char *s1)
 {
-	(void)signal;
-	// implementar para cuando se  esté en un proceso hijo 
-	// que se quiera detener
-	write(1, "\r\n", 2);
-	ft_prompt();
-	
+	char	*ptr;
+	size_t	lens1;
+
+	lens1 = ft_strlen(s1);
+	ptr = (char *)malloc(sizeof(char) * (lens1 + 1));
+	if (ptr == NULL)
+		return (0);
+	ft_strlcpy(ptr, s1, lens1 + 1);
+	return (ptr);
+}
+
+int	ft_matrix_len(char **matrix)
+{
+	int	i;
+
+	if (matrix == NULL)
+		return (0);
+	i = 0;
+	while (matrix[i])
+	{
+		i++;
+	}
+	return (i);
+}
+
+void	ft_print_matrix(char **matrix, int fd)
+{
+	int i;
+(void)fd;
+	if (!matrix)
+		return ;
+	i = 0;
+	while (matrix[i])
+	{
+		printf("%d\t%s\n", i, matrix[i]);
+        free(matrix[i]);
+		i++;
+	}
+    free(matrix);
 	return ;
 }
 
-void	ft_define_sigaction(struct sigaction *sa)
+void	ft_delete_line_index_from_matrix(char ***matrix, int index)
 {
-	sa->sa_handler = &ft_ctrl_c_handler;
-	sigaction(SIGINT, sa, NULL);
+	char	**aux;
+	int		i;
+	int		j;
+	int		len_matrix;
+
+	len_matrix = ft_matrix_len(*matrix);
+	aux = malloc(sizeof(char *) * len_matrix);
+	if (aux == NULL)
+		return ;
+	aux[len_matrix - 1] = NULL;
+	i = 0;
+	j = 0;
+	while (i < len_matrix)
+	{
+		if (i != index)
+		{   
+			aux[j] = ft_strdup((*matrix)[i]);
+			j++;
+		}
+		i++;
+	}
+    free(*matrix);
+	*matrix = aux;
 }
 
-int	main()
+void leaks(void)
 {
-// atexit(leakss)
+    system("leaks -fullContent --list a.out");
+}
+int main(int argc, char *argv[])
+{
+    atexit(leaks);
+    int i = 0;
+    char **aux;
+    aux = malloc(sizeof (char *) * argc);
+    aux[argc] = NULL;
+    while (argv[i])
+    {
+        aux[i] = argv[i];
+        i++;
+    }
+    int index = 1;
+    ft_delete_line_index_from_matrix(&aux, index);
+    ft_print_matrix(aux, 1);
 
-	struct sigaction	sa;
-
-	ft_define_sigaction(&sa);
-	ft_prompt();
-	
-
-	return (0);
+    return (0);
 }

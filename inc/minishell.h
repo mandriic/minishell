@@ -1,10 +1,21 @@
-#include "../libft/libft.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>	
-#include <dirent.h>
-#include <signal.h>
+#ifndef MINISHELL_H
+# define MINISHELL_H
+
+# include "../libft/libft.h"
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <readline/readline.h>
+# include <readline/history.h>	
+# include <signal.h>
+# include <errno.h>
+# include <fcntl.h>
+# include <stdbool.h>
+# include <sys/wait.h>//para linux funcion wait
+# include <sys/param.h>
+# include <string.h>
+
+//no hay nada preparado para $_ (el último comando utilizado, se guarda en las variables de entorno)
 
 typedef struct s_data
 {
@@ -42,8 +53,81 @@ typedef struct s_vars
 	
 	size_t 	num_pipes;
 	size_t	line_len;
+}	t_vars;
+
+typedef struct s_command
+{
+	char		*comando_a_pelo;
+	char		*comando_con_flags;
+	char		**comando_bonito;
+	char		**infiles;
+	char		**outfiles;
+	int			fd[2];
+	struct s_command	*next;
+	struct s_command	*prev;
+
+}	t_command;
+
+extern t_data	g_data;
+
+char	*leelinea(void);
+void	ft_cd(char *route);
+
+/* pwd.c */
+
+char	**ft_copy_enviroment_vars_into_matrix(char *envp_original[]);
+void	ft_free_array(char **envp_copy);
+void	ft_free_list(t_list *lst);
+t_list	**ft_copy_enviroment_vars_into_list(t_list **env_copy, char **envp);
+void	ft_print_list(t_list *env_copy);
+void	ft_pwd(char **env);
+void	ft_pwd_2(void);
+
+/* execve.c */
+char	**ft_copy_enviroment_vars_into_matrix(char *envp_original[]);
+char	*ft_get_path_to_execve(char **envp, char *arg);
+void	ft_execute(char *path_to_execve, char **args, char **envp_copy);
+
+/* hardcoded.c */
+t_command	*dar_datos_a_los_cmd();
+
+/* aux_functions.c */
+void	ft_error_exit(char *err_msg);
+void	ft_free_nodes(t_command *cmd);
+void	ft_preliminar_check(int argc, char *argv[]);
+int		ft_strchr_index(char *str, char c);
+int		ft_env_var_key_len(char *env_var);
+void	ft_print_matrix(char **matrix, int fd);
+int		ft_matrix_len(char **matrix);
 
 
-}t_vars;
+// }t_vars;
 void ft_test(t_vars *vars);
 char	*leelinea(void);
+void leaks ();
+
+/* pipe.c */
+void	ft_close_pipes(t_command *cmd);
+void	ft_dup_infile(t_command *cmd);
+void	ft_dup_outfile(t_command *cmd);
+void	ft_redirections(t_command *cmd);
+
+/* multiple_pipes */
+void	ft_multiple_pipes(void);
+
+/* builtins.c */
+void	ft_echo_builtin(t_command cmd);
+void	ft_cd_builtin(t_command cmd);
+void	ft_pwd_builtin(t_command cmd);
+int	ft_export_builtin(t_command cmd);
+void	ft_unset_builtin(t_command cmd, t_data *g_data);
+void	ft_env_builtin(t_command cmd);
+void	ft_exit_builtin(t_command cmd);
+
+bool	ft_is_builtin(t_command cmd);
+void	ft_execute_buitlin(t_command cmd);
+
+/* export.c */
+int	ft_check_existing_variable_in_matrix(char **matrix, char *var_name, int *index);
+
+#endif
