@@ -1,0 +1,28 @@
+total 80
+drwxr-xr-x  15 mandriic  2019    510 Jul  3 13:51 .
+drwxr-xr-x@  9 mandriic  2019    306 Jun  3 18:48 ..
+drwxr-xr-x  15 mandriic  2019    510 Jul  2 10:14 .git
+-rw-r--r--   1 mandriic  2019    460 Jun 26 17:21 .gitignore
+-rw-r--r--   1 mandriic  2019   1294 Jul  2 09:15 Makefile
+-rw-r--r--   1 mandriic  2019     77 Jun 26 09:55 Notas
+-rw-r--r--   1 mandriic  2019     11 Jun  3 18:48 README.md
+drwxr-xr-x   3 mandriic  2019    102 Jul  3 11:30 bin
+-rw-r--r--   1 mandriic  2019      0 Jul  3 13:51 file
+drwxr-xr-x   3 mandriic  2019    102 Jul  2 09:14 inc
+drwxr-xr-x  49 mandriic  2019   1666 Jun 26 18:42 libft
+-rwxr-xr-x   1 mandriic  2019  14768 Jul  3 11:30 minishell
+-rw-r--r--   1 mandriic  2019    448 Jun 26 17:21 readline.c
+-rw-r--r--@  1 mandriic  2019   1814 Jun 26 17:22 readline_pruebas.c
+drwxr-xr-x   6 mandriic  2019    204 Jul  2 09:15 src
+Makefile
+Notas
+README.md
+bin
+file
+inc
+libft
+ls
+minishell
+readline.c
+readline_pruebas.c
+src

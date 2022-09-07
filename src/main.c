@@ -29,12 +29,11 @@ void	ft_initialize_global_var(char **envp)
 	g_data.last_code = 0;
 }
 
-int main(int argc, char *argv[], char *envp[])
+void to_while_jose(t_vars *vars)
 {
 	// atexit(leaks);
 
-	ft_preliminar_check(argc, argv);
-	ft_initialize_global_var(envp);
+
 	if (g_data.num_cmds > 1)
 		ft_multiple_pipes();
 	else
@@ -53,6 +52,6 @@ int main(int argc, char *argv[], char *envp[])
 	No hay control de buildins
 	 */
 	
-	return (0);
+
 }
 

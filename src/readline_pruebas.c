@@ -38,18 +38,22 @@ char 	*ft_get_env(char *str, int len)
 	// len-=1;
 	while (len != -1)
 	{
-		var[len] = str[len--];
+		var[len] = str[len];
+		len--;
+		// printf("var%c", var[len + 1]);
 	}
 	var[mem] = '\0';
 	// printf("var %s\n", var);
 	valor = getenv(var);
-	// printf("valor %s\n", valor);
+	printf("valor %s\n", valor);
 	// printf("str[mem] %c\n", str[mem]);
 
-	if (str[mem + 1] == ' ')
+	if (str[mem + 1] == ' ' && valor != NULL)
 		temp = ft_strjoin(valor, " ");
-	else
+	else if (valor != NULL)
 		temp = ft_strdup(valor);
+	else
+		return (NULL);
 	return (temp);
 }
 char *ft_acumulate(char *dest, char *part)
@@ -119,8 +123,10 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 					i++;
 				// printf("i %d\n", i);
 				var = ft_get_env(str + start - 1, i - start);
-				start = i + 1;
-				acum = ft_acumulate(acum, var);
+
+					start = i + 1;
+					acum = ft_acumulate(acum, var);
+
 				// printf("accumulate %s\n", acum);
 		}
 		// if (str[i] != '\0')
@@ -142,7 +148,7 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 	if (temp != NULL)
 		{
 			acum = ft_acumulate(acum, temp);
-			// free(temp);
+			free(temp);
 		}
 	free(type);
 	// printf("accumulate2 %s\n", acum);
@@ -663,6 +669,8 @@ void ft_submain(t_vars * vars)
 			write(1, "exit\n", 5);
 			free(vars->type);
 			free(vars->line);
+			system("leaks minishell");
+
 			exit (0);
 		}
 
@@ -684,11 +692,12 @@ void ft_submain(t_vars * vars)
 				// vars->split[1] = NULL;
 			}
 			ft_lst_cmd(vars);
+			ft_to_while_jose(t_vars *vars);// aqui codico de Jose
 		}
 		ft_end_of_cicle(vars);
 	}
 }
-int main(void)
+int main(int argc, char **argv, char **envp)
 {
 	t_vars vars;
 
@@ -697,7 +706,8 @@ int main(void)
 	vars.list = NULL;
 	vars.line = NULL;
 	vars.quotes  = "'";
+	ft_preliminar_check(argc, argv);
+	ft_initialize_global_var(envp);
 	ft_submain(&vars);
-// 		system("leaks minishell");
 		return (0);
 }

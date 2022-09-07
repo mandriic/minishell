@@ -19,12 +19,12 @@
 
 typedef struct s_data
 {
-	int					num_cmds;
-	int					num_pipes;
+	int					num_cmds; // numpipes
+	int					num_pipes; //juntar con numcmd
 	int					last_code;
 	struct s_command	*cmd_list;
 	char				**envp_copy;
-	char				**export;
+	char				**export;  //ft_copy_enviroment_vars_into_matrix(envp);
 }	t_data;
 
 typedef struct s_command
@@ -39,7 +39,11 @@ typedef struct s_command
 	int		mas;
 	int		mas_dob;
 	char 	*sub_arg;
-	t_list	*prev;
+	char		**infiles;
+	char		**outfiles;
+	int			fd[2];
+	struct s_command	*next;
+	t_list	*prev_; // se puede quitar
 }t_command;
 
 typedef struct s_vars
@@ -55,18 +59,18 @@ typedef struct s_vars
 	size_t	line_len;
 }	t_vars;
 
-typedef struct s_command
-{
-	char		*comando_a_pelo;
-	char		*comando_con_flags;
-	char		**comando_bonito;
-	char		**infiles;
-	char		**outfiles;
-	int			fd[2];
-	struct s_command	*next;
-	struct s_command	*prev;
+// typedef struct s_command
+// {
+	// char		*comando_a_pelo;
+	// char		*comando_con_flags;
+	// char		**comando_bonito;
+	// char		**infiles;
+	// char		**outfiles;
+	// int			fd[2];
+	// struct s_command	*next;
+	// struct s_command	*prev;
 
-}	t_command;
+// }	t_command;
 
 extern t_data	g_data;
 
@@ -129,5 +133,7 @@ void	ft_execute_buitlin(t_command cmd);
 
 /* export.c */
 int	ft_check_existing_variable_in_matrix(char **matrix, char *var_name, int *index);
+
+void to_while_jose(t_vars *vars); //main.c
 
 #endif
