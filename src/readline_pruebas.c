@@ -692,7 +692,7 @@ void ft_submain(t_vars * vars)
 				// vars->split[1] = NULL;
 			}
 			ft_lst_cmd(vars);
-			ft_to_while_jose(t_vars *vars);// aqui codico de Jose
+			ft_to_while_jose(vars);// aqui codico de Jose
 		}
 		ft_end_of_cicle(vars);
 	}
@@ -707,7 +707,7 @@ int main(int argc, char **argv, char **envp)
 	vars.line = NULL;
 	vars.quotes  = "'";
 	ft_preliminar_check(argc, argv);
-	ft_initialize_global_var(envp);
+	ft_initialize_global_var(envp); //transport to t_vars *vars
 	ft_submain(&vars);
 		return (0);
 }
