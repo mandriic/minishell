@@ -17,6 +17,8 @@ void ft_del_list(t_list *list)
 		free(((t_data *)list->content)->cmd_list->arg);
 		free(((t_data *)list->content)->cmd_list->cmd_splited);
 		// free(((t_data *)list->content)->cmd_list->comando_con_flags);
+		if (((t_data *)list->content)->cmd_list->sub_arg)
+			free(((t_data *)list->content)->cmd_list->sub_arg);
 		free(((t_data *)list->content)->cmd_list);
 		free(list->content);
 		free(list);
@@ -43,7 +45,7 @@ char 	*ft_get_env(char *str, int len)
 	var[mem] = '\0';
 	// printf("var %s\n", var);
 	valor = getenv(var);
-	// printf("valor %s\n", valor);
+	printf("valor %s\n", valor);
 	// printf("str[mem] %c\n", str[mem]);
 
 	if (str[mem + 1] == ' ')
@@ -106,7 +108,7 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 	printf("args only %s\n", str);
 	while (str[i] != '\0')
 	{
-		if (str[i] == '$' && (type[i] == 6 || type[i] == 0))
+		if (str[i] == '$' && (type[i] == 6 || type[i] == 0) && str [i + 1] != ' ')
 		{
 				if (i - start != 0)
 				{
@@ -242,7 +244,7 @@ void	ft_split_args(t_command *data, t_vars *vars)
 	size_t len;
 
 	len = ft_strlen(data->arg);
-	i = -1;
+	i = 0;
 	i2 = 0;
 	start = 0;
 	type = ft_mask(data->arg, vars);
@@ -254,7 +256,8 @@ void	ft_split_args(t_command *data, t_vars *vars)
 		data->comando_bonito = malloc (sizeof(char *) * (i2 + 2));     ///free
 		i = -1;
 		i2 = 0;
-	printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!check\n");
+	// printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!check\n");
+			// printf("!!!!!!!!!!!!!!!!!!!!!!!arg[i]%c\n", data->arg[i]); 
 
 		while(data->arg[++i])
 		{
@@ -269,7 +272,7 @@ void	ft_split_args(t_command *data, t_vars *vars)
 				// data->comando_bonito[i2] = malloc (sizeof (char) * i + 1);
 				data->comando_bonito[i2++] = ft_substr(data->arg, start, i);
 				start = i + 1;
-				printf("solo flag\t|%s\n", data->comando_bonito[i2 - 1]);
+				// printf("solo flag\t|%s\n", data->comando_bonito[i2 - 1]);
 				// data->comando_bonito[i2++] = '\0';
 			}
 			// printf("im i%d\n", i);
@@ -298,6 +301,8 @@ void	ft_split_args(t_command *data, t_vars *vars)
 			}
 			// printf("first i\t|%c\n", data->arg[i]);
 			// printf("first arg\t|%s\n", data->comando_bonito[i2]);
+			if (!data->arg[i])
+				break ;
 		}
 		while(i2 != 0)
 		{
@@ -337,9 +342,9 @@ void	ft_subpars(char *str, t_command *data, t_vars * vars)
 		else
 		{
 			temp = ft_substr(str, start, i - start);
-			printf("temp %s\n", temp);
+			// printf("temp %s\n", temp);
 			data->arg = ft_checkif_var(temp, vars);
-			printf("data->arg %s\n", data->arg);
+			// printf("data->arg %s\n", data->arg);
 			free(temp);
 			start = i + 1;
 			if (str[i] == '<' && str[i + 1] == '<')
@@ -420,7 +425,7 @@ void ft_lst_cmd(t_vars *vars)
 		{
 			vars->list = ft_lstnew((t_data *)vars_data);
 			data->prev = NULL;
-			printf("lsst_cmd %s\n", ((t_data *)vars->list->content)->cmd_list->comando_con_flags);
+			// printf("lsst_cmd %s\n", ((t_data *)vars->list->content)->cmd_list->comando_con_flags);
 			temp = vars->list;
 		}
 		else 
@@ -439,7 +444,7 @@ void ft_lst_cmd(t_vars *vars)
 		 printf("print puntero from list ->%s\n", ((t_data *)temp->content)->cmd_list->comando_con_flags);
 		temp = temp->next;
 	}
-	printf("I%d",i);
+	// printf("I%d",i);
 	if (i != 1)
 	{
 		while (i != -1) // -1
@@ -502,7 +507,7 @@ void	ft_triming(char **separ, size_t num_pipes, t_vars *vars, int one_comand)
 	// free(mem[0]);
 // 	ft_free_double_arr(mem);
 	// temp[i] = NULL;
-	printf("i2%d\n",i);
+	// printf("i2%d\n",i);
 	if (one_comand)
 	{
 
@@ -559,7 +564,7 @@ int	ft_lastpipe(char *str)
 	while (str[++i])
 		if (str[i] == '|')
 			return (0);
-	printf("%c\n", str[i]);
+	// printf("%c\n", str[i]);
 	return (1);
 }
 int	*ft_mask(char *line, t_vars *vars)
