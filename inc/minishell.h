@@ -39,6 +39,10 @@ typedef struct s_vars
 	char	*line;
 	int		*type;
 	char	*env_var;
+	int		i;
+	char	*temp;
+	int		start;
+	char	*var;
 	
 	size_t 	num_pipes;
 	size_t	line_len;
