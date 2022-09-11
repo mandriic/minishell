@@ -1,12 +1,13 @@
 #include "../inc/minishell.h"
 int	*ft_mask(char *line, t_vars *vars);
 int	ft_lastpipe(char *str);
-void ft_end_of_cicle(t_vars *vars);
-void ft_submain(t_vars * vars);
-void ft_del_list(t_list *list)
+void	ft_end_of_cicle(t_vars *vars);
+void	ft_submain(t_vars * vars);
+
+void	ft_del_list(t_list *list)
 {
-	t_list *last;
-	t_list *temp;
+	t_list	*last;
+	t_list	*temp;
 
 	temp = list;
 	last = ft_lstlast(list);
@@ -29,20 +30,23 @@ void ft_del_list(t_list *list)
 	
 }
 
-char 	*ft_get_env(char *str, int len)
+char	*ft_get_env(char *str, int len)
 {
-	char var[len];
-	char *valor;
-	char *temp;
-	int mem;
+	char	var[len];
+	char	*valor;
+	char	*temp;
+	int 	mem;
 
 	mem = len;
 	// len-=1;
-	while (len != -1)
+	while (len + 1 != -1)
 	{
-		var[len] = str[len--];
+		var[len] = str[len + 1];
+		// printf("var[len] %c str [len--] %c\n", var[len], str[len]);
+		len--;
 	}
 	var[mem] = '\0';
+	printf("VAR %s\n",var);
 	// printf("var %s\n", var);
 	valor = getenv(var);
 	printf("valor %s\n", valor);
@@ -54,12 +58,11 @@ char 	*ft_get_env(char *str, int len)
 		temp = ft_strdup(valor);
 	return (temp);
 }
-char *ft_acumulate(char *dest, char *part)
+
+char	*ft_acumulate(char *dest, char *part)
 {
-
-	int lenpart;
-	char *temp;
-
+	int		lenpart;
+	char	*temp;
 
 	lenpart = ft_strlen(part);
 	if (lenpart == 0)
@@ -90,160 +93,81 @@ char *ft_acumulate(char *dest, char *part)
 	}
 	return (temp);
 }
-char	*ft_checkif_var(char *str, t_vars *vars)
+void	ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars)
 {
-	int *type;
-	char *acum;
-	char *var;
-	int i;
-	int start;
-	char *temp;
-	char *test;
-
-	i = 0;
-	start = 0;
-	type  = ft_mask(str, vars);
-	acum = NULL;
-	temp = NULL;
-	printf("args only %s\n", str);
-	while (str[i] != '\0')
+	vars->i = 0;
+	// vars->start = 0;
+	while (str[vars->i] != '\0')
 	{
-		if (str[i] == '$' && (type[i] == 6 || type[i] == 0) && str [i + 1] != ' ')
+		if (str[vars->i] == '$' && (type[vars->i] == 6 || type[vars->i] == 0) && str[vars->i + 1] != ' ')
 		{
-				if (i - start != 0)
+				if (vars->i - vars->start != 0)
 				{
-					temp = ft_substr(str, start, i - start);
-					acum = ft_acumulate(acum, temp);
+					vars->temp = ft_substr(str, vars->start, vars->i - vars->start);
+					*acum = ft_acumulate(*acum, vars->temp);
 					// free(temp);
 				}
-				start = i + 1;
-				while (str[i] != ' ' && str[i] != '\0' && str[i] != '"')
-					i++;
-				// printf("i %d\n", i);
-				var = ft_get_env(str + start - 1, i - start);
-				start = i + 1;
-				acum = ft_acumulate(acum, var);
+				vars->start = vars->i + 1;
+				while (str[vars->i] != ' ' && str[vars->i] != '\0' && str[vars->i] != '"')
+					vars->i++;
+				// printf("*i%d\n", i);
+				vars->var = ft_get_env(str + vars->start - 1, vars->i - vars->start);
+				vars->start = vars->i + 1;
+				*acum = ft_acumulate(*acum, vars->var);
 				// printf("accumulate %s\n", acum);
 		}
-		// if (str[i] != '\0')
-		if (str[i] == '\0')
+		// if (str[*i] != '\0')
+		if (str[vars->i] == '\0')
 			break;
-		i++;
+		vars->i++;
 	}
-	if (acum == NULL)
+}
+char	*ft_checkif_var(char *str, t_vars *vars)
+{
+	int		*type;
+	char	*acum;
+	char	*temp;
+
+	vars->start = 0;
+	type = ft_mask(str, vars);
+	acum = NULL;
+	// temp = NULL;
+	printf("args only %s\n", str);
+	ft_checkif_var_subfoo(str, &acum, type, vars);
+	if (acum == NULL || str[vars->start - 1] == '\0')
 	{
 			free(type);
+			if (str[vars->start - 1] == '\0' && acum != NULL)
+				return (acum);
 			return(ft_strdup(str));
-
 	}
-	// printf("char %c\n", str[start - 1]);
-	temp = ft_substr(str, start - 1, i - start + 1); //start - 1
-	// printf("temp %s\n", temp);
+	// printf("char %c\n", str[vars->start - 1]);
+	temp = ft_substr(str, vars->start - 1, vars->i - vars->start + 1); //start - 1
+	printf("temp %s\n", temp);
+	printf("accum %s\n", acum);
 	// printf("char %c\n", str[start] );
-
 	if (temp != NULL)
 		{
 			acum = ft_acumulate(acum, temp);
 			// free(temp);
 		}
+	// else
+	// 	free(temp);
 	free(type);
 	// printf("accumulate2 %s\n", acum);
 	return(acum);
 }
-// 	char *temp;
-// 	char *temp2;
-// 	char *temp4;
-// 	char *temp3;
-// 	char start;
-// 	int *type;
-// 	int i;
 
-// 	i = 0;   			//was -1 
-// 	start = 0;
-// 	(void) vars;
-// 	temp3 = NULL;
-// 	type = ft_mask(str, vars);
-// 	int q = -1;
-// 	int len;
-// 	printf("chechk\n");
-// 	printf("str %s\n", str);
-// 	len = sizeof(type) / sizeof(int);
-// 	while (++q <= len)
-// 		printf("char %c str [%d],TYPE %d\n", str[q], q, type[q]);
-	// if (str[0] == '"' )
-	// {
-	// 	printf("str 0 %c\n", str[0]);
-	// 	printf("str FULL %s\n", str);
-
-	// 	while (str[i] != '\0')
-	// 	{
-	// 		printf("str i %c i->%d\n", str[i], i);
-
-	// 		while (str[i] != '$' && str[i] != '\0')
-	// 			i++;
-	// 		printf("str i %c i->%d\n", str[i], i);
-
-	// 		// printf("%d\n", i);
-	// 		// if (str[i] == '\0' && !temp3)
-	// 		// 	return (str);
-	// 		if ((str[i] == '$' && i != 0) || str[i] == '\0') //if ((str[i] == '$' && i != 0) || str[i] == '\0')
-	// 		{
-	// 			temp = ft_substr(str, start, i);
-	// 			 printf("substr 1 %s\n", temp);
-	// 			start = i + 1;
-	// 			while (str[i] != ' ' && str[i] != '"' && str[i] != '\0')
-	// 				i++;
-	// 			temp2 = ft_substr(str, start, i  - start);
-	// 			start = i ;
-	// 			 printf("sub str 2 %s\n", temp2);
-	// 			if (str[i] == ' ')
-	// 				temp4 = getenv(temp2);
-	// 			else
-	// 				temp4 = temp;
-	// 			free(temp2);
-
-	// 			// printf("getenv %s\n", temp4);
-	// 			if (temp3 == NULL)
-	// 				temp3 = ft_strjoin(temp, temp4);
-	// 			else 
-	// 			{
-	// 				temp2 = temp3;
-	// 				temp3 = ft_strjoin(temp3, temp4);
-	// 				free(temp2);
-	// 			}
-	// 			// printf("join %s\n", temp3);
-	// 			free(temp);
-	// 			// free(temp4);
-	// 			// if (str[i] == '\0')
-	// 			// 	return (temp3);
-	// 		}
-	// 		if (str[i] != '\0')
-	// 			i++;
-	// 		else
-	// 			break ;
-	// 	}
-	// 	return (temp3);
-
-	// }
-	// else if (str[0] == '$')
-	// {
-	// 	temp = getenv(str + 1);
-	// 	// free(str);
-	// 	return (temp);
-	// }
-	// else
-	// 	// return (str);
-// }
 void	ft_split_args(t_command *data, t_vars *vars)
 {
-	int i;
-	int i2;
-	int start;
-	int *type;
-	char *test;
-	size_t len;
+	int		i;
+	int		i2;
+	int		start;
+	int		*type;
+	// char	*test;
+	// size_t	len;
 
-	len = ft_strlen(data->arg);
+	// len = ft_strlen(data->arg);
 	i = 0;
 	i2 = 0;
 	start = 0;
@@ -522,7 +446,7 @@ char **spliting(char *wololoco, int *type, size_t num_pipes, t_vars *vars)
 	int i = -1;
 	int i2 = 0;
 	char **separ;
-	char **separ2;
+	// char **separ2;
 	int start = 0;
 	
 	separ = malloc(sizeof(char *) * (num_pipes + 2));
@@ -651,6 +575,9 @@ void ft_end_of_cicle(t_vars *vars)
 		free(vars->type);
 		// free(vars.split);
 		vars->type = NULL;
+		// free(vars->temp);
+		// vars->temp = NULL;
+
 }
 void ft_submain(t_vars * vars)
 {
