@@ -35,25 +35,38 @@ char	*ft_get_env(char *str, int len)
 	char	var[len];
 	char	*valor;
 	char	*temp;
-	int 	mem;
+	// int 	mem;
+	int 	i;
 
-	mem = len;
-	// len-=1;
-	while (len + 1 != -1)
+	i = -1;
+	// mem = len;
+	while (++i != len)
 	{
-		var[len] = str[len + 1];
-		// printf("var[len] %c str [len--] %c\n", var[len], str[len]);
-		len--;
+		if (str[i + 1] == '/')
+			break ;
+		var[i] = str[i + 1];
 	}
-	var[mem] = '\0';
+	// len-=1;
+	// while (len + 1 != -1)
+	// {
+	// 	var[len] = str[len + 1];
+	// 	if 
+	// 	// printf("var[len] %c str [len--] %c\n", var[len], str[len]);
+	// 	len--;
+	// }
+	var[i] = '\0';
 	printf("VAR %s\n",var);
 	// printf("var %s\n", var);
 	valor = getenv(var);
 	printf("valor %s\n", valor);
 	// printf("str[mem] %c\n", str[mem]);
 
-	if (str[mem + 1] == ' ')
+	if (str[i + 1] == ' ' || str[i + 1] == '"')
 		temp = ft_strjoin(valor, " ");
+	else if(str[i + 1] == '/')
+	{
+		temp = ft_strjoin(valor, str + i + 1);
+	}
 	else
 		temp = ft_strdup(valor);
 	return (temp);
@@ -97,13 +110,16 @@ void	ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars)
 {
 	vars->i = 0;
 	// vars->start = 0;
+	printf("str %s\n", str);
 	while (str[vars->i] != '\0')
 	{
 		if (str[vars->i] == '$' && (type[vars->i] == 6 || type[vars->i] == 0) && str[vars->i + 1] != ' ')
 		{
-				if (vars->i - vars->start != 0)
+				printf("str[vars->i] %c\n", str[vars->i]);
+				if (vars->i - vars->start > 1)
 				{
-					vars->temp = ft_substr(str, vars->start, vars->i - vars->start);
+					vars->temp = ft_substr(str, vars->start, vars->i - vars->start - 1);
+					printf("vars->temp %s\n", vars->temp);
 					*acum = ft_acumulate(*acum, vars->temp);
 					// free(temp);
 				}
@@ -111,7 +127,8 @@ void	ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars)
 				while (str[vars->i] != ' ' && str[vars->i] != '\0' && str[vars->i] != '"')
 					vars->i++;
 				// printf("*i%d\n", i);
-				vars->var = ft_get_env(str + vars->start - 1, vars->i - vars->start);
+				// vars->var = ft_get_env(str + vars->start, vars->i - vars->start - 1);
+				vars->var = ft_get_env(str + vars->start - 1, vars->i - vars->start); 
 				vars->start = vars->i + 1;
 				*acum = ft_acumulate(*acum, vars->var);
 				// printf("accumulate %s\n", acum);
@@ -136,8 +153,9 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 	ft_checkif_var_subfoo(str, &acum, type, vars);
 	if (acum == NULL || str[vars->start - 1] == '\0')
 	{
+		printf("sstart - i %d \n", vars->start - 1);
 			free(type);
-			if (str[vars->start - 1] == '\0' && acum != NULL)
+			if (vars->start - 1 > 0 && str[vars->start - 1] == '\0' && acum != NULL)
 				return (acum);
 			return(ft_strdup(str));
 	}
@@ -146,7 +164,7 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 	printf("temp %s\n", temp);
 	printf("accum %s\n", acum);
 	// printf("char %c\n", str[start] );
-	if (temp != NULL)
+	if (temp != NULL && temp[0] != '"')
 		{
 			acum = ft_acumulate(acum, temp);
 			// free(temp);
@@ -164,11 +182,8 @@ void	ft_split_args(t_command *data, t_vars *vars)
 	int		i2;
 	int		start;
 	int		*type;
-	// char	*test;
-	// size_t	len;
 
-	// len = ft_strlen(data->arg);
-	i = 0;
+	i = -1; //0
 	i2 = 0;
 	start = 0;
 	type = ft_mask(data->arg, vars);
@@ -180,9 +195,6 @@ void	ft_split_args(t_command *data, t_vars *vars)
 		data->comando_bonito = malloc (sizeof(char *) * (i2 + 2));     ///free
 		i = -1;
 		i2 = 0;
-	// printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!check\n");
-			// printf("!!!!!!!!!!!!!!!!!!!!!!!arg[i]%c\n", data->arg[i]); 
-
 		while(data->arg[++i])
 		{
 			if(data->arg[i] == '-' && data->arg[i + 1] != ' ')
@@ -193,14 +205,9 @@ void	ft_split_args(t_command *data, t_vars *vars)
 					if (!data->arg[i + 1])
 						break;
 				}
-				// data->comando_bonito[i2] = malloc (sizeof (char) * i + 1);
-				data->comando_bonito[i2++] = ft_substr(data->arg, start, i);
+				data->comando_bonito[i2++] = ft_substr(data->arg, start + 1, i - 1);
 				start = i + 1;
-				// printf("solo flag\t|%s\n", data->comando_bonito[i2 - 1]);
-				// data->comando_bonito[i2++] = '\0';
 			}
-			// printf("im i%d\n", i);
-			// if (data->arg)
 			if (data->arg[i] == ' ' && type[i] != 5 && type[i] != 6)
 			{
 				i++;
@@ -212,19 +219,11 @@ void	ft_split_args(t_command *data, t_vars *vars)
 						if(!data->arg[i] || !type[i])
 							break ;
 					}
-					// printf("data arg %s\n", data->arg);
-					data->comando_bonito[i2++] = ft_substr(data->arg, start, i - start + 1);
+					data->comando_bonito[i2++] = ft_substr(data->arg, start + 1, i - start); //ft_substr(data->arg, start, i - start + 1)
 					start = i + 1;
-					// data->comando_bonito[i2 - 1] = ft_checkif_var(data->comando_bonito[i2 - 1], vars);
-					// test = ft_checkif_var(data->comando_bonito[i2 - 1], vars);
-					// printf("test %s\n", test);
-					// free(test);
-					// printf("arg %d \t\t|%s\n", i2 - 1, data->comando_bonito[i2 - 1]);
 					i--;
 				}
 			}
-			// printf("first i\t|%c\n", data->arg[i]);
-			// printf("first arg\t|%s\n", data->comando_bonito[i2]);
 			if (!data->arg[i])
 				break ;
 		}
@@ -311,16 +310,18 @@ t_command *ft_create_data(char *str, t_list *prev, t_vars *vars)
 	data->cmd_splited[0] = data->comando_a_pelo;
 	data->cmd_splited[1] = data->arg;
 	data->cmd_splited[2] = NULL;
+	// printf("str %c\n", str[0]);
 	if (!str[0])
 	{
-		while (!str[0])
+		// printf("chl\n");
+		while (str[0] == '\0')
 			str = readline(">");
 	}
 
 	data->comando_con_flags = str;
 	printf("DATAcmdarg_full %s\n", data->comando_con_flags);
 	ft_subpars(str, data, vars);
-	ft_split_args(data, vars);
+	// ft_split_args(data, vars);
 	data->prev = prev;
 	return (data);
 }
@@ -579,7 +580,21 @@ void ft_end_of_cicle(t_vars *vars)
 		// vars->temp = NULL;
 
 }
-void ft_submain(t_vars * vars)
+int	ft_pre_check(t_vars *vars)
+{
+	int	alpha;
+	vars->i = -1;
+	alpha = 0;
+	while(vars->line[++vars->i])
+	{
+		if (ft_isalnum(vars->line[vars->i]))
+			alpha++;
+	}
+	if (alpha == 0)
+		return(1);
+	return (0);
+}
+void ft_submain(t_vars *vars)
 {
 	while (1)
 	{
@@ -597,7 +612,8 @@ void ft_submain(t_vars * vars)
 			free(vars->line);
 			exit (0);
 		}
-
+		if (ft_pre_check(vars))
+			continue ;
 		add_history(vars->line); //solo añadir si es válido
 		// line_cop = ft_strdup(wololo);
 		vars->line_len = ft_strlen(vars->line);
@@ -631,5 +647,5 @@ int main(void)
 	vars.quotes  = "'";
 	ft_submain(&vars);
 // 		system("leaks minishell");
-		return (0);
+	return (0);
 }
