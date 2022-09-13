@@ -42,8 +42,8 @@ char	*ft_get_env(char *str, int len)
 	// mem = len;
 	while (++i != len)
 	{
-		if (str[i + 1] == '/')
-			break ;
+		// if (str[i + 1] == '/')
+		// 	break ;
 		var[i] = str[i + 1];
 	}
 	// len-=1;
@@ -56,17 +56,19 @@ char	*ft_get_env(char *str, int len)
 	// }
 	var[i] = '\0';
 	printf("VAR %s\n",var);
-	// printf("var %s\n", var);
+	printf("STRRRRR %s\n", str);
 	valor = getenv(var);
 	printf("valor %s\n", valor);
 	// printf("str[mem] %c\n", str[mem]);
 
 	if (str[i + 1] == ' ' || str[i + 1] == '"')
 		temp = ft_strjoin(valor, " ");
-	else if(str[i + 1] == '/')
-	{
-		temp = ft_strjoin(valor, str + i + 1);
-	}
+	if (str[i + 1] == '/')
+		temp = ft_strjoin(valor, "/");
+	// else if(str[i + 1] == '/')
+	// {
+	// 	temp = ft_strjoin(valor, str + i + 1);
+	// }
 	else
 		temp = ft_strdup(valor);
 	return (temp);
@@ -118,20 +120,22 @@ void	ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars)
 				printf("str[vars->i] %c\n", str[vars->i]);
 				if (vars->i - vars->start > 1)
 				{
-					vars->temp = ft_substr(str, vars->start, vars->i - vars->start - 1);
+					vars->temp = ft_substr(str, vars->start, vars->i - vars->start); //ft_substr(str, vars->start, vars->i - vars->start - 1);
 					printf("vars->temp %s\n", vars->temp);
 					*acum = ft_acumulate(*acum, vars->temp);
+					printf("accumulate1 %s\n", *acum);
 					// free(temp);
 				}
 				vars->start = vars->i + 1;
-				while (str[vars->i] != ' ' && str[vars->i] != '\0' && str[vars->i] != '"')
+				while (str[vars->i] != ' ' && str[vars->i] != '\0' && str[vars->i] != '"' && str[vars->i] != '/')
 					vars->i++;
 				// printf("*i%d\n", i);
 				// vars->var = ft_get_env(str + vars->start, vars->i - vars->start - 1);
 				vars->var = ft_get_env(str + vars->start - 1, vars->i - vars->start); 
+				printf("var%s\n", vars->var);
 				vars->start = vars->i + 1;
 				*acum = ft_acumulate(*acum, vars->var);
-				// printf("accumulate %s\n", acum);
+				printf("accumulate %s\n", *acum);
 		}
 		// if (str[*i] != '\0')
 		if (str[vars->i] == '\0')
@@ -160,11 +164,11 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 			return(ft_strdup(str));
 	}
 	// printf("char %c\n", str[vars->start - 1]);
-	temp = ft_substr(str, vars->start - 1, vars->i - vars->start + 1); //start - 1
+	temp = ft_substr(str, vars->start, vars->i - vars->start); //start - 1
 	printf("temp %s\n", temp);
 	printf("accum %s\n", acum);
 	// printf("char %c\n", str[start] );
-	if (temp != NULL && temp[0] != '"')
+	if (temp != NULL && temp[0] != '\0' && temp[0] != '"')
 		{
 			acum = ft_acumulate(acum, temp);
 			// free(temp);
@@ -205,7 +209,7 @@ void	ft_split_args(t_command *data, t_vars *vars)
 					if (!data->arg[i + 1])
 						break;
 				}
-				data->comando_bonito[i2++] = ft_substr(data->arg, start + 1, i - 1);
+				data->comando_bonito[i2++] = ft_substr(data->arg, start + 1, i - start); //ft_substr(data->arg, start + 1, i - 1);
 				start = i + 1;
 			}
 			if (data->arg[i] == ' ' && type[i] != 5 && type[i] != 6)
@@ -265,7 +269,7 @@ void	ft_subpars(char *str, t_command *data, t_vars * vars)
 		else
 		{
 			temp = ft_substr(str, start, i - start);
-			// printf("temp %s\n", temp);
+			printf("temp!!!!!! %s\n", temp);
 			data->arg = ft_checkif_var(temp, vars);
 			// printf("data->arg %s\n", data->arg);
 			free(temp);
