@@ -63,7 +63,7 @@ char	*ft_get_env(char *str, int len)
 
 	if (str[i + 1] == ' ' || str[i + 1] == '"')
 		temp = ft_strjoin(valor, " ");
-	if (str[i + 1] == '/')
+	else if (str[i + 1] == '/')
 		temp = ft_strjoin(valor, "/");
 	// else if(str[i + 1] == '/')
 	// {
@@ -120,7 +120,10 @@ void	ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars)
 				printf("str[vars->i] %c\n", str[vars->i]);
 				if (vars->i - vars->start > 1)
 				{
-					vars->temp = ft_substr(str, vars->start, vars->i - vars->start); //ft_substr(str, vars->start, vars->i - vars->start - 1);
+					if (str[vars->i - 1] == '"')
+						vars->temp = ft_substr(str, vars->start, vars->i - vars->start - 1);
+					else
+						vars->temp = ft_substr(str, vars->start, vars->i - vars->start); //ft_substr(str, vars->start, vars->i - vars->start - 1);
 					printf("vars->temp %s\n", vars->temp);
 					*acum = ft_acumulate(*acum, vars->temp);
 					printf("accumulate1 %s\n", *acum);
@@ -132,7 +135,7 @@ void	ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars)
 				// printf("*i%d\n", i);
 				// vars->var = ft_get_env(str + vars->start, vars->i - vars->start - 1);
 				vars->var = ft_get_env(str + vars->start - 1, vars->i - vars->start); 
-				printf("var%s\n", vars->var);
+				printf("var %s\n", vars->var);
 				vars->start = vars->i + 1;
 				*acum = ft_acumulate(*acum, vars->var);
 				printf("accumulate %s\n", *acum);
@@ -164,7 +167,10 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 			return(ft_strdup(str));
 	}
 	// printf("char %c\n", str[vars->start - 1]);
-	temp = ft_substr(str, vars->start, vars->i - vars->start); //start - 1
+	if (str[vars->i - 1] == '"')
+		temp = ft_substr(str, vars->start, vars->i - vars->start - 1);
+	else
+		temp = ft_substr(str, vars->start, vars->i - vars->start); //start - 1
 	printf("temp %s\n", temp);
 	printf("accum %s\n", acum);
 	// printf("char %c\n", str[start] );
