@@ -61,7 +61,7 @@ char	*ft_get_env(char *str, int len)
 	printf("valor %s\n", valor);
 	// printf("str[mem] %c\n", str[mem]);
 
-	if (str[i + 1] == ' ' || str[i + 1] == '"')
+	if (str[i + 1] == ' ' ) //|| str[i + 1] == '"'
 		temp = ft_strjoin(valor, " ");
 	else if (str[i + 1] == '/')
 		temp = ft_strjoin(valor, "/");
@@ -80,9 +80,11 @@ char	*ft_acumulate(char *dest, char *part)
 	char	*temp;
 
 	lenpart = ft_strlen(part);
+	printf("lenpart %d\n", lenpart);
 	if (lenpart == 0)
 	{
 		// printf("lenpart %d\n", lenpart);
+		free(part);
 		return (dest);
 	}
 	// printf("part %s\n", part);
@@ -100,7 +102,7 @@ char	*ft_acumulate(char *dest, char *part)
 		{
 			// printf("dest %s\n", dest);
 			free(dest);
-			// dest = NULL;
+			dest = NULL;
 		}
 		// if (part != NULL)
 			free(part);
@@ -130,7 +132,7 @@ void	ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars)
 					// free(temp);
 				}
 				vars->start = vars->i + 1;
-				while (str[vars->i] != ' ' && str[vars->i] != '\0'  && str[vars->i] != '/') // && str[vars->i] != '"'
+				while (str[vars->i] != ' ' && str[vars->i] != '\0'  && str[vars->i] != '/'  && str[vars->i] != '"')
 					vars->i++;
 				// printf("*i%d\n", i);
 				// vars->var = ft_get_env(str + vars->start, vars->i - vars->start - 1);
@@ -172,10 +174,14 @@ char *ft_cleaning(char *str)
 			{
 				if (str[i] == '"' || str[i] == cuot[0])
 				{
-					if (start != 0)
+					if (i - start != 0)
 					{
-						temp = ft_substr(str, start + 1, i - start - 1);
-						clear = ft_acumulate(clear, temp);	
+						if (start == 0)
+							temp = ft_substr(str, start, i - start);
+						else
+							temp = ft_substr(str, start + 1, i - start - 1);
+						clear = ft_acumulate(clear, temp);
+						// free(temp);
 					}
 					start = i;
 					i++;
@@ -185,7 +191,7 @@ char *ft_cleaning(char *str)
 					// 	clear = ft_acumulate(clear, temp);
 					// 	start = i + 1;
 					// }
-					while (str[i] != '"' && str[i] != cuot[0]) // && str[i] != '\0'
+					while (str[i] != '"' && str[i] != cuot[0]  && str[i] != '\0')
 					{
 						
 						i++;
@@ -194,19 +200,26 @@ char *ft_cleaning(char *str)
 					start = i;
 					printf("CHEEECK\n");
 
-					printf("cleaning temp %s\n", temp);
+					printf("cleaning temp .%s.\n", temp);
+					printf("clear befor .%s.\n", clear);
 					clear = ft_acumulate(clear, temp);
+					printf("clean desp .%s.\n", clear);
 
-					printf("cleaning temp %s\n", clear);
-
+					if (str[i] == '\0')
+						break ;
 				}
 			}
-			if (start != 0)
+			if (start != i) //start != 0 && 
 			{
 				temp = ft_substr(str, start + 1, i - start - 1);
+				printf("error %s\n", temp);
 				clear = ft_acumulate(clear, temp);	
+				// if(temp)
+				// 	free(temp);
+				
+				return (clear);
 			}
-			if (clear == NULL)
+			else if (clear == NULL)
 			{
 				free(clear);
 				free(clear);
@@ -260,17 +273,22 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 	}
 	// printf("char %c\n", str[vars->start - 1]);
 	temp = ft_substr(str, vars->start, vars->i - vars->start); //start - 1
-	printf("temp %s\n", temp);
+	printf("temp %s\n", temp); // <----------
 	printf("accum %s\n", acum);
 	// printf("char %c\n", str[start] );
-	if (temp != NULL && temp[0] != '\0' && temp[0] != '"')
+	if (temp != NULL) //&& temp[0] != '\0'
 		{
 			acum = ft_acumulate(acum, temp);
-			// acum = ft_cleaning(acum);
+			printf("accum222 %s\n", acum);
+
+			free(type);
+			temp = ft_cleaning(acum);
+			free(acum);
+			return (temp);
 			// free(temp);
 		}
 	// else
-	// 	free(temp);
+		// free(temp);
 	free(type);
 	// printf("accumulate2 %s\n", acum);
 	return(acum);
