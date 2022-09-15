@@ -157,7 +157,7 @@ void	ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars)
 				while (str[vars->i] != ' ' && str[vars->i] != '\0'  && str[vars->i] != '/'  && str[vars->i] != '"' && str[vars->i] != '$' )
 					vars->i++;
 				// printf("*i%d\n", i);
-				// vars->var = ft_get_env(str + vars->start, vars->i - vars->start - 1);
+				// vars->var = ft_get_env(str + vars->start, vars->i - vars->start - 1); 
 				vars->var = ft_get_env(str + vars->start - 1, vars->i - vars->start); 
 				printf("var %s\n", vars->var);
 				vars->start = vars->i + 1;
