@@ -37,14 +37,33 @@ char	*ft_get_env(char *str, int len)
 	char	*temp;
 	// int 	mem;
 	int 	i;
+	// int flag;
 
+	// flag = 0;
 	i = -1;
 	// mem = len;
-	while (++i != len)
+	if(str[1] == '?')
 	{
-		// if (str[i + 1] == '/')
-		// 	break ;
-		var[i] = str[i + 1];
+		var[0] = '$';
+		var[1] = '?';
+		var[2] = '\0';
+	}
+	else
+	{
+		while (++i != len)
+		{
+			// // if (str[i + 1] == '/')
+			// // 	break ;
+			// if (flag == 1)
+			// 	var[i] = str[i];
+			// else
+			var[i] = str[i + 1];
+			if (str[i + 1] == '\0' || str[i + 1] == '$')
+				break ;
+			printf("%c\n", var[i]);
+
+		}
+		var[i] = '\0';
 	}
 	// len-=1;
 	// while (len + 1 != -1)
@@ -54,7 +73,6 @@ char	*ft_get_env(char *str, int len)
 	// 	// printf("var[len] %c str [len--] %c\n", var[len], str[len]);
 	// 	len--;
 	// }
-	var[i] = '\0';
 	printf("VAR %s\n",var);
 	printf("STRRRRR %s\n", str);
 	valor = getenv(var);
@@ -120,7 +138,7 @@ void	ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars)
 		if (str[vars->i] == '$' && (type[vars->i] == 6 || type[vars->i] == 0) && str[vars->i + 1] != ' ')
 		{
 				printf("str[vars->i] %c\n", str[vars->i]);
-				if (vars->i - vars->start > 1)
+				if (vars->i - vars->start > 1 && str [vars->i - 1] == ' ')
 				{
 					// if (str[vars->i - 1] == '"')
 					// 	vars->temp = ft_substr(str, vars->start, vars->i - vars->start - 1);
@@ -132,19 +150,27 @@ void	ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars)
 					// free(temp);
 				}
 				vars->start = vars->i + 1;
-				while (str[vars->i] != ' ' && str[vars->i] != '\0'  && str[vars->i] != '/'  && str[vars->i] != '"')
+				vars->i++;
+				while (str[vars->i] != ' ' && str[vars->i] != '\0'  && str[vars->i] != '/'  && str[vars->i] != '"' && str[vars->i] != '$')
 					vars->i++;
+
+				
 				// printf("*i%d\n", i);
 				// vars->var = ft_get_env(str + vars->start, vars->i - vars->start - 1);
 				vars->var = ft_get_env(str + vars->start - 1, vars->i - vars->start); 
 				printf("var %s\n", vars->var);
 				vars->start = vars->i + 1;
 				*acum = ft_acumulate(*acum, vars->var);
+				// if (str [vars->i] == '$')
+				// 	vars->i--;
 				printf("accumulate %s\n", *acum);
+				if (str[vars->i] == '$')
+					vars->i--;
 		}
 		// if (str[*i] != '\0')
 		if (str[vars->i] == '\0')
 			break;
+
 		vars->i++;
 	}
 }
@@ -209,9 +235,10 @@ char *ft_cleaning(char *str)
 						break ;
 				}
 			}
-			if (start != i) //start != 0 && 
+			if (start != i && clear != NULL) //start != 0 && 
 			{
-				temp = ft_substr(str, start + 1, i - start - 1);
+				// if (str[])
+				temp = ft_substr(str, start + 1, i - start - 1); // start + 1
 				printf("error %s\n", temp);
 				clear = ft_acumulate(clear, temp);	
 				// if(temp)
