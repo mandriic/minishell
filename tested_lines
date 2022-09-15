@@ -8,3 +8,8 @@ asd sss $HOME/test "$USER/test"
 asd "1" '2' "3"
 echo " as d" asd  " asd $HOME".
 echo "text in quotes" text out of quotes  "variable  $HOME ".
+echo $HOME$USER$HOME$USER
+echo $HOME"$USER"$HOME
+echo '$HOME'"$USER"
+echo $"HOME"
+echo $'HOME' - n/w

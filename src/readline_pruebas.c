@@ -131,6 +131,9 @@ char	*ft_acumulate(char *dest, char *part)
 void	ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars)
 {
 	vars->i = 0;
+	char lastchar;
+
+	lastchar = '\0';
 	// vars->start = 0;
 	printf("str %s\n", str);
 	while (str[vars->i] != '\0')
@@ -138,7 +141,7 @@ void	ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars)
 		if (str[vars->i] == '$' && (type[vars->i] == 6 || type[vars->i] == 0) && str[vars->i + 1] != ' ')
 		{
 				printf("str[vars->i] %c\n", str[vars->i]);
-				if (vars->i - vars->start > 1 && str [vars->i - 1] == ' ')
+				if (vars->i - vars->start > 1 && (str [vars->i - 1] == ' ' || lastchar == '/' || str[vars->i - 1] != vars->quotes[0]))
 				{
 					// if (str[vars->i - 1] == '"')
 					// 	vars->temp = ft_substr(str, vars->start, vars->i - vars->start - 1);
@@ -151,10 +154,8 @@ void	ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars)
 				}
 				vars->start = vars->i + 1;
 				vars->i++;
-				while (str[vars->i] != ' ' && str[vars->i] != '\0'  && str[vars->i] != '/'  && str[vars->i] != '"' && str[vars->i] != '$')
+				while (str[vars->i] != ' ' && str[vars->i] != '\0'  && str[vars->i] != '/'  && str[vars->i] != '"' && str[vars->i] != '$' )
 					vars->i++;
-
-				
 				// printf("*i%d\n", i);
 				// vars->var = ft_get_env(str + vars->start, vars->i - vars->start - 1);
 				vars->var = ft_get_env(str + vars->start - 1, vars->i - vars->start); 
@@ -163,8 +164,10 @@ void	ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars)
 				*acum = ft_acumulate(*acum, vars->var);
 				// if (str [vars->i] == '$')
 				// 	vars->i--;
+				lastchar = str[vars->i];
+				printf("lastchar %c\n", lastchar);
 				printf("accumulate %s\n", *acum);
-				if (str[vars->i] == '$')
+				if (str[vars->i] == '$') // ?  && str[vars->i - 1] != ' ' && str[vars->i - 1] != '"'
 					vars->i--;
 		}
 		// if (str[*i] != '\0')
