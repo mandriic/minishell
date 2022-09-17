@@ -292,7 +292,7 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 	printf("args only %s\n", str);
 	ft_checkif_var_subfoo(str, &acum, type, vars);
 
-	if (acum == NULL || str[vars->start - 1] == '\0')
+	if (acum == NULL && str[vars->start - 1] == '\0') //  && -> ||
 	{
 		printf("sstart - i %d \n", vars->start - 1);
 			free(type);
