@@ -1,6 +1,0 @@
-asd $HOME sadf "$USER" - pass
-asd $HOME sadf "$USER" '     $HOME       '
-asd $HOME sadf "      $SHELL         $USER          " '     $HOME       '
-asdf $HOME "$HOME" '$HOME'
-asdf $HOME "$HOME" '$HOME' | dsa $USER "$USER" '$USER'
-asdf $HOME "$HOME" '$HOME' | dsa $USER "$USER" '$USER' |sdf $HOME "$HOME" '$HOME' | dsa $USER "$USER" '$USER' |sdf $HOME "$HOME" '$HOME' | dsa $USER "$USER" '$USER' |sdf $HOME "$HOME" '$HOME' | dsa $USER "$USER" '$USER' 

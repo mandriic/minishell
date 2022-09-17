@@ -17,7 +17,9 @@ INCS_PATH = inc/
 BIN_PATH = bin/
 LIBFT_PATH = libft/
 
-SRCS = readline_pruebas.c
+SRCS = fn_list.c fn_main_readline.c\
+fn_mask.c fn_pars.c fn_pip_splt_trim.c fn_vars.c main.c\
+
 OBJS = $(SRCS:%.c=bin/%.o)
 CC = gcc
 CFLAGS = -g -O0 -Wall -Werror -Wextra

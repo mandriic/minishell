@@ -43,11 +43,43 @@ typedef struct s_vars
 	char	*temp;
 	int		start;
 	char	*var;
+	int		need_cleaning;
 	
 	size_t 	num_pipes;
 	size_t	line_len;
 
 
 }t_vars;
-void ft_test(t_vars *vars);
-char	*leelinea(void);
+
+// fn_lists.c
+void		ft_del_list(t_list *list);
+t_command	*ft_create_data(char *str, t_list *prev, t_vars *vars);
+void		ft_lst_cmd(t_vars *vars);
+
+// fn_main_readline.c
+void		ft_readline(void);
+void	    ft_submain(t_vars *vars);
+char		*ft_cleaning(char *str);
+int			ft_pre_check(t_vars *vars);
+void    	ft_end_of_cicle(t_vars *vars);
+
+// fn_mask.c
+int			*ft_mask(char *line, t_vars *vars);
+char		*ft_acumulate(char *dest, char *part);
+
+// fn_pip_splt_trim.c
+int		    ft_lastpipe(char *str);
+char		**spliting(char *wololoco, int *type, size_t num_pipes, t_vars *vars);
+void    	ft_triming(char **separ, size_t num_pipes, t_vars *vars, int one_comand);
+size_t 		ft_numpipes(char *wololoco, int *type);
+void		ft_split_args(t_command *data, t_vars *vars);
+
+//	fn_pars.c
+void		ft_subpars(char *str, t_command *data, t_vars * vars);
+
+//	fn_vars.c
+char		*ft_checkif_var(char *str, t_vars *vars);
+void		ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars);
+char		*ft_get_env(char *str, int len);
+
+
