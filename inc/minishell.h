@@ -67,6 +67,10 @@ void    ft_line_exist(t_vars *vars);
 // fn_mask.c
 int			*ft_mask(char *line, t_vars *vars);
 char		*ft_acumulate(char *dest, char *part);
+int			ft_singquot(char *line, int *type, t_vars *vars);
+int			ft_dobquot(char *line, int *type, t_vars *vars);
+
+
 
 // fn_pip_splt_trim.c
 int		    ft_lastpipe(char *str);
