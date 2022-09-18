@@ -13,14 +13,14 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 	printf("args only %s\n", str);
 	ft_checkif_var_subfoo(str, &acum, type, vars);
 
-	if (acum == NULL && str[vars->start - 1] == '\0') //  && -> ||
+	if (acum == NULL || str[vars->start - 1] == '\0') //  && -> ||
 	{
 		printf("sstart - i %d \n", vars->start - 1);
 			free(type);
 			if (vars->start - 1 > 0 && str[vars->start - 1] == '\0' && acum != NULL) //? 
 				return (acum);
 			
-			return(ft_cleaning(str)); //return(ft_strdup(str)); return(ft_cleaning(str));
+			return(ft_cleaning(str, vars)); //return(ft_strdup(str)); return(ft_cleaning(str));
 	}
 	// printf("char %c\n", str[vars->start - 1]);
 	temp = ft_substr(str, vars->start, vars->i - vars->start); //start - 1
@@ -33,7 +33,7 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 			printf("accum222 %s\n", acum);
 
 			free(type);
-			temp = ft_cleaning(acum);
+			temp = ft_cleaning(acum, vars);
 			free(acum);
 			return (temp);
 			// free(temp);

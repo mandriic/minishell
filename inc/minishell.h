@@ -59,9 +59,10 @@ void		ft_lst_cmd(t_vars *vars);
 // fn_main_readline.c
 void		ft_readline(void);
 void	    ft_submain(t_vars *vars);
-char		*ft_cleaning(char *str);
+char		*ft_cleaning(char *str, t_vars *vars);
 int			ft_pre_check(t_vars *vars);
 void    	ft_end_of_cicle(t_vars *vars);
+void    ft_line_exist(t_vars *vars);
 
 // fn_mask.c
 int			*ft_mask(char *line, t_vars *vars);
