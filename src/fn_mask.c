@@ -1,65 +1,63 @@
 #include "../inc/minishell.h"
 
+int	ft_singquot(char *line, int *type, t_vars *vars)
+{
+	type[vars->i] = 1;
+	while (line[++vars->i] != vars->quotes[0] && line[vars->i] != '\0')
+		type[vars->i] = 5;
+	if (line[vars->i] == '\0')
+		{
+			printf("Not interpret unclosed quotes \n");
+			free(type);
+			if(vars->list)
+				ft_del_list(vars->list);
+			return(1);
+		}
+	type[vars->i] = 1;
+
+	return (0);
+}
+
+int	ft_dobquot(char *line, int *type, t_vars *vars)
+{
+	type[vars->i] = 2;
+	while (line[++vars->i] != '"' && line[vars->i] != '\0')
+		type[vars->i] = 6;
+	if (line[vars->i] == '\0')
+		{
+			printf("Not interpret unclosed quotes \n");
+			free(type);
+			if(vars->list)
+				ft_del_list(vars->list);
+			return(1);
+		}
+	else
+		type[vars->i] = 2;
+	return(0);
+}
 int	*ft_mask(char *line, t_vars *vars)
 {
-	int i;
 	int len;
 	int *type;
-	i = -1;
+
+	vars->i = -1;
 	type = NULL;
 	len = ft_strlen(line);
 	if (len == 0)
 		return(type);
-	// printf("len %d", len);
 	type = malloc(sizeof(int) * len);
-
-	while (line[++i] != '\0')
+	while (line[++vars->i] != '\0')
 	{
-		if(line[i] == vars->quotes[0])
-		{
-			type[i] = 1;
-			while (line[++i] != vars->quotes[0] && line[i] != '\0')
-				type[i] = 5;
-			if (line[i] == '\0')
-				{
-					printf("Not interpret unclosed quotes \n");
-					free(type);
-					if(vars->list)
-						ft_del_list(vars->list);
-					return(NULL);
-				}
-			type[i] = 1;
-		}
-		else if (line[i] == '"')
-		{
-			type[i] = 2;
-			while (line[++i] != '"' && line[i] != '\0')
-				type[i] = 6;
-			if (line[i] == '\0')
-				{
-					printf("Not interpret unclosed quotes \n");
-					free(type);
-					if(vars->list)
-						ft_del_list(vars->list);
-					return(NULL);
-				}
-			else
-				type[i] = 2;
-		}
-		else if (line[i] == '|'  ) //&& line[i + 1] != '\0' && !ft_lastpipe(line + i + 1)
-			type[i] = 3; 
-		// else if (ft_lastpipe(line + i + 1))
-		// {
-		// 	while (line[i])
-		// 	{
-		// 		if (ft_isalnum(line[i])
-		// 	}
-		// }
-		else if (line[i] == '|' && line[i + 1] == '\0')
-			type[i] = 4;
+		if(line[vars->i] == vars->quotes[0] && ft_singquot(line, type, vars))
+			return (NULL);
+		else if (line[vars->i] == '"' && ft_dobquot(line, type, vars))
+			return (NULL);
+		else if (line[vars->i] == '|')
+			type[vars->i] = 3; 
+		else if (line[vars->i] == '|' && line[vars->i + 1] == '\0')
+			type[vars->i] = 4;
 		else
-			type[i] = 0;
-		// printf("type %d\n", type[i]);
+			type[vars->i] = 0;
 	}
 	return (type);
 }

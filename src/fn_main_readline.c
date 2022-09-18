@@ -71,22 +71,22 @@ int	ft_pre_check(t_vars *vars)
 	return (0);
 }
 
-void	ft_subcleaning(char *str, int *start, char **clear, char **temp, t_vars *vars)
+void	ft_subcleaning(char *str, char **clear, char **temp, t_vars *vars)
 {
-	if (vars->i - *start != 0)
+	if (vars->i - vars->start != 0)
 		{
-			if (*start == 0)
-				*temp = ft_substr(str, *start, vars->i - *start);
+			if (vars->start == 0)
+				*temp = ft_substr(str, vars->start, vars->i - vars->start);
 			else
-				*temp = ft_substr(str, *start + 1, vars->i - *start - 1);
+				*temp = ft_substr(str, vars->start + 1, vars->i - vars->start - 1);
 			*clear = ft_acumulate(*clear, *temp);
 		}
-	*start = vars->i;
+	vars->start = vars->i;
 	vars->i++;
 	while (str[vars->i] != '"' && str[vars->i] != vars->quotes[0]  && str[vars->i] != '\0')
 		vars->i++;
-	*temp = ft_substr(str, *start + 1, vars->i - *start - 1);
-	*start = vars->i;
+	*temp = ft_substr(str, vars->start + 1, vars->i - vars->start - 1);
+	vars->start = vars->i;
 
 	printf("CHEEECK\n");
 	printf("cleaning temp .%s.\n", *temp);
@@ -100,34 +100,28 @@ void	ft_subcleaning(char *str, int *start, char **clear, char **temp, t_vars *va
 char	*ft_cleaning(char *str, t_vars *vars)
 {
 	char	*clear;
-	int		start;
 	char	*temp;
 
 	vars->i = -1;
 	clear = NULL;
 	temp = NULL;
-	start = 0;
+	vars->start = 0;
 	while (str[++vars->i])
 	{
 		if (str[vars->i] == '"' || str[vars->i] == vars->quotes[0])
 		{
-			ft_subcleaning(str, &start, &clear, &temp, vars);
+			ft_subcleaning(str, &clear, &temp, vars);
 			if (str[vars->i] == '\0')
 				break ;
 		}
 	}
-	if (start !=vars->i && clear != NULL)
+	if (vars->start !=vars->i && clear != NULL)
 	{
-		temp = ft_substr(str, start + 1,vars->i - start - 1);
-		printf("error %s\n", temp);
+		temp = ft_substr(str, vars->start + 1,vars->i - vars->start - 1);
 		clear = ft_acumulate(clear, temp);	
 		return (clear);
 	}
 	else if (clear == NULL)
-	{
-		free(clear);
 		return (ft_strdup(str));
-	}
-	else
-		return (clear);
+	return (clear);
 }
