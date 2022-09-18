@@ -40,8 +40,10 @@ typedef struct s_vars
 	int		*type;
 	char	*env_var;
 	int		i;
+	int		i2;
 	char	*temp;
 	int		start;
+	int		start2;
 	char	*var;
 	int		need_cleaning;
 	
@@ -62,7 +64,7 @@ void	    ft_submain(t_vars *vars);
 char		*ft_cleaning(char *str, t_vars *vars);
 int			ft_pre_check(t_vars *vars);
 void    	ft_end_of_cicle(t_vars *vars);
-void    ft_line_exist(t_vars *vars);
+void    	ft_line_exist(t_vars *vars);
 
 // fn_mask.c
 int			*ft_mask(char *line, t_vars *vars);
@@ -78,9 +80,12 @@ char		**spliting(char *wololoco, int *type, size_t num_pipes, t_vars *vars);
 void    	ft_triming(char **separ, size_t num_pipes, t_vars *vars, int one_comand);
 size_t 		ft_numpipes(char *wololoco, int *type);
 void		ft_split_args(t_command *data, t_vars *vars);
+void		ft_subtrim(char **temp, int *i, int *i2, t_vars *vars);
+
 
 //	fn_pars.c
 void		ft_subpars(char *str, t_command *data, t_vars * vars);
+void		fr_subargs(char *str, char *temp, t_command *data, t_vars *vars);
 
 //	fn_vars.c
 char		*ft_checkif_var(char *str, t_vars *vars);

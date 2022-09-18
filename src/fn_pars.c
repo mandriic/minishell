@@ -1,61 +1,59 @@
 #include "../inc/minishell.h"
 
+void	fr_subargs(char *str, char *temp, t_command *data, t_vars *vars)
+{
+	temp = ft_substr(str, vars->start2, vars->i2 - vars->start2);
+	data->arg = ft_checkif_var(temp, vars);
+	free(temp);
+	vars->start2 = vars->i2 + 1;
+	if (str[vars->i2] == '<' && str[vars->i2 + 1] == '<')
+	{
+		vars->start2++;
+		data->menos_dob = 1;
+	}
+	else if(str[vars->i2] == '<' )
+		data->menos = 1;
+	else if (str[vars->i2] == '>' && str[vars->i2 + 1] == '>')
+	{
+		vars->start2++;
+		data->mas_dob = 1;
+	}
+	else if (str[vars->i2] == '>')
+		data->mas = 1;
+	if (str[vars->i2] != '\0')
+	{
+		while (str[++vars->i2])
+			;
+		data->sub_arg = ft_substr(str, vars->start2 + 1, vars->i2 - vars->start2);
+	}
+}
+
 void	ft_subpars(char *str, t_command *data, t_vars * vars)
 {
-	// (void) vars;
-	int		i;
-	int		start;
 	char	*temp;
 
-	i = -1;   						//antes i = 0; leak was found
-	start = 0;
-	while (str[++i])
-		if (str[i] == ' ' || str[i] == '\0')
+	temp = NULL;
+	vars->i2 = -1;   						//antes i = 0; leak was found
+	vars->start2 = 0;
+	while (str[++vars->i2])
+		if (str[vars->i2] == ' ' || str[vars->i2] == '\0')
 			break ;
-	data->comando_a_pelo = ft_substr(str, start, i);
-	if(str[i] != '\0')
+	data->comando_a_pelo = ft_substr(str, vars->start2, vars->i2);
+	if(str[vars->i2] != '\0')
 	{
-		start = i + 1;
-		while (str[++i])
-			if (str[i] == '\0' || str[i] == '<' || str[i] == '>')
+		vars->start2 = vars->i2 + 1;
+		while (str[++vars->i2])
+			if (str[vars->i2] == '\0' || str[vars->i2] == '<' || str[vars->i2] == '>')
 				break ;
-		if ((str[i] == '<' || str [i] == '>') && str[i + 1] == '\0')
+		if ((str[vars->i2] == '<' || str [vars->i2] == '>') && str[vars->i2 + 1] == '\0')
 		{
-			printf("bash: syntax error near unexpected token 'newline'\n");
 			if (vars->list)
 				ft_del_list(vars->list);
 			ft_end_of_cicle(vars);
 			ft_submain(vars);
 		}
 		else
-		{
-			temp = ft_substr(str, start, i - start);
-			printf("temp!!!!!! %s\n", temp);
-			data->arg = ft_checkif_var(temp, vars);
-			// printf("data->arg %s\n", data->arg);
-			free(temp);
-			start = i + 1;
-			if (str[i] == '<' && str[i + 1] == '<')
-			{
-				start++;
-				data->menos_dob = 1;
-			}
-			else if(str[i] == '<' )
-				data->menos = 1;
-			else if (str[i] == '>' && str[i + 1] == '>')
-			{
-				start++;
-				data->mas_dob = 1;
-			}
-			else if (str[i] == '>')
-				data->mas = 1;
-			if (str[i] != '\0')
-			{
-				while (str[++i])
-					;
-				data->sub_arg = ft_substr(str, start + 1, i - start);
-			}
-		}
+			fr_subargs(str, temp, data, vars);
 		printf("command\t\t|%s\n", data->comando_a_pelo);
 		printf("arg\t\t|%s\n", data->arg);
 		printf("redir_men\t|%d\n", data->menos);
