@@ -42,6 +42,7 @@ typedef struct s_vars
 	int		i;
 	int		i2;
 	char	*temp;
+	char	*temp2;
 	int		start;
 	int		start2;
 	char	*var;
@@ -92,5 +93,6 @@ void		fr_subargs(char *str, char *temp, t_command *data, t_vars *vars);
 char		*ft_checkif_var(char *str, t_vars *vars);
 void		ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars);
 char		*ft_get_env(char *str, int len);
+void		ft_pre_getenv(char *str, char **acum, t_vars *vars);
 
 
