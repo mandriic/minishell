@@ -36,14 +36,12 @@ char    **spliting(char *wololoco, int *type, size_t num_pipes, t_vars *vars)
  	return(separ);
 }
 
-void	ft_subtrim(char **temp, int *i, int *i2, t_vars *vars)
+void	ft_subtrim(char **separ, char **temp, int *i, int *i2, t_vars *vars)
 {
 	int	*sub_type;
-	char	**separ;
 	int	i3;
 
 	i3 = 0;
-	separ = &vars->line;
 	sub_type = ft_mask(temp[0], vars);
 	while (temp[0][++*i2])
 	{
@@ -70,7 +68,7 @@ void    ft_triming(char **separ, size_t num_pipes, t_vars *vars, int one_comand)
 	{
 		temp[0] = ft_strtrim(separ[i], " ");
 		i2 = -1;
-		ft_subtrim(temp, &i, &i2, vars);
+		ft_subtrim(separ, temp, &i, &i2, vars);
 	}
 	free(temp);
 	if (one_comand)
@@ -92,62 +90,62 @@ size_t  ft_numpipes(char *wololoco, int *type)
 	return (num_pipes);
 }
 
-void	ft_split_args(t_command *data, t_vars *vars)
-{
-	int		i;
-	int		i2;
-	int		start;
-	int		*type;
+// void	ft_split_args(t_command *data, t_vars *vars)
+// {
+// 	int		i;
+// 	int		i2;
+// 	int		start;
+// 	int		*type;
 
-	i = -1; //0
-	i2 = 0;
-	start = 0;
-	type = ft_mask(data->arg, vars);
-	if (data->arg)
-	{
-		while (data->arg[++i])
-			if (data->arg[i] == ' ')
-				i2++;
-		data->comando_bonito = malloc (sizeof(char *) * (i2 + 2));     ///free
-		i = -1;
-		i2 = 0;
-		while(data->arg[++i])
-		{
-			if(data->arg[i] == '-' && data->arg[i + 1] != ' ')
-			{
-				while(data->arg[i] != ' ' && data->arg[i + 1] != '-')
-				{
-					i++;
-					if (!data->arg[i + 1])
-						break;
-				}
-				data->comando_bonito[i2++] = ft_substr(data->arg, start + 1, i - start); //ft_substr(data->arg, start + 1, i - 1);
-				start = i + 1;
-			}
-			if (data->arg[i] == ' ' && type[i] != 5 && type[i] != 6)
-			{
-				i++;
-				if(data->arg[i] && type[i])
-				{
-					while ((data->arg[i] != ' ' && data->arg[i] != '\0') || type[i] == 6 || type[i] == 5)
-					{
-						i++;
-						if(!data->arg[i] || !type[i])
-							break ;
-					}
-					data->comando_bonito[i2++] = ft_substr(data->arg, start + 1, i - start); //ft_substr(data->arg, start, i - start + 1)
-					start = i + 1;
-					i--;
-				}
-			}
-			if (!data->arg[i])
-				break ;
-		}
-		while(i2 != 0)
-		{
-			free(data->comando_bonito[--i2]); //printf - to free
-		}
-		free(data->comando_bonito);
-	}
-	free(type);
-}
+// 	i = -1; //0
+// 	i2 = 0;
+// 	start = 0;
+// 	type = ft_mask(data->arg, vars);
+// 	if (data->arg)
+// 	{
+// 		while (data->arg[++i])
+// 			if (data->arg[i] == ' ')
+// 				i2++;
+// 		data->comando_bonito = malloc (sizeof(char *) * (i2 + 2));     ///free
+// 		i = -1;
+// 		i2 = 0;
+// 		while(data->arg[++i])
+// 		{
+// 			if(data->arg[i] == '-' && data->arg[i + 1] != ' ')
+// 			{
+// 				while(data->arg[i] != ' ' && data->arg[i + 1] != '-')
+// 				{
+// 					i++;
+// 					if (!data->arg[i + 1])
+// 						break;
+// 				}
+// 				data->comando_bonito[i2++] = ft_substr(data->arg, start + 1, i - start); //ft_substr(data->arg, start + 1, i - 1);
+// 				start = i + 1;
+// 			}
+// 			if (data->arg[i] == ' ' && type[i] != 5 && type[i] != 6)
+// 			{
+// 				i++;
+// 				if(data->arg[i] && type[i])
+// 				{
+// 					while ((data->arg[i] != ' ' && data->arg[i] != '\0') || type[i] == 6 || type[i] == 5)
+// 					{
+// 						i++;
+// 						if(!data->arg[i] || !type[i])
+// 							break ;
+// 					}
+// 					data->comando_bonito[i2++] = ft_substr(data->arg, start + 1, i - start); //ft_substr(data->arg, start, i - start + 1)
+// 					start = i + 1;
+// 					i--;
+// 				}
+// 			}
+// 			if (!data->arg[i])
+// 				break ;
+// 		}
+// 		while(i2 != 0)
+// 		{
+// 			free(data->comando_bonito[--i2]); //printf - to free
+// 		}
+// 		free(data->comando_bonito);
+// 	}
+// 	free(type);
+// }
