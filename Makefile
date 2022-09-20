@@ -17,8 +17,10 @@ INCS_PATH = inc/
 BIN_PATH = bin/
 LIBFT_PATH = libft/
 
-SRCS = fn_list.c fn_main_readline.c\
-fn_mask.c fn_pars.c fn_pip_splt_trim.c fn_vars.c main.c\
+HEADER = $(INCS_PATH)/$(NAME).h
+
+SRCS = main.c pwd.c cd.c execve.c pipe.c hardcoded.c aux_functions.c multiple_pipes.c builtins.c export.c \
+		unset.c fn_list.c fn_main_readline.c fn_mask.c fn_pars.c fn_pip_splt_trim.c fn_vars.c main.c\
 
 OBJS = $(SRCS:%.c=bin/%.o)
 CC = gcc
@@ -36,7 +38,7 @@ $(BIN_PATH)%.o: $(SRCS_PATH)%.c
 	@mkdir -p $(BIN_PATH)
 	@$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c $< -o $@
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) $(HEADER)
 	@$(MAKE) -C $(LIBFT_PATH) --silent
 	@echo $(PURPLE)"[Creating $(NAME)]"$(NONE)
 	@$(CC) -o $(NAME) $(OBJS) $(LIBFT_FLAGS) $(LIBRL_FLAGS) #-fsanitize=address
@@ -56,4 +58,8 @@ fclean: clean
 re: fclean 
 	@$(MAKE)
 
-.PHONY: all clean fclean re
+run:
+	@$(MAKE)
+	./minishell
+
+.PHONY: all clean fclean re run
