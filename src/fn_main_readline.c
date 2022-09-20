@@ -28,6 +28,7 @@ void	ft_submain(t_vars *vars)
 		if (!ft_strncmp ("exit", vars->line, ft_strlen(vars->line)))
 		{
 			write(1, "exit\n", 5);
+			system("leaks minishell");
 			exit (0);
 		}
 		if (ft_pre_check(vars))

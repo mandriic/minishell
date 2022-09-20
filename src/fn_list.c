@@ -69,7 +69,7 @@ void ft_lst_cmd(t_vars *vars)
 	{
 		// data->cmd_arg = vars->split[i];
 		// free(vars->split[i]);
-		vars_data = malloc(sizeof(t_command));
+		// vars_data = malloc(sizeof(t_command));
 		data = ft_create_data(vars->split[i], vars); //prev,
 		vars_data = data;
 		// printf("fitst data %s\n", data->cmd_arg);
