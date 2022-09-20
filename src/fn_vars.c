@@ -13,7 +13,12 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 	{
 		free(type);
 		if (vars->start - 1 > 0 && str[vars->start - 1] == '\0' && acum != NULL) //? 
-			return (acum);
+		{
+			//?free type
+			vars->temp2 = ft_cleaning(acum, vars);
+			free(acum);
+			return (vars->temp2); //<--------//ft_cleaning(str, vars)
+		}
 		return(ft_cleaning(str, vars)); //return(ft_strdup(str)); return(ft_cleaning(str));
 	}
 	vars->temp2 = ft_substr(str, vars->start, vars->i - vars->start); //start - 1
@@ -34,20 +39,20 @@ void	ft_pre_getenv(char *str, char **acum, t_vars *vars)
 	char	lastchar;
 	
 	lastchar = '\0';
-	if (vars->i - vars->start > 0 && (str [vars->i - 1] == ' ' || lastchar == '/' || str[vars->i - 1] != vars->quotes[0]))
+	if (vars->i - vars->start >= 0 && (str [vars->i - 1] == ' ' || lastchar == '/' || str[vars->i - 1] != vars->quotes[0]))
 	{
 		vars->temp = ft_substr(str, vars->start, vars->i - vars->start); //ft_substr(str, vars->start, vars->i - vars->start - 1);
 		*acum = ft_acumulate(*acum, vars->temp);
 	}
 	vars->start = vars->i + 1;
 	vars->i++;
-	while (str[vars->i] != ' ' && str[vars->i] != '\0'  && str[vars->i] != '/'  && str[vars->i] != '"' && str[vars->i] != '$' )
+	while (str[vars->i] != ' ' && str[vars->i] != '\0'  && str[vars->i] != '/'  && str[vars->i] != '"' && str[vars->i] != '$'  && str[vars->i] != vars->quotes[0])
 		vars->i++;
 	vars->var = ft_get_env(str + vars->start - 1, vars->i - vars->start); 
 	vars->start = vars->i + 1;
 	*acum = ft_acumulate(*acum, vars->var);
 	lastchar = str[vars->i];
-	if (str[vars->i] == '$') // ?  && str[vars->i - 1] != ' ' && str[vars->i - 1] != '"'
+	if (str[vars->i] == '$' && str[vars->i - 1] != ' ' && str[vars->i - 1] != '"') // ?  && str[vars->i - 1] != ' ' && str[vars->i - 1] != '"'
 		vars->i--;
 }
 void	ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars)

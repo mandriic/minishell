@@ -120,6 +120,7 @@ char	*ft_cleaning(char *str, t_vars *vars)
 	{
 		temp = ft_substr(str, vars->start + 1,vars->i - vars->start - 1);
 		clear = ft_acumulate(clear, temp);	
+		// free(str);
 		return (clear);
 	}
 	else if (clear == NULL)
