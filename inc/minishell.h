@@ -136,11 +136,7 @@ void	ft_echo_builtin(t_command cmd);
 void	ft_cd_builtin(t_command cmd);
 void	ft_pwd_builtin(t_command cmd);
 int	ft_export_builtin(t_command cmd);
-<<<<<<< HEAD
 void	ft_unset_builtin(t_command cmd, t_data *g_data);
-=======
-// void	ft_unset_builtin(t_command cmd, t_data *g_data);
->>>>>>> nico_norm
 void	ft_env_builtin(t_command cmd);
 void	ft_exit_builtin(t_command cmd);
 
@@ -194,8 +190,5 @@ char		*ft_checkif_var(char *str, t_vars *vars);
 void		ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars);
 char		*ft_get_env(char *str, int len);
 void		ft_pre_getenv(char *str, char **acum, t_vars *vars);
-<<<<<<< HEAD
-=======
 
 #endif
->>>>>>> nico_norm
