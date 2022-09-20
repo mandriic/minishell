@@ -61,11 +61,7 @@ typedef struct s_vars
 	char	*var;
 	int		need_cleaning;
 	int					num_cmds;
-<<<<<<< HEAD
-	int					num_pipes;
-=======
 	// int					num_pipes;
->>>>>>> nico_norm
 	int					last_code;
 	char				**envp_copy;
 	char				**export;

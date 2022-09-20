@@ -82,7 +82,7 @@ size_t  ft_numpipes(char *wololoco, int *type)
 
 	i = -1;
 	num_pipes = 0;
-	while(wololoco[++i])
+	while(wololoco[++i])//ojo con el nombre de la variable
 	{
 		if (type[i] == 3)
 			num_pipes++;
