@@ -17,16 +17,15 @@
 
 //no hay nada preparado para $_ (el último comando utilizado, se guarda en las variables de entorno)
 
-typedef struct s_data
-{
-	int					num_cmds;
-	int					num_pipes;
-	int					last_code;
-	struct s_command	*cmd_list;
-	char				**envp_copy;
-	char				**export;
-}	t_data;
-<<<<<<< HEAD
+// typedef struct s_data
+// {
+// 	int					num_cmds;
+// 	int					num_pipes;
+// 	int					last_code;
+// 	struct s_command	*cmd_list;
+// 	char				**envp_copy;
+// 	char				**export;
+// }	t_data;
 
 typedef struct s_command
 {
@@ -34,23 +33,25 @@ typedef struct s_command
 	char 	*comando_con_flags;
 	char	**comando_bonito;
 	char	*comando_a_pelo;
+	int		fd[2];
 	char	*arg;
 	int		menos;
 	int		menos_dob;
 	int		mas;
 	int		mas_dob;
 	char 	*sub_arg;
-	t_list	*prev;
+	t_list	*next;
 }t_command;
 
 typedef struct s_vars
 {
 	t_list	*list;
+	struct s_command	*cmd_list; //t_comad
 	char	**split;
 	char	*quotes;
 	char	*line;
 	int		*type;
-	char	*env_var;
+	char	**env_var;
 	int		i;
 	int		i2;
 	char	*temp;
@@ -59,24 +60,28 @@ typedef struct s_vars
 	int		start2;
 	char	*var;
 	int		need_cleaning;
+	int					num_cmds;
+	int					num_pipes;
+	int					last_code;
+	char				**envp_copy;
+	char				**export;
 	
 	size_t 	num_pipes;
-	size_t	num_pipes;
 	size_t	line_len;
 }	t_vars;
 
-typedef struct s_command
-{
-	char		*comando_a_pelo;
-	char		*comando_con_flags;
-	char		**comando_bonito;
-	char		**infiles;
-	char		**outfiles;
-	int			fd[2];
-	struct s_command	*next;
-	struct s_command	*prev;
+// typedef struct s_command
+// {
+// 	char		*comando_a_pelo;
+// 	char		*comando_con_flags;
+// 	char		**comando_bonito;
+// 	char		**infiles;
+// 	char		**outfiles;
 
-}	t_command;
+// 	struct s_command	*next;
+// 	struct s_command	*prev;
+
+// }	t_command;
 
 extern t_data	g_data;
 
@@ -133,6 +138,10 @@ void	ft_exit_builtin(t_command cmd);
 
 bool	ft_is_builtin(t_command cmd);
 void	ft_execute_buitlin(t_command cmd);
+
+//main.c
+
+int	ft_jose(t_vars *vars);
 
 /* export.c */
 int	ft_check_existing_variable_in_matrix(char **matrix, char *var_name, int *index);

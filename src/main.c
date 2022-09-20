@@ -33,8 +33,22 @@ int main(int argc, char *argv[], char *envp[])
 {
 	// atexit(leaks);
 
+	t_vars  vars;
+
 	ft_preliminar_check(argc, argv);
-	ft_initialize_global_var(envp);
+	vars = (t_vars){};
+	vars.split = NULL;
+	vars.list = NULL;
+	vars.line = NULL;
+	vars.quotes  = "'";
+	vars.env_var = envp;
+
+	ft_readline();
+}
+
+int	ft_jose(t_vars *vars)
+{
+	ft_initialize_global_var(vars->env_var);
 	if (g_data.num_cmds > 1)
 		ft_multiple_pipes();
 	else
@@ -44,7 +58,8 @@ int main(int argc, char *argv[], char *envp[])
 					ft_execute_buitlin(*g_data.cmd_list);
 				}
 		}
-	ft_readline();
+	return (0);
+}
 	
 	/* Esto crea los pipes y los hijos, en los hijos hace las redirecciones necesarias
 	cierra los extremos de los pipes y ejecuta los comandos
@@ -53,6 +68,6 @@ int main(int argc, char *argv[], char *envp[])
 	No hay control de buildins
 	 */
 	
-	return (0);
-}
+
+// }
 
