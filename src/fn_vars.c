@@ -17,7 +17,7 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 		return(ft_cleaning(str, vars)); //return(ft_strdup(str)); return(ft_cleaning(str));
 	}
 	vars->temp2 = ft_substr(str, vars->start, vars->i - vars->start); //start - 1
-	if (vars->temp2 != NULL) //&& temp[0] != '\0'
+	if (vars->temp2 != NULL) //&& temp[0] != '\0' 
 	{
 		acum = ft_acumulate(acum, vars->temp2);
 		free(type);
