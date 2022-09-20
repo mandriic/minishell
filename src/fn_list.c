@@ -10,13 +10,13 @@ void	ft_del_list(t_list *list)
 	while(1)
 	{
 		temp = list->next;
-		free(((t_data *)list->content)->cmd_list->comando_a_pelo);
-		free(((t_data *)list->content)->cmd_list->arg);
-		free(((t_data *)list->content)->cmd_list->cmd_splited);
+		free(((t_command *)list->content)->comando_a_pelo);
+		free(((t_command *)list->content)->arg);
+		free(((t_command *)list->content)->cmd_splited);
 		// free(((t_data *)list->content)->cmd_list->comando_con_flags);
-		if (((t_data *)list->content)->cmd_list->sub_arg)
-			free(((t_data *)list->content)->cmd_list->sub_arg);
-		free(((t_data *)list->content)->cmd_list);
+		if (((t_command *)list->content)->sub_arg)
+			free(((t_command *)list->content)->sub_arg);
+		// free(((t_command *)list->content)->cmd_list);
 		free(list->content);
 		free(list);
 		if(list  == last)
@@ -26,7 +26,7 @@ void	ft_del_list(t_list *list)
 	
 }
 
-t_command *ft_create_data(char *str, t_list *prev, t_vars *vars)
+t_command *ft_create_data(char *str, t_vars *vars)
 {
 	t_command *data;
 
@@ -48,44 +48,44 @@ t_command *ft_create_data(char *str, t_list *prev, t_vars *vars)
 	printf("DATAcmdarg_full %s\n", data->comando_con_flags);
 	ft_subpars(str, data, vars);
 	// ft_split_args(data, vars);
-	data->prev = prev;
+	// data->prev = prev;
 	return (data);
 }
 
 void ft_lst_cmd(t_vars *vars)
 {
 
-	t_list *prev;
+	// t_list *prev;
 	t_list *temp;
-	t_data *vars_data;
+	t_command *vars_data;
 	t_command *data;
 	int i;
 	i = -1;
 	if (vars->list)
 		ft_del_list(vars->list);
-	prev = NULL;
+	// prev = NULL;
 	vars->list = NULL;
 	while (vars->split[++i])
 	{
 		// data->cmd_arg = vars->split[i];
 		// free(vars->split[i]);
-		vars_data = malloc(sizeof(t_data));
-		data = ft_create_data(vars->split[i], prev, vars);
-		vars_data->cmd_list = data;
+		vars_data = malloc(sizeof(t_command));
+		data = ft_create_data(vars->split[i], vars); //prev,
+		vars_data = data;
 		// printf("fitst data %s\n", data->cmd_arg);
 		if (vars->list == NULL)
 		{
-			vars->list = ft_lstnew((t_data *)vars_data);
-			data->prev = NULL;
+			vars->list = ft_lstnew((t_command *)vars_data);
+			// data->prev = NULL;
 			// printf("lsst_cmd %s\n", ((t_data *)vars->list->content)->cmd_list->comando_con_flags);
 			temp = vars->list;
 		}
 		else 
 		{
-			temp = ft_lstnew(((t_data *)vars_data));
+			temp = ft_lstnew(((t_command*)vars_data));
 			ft_lstadd_back(&vars->list, temp);
 		}
-		prev = temp;
+		// prev = temp;
 		temp = temp->next;
 
 	}
@@ -93,7 +93,7 @@ void ft_lst_cmd(t_vars *vars)
 	temp = vars->list;
 	while (temp)
 	{
-		 printf("print puntero from list ->%s\n", ((t_data *)temp->content)->cmd_list->comando_con_flags);
+		 printf("print puntero from list ->%s\n", ((t_command *)temp->content)->comando_con_flags);
 		temp = temp->next;
 	}
 	// printf("I%d",i);

@@ -1,6 +1,6 @@
 #include "../inc/minishell.h"
 
-t_data	g_data;
+// t_data	g_data;
 
 int	ft_count_cmd(t_command *cmd)
 {

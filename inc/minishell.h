@@ -61,7 +61,11 @@ typedef struct s_vars
 	char	*var;
 	int		need_cleaning;
 	int					num_cmds;
+<<<<<<< HEAD
 	int					num_pipes;
+=======
+	// int					num_pipes;
+>>>>>>> nico_norm
 	int					last_code;
 	char				**envp_copy;
 	char				**export;
@@ -83,7 +87,7 @@ typedef struct s_vars
 
 // }	t_command;
 
-extern t_data	g_data;
+// extern t_data	g_data;
 
 char	*leelinea(void);
 void	ft_cd(char *route);
@@ -132,7 +136,11 @@ void	ft_echo_builtin(t_command cmd);
 void	ft_cd_builtin(t_command cmd);
 void	ft_pwd_builtin(t_command cmd);
 int	ft_export_builtin(t_command cmd);
+<<<<<<< HEAD
 void	ft_unset_builtin(t_command cmd, t_data *g_data);
+=======
+// void	ft_unset_builtin(t_command cmd, t_data *g_data);
+>>>>>>> nico_norm
 void	ft_env_builtin(t_command cmd);
 void	ft_exit_builtin(t_command cmd);
 
@@ -148,7 +156,7 @@ int	ft_check_existing_variable_in_matrix(char **matrix, char *var_name, int *ind
 
 // fn_lists.c
 void		ft_del_list(t_list *list);
-t_command	*ft_create_data(char *str, t_list *prev, t_vars *vars);
+t_command	*ft_create_data(char *str, t_vars *vars);
 void		ft_lst_cmd(t_vars *vars);
 
 // fn_main_readline.c
@@ -186,3 +194,8 @@ char		*ft_checkif_var(char *str, t_vars *vars);
 void		ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars);
 char		*ft_get_env(char *str, int len);
 void		ft_pre_getenv(char *str, char **acum, t_vars *vars);
+<<<<<<< HEAD
+=======
+
+#endif
+>>>>>>> nico_norm
