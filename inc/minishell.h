@@ -63,7 +63,7 @@ typedef struct s_vars
 	int					num_cmds;
 	// int					num_pipes;
 	int					last_code;
-	char				**envp_copy;
+	// char				**envp_copy;
 	char				**export;
 	
 	size_t 	num_pipes;
