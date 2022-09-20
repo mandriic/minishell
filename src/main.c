@@ -50,7 +50,7 @@ int	ft_jose(t_vars *vars)
 {
 	ft_initialize_global_var(vars);
 	if (vars->num_cmds > 1)
-		ft_multiple_pipes();
+		ft_multiple_pipes(vars);
 	else
 		{
 			if (ft_is_builtin(*vars->cmd_list) == true)

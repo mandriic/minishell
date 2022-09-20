@@ -31,8 +31,8 @@ typedef struct s_command
 {
 	char	**cmd_splited; //data->cmd_splited[0] [1] - args
 	char 	*comando_con_flags;
-	char	**comando_bonito;
-	char	*comando_a_pelo;
+	char	**comando_bonito;//este si se usa
+	char	*comando_a_pelo;//este si se usa
 	int		fd[2];
 	char	*arg;
 	int		menos;
@@ -125,14 +125,14 @@ void	ft_dup_outfile(t_command *cmd);
 void	ft_redirections(t_command *cmd);
 
 /* multiple_pipes */
-void	ft_multiple_pipes(void);
+void	ft_multiple_pipes(t_vars *vars);
 
 /* builtins.c */
 void	ft_echo_builtin(t_command cmd);
 void	ft_cd_builtin(t_command cmd);
 void	ft_pwd_builtin(t_command cmd);
-int	ft_export_builtin(t_command cmd);
-void	ft_unset_builtin(t_command cmd, t_data *g_data);
+int		ft_export_builtin(t_command cmd);
+void	ft_unset_builtin(t_command cmd, t_vars *vars);
 void	ft_env_builtin(t_command cmd);
 void	ft_exit_builtin(t_command cmd);
 
