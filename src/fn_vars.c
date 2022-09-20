@@ -34,7 +34,7 @@ void	ft_pre_getenv(char *str, char **acum, t_vars *vars)
 	char	lastchar;
 	
 	lastchar = '\0';
-	if (vars->i - vars->start > 1 && (str [vars->i - 1] == ' ' || lastchar == '/' || str[vars->i - 1] != vars->quotes[0]))
+	if (vars->i - vars->start > 0 && (str [vars->i - 1] == ' ' || lastchar == '/' || str[vars->i - 1] != vars->quotes[0]))
 	{
 		vars->temp = ft_substr(str, vars->start, vars->i - vars->start); //ft_substr(str, vars->start, vars->i - vars->start - 1);
 		*acum = ft_acumulate(*acum, vars->temp);
