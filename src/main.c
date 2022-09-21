@@ -57,6 +57,7 @@ int	ft_jose(t_vars *vars)
 				{
 					ft_execute_buitlin(*vars->cmd_list);
 				}
+			//falta else -> ejecutar comando con execve
 		}
 	return (0);
 }
