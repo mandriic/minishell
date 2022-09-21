@@ -22,7 +22,7 @@ int	ft_count_cmd(t_command *cmd)
 void	ft_initialize_global_var(t_vars *vars)
 {
 	vars->cmd_list = dar_datos_a_los_cmd();
-	vars->envp_copy = ft_copy_enviroment_vars_into_matrix(vars->env_var);
+	vars->env_var = ft_copy_enviroment_vars_into_matrix(vars->env_var);
 	vars->export = ft_copy_enviroment_vars_into_matrix(vars->env_var);
 	vars->num_cmds = ft_count_cmd(vars->cmd_list);
 	vars->num_pipes = 0;
