@@ -35,6 +35,10 @@ typedef struct s_command
 	char	*comando_a_pelo;//este si se usa
 	int		fd[2];
 	char	*arg;
+	char	**infiles;
+	char	**heredocs;
+	char	**outfiles;
+	char	**appends;
 	int		menos;
 	int		menos_dob;
 	int		mas;
