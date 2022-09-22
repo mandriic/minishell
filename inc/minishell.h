@@ -30,7 +30,7 @@
 typedef struct s_command
 {
 	char	**cmd_splited; //data->cmd_splited[0] [1] - args
-	char 	*comando_con_flags;
+	char 	*comando_con_flags;//este se transforma en comando_bonito con un split
 	char	**comando_bonito;//este si se usa
 	char	*comando_a_pelo;//este si se usa
 	int		fd[2];
@@ -44,8 +44,8 @@ typedef struct s_command
 	int		mas;
 	int		mas_dob;
 	char 	*sub_arg;
-	t_command	*next;
-	t_command	*prev;
+	struct s_command	*next;
+	struct s_command	*prev;
 }t_command;
 
 typedef struct s_vars

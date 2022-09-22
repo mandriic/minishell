@@ -38,7 +38,7 @@ int main(int argc, char *argv[], char *envp[])
 	ft_preliminar_check(argc, argv);
 	vars = (t_vars){};
 	vars.split = NULL;
-	vars.list = NULL;
+	vars.cmd_list = NULL;
 	vars.line = NULL;
 	vars.quotes  = "'";
 	vars.env_var = envp;
@@ -55,7 +55,7 @@ int	ft_jose(t_vars *vars)
 		{
 			if (ft_is_builtin(*vars->cmd_list) == true)
 				{
-					ft_execute_buitlin(*vars->cmd_list);
+					ft_execute_buitlin(*vars->cmd_list, vars);
 				}
 			//falta else -> ejecutar comando con execve
 		}
