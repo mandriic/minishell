@@ -6,7 +6,7 @@ void	ft_readline(void)
 
 	vars = (t_vars){};
 	vars.split = NULL;
-	vars.list = NULL;
+	// vars.list = NULL;
 	vars.line = NULL;
 	vars.quotes  = "'";
 	ft_submain(&vars);

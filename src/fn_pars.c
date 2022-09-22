@@ -3,7 +3,7 @@
 void	fr_subargs(char *str, char *temp, t_command *data, t_vars *vars)
 {
 	temp = ft_substr(str, vars->start2, vars->i2 - vars->start2);
-	data->arg = ft_checkif_var(temp, vars);
+	data->arg = ft_checkif_var(temp, vars); 
 	free(temp);
 	vars->start2 = vars->i2 + 1;
 	if (str[vars->i2] == '<' && str[vars->i2 + 1] == '<')
@@ -55,6 +55,9 @@ void	ft_subpars(char *str, t_command *data, t_vars * vars)
 		else
 			fr_subargs(str, temp, data, vars);
 		printf("command\t\t|%s\n", data->comando_a_pelo);
+		data->comando_bonito = ft_split(data->arg, ' ');
+		ft_print_dp(data->comando_bonito, "comando bonito");
+
 		printf("arg\t\t|%s\n", data->arg);
 		printf("redir_men\t|%d\n", data->menos);
 		printf("redir_men_d\t|%d\n", data->menos_dob);

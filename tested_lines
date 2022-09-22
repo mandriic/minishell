@@ -14,3 +14,4 @@ echo '$HOME'"$USER"
 echo $"HOME"
 echo $'HOME' - n/w
 echo $HOME'$HO'
+echo '$'$HOME - n/w

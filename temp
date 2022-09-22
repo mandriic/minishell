@@ -1,0 +1,9 @@
+		else if (line[vars->i] == '<' || line[vars->i] == '>')
+		{
+			type[vars->i] == 10;
+			if ((line[vars->i] == '<' && line[vars->i + 1] == '<') || (line[vars->i] == '>' && line[vars->i + 1] == '>') )
+				{
+					vars->i++;
+					type[vars->i] == 10;
+				}
+		}

@@ -33,8 +33,6 @@ typedef struct s_command
 	char 	*comando_con_flags;//este se transforma en comando_bonito con un split
 	char	**comando_bonito;//este si se usa
 	char	*comando_a_pelo;//este si se usa
-	char	*vars_resolv;
-	char	**pre_comand_bon;
 	int		fd[2];
 	char	*arg;
 	char	**infiles;
@@ -52,7 +50,7 @@ typedef struct s_command
 
 typedef struct s_vars
 {
-	// t_command	*list;
+	// t_list	*list;
 	struct s_command	*cmd_list; //t_comad
 	char	**split;
 	char	*quotes;
@@ -92,8 +90,6 @@ typedef struct s_vars
 
 // extern t_data	g_data;
 
-void ft_print_arrint(int *arr, char *name);
-void ft_print_dp(char **str, char *name);
 char	*leelinea(void);
 void	ft_cd(char *route);
 
@@ -101,9 +97,9 @@ void	ft_cd(char *route);
 
 char	**ft_copy_enviroment_vars_into_matrix(char *envp_original[]);
 void	ft_free_array(char **envp_copy);
-void	ft_free_list(t_command *lst);
-t_command	**ft_copy_enviroment_vars_into_list(t_command **env_copy, char **envp);
-void	ft_print_command(t_command *env_copy);
+void	ft_free_list(t_list *lst);
+t_list	**ft_copy_enviroment_vars_into_list(t_list **env_copy, char **envp);
+void	ft_print_list(t_list *env_copy);
 void	ft_pwd(char **env);
 void	ft_pwd_2(void);
 
@@ -156,12 +152,9 @@ int	ft_jose(t_vars *vars);
 int	ft_check_existing_variable_in_matrix(char **matrix, char *var_name, int *index);
 
 // fn_lists.c
-void		ft_del_list(t_command *list);
+void		ft_del_list(t_list *list);
 t_command	*ft_create_data(char *str, t_vars *vars);
 void		ft_lst_cmd(t_vars *vars);
-t_command	*ft_lstnew_mod(t_command *content);
-void	ft_lstadd_back_mod(t_command **lst, t_command *new);
-t_command	*ft_lstlast_mod(t_command *lst);
 
 // fn_main_readline.c
 void		ft_readline(void);

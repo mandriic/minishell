@@ -9,8 +9,8 @@ int	ft_singquot(char *line, int *type, t_vars *vars)
 		{
 			printf("Not interpret unclosed quotes \n");
 			free(type);
-			if(vars->list)
-				ft_del_list(vars->list);
+			if(vars->cmd_list)
+				ft_del_list(vars->cmd_list);
 			return(1);
 		}
 	type[vars->i] = 1;
@@ -27,8 +27,8 @@ int	ft_dobquot(char *line, int *type, t_vars *vars)
 		{
 			printf("Not interpret unclosed quotes \n");
 			free(type);
-			if(vars->list)
-				ft_del_list(vars->list);
+			if(vars->cmd_list)
+				ft_del_list(vars->cmd_list);
 			return(1);
 		}
 	else
@@ -56,6 +56,8 @@ int	*ft_mask(char *line, t_vars *vars)
 			type[vars->i] = 3; 
 		else if (line[vars->i] == '|' && line[vars->i + 1] == '\0')
 			type[vars->i] = 4;
+		else if (line[vars->i] == '<' || line[vars->i] == '<<' || line[vars->i] == '>>' || line[vars->i] == '>')
+			type[vars->i] == 10;
 		else
 			type[vars->i] = 0;
 	}
