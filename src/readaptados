@@ -1,5 +1,7 @@
 main
 multiple_pipes.c
+execve.c
+pipe.c
+buitlins.c
 
 en proceso:
-execve.c

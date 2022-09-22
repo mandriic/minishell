@@ -44,12 +44,13 @@ typedef struct s_command
 	int		mas;
 	int		mas_dob;
 	char 	*sub_arg;
-	t_list	*next;
+	t_command	*next;
+	t_command	*prev;
 }t_command;
 
 typedef struct s_vars
 {
-	t_list	*list;
+	// t_list	*list;
 	struct s_command	*cmd_list; //t_comad
 	char	**split;
 	char	*quotes;
@@ -132,16 +133,16 @@ void	ft_redirections(t_command *cmd);
 void	ft_multiple_pipes(t_vars *vars);
 
 /* builtins.c */
-void	ft_echo_builtin(t_command cmd);
-void	ft_cd_builtin(t_command cmd);
-void	ft_pwd_builtin(t_command cmd);
-int		ft_export_builtin(t_command cmd);
+void	ft_echo_builtin(t_command cmd, t_vars *vars);
+void	ft_cd_builtin(t_command cmd, t_vars *vars);
+void	ft_pwd_builtin(t_command cmd, t_vars *vars);
+int		ft_export_builtin(t_command cmd, t_vars *vars);
 void	ft_unset_builtin(t_command cmd, t_vars *vars);
-void	ft_env_builtin(t_command cmd);
-void	ft_exit_builtin(t_command cmd);
+void	ft_env_builtin(t_command cmd, t_vars *vars);
+void	ft_exit_builtin(t_command cmd, t_vars *vars);
 
 bool	ft_is_builtin(t_command cmd);
-void	ft_execute_buitlin(t_command cmd);
+void	ft_execute_buitlin(t_command cmd, t_vars *vars);
 
 //main.c
 
