@@ -186,13 +186,13 @@ export ___ZZZ='"kjdf asf"', sí las tiene que mostrar
 no lo implemento ahora porque es posible que se gestione durante el parser/lexer
  */
 
-int	ft_export_builtin(t_command cmd)
+int	ft_export_builtin(t_command cmd, t_vars *vars)
 {
 	int	i;
 	int	matrix_index;
 
 	if (cmd.comando_bonito[1] == NULL)
-		return (ft_export_without_anything_else(g_data.export));
+		return (ft_export_without_anything_else(vars->export));
 	i = 1;
 	while (cmd.comando_bonito[i])
 	{
@@ -202,16 +202,16 @@ int	ft_export_builtin(t_command cmd)
 			i++;
 			continue;//tiene que mostrar el error
 		}
-		if (ft_check_existing_variable_in_matrix(g_data.export, cmd.comando_bonito[i], &matrix_index) == 1)
-			ft_replace_line_in_matrix(g_data.export, cmd.comando_bonito[i], matrix_index);
+		if (ft_check_existing_variable_in_matrix(vars->export, cmd.comando_bonito[i], &matrix_index) == 1)
+			ft_replace_line_in_matrix(vars->export, cmd.comando_bonito[i], matrix_index);
 		else
-			ft_add_line_to_matrix(&g_data.export, cmd.comando_bonito[i]);
+			ft_add_line_to_matrix(&vars->export, cmd.comando_bonito[i]);
 		if (ft_strchr(cmd.comando_bonito[i], '=') != 0)
 		{
-			if (ft_check_existing_variable_in_matrix(g_data.envp_copy, cmd.comando_bonito[i], &matrix_index) == 1)
-				ft_replace_line_in_matrix(g_data.envp_copy, cmd.comando_bonito[i], matrix_index);
+			if (ft_check_existing_variable_in_matrix(vars->env_var, cmd.comando_bonito[i], &matrix_index) == 1)
+				ft_replace_line_in_matrix(vars->env_var, cmd.comando_bonito[i], matrix_index);
 			else
-				ft_add_line_to_matrix(&g_data.envp_copy, cmd.comando_bonito[i]);
+				ft_add_line_to_matrix(&vars->env_var, cmd.comando_bonito[i]);
 		}
 		i++;
 	}
