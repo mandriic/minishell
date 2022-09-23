@@ -47,8 +47,8 @@ void	ft_subpars(char *str, t_command *data, t_vars * vars)
 				break ;
 		if ((str[vars->i2] == '<' || str [vars->i2] == '>') && str[vars->i2 + 1] == '\0')
 		{
-			if (vars->list)
-				ft_del_list(vars->list);
+			if (vars->cmd_list)
+				ft_del_list(vars->cmd_list);
 			ft_end_of_cicle(vars);
 			ft_submain(vars);
 		}

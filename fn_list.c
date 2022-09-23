@@ -1,5 +1,18 @@
 #include "../inc/minishell.h"
+void ft_free_dob_p(char **str)
+{
+	int i;
 
+	i = -1;
+	if (str)
+	{
+		while (str[++i])
+		{
+			free(str[i]);
+		}
+		free(str);
+	}
+}
 void	ft_del_list(t_command *list)
 {
 	t_command	*last;
@@ -13,7 +26,7 @@ void	ft_del_list(t_command *list)
 		free(list->comando_a_pelo);
 		free(list->vars_resolv);
 		free(list->cmd_splited);
-		free(list->pre_comand_bon);
+		// ft_free_dob_p(list->pre_comand_bon);
 		// free(((t_data *)list->content)->cmd_list->comando_con_flags);
 		if (list->sub_arg)
 			free(list->sub_arg);
@@ -71,40 +84,112 @@ char	**ft_pre_com_bon(char *str, t_vars *vars)
 	int	i;
 	int i2;
 	int	start;
+	int *type;
 	char	*temp;
 	char	**com_bon;
 	char	**pre_bon;
 	int		num_args;
-	int 	*type;
+	int flag;
 
+	flag = 0;
 	i = -1;
 	i2 = 0;
 	start = 0;
-	com_bon = malloc(sizeof(char *) * 10000);
-	type = ft_mask(str, vars);
+	// type = ft_mask(str, vars);
 	int len = ft_strlen(str);
-	while(++i != len)
-		printf("type[%d] - %d\n", i, type[i]);
+	// while (++i != len)
+	// 	printf("type[%d] - %d\n", i, type[i]);
 	i = -1;
-	// ft_print_arrint(type, "type");
+	com_bon = malloc(sizeof(char *) * 10000);
 	printf("string %s\n", str);
-	while (str[++i] != '\0')
+	while(str[++i] != '\0')
 	{
-		if (str[i] == ' ' && type[i] != 5 && type[i] != 6)
+		if (str[i] == ' ' && vars->type[i] != 5 && vars->type[i] != 6)
 		{
 			com_bon[i2++] = ft_substr(str, start, i - start + 1);
 			start = i + 1;
-			printf("combom .%s. \n", com_bon[i2 - 1]);
 		}
 	}
-	com_bon[i2++] = ft_substr(str, start, i - start + 1);
+	printf("start %d i %d\n", start,i);
+	if (i != start)
+	{
+		com_bon[i2++] = ft_substr(str, start, i - start);
+		printf("com bom last .%s.\n", com_bon[i2 - 1]);
+	}
 	com_bon[i2] = NULL;
-	printf("combom .%s. \n", com_bon[i2 - 1]);
-	ft_print_dp(com_bon, "combom");
+	// ft_print_dp(com_bon, "comando bonito");
 	free(type);
-	return (com_bon);
-}
+}	
+	// 	if (str[i] == '"' && str[i - 1] != ' ')
+	// 	{
+	// 		start = i;
+	// 		while((str[i] != '"' || str[i + 1] != ' ' || str[i - 1] != '"') && str[i] != '\0')// || str[i] != '\0') //&& str[i + 1] == ' ')
+	// 			i++;
+	// 	}
+	// 	if((str[i] == '"' || str[i] == vars->quotes[0]) && str[i - 1] == ' ' && flag == 0) //  
+	// 	{
+	// 		start = i;
+	// 		if(str[i] == '"')
+	// 		{
+	// 			i++;
+	// 			while((str[i] != '"' ||  str [i + 1] != ' ') && str[i + 1] != '\0')
+	// 				i++;
+	// 		}
+	// 		else if(str[i] == vars->quotes[0])
+	// 			while(str[++i] != vars->quotes[0])
+	// 				;
+	// 		// if (str[i + 1] == ' ')
+	// 		// 	start++;
+	// 		temp = ft_substr(str, start, i - start + 1);
+	// 		i++;
+	// 		start = i + 1;
+	// 		com_bon[i2++] = temp;
+	// 		printf("com bom .%s.\n", com_bon[i2 - 1]);
+	// 		// ft_add_line_to_matrix(&com_bon, temp);
+	// 		// free(temp);
+	// 		if (str[i] == '\0')
+	// 			break ;
+	// 	}
+	// 	// if ((str[i] == '"' || str[i] == vars->quotes[0]) )
+	// 	// {
+	// 	// 	if(flag == 0)
+	// 	// 		flag = 1;
+	// 	// 	else
+	// 	// 		flag = 0;
+	// 	// }
+	// 	else if (str[i] == ' ' ) //&& flag == 0
+	// 	{
+	// 		temp = ft_substr(str, start, i - start);
+	// 		start = i + 1;
+	// 		// printf("")
+	// 		com_bon[i2++] = temp;
+	// 		printf("com bom .%s.\n", com_bon[i2 - 1]);
+			
+	// 		// ft_add_line_to_matrix(&com_bon, temp);
+	// 		// free(temp);
+	// 	}
+	// }
 
+	// printf("start %d i %d\n", start,i);
+	// if (i + 1 != start)
+	// {
+	// 	temp = ft_substr(str, start, i - start);
+	// 	com_bon[i2++] = temp;
+	// 	printf("com bom last .%s.\n", com_bon[i2 - 1]);
+	// }
+	// com_bon[i2] = NULL;
+	// pre_bon = (char **)malloc(sizeof(char *) * (i2 + 1));
+	// // pre_bon[i2--] = NULL;
+	// while (i2 != -1)
+	// {
+	// 	pre_bon[i2] = com_bon[i2];
+	// 	printf("pre_bon .%s.\n", pre_bon[i2]);
+	// 	i2--;
+	// }
+	// ft_print_dp(com_bon, "comando bonito");
+	// free(com_bon);
+	// return (pre_bon);
+// }
 t_command *ft_create_data(char *str, t_vars *vars)
 {
 	t_command *data;
@@ -123,8 +208,8 @@ t_command *ft_create_data(char *str, t_vars *vars)
 			str = readline(">");
 	}
 
-	data->comando_con_flags = str;
-	data->pre_comand_bon = ft_pre_com_bon(str, vars);
+	// data->comando_con_flags = str;
+	// data->pre_comand_bon = ft_pre_com_bon(str, vars);
 	// data->vars_resolv = ft_checkif_var(str, vars);
 	// printf("resolved %s\n", data->vars_resolv);
 
