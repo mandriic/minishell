@@ -58,8 +58,11 @@ int	*ft_mask(char *line, t_vars *vars)
 			type[vars->i] = 4;
 		// else if (line[vars->i] == '<' || line[vars->i] == '<<' || line[vars->i] == '>>' || line[vars->i] == '>')
 		// 	type[vars->i] == 10;
-		else if (line[vars->i] != '"' && line[vars->i] != vars->quotes[0])
-			type[vars->i] = 0;
+		else
+			if(line[vars->i + 1] != '\0' && line[vars->i] != '"' && line[vars->i] != vars->quotes[0])
+				type[vars->i] = 0;
+		// printf("str[%d] - %c, type[%d] - %d\n", vars->i, line[vars->i], vars->i, type[vars->i]);
+		printf("vars i %d\n", vars->i);
 	}
 	return (type);
 }
