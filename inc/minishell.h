@@ -97,6 +97,9 @@ void ft_print_dp(char **str, char *name);
 char	*leelinea(void);
 void	ft_cd(char *route);
 
+//export.c
+void	ft_add_line_to_matrix(char ***matrix, char *line);
+
 /* pwd.c */
 
 char	**ft_copy_enviroment_vars_into_matrix(char *envp_original[]);
