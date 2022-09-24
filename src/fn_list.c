@@ -1,5 +1,14 @@
 #include "../inc/minishell.h"
+void ft_free_dob_arr(char **arr)
+{
+	int	i;
 
+	i = -1;
+	if (arr)
+		while (arr[++i])
+			free(arr[i]);
+	free(arr);
+}
 void	ft_del_list(t_command *list)
 {
 	t_command	*last;
@@ -14,6 +23,9 @@ void	ft_del_list(t_command *list)
 		free(list->vars_resolv);
 		free(list->cmd_splited);
 		free(list->pre_comand_bon);
+		ft_free_dob_arr(list->heredocs);
+		ft_free_dob_arr(list->pre_comand_bon);
+
 		// free(((t_data *)list->content)->cmd_list->comando_con_flags);
 		if (list->sub_arg)
 			free(list->sub_arg);
@@ -111,7 +123,7 @@ int ft_check_redir(char **arr, t_command *data)
 	int i2;
 	int i3;
 	char *eofile;
-	data->heredocs = malloc(sizeof(char *) * 100);
+	data->heredocs = malloc(sizeof(char *) * 10000);
 	i = -1;
 	while(arr[++i] != NULL)
 	{
@@ -120,22 +132,28 @@ int ft_check_redir(char **arr, t_command *data)
 		{
 			if(arr[i][i2] == '<' || arr[i][i2] == '>')
 			{
-				i3 = 0;
+				i3 = -1;
 				if (arr[i][i2] == '<' && arr[i][i2 + 1] == '<')
 				{
 					if (arr[i][i2 + 2] == ' ')
 					{
-						eofile = arr[i + 1];
+						eofile = ft_strtrim(arr[i + 1], "<< ");
 						printf("eofcheck\n");
 					}
 					else 
-						eofile = arr[i] + i2 + 2;
-					data->heredocs[0] = "";
+						eofile = ft_strtrim(arr[i], "<< ");
+					// data->heredocs[0] = "";
 					printf("eof %s\n", eofile);
-					while(ft_strncmp(eofile, data->heredocs[i3], ft_strlen(eofile)))
-						data->heredocs[i3] = readline(">"); //<---------i'm here
-					data->heredocs[i3 - 1] = NULL;
+					printf("len %ld\n",  ft_strlen(eofile));
+					int str_cmp = 1;
+					while(str_cmp)
+					{
+						data->heredocs[++i3] = readline(">"); //<---------i'm here
+						str_cmp = ft_strncmp(eofile, data->heredocs[i3], ft_strlen(eofile));
+					}
+					data->heredocs[i3] = NULL;
 					ft_print_dp(data->heredocs, "heredocs");
+					free(eofile);
 					// printf("ch3%d\n",chk);
 					// while(ft_strncmp(eofile, data->heredocs[i3], ft_strlen(eofile)))
 				}
