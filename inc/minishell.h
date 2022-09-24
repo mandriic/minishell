@@ -30,7 +30,7 @@
 typedef struct s_command
 {
 	char	**cmd_splited; //data->cmd_splited[0] [1] - args
-	char 	*comando_con_flags;//este se transforma en comando_bonito con un split
+	// char 	*comando_con_flags;//este se transforma en comando_bonito con un split
 	char	**comando_bonito;//este si se usa
 	char	*comando_a_pelo;//este si se usa
 	char	*vars_resolv;
