@@ -87,44 +87,108 @@ char	**ft_pre_com_bon(char *str, t_vars *vars)
 		printf("type[%d] - %d\n", i, type[i]);
 	i = -1;
 	// ft_print_arrint(type, "type");
-	printf("string %s\n", str);
+	// printf("string %s\n", str);
 	while (str[++i] != '\0')
 	{
 		if (str[i] == ' ' && type[i] != 5 && type[i] != 6)
 		{
 			com_bon[i2++] = ft_substr(str, start, i - start + 1);
 			start = i + 1;
-			printf("combom .%s. \n", com_bon[i2 - 1]);
+			// printf("combom .%s. \n", com_bon[i2 - 1]);
 		}
 	}
 	com_bon[i2++] = ft_substr(str, start, i - start + 1);
 	com_bon[i2] = NULL;
-	printf("combom .%s. \n", com_bon[i2 - 1]);
-	ft_print_dp(com_bon, "combom");
+	// printf("combom .%s. \n", com_bon[i2 - 1]);
+
 	free(type);
 	return (com_bon);
 }
 
+int ft_check_redir(char **arr, t_command *data)
+{
+	int i;
+	int i2;
+	int i3;
+	char *eofile;
+	data->heredocs = malloc(sizeof(char *) * 100);
+	i = -1;
+	while(arr[++i] != NULL)
+	{
+		i2 = -1;
+		while(arr[i][++i2] != '\0')
+		{
+			if(arr[i][i2] == '<' || arr[i][i2] == '>')
+			{
+				i3 = 0;
+				if (arr[i][i2] == '<' && arr[i][i2 + 1] == '<')
+				{
+					if (arr[i][i2 + 2] == ' ')
+					{
+						eofile = arr[i + 1];
+						printf("eofcheck\n");
+					}
+					else 
+						eofile = arr[i] + i2 + 2;
+					data->heredocs[0] = "";
+					printf("eof %s\n", eofile);
+					while(ft_strncmp(eofile, data->heredocs[i3], ft_strlen(eofile)))
+						data->heredocs[i3] = readline(">"); //<---------i'm here
+					data->heredocs[i3 - 1] = NULL;
+					ft_print_dp(data->heredocs, "heredocs");
+					// printf("ch3%d\n",chk);
+					// while(ft_strncmp(eofile, data->heredocs[i3], ft_strlen(eofile)))
+				}
+				return (1);
+			}
+		}
+	}
+	return (0);
+}
+
+// void ft_files(t_command *data)
+// {
+
+// 	while(arr[++i] != NULL)
+// 	{
+// 		i2 = -1;
+// 		while(arr[i][++i2] != '\0')
+// 			if(arr[i][i2] == '<' || arr[i][i2] == '>')
+// 				return (i + 1);
+// 	}
+// 	whi
+// 	if (data->pre_comand_bon[0][0] == '<')
+// 	{
+// 		if (data->pre_comand_bon[0][1] == '<')
+// 		{
+// 			data->heredocs[0] = "herodocs";
+// 		}
+// 		data->infiles[o]
+// 	}
+// }
 t_command *ft_create_data(char *str, t_vars *vars)
 {
 	t_command *data;
 
 	data = malloc(sizeof(t_command));
 	*data = (t_command){};
-	// data->cmd_splited = malloc(sizeof(char *) * 3);
-	// data->cmd_splited[0] = data->comando_a_pelo;
-	// data->cmd_splited[1] = data->arg;
-	// data->cmd_splited[2] = NULL;
-	// printf("str %c\n", str[0]);
 	if (!str[0])
 	{
 		// printf("chl\n");
 		while (str[0] == '\0')
 			str = readline(">");
 	}
-
-	data->comando_con_flags = str;
 	data->pre_comand_bon = ft_pre_com_bon(str, vars);
+	ft_print_dp(data->pre_comand_bon, "data->pre_comand_bon");
+	if(!ft_check_redir(data->pre_comand_bon, data))
+	{
+		data->comando_bonito = data->pre_comand_bon;
+		data->comando_a_pelo = data->pre_comand_bon[0];
+	}
+	// else
+	// {
+	// 	ft_files(data);
+	// }
 	// data->vars_resolv = ft_checkif_var(str, vars);
 	// printf("resolved %s\n", data->vars_resolv);
 
@@ -188,7 +252,7 @@ void ft_lst_cmd(t_vars *vars)
 	temp = vars->cmd_list;
 	while (temp)
 	{
-		 printf("print puntero from list ->%s\n", temp->comando_con_flags);
+		// ft_print_dp(temp->comando_bonito, "comando bonito list");
 		temp = temp->next;
 	}
 	// printf("I%d",i);
