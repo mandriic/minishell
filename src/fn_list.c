@@ -5,9 +5,11 @@ void ft_free_dob_arr(char **arr)
 
 	i = -1;
 	if (arr)
+	{
 		while (arr[++i])
 			free(arr[i]);
-	free(arr);
+		free(arr);
+	}
 }
 void	ft_del_list(t_command *list)
 {
@@ -117,14 +119,18 @@ char	**ft_pre_com_bon(char *str, t_vars *vars)
 
 			if (type[i] == 11)
 			{
-				if (str[i - 1] != ' ')
+				if (i != 0 && str[i - 1] != ' ')
 				{
-					com_bon[i2++] = ft_substr(str, start, i - start);
+					temp = ft_substr(str, start, i - start);
+					com_bon[i2++] = ft_strtrim(temp, " ");
+					free(temp);
 					start = i;
 				}
-				while(str[i] == ' ' || str[i] == '<' || str[i] == '>')
+				while( str[i] == '<' || str[i] == '>') //str[i] == ' ' ||
 					i++;
-				com_bon[i2++] = ft_substr(str, start, i - start);
+				temp = ft_substr(str, start, i - start);
+				com_bon[i2++] = ft_strtrim(temp, " ");
+				free(temp);
 				start = i;
 				// com_bon[i2++] = "<< ";
 			}
@@ -132,17 +138,23 @@ char	**ft_pre_com_bon(char *str, t_vars *vars)
 			{
 				if (str[i - 1] != ' ')
 				{
-					com_bon[i2++] = ft_substr(str, start, i - start);
+					temp = ft_substr(str, start, i - start);
+					com_bon[i2++] = ft_strtrim(temp, " ");
+					free(temp);
 					start = i;
 				}
-				while(str[i] == ' ' || str[i] == '<' || str[i] == '>')
+				while(str[i] == '<' || str[i] == '>') //str[i] == ' ' || 
 					i++;
-				com_bon[i2++] = ft_substr(str, start, i - start);
+				temp = ft_substr(str, start, i - start);
+				com_bon[i2++] = ft_strtrim(temp, " ");
+					free(temp);
 				start = i;
 			}
 			else
 			{
-				com_bon[i2++] = ft_substr(str, start, i - start + 1);
+				temp = ft_substr(str, start, i - start + 1);
+				com_bon[i2++] = ft_strtrim(temp, " ");
+				free(temp);
 				start = i + 1;
 			}
 			// }
@@ -150,7 +162,9 @@ char	**ft_pre_com_bon(char *str, t_vars *vars)
 	
 		}
 	}
-	com_bon[i2++] = ft_substr(str, start, i - start + 1);
+	temp = ft_substr(str, start, i - start + 1);
+	com_bon[i2++] = ft_strtrim(temp, " ");
+	free(temp);
 	com_bon[i2] = NULL;
 	// printf("combom .%s. \n", com_bon[i2 - 1]);
 	// sleep(10);
@@ -174,8 +188,13 @@ int ft_check_redir(char **arr, t_command *data)
 			i3 = -1;
 			if (arr[i][i2] == '<' && arr[i][i2 + 1] == '<')
 			{
-					eofile = arr[i + 1];
-					printf("eofcheck\n");
+				if (i == 0)
+					data->comando_a_pelo = arr[i + 2];
+				else
+					data->comando_a_pelo = arr[i - 1];
+				printf("coma pelo %s\n", data->comando_a_pelo);
+				eofile = arr[i + 1];
+				printf("eofcheck\n");
 				printf("eof %s\n", eofile);
 				printf("len %ld\n",  ft_strlen(eofile));
 				int str_cmp = 1;
@@ -190,6 +209,7 @@ int ft_check_redir(char **arr, t_command *data)
 				// printf("ch3%d\n",chk);
 				// while(ft_strncmp(eofile, data->heredocs[i3], ft_strlen(eofile)))
 			}
+			if (arr[i][0] == '<')
 			// if (arr[i][i2] == '>' && arr[i][i2 + 1] == '>')
 			// {
 				
