@@ -15,6 +15,7 @@
 # include <sys/param.h>
 # include <string.h>
 
+# define BUFFER_SIZE 10000
 //no hay nada preparado para $_ (el último comando utilizado, se guarda en las variables de entorno)
 
 // typedef struct s_data
