@@ -8,7 +8,7 @@ int	main()
 
 void ft_print_dp(char **str, char *name)
 {
-	int i;
+	int i; 
 
 	i = -1;
 	printf("_____________printing doble punbtero %s _______\n", name);
