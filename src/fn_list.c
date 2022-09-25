@@ -21,10 +21,9 @@ void	ft_del_list(t_command *list)
 	while(1)
 	{
 		temp = list->next;
-		free(list->comando_a_pelo);
-		free(list->vars_resolv);
+		// free(list->comando_a_pelo);
+		// free(list->vars_resolv);
 		free(list->cmd_splited);
-		free(list->pre_comand_bon);
 		ft_free_dob_arr(list->heredocs);
 		ft_free_dob_arr(list->pre_comand_bon);
 
@@ -205,15 +204,13 @@ int ft_check_redir(char **arr, t_command *data)
 				}
 				data->heredocs[i3] = NULL;
 				ft_print_dp(data->heredocs, "heredocs");
-				free(eofile);
 				// printf("ch3%d\n",chk);
 				// while(ft_strncmp(eofile, data->heredocs[i3], ft_strlen(eofile)))
 			}
-			if (arr[i][0] == '<')
-			// if (arr[i][i2] == '>' && arr[i][i2 + 1] == '>')
-			// {
-				
-			// }
+			else if (arr[i][0] == '<')
+			{
+
+			}
 
 			return (1);
 		}
