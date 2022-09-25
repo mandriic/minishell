@@ -11,12 +11,12 @@ void ft_print_dp(char **str, char *name)
 	int i;
 
 	i = -1;
-	printf("printing doble punbtero %s\n{\n", name);
+	printf("_____________printing doble punbtero %s _______\n", name);
 	while (str[++i])
 	{
 		printf("\t %s[%d] = .%s.\n" , name, i, str[i]);
 	}
-	printf("{\n");
+	printf("\n");
 
 }
 
