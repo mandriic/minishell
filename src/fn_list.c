@@ -102,17 +102,58 @@ char	**ft_pre_com_bon(char *str, t_vars *vars)
 	// printf("string %s\n", str);
 	while (str[++i] != '\0')
 	{
-		if (str[i] == ' ' && type[i] != 5 && type[i] != 6)
+		if ((str[i] == ' ' && type[i] != 5 && type[i] != 6 ) || type[i] == 11 || type[i] == 10)
 		{
-			com_bon[i2++] = ft_substr(str, start, i - start + 1);
-			start = i + 1;
+			// if (type[i] == 11)
+			// {
+			// 	com_bon[i2++] = ft_substr(str, start, i - start);
+			// 	com_bon[i2++] = ft_substr(str, i, 2);
+			// 	start = i + 2;
+				
+			// }
+			// else
+			// {
+				printf("I%d.\n", i);
+
+			if (type[i] == 11)
+			{
+				if (str[i - 1] != ' ')
+				{
+					com_bon[i2++] = ft_substr(str, start, i - start);
+					start = i;
+				}
+				while(str[i] == ' ' || str[i] == '<' || str[i] == '>')
+					i++;
+				com_bon[i2++] = ft_substr(str, start, i - start);
+				start = i;
+				// com_bon[i2++] = "<< ";
+			}
+			else if(type[i] == 10)
+			{
+				if (str[i - 1] != ' ')
+				{
+					com_bon[i2++] = ft_substr(str, start, i - start);
+					start = i;
+				}
+				while(str[i] == ' ' || str[i] == '<' || str[i] == '>')
+					i++;
+				com_bon[i2++] = ft_substr(str, start, i - start);
+				start = i;
+			}
+			else
+			{
+				com_bon[i2++] = ft_substr(str, start, i - start + 1);
+				start = i + 1;
+			}
+			// }
 			// printf("combom .%s. \n", com_bon[i2 - 1]);
+	
 		}
 	}
 	com_bon[i2++] = ft_substr(str, start, i - start + 1);
 	com_bon[i2] = NULL;
 	// printf("combom .%s. \n", com_bon[i2 - 1]);
-
+	// sleep(10);
 	free(type);
 	return (com_bon);
 }
@@ -127,38 +168,34 @@ int ft_check_redir(char **arr, t_command *data)
 	i = -1;
 	while(arr[++i] != NULL)
 	{
-		i2 = -1;
-		while(arr[i][++i2] != '\0')
+		i2 = 0;
+		if(arr[i][0] == '<' || arr[i][0] == '>')
 		{
-			if(arr[i][i2] == '<' || arr[i][i2] == '>')
+			i3 = -1;
+			if (arr[i][i2] == '<' && arr[i][i2 + 1] == '<')
 			{
-				i3 = -1;
-				if (arr[i][i2] == '<' && arr[i][i2 + 1] == '<')
+					eofile = arr[i + 1];
+					printf("eofcheck\n");
+				printf("eof %s\n", eofile);
+				printf("len %ld\n",  ft_strlen(eofile));
+				int str_cmp = 1;
+				while(str_cmp)
 				{
-					if (arr[i][i2 + 2] == ' ')
-					{
-						eofile = ft_strtrim(arr[i + 1], "<< ");
-						printf("eofcheck\n");
-					}
-					else 
-						eofile = ft_strtrim(arr[i], "<< ");
-					// data->heredocs[0] = "";
-					printf("eof %s\n", eofile);
-					printf("len %ld\n",  ft_strlen(eofile));
-					int str_cmp = 1;
-					while(str_cmp)
-					{
-						data->heredocs[++i3] = readline(">"); //<---------i'm here
-						str_cmp = ft_strncmp(eofile, data->heredocs[i3], ft_strlen(eofile));
-					}
-					data->heredocs[i3] = NULL;
-					ft_print_dp(data->heredocs, "heredocs");
-					free(eofile);
-					// printf("ch3%d\n",chk);
-					// while(ft_strncmp(eofile, data->heredocs[i3], ft_strlen(eofile)))
+					data->heredocs[++i3] = readline(">"); //<---------i'm here
+					str_cmp = ft_strncmp(eofile, data->heredocs[i3], ft_strlen(eofile));
 				}
-				return (1);
+				data->heredocs[i3] = NULL;
+				ft_print_dp(data->heredocs, "heredocs");
+				free(eofile);
+				// printf("ch3%d\n",chk);
+				// while(ft_strncmp(eofile, data->heredocs[i3], ft_strlen(eofile)))
 			}
+			// if (arr[i][i2] == '>' && arr[i][i2 + 1] == '>')
+			// {
+				
+			// }
+
+			return (1);
 		}
 	}
 	return (0);

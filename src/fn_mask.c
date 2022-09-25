@@ -56,8 +56,10 @@ int	*ft_mask(char *line, t_vars *vars)
 			type[vars->i] = 3; 
 		else if (line[vars->i] == '|' && line[vars->i + 1] == '\0')
 			type[vars->i] = 4;
-		// else if (line[vars->i] == '<' || line[vars->i] == '<<' || line[vars->i] == '>>' || line[vars->i] == '>')
-		// 	type[vars->i] == 10;
+		else if ((line[vars->i] == '<' && line[vars->i + 1] == '<') || (line[vars->i] == '>' &&  line[vars->i + 1] == '>'))
+			type[vars->i] = 11;
+		else if (line[vars->i] == '<' || line[vars->i] == '>')
+			type[vars->i] = 10;
 		else if (line[vars->i] != '"' && line[vars->i] != vars->quotes[0])
 			type[vars->i] = 0;
 	}
