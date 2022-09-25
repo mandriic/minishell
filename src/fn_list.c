@@ -30,6 +30,9 @@ void	ft_del_list(t_command *list)
 		free(list->comando_bonito);
 		free(list->pre_args);
 		free(list->infiles);
+		free(list->appends);
+		free(list->outfiles);
+		free(list->heredocs);
 		// ft_free_dob_arr(list->pre_args);
 		// ft_free_dob_arr(list->infiles);
 		
@@ -200,6 +203,8 @@ int ft_check_redir(char **arr, t_command *data)
 	int i3;
 	int i4;
 	int i5;
+	int i6;
+	int i7;
 	char *eofile;
 	int ret = 0;
 
@@ -212,10 +217,12 @@ int ft_check_redir(char **arr, t_command *data)
 			i = 0;
 			i4 = 0;
 			i5 = 0;
+			i6 = 0;
+			i7 = 0;
+			i3 = -1;
 			while(arr[i] != NULL)
 			{
-				i3 = -1;
-				if (arr[i][i2] == '<' && arr[i][i2 + 1] == '<')
+				if (arr[i][0] == '<' && arr[i][1] == '<')
 				{
 
 					if (i == 0)
@@ -227,13 +234,14 @@ int ft_check_redir(char **arr, t_command *data)
 					printf("eof %s\n", eofile);
 					// printf("len %ld\n",  ft_strlen(eofile));
 					int str_cmp = 1;
-					data->heredocs = malloc(sizeof(char *) * BUFFER_SIZE);
+					if(!data->heredocs)
+						data->heredocs = malloc(sizeof(char *) * BUFFER_SIZE);
 					while(str_cmp)
 					{
 						data->heredocs[++i3] = readline(">"); //<---------i'm here
 						str_cmp = ft_strncmp(eofile, data->heredocs[i3], ft_strlen(eofile));
 					}
-					data->heredocs[i3] = NULL;
+					data->heredocs[i3--] = NULL;
 					ft_print_dp(data->heredocs, "heredocs");
 					// printf("ch3%d\n",chk);
 					// while(ft_strncmp(eofile, data->heredocs[i3], ft_strlen(eofile)))
@@ -253,7 +261,34 @@ int ft_check_redir(char **arr, t_command *data)
 					data->infiles[i5++] = arr[i + 1];
 					data->infiles[i5] = NULL;
 				}
-
+				else if (arr[i][0] == '>' && arr[i][1] == '>')
+				{
+					if (!data->appends)
+					{
+						data->appends = malloc(sizeof(char *) * BUFFER_SIZE);
+						// data->infiles[0] = NULL;
+					}
+					if (i == 0)
+						data->comando_a_pelo = arr[3];
+					else if (!data->comando_a_pelo)
+						data->comando_a_pelo = arr[0];
+					data->appends[i6++] = arr[i + 1];
+					data->appends[i6] = NULL;
+				}
+				else if (arr[i][0] == '>')
+				{
+					if (!data->outfiles)
+					{
+						data->outfiles = malloc(sizeof(char *) * BUFFER_SIZE);
+						// data->infiles[0] = NULL;
+					}
+					if (i == 0)
+						data->comando_a_pelo = arr[3];
+					else if (!data->comando_a_pelo)
+						data->comando_a_pelo = arr[0];
+					data->outfiles[i7++] = arr[i + 1];
+					data->outfiles[i7] = NULL;
+				}
 				else if (arr[i][0] == '-')
 				{
 					if (!data->pre_args)
@@ -271,6 +306,10 @@ int ft_check_redir(char **arr, t_command *data)
 			}
 			if (data->pre_args && data->pre_args[0] != NULL)
 				ft_print_dp(data->pre_args, "args");
+			if (data->appends && data->appends[0] != NULL)
+				ft_print_dp(data->appends, "Appends");
+			if (data->outfiles && data->outfiles[0] != NULL)
+				ft_print_dp(data->outfiles, "Outfiles");
 			if (data->infiles && data->infiles[0] != NULL)	
 				ft_print_dp(data->infiles, "infiles");
 			printf("comando a pelo .%s.\n", data->comando_a_pelo);
