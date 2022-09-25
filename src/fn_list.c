@@ -184,7 +184,12 @@ void	ft_merge_comando_args(t_command *data)
 
 	}
 	else
+	{
+		data->comando_bonito = malloc(sizeof(char *) * 2);
 		data->comando_bonito[0] = data->comando_a_pelo;
+		data->comando_bonito[1] = NULL;
+
+	}
 
 }
 
@@ -222,7 +227,7 @@ int ft_check_redir(char **arr, t_command *data)
 					printf("eof %s\n", eofile);
 					// printf("len %ld\n",  ft_strlen(eofile));
 					int str_cmp = 1;
-					data->heredocs = malloc(sizeof(char *) * 10000);
+					data->heredocs = malloc(sizeof(char *) * BUFFER_SIZE);
 					while(str_cmp)
 					{
 						data->heredocs[++i3] = readline(">"); //<---------i'm here
