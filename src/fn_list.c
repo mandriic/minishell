@@ -96,8 +96,8 @@ char	**ft_pre_com_bon(char *str, t_vars *vars)
 	com_bon = malloc(sizeof(char *) * 10000);
 	type = ft_mask(str, vars);
 	int len = ft_strlen(str);
-	while(++i != len)
-		printf("type[%d] - %d\n", i, type[i]);
+	// while(++i != len)
+	// 	printf("type[%d] - %d\n", i, type[i]);
 	i = -1;
 	// ft_print_arrint(type, "type");
 	// printf("string %s\n", str);
@@ -114,7 +114,7 @@ char	**ft_pre_com_bon(char *str, t_vars *vars)
 			// }
 			// else
 			// {
-				printf("I%d.\n", i);
+				// printf("I%d.\n", i);
 
 			if (type[i] == 11)
 			{
@@ -135,7 +135,7 @@ char	**ft_pre_com_bon(char *str, t_vars *vars)
 			}
 			else if(type[i] == 10)
 			{
-				if (str[i - 1] != ' ')
+				if (i != 0 && str[i - 1] != ' ')
 				{
 					temp = ft_substr(str, start, i - start);
 					com_bon[i2++] = ft_strtrim(temp, " ");
@@ -176,7 +176,11 @@ int ft_check_redir(char **arr, t_command *data)
 	int i;
 	int i2;
 	int i3;
+	int i4;
+	int i5;
 	char *eofile;
+	int ret = 0;
+	data->pre_args = malloc(sizeof(char *) * 10000);
 	data->heredocs = malloc(sizeof(char *) * 10000);
 	i = -1;
 	while(arr[++i] != NULL)
@@ -184,36 +188,61 @@ int ft_check_redir(char **arr, t_command *data)
 		i2 = 0;
 		if(arr[i][0] == '<' || arr[i][0] == '>')
 		{
-			i3 = -1;
-			if (arr[i][i2] == '<' && arr[i][i2 + 1] == '<')
+			i4 = 0;
+			i5 = 0;
+			while(arr[i] != NULL)
 			{
-				if (i == 0)
-					data->comando_a_pelo = arr[i + 2];
-				else
-					data->comando_a_pelo = arr[i - 1];
-				printf("coma pelo %s\n", data->comando_a_pelo);
-				eofile = arr[i + 1];
-				printf("eofcheck\n");
-				printf("eof %s\n", eofile);
-				printf("len %ld\n",  ft_strlen(eofile));
-				int str_cmp = 1;
-				while(str_cmp)
+				i3 = -1;
+				if (arr[i][i2] == '<' && arr[i][i2 + 1] == '<')
 				{
-					data->heredocs[++i3] = readline(">"); //<---------i'm here
-					str_cmp = ft_strncmp(eofile, data->heredocs[i3], ft_strlen(eofile));
+					if (i == 0)
+						data->comando_a_pelo = arr[i + 2];
+					else
+						data->comando_a_pelo = arr[i - 1];
+					eofile = arr[i + 1];
+					// printf("eofcheck\n");
+					// printf("eof %s\n", eofile);
+					// printf("len %ld\n",  ft_strlen(eofile));
+					int str_cmp = 1;
+					while(str_cmp)
+					{
+						data->heredocs[++i3] = readline(">"); //<---------i'm here
+						str_cmp = ft_strncmp(eofile, data->heredocs[i3], ft_strlen(eofile));
+					}
+					data->heredocs[i3] = NULL;
+					ft_print_dp(data->heredocs, "heredocs");
+					// printf("ch3%d\n",chk);
+					// while(ft_strncmp(eofile, data->heredocs[i3], ft_strlen(eofile)))
 				}
-				data->heredocs[i3] = NULL;
-				ft_print_dp(data->heredocs, "heredocs");
-				// printf("ch3%d\n",chk);
-				// while(ft_strncmp(eofile, data->heredocs[i3], ft_strlen(eofile)))
-			}
-			else if (arr[i][0] == '<')
-			{
+				else if (arr[i][0] == '<')
+				{
+					if (!data->infiles)
+						data->infiles = malloc(sizeof(char *) * 10000);
+					if (i == 0)
+						data->comando_a_pelo = arr[i + 2];
 
-			}
+					else if (!data->comando_a_pelo)
+						data->comando_a_pelo = arr[i - 1];
+					data->infiles[i5++] = arr[i + 1];
+					data->infiles[i5] = NULL;
+				}
 
-			return (1);
+				else if (arr[i][0] == '-')
+				{
+					data->pre_args[i4++] = arr[i];
+					data->pre_args[i4] = NULL;
+				}
+								
+				// printf("arr - ? .%c.\n", arr[i][0]);
+
+				i++;
+			}
+			ft_print_dp(data->pre_args, "args");
+			ft_print_dp(data->infiles, "infiles");
+			printf("comando a pelo .%s.\n", data->comando_a_pelo);
+			return(1);
 		}
+
 	}
 	return (0);
 }

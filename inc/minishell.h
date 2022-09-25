@@ -35,6 +35,7 @@ typedef struct s_command
 	char	*comando_a_pelo;//este si se usa
 	char	*vars_resolv;
 	char	**pre_comand_bon;
+	char	**pre_args;
 	int		fd[2];
 	char	*arg;
 	char	**infiles;
