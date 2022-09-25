@@ -24,9 +24,15 @@ void	ft_del_list(t_command *list)
 		// free(list->comando_a_pelo);
 		// free(list->vars_resolv);
 		free(list->cmd_splited);
+		// if (list->heredocs)
 		ft_free_dob_arr(list->heredocs);
 		ft_free_dob_arr(list->pre_comand_bon);
-
+		free(list->comando_bonito);
+		free(list->pre_args);
+		free(list->infiles);
+		// ft_free_dob_arr(list->pre_args);
+		// ft_free_dob_arr(list->infiles);
+		
 		// free(((t_data *)list->content)->cmd_list->comando_con_flags);
 		if (list->sub_arg)
 			free(list->sub_arg);
@@ -105,17 +111,6 @@ char	**ft_pre_com_bon(char *str, t_vars *vars)
 	{
 		if ((str[i] == ' ' && type[i] != 5 && type[i] != 6 ) || type[i] == 11 || type[i] == 10)
 		{
-			// if (type[i] == 11)
-			// {
-			// 	com_bon[i2++] = ft_substr(str, start, i - start);
-			// 	com_bon[i2++] = ft_substr(str, i, 2);
-			// 	start = i + 2;
-				
-			// }
-			// else
-			// {
-				// printf("I%d.\n", i);
-
 			if (type[i] == 11)
 			{
 				if (i != 0 && str[i - 1] != ' ')
@@ -170,6 +165,28 @@ char	**ft_pre_com_bon(char *str, t_vars *vars)
 	free(type);
 	return (com_bon);
 }
+void	ft_merge_comando_args(t_command *data)
+{
+	int	i;
+	int i2;
+
+	i = -1;
+	if (data->pre_args)
+	{
+		while(data->pre_args[++i])
+			;
+		data->comando_bonito = malloc(sizeof(char *) * (i + 3));
+		data->comando_bonito[0] = data->comando_a_pelo;
+		i = -1;
+		while(data->pre_args[++i])
+			data->comando_bonito[i + 1] = data->pre_args[i];
+		data->comando_bonito[i + 1] = NULL;
+
+	}
+	else
+		data->comando_bonito[0] = data->comando_a_pelo;
+
+}
 
 int ft_check_redir(char **arr, t_command *data)
 {
@@ -180,14 +197,14 @@ int ft_check_redir(char **arr, t_command *data)
 	int i5;
 	char *eofile;
 	int ret = 0;
-	data->pre_args = malloc(sizeof(char *) * 10000);
-	data->heredocs = malloc(sizeof(char *) * 10000);
+
 	i = -1;
 	while(arr[++i] != NULL)
 	{
 		i2 = 0;
 		if(arr[i][0] == '<' || arr[i][0] == '>')
 		{
+			i = 0;
 			i4 = 0;
 			i5 = 0;
 			while(arr[i] != NULL)
@@ -195,15 +212,17 @@ int ft_check_redir(char **arr, t_command *data)
 				i3 = -1;
 				if (arr[i][i2] == '<' && arr[i][i2 + 1] == '<')
 				{
+
 					if (i == 0)
-						data->comando_a_pelo = arr[i + 2];
+						data->comando_a_pelo = arr[3];
 					else
-						data->comando_a_pelo = arr[i - 1];
+						data->comando_a_pelo = arr[0];
 					eofile = arr[i + 1];
 					// printf("eofcheck\n");
-					// printf("eof %s\n", eofile);
+					printf("eof %s\n", eofile);
 					// printf("len %ld\n",  ft_strlen(eofile));
 					int str_cmp = 1;
+					data->heredocs = malloc(sizeof(char *) * 10000);
 					while(str_cmp)
 					{
 						data->heredocs[++i3] = readline(">"); //<---------i'm here
@@ -217,18 +236,26 @@ int ft_check_redir(char **arr, t_command *data)
 				else if (arr[i][0] == '<')
 				{
 					if (!data->infiles)
+					{
 						data->infiles = malloc(sizeof(char *) * 10000);
+						data->infiles[0] = NULL;
+					}
 					if (i == 0)
-						data->comando_a_pelo = arr[i + 2];
+						data->comando_a_pelo = arr[3];
 
 					else if (!data->comando_a_pelo)
-						data->comando_a_pelo = arr[i - 1];
+						data->comando_a_pelo = arr[0];
 					data->infiles[i5++] = arr[i + 1];
 					data->infiles[i5] = NULL;
 				}
 
 				else if (arr[i][0] == '-')
 				{
+					if (!data->pre_args)
+					{
+						data->pre_args = malloc(sizeof(char *) * 10000);
+						// data->pre_args[0] = NULL;
+					}
 					data->pre_args[i4++] = arr[i];
 					data->pre_args[i4] = NULL;
 				}
@@ -237,9 +264,12 @@ int ft_check_redir(char **arr, t_command *data)
 
 				i++;
 			}
-			ft_print_dp(data->pre_args, "args");
-			ft_print_dp(data->infiles, "infiles");
+			if (data->pre_args && data->pre_args[0] != NULL)
+				ft_print_dp(data->pre_args, "args");
+			if (data->infiles && data->infiles[0] != NULL)	
+				ft_print_dp(data->infiles, "infiles");
 			printf("comando a pelo .%s.\n", data->comando_a_pelo);
+			ft_merge_comando_args(data);
 			return(1);
 		}
 
@@ -286,6 +316,8 @@ t_command *ft_create_data(char *str, t_vars *vars)
 		data->comando_bonito = data->pre_comand_bon;
 		data->comando_a_pelo = data->pre_comand_bon[0];
 	}
+	ft_print_dp(data->comando_bonito, "COMANDO BONITO FIN");
+
 	// else
 	// {
 	// 	ft_files(data);
