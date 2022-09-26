@@ -32,7 +32,7 @@ void	ft_del_list(t_command *list)
 		// free(list->vars_resolv);
 		free(list->cmd_splited);
 		// if (list->heredocs)
-		if(list->comando_bonito != NULL)
+		if(list->comando_bonito)
 			free(list->comando_bonito);
 		if(list->infiles != NULL)
 			free(list->infiles);
@@ -334,26 +334,6 @@ int ft_check_redir(char **arr, t_command *data)
 	return (0);
 }
 
-// void ft_files(t_command *data)
-// {
-
-// 	while(arr[++i] != NULL)
-// 	{
-// 		i2 = -1;
-// 		while(arr[i][++i2] != '\0')
-// 			if(arr[i][i2] == '<' || arr[i][i2] == '>')
-// 				return (i + 1);
-// 	}
-// 	whi
-// 	if (data->pre_comand_bon[0][0] == '<')
-// 	{
-// 		if (data->pre_comand_bon[0][1] == '<')
-// 		{
-// 			data->heredocs[0] = "herodocs";
-// 		}
-// 		data->infiles[o]
-// 	}
-// }
 t_command *ft_create_data(char *str, t_vars *vars)
 {
 	t_command *data;
@@ -370,7 +350,7 @@ t_command *ft_create_data(char *str, t_vars *vars)
 	ft_print_dp(data->pre_comand_bon, "data->pre_comand_bon");
 	if(!ft_check_redir(data->pre_comand_bon, data))
 	{
-		data->comando_bonito = data->pre_comand_bon;
+		data->comando_bonito = data->pre_comand_bon;        ////////////////// duplicar
 		data->comando_a_pelo = data->pre_comand_bon[0];
 	}
 	ft_print_dp(data->comando_bonito, "COMANDO BONITO FIN");
