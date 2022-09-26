@@ -7,8 +7,12 @@ void ft_free_dob_arr(char **arr)
 	if (arr)
 	{
 		while (arr[++i])
+		{
 			free(arr[i]);
+			arr[i] = NULL;
+		}
 		free(arr);
+		arr = NULL;
 	}
 }
 void	ft_del_list(t_command *list)
@@ -21,18 +25,27 @@ void	ft_del_list(t_command *list)
 	while(1)
 	{
 		temp = list->next;
+		ft_free_dob_arr(list->pre_comand_bon);
+		ft_free_dob_arr(list->heredocs);
+
 		// free(list->comando_a_pelo);
 		// free(list->vars_resolv);
 		free(list->cmd_splited);
 		// if (list->heredocs)
-		ft_free_dob_arr(list->heredocs);
-		ft_free_dob_arr(list->pre_comand_bon);
-		free(list->comando_bonito);
+		if(list->comando_bonito != NULL)
+			free(list->comando_bonito);
+		if(list->infiles != NULL)
+			free(list->infiles);
+		if(list->outfiles != NULL)
+			free(list->outfiles);
+		if(list->appends != NULL)
+			free(list->appends);
 		free(list->pre_args);
-		free(list->infiles);
-		free(list->appends);
-		free(list->outfiles);
-		free(list->heredocs);
+		// free(list->infiles);
+		// free(list->appends);
+		// free(list->outfiles);
+		// if(list->heredocs)
+		// 	free(list->heredocs);
 		// ft_free_dob_arr(list->pre_args);
 		// ft_free_dob_arr(list->infiles);
 		
@@ -102,7 +115,7 @@ char	**ft_pre_com_bon(char *str, t_vars *vars)
 	i = -1;
 	i2 = 0;
 	start = 0;
-	com_bon = malloc(sizeof(char *) * 10000);
+	com_bon = malloc(sizeof(char *) * BUFFER_SIZE);
 	type = ft_mask(str, vars);
 	int len = ft_strlen(str);
 	// while(++i != len)
@@ -250,7 +263,7 @@ int ft_check_redir(char **arr, t_command *data)
 				{
 					if (!data->infiles)
 					{
-						data->infiles = malloc(sizeof(char *) * 10000);
+						data->infiles = malloc(sizeof(char *) * BUFFER_SIZE);
 						data->infiles[0] = NULL;
 					}
 					if (i == 0)
@@ -293,7 +306,7 @@ int ft_check_redir(char **arr, t_command *data)
 				{
 					if (!data->pre_args)
 					{
-						data->pre_args = malloc(sizeof(char *) * 10000);
+						data->pre_args = malloc(sizeof(char *) * BUFFER_SIZE);
 						// data->pre_args[0] = NULL;
 					}
 					data->pre_args[i4++] = arr[i];
