@@ -26,14 +26,13 @@ void	ft_del_list(t_command *list)
 	{
 		temp = list->next;
 		ft_free_dob_arr(list->pre_comand_bon);
+		ft_free_dob_arr(list->comando_bonito);
 		ft_free_dob_arr(list->heredocs);
 
 		// free(list->comando_a_pelo);
 		// free(list->vars_resolv);
 		free(list->cmd_splited);
 		// if (list->heredocs)
-		if(list->comando_bonito)
-			free(list->comando_bonito);
 		if(list->infiles != NULL)
 			free(list->infiles);
 		if(list->outfiles != NULL)
@@ -192,11 +191,11 @@ void	ft_merge_comando_args(t_command *data)
 		while(data->pre_args[++i])
 			;
 		data->comando_bonito = malloc(sizeof(char *) * (i + 3));
-		data->comando_bonito[0] = data->comando_a_pelo;
+		// data->comando_bonito[0] = data->comando_a_pelo;
 		i = -1;
 		while(data->pre_args[++i])
-			data->comando_bonito[i + 1] = data->pre_args[i];
-		data->comando_bonito[i + 1] = NULL;
+			data->comando_bonito[i] = data->pre_args[i];
+		data->comando_bonito[i] = NULL;
 
 	}
 	else
@@ -256,6 +255,7 @@ int ft_check_redir(char **arr, t_command *data)
 					}
 					data->heredocs[i3--] = NULL;
 					ft_print_dp(data->heredocs, "heredocs");
+					i++;
 					// printf("ch3%d\n",chk);
 					// while(ft_strncmp(eofile, data->heredocs[i3], ft_strlen(eofile)))
 				}
@@ -273,6 +273,8 @@ int ft_check_redir(char **arr, t_command *data)
 						data->comando_a_pelo = arr[0];
 					data->infiles[i5++] = arr[i + 1];
 					data->infiles[i5] = NULL;
+					i++;
+
 				}
 				else if (arr[i][0] == '>' && arr[i][1] == '>')
 				{
@@ -287,6 +289,7 @@ int ft_check_redir(char **arr, t_command *data)
 						data->comando_a_pelo = arr[0];
 					data->appends[i6++] = arr[i + 1];
 					data->appends[i6] = NULL;
+					i++;
 				}
 				else if (arr[i][0] == '>')
 				{
@@ -301,8 +304,9 @@ int ft_check_redir(char **arr, t_command *data)
 						data->comando_a_pelo = arr[0];
 					data->outfiles[i7++] = arr[i + 1];
 					data->outfiles[i7] = NULL;
+					i++;
 				}
-				else if (arr[i][0] == '-')
+				else //(arr[i][0] != '<' && arr[i][0] != '>')
 				{
 					if (!data->pre_args)
 					{
@@ -334,6 +338,77 @@ int ft_check_redir(char **arr, t_command *data)
 	return (0);
 }
 
+// void ft_files(t_command *data)
+// {
+
+// 	while(arr[++i] != NULL)
+// 	{
+// 		i2 = -1;
+// 		while(arr[i][++i2] != '\0')
+// 			if(arr[i][i2] == '<' || arr[i][i2] == '>')
+// 				return (i + 1);
+// 	}
+// 	whi
+// 	if (data->pre_comand_bon[0][0] == '<')
+// 	{
+// 		if (data->pre_comand_bon[0][1] == '<')
+// 		{
+// 			data->heredocs[0] = "herodocs";
+// 		}
+// 		data->infiles[o]
+// 	}
+// }
+// void ft_send_dp(char **arr)
+// {
+// 	int i;
+// 	char *temp;
+// 	i = -1;
+// 	while(arr[++i])
+// 	{
+// 		temp = ft_get_env(arr[i], ft_strlen(arr[i]));
+// 		free(arr[i]);
+// 		arr[i] = temp;
+// 	}
+// }
+// void	ft_clean_dp(char **arr, t_vars *vars)
+// {
+// 	int i = -1;
+// 	int i2 = -1;
+	
+// 	while(arr[++i])
+// 	{
+// 		if(arr[i][0]);
+// 	}
+// }
+void	ft_resolv_com_bon(t_command *data, t_vars *vars)
+{
+	if (data->infiles)
+	{
+		ft_get_env2(data->infiles, vars);
+		// ft_clean_dp(data->infiles, vars);
+	}
+	if (data->comando_bonito)
+	{
+		ft_get_env2(data->comando_bonito, vars);
+		// ft_clean_dp(data->comando_bonito, vars);
+	}
+	
+}
+char	**ft_dup_dp(char **src)
+{
+	int i = -1;
+	char	**dst;
+
+	while(src[++i])
+		;
+	dst = malloc(sizeof(char *) * (i + 1));
+	i = -1;
+	while (src[++i])
+		dst[i] = ft_strdup(src[i]);
+	dst[i] = NULL;
+	return (dst);
+	
+}
 t_command *ft_create_data(char *str, t_vars *vars)
 {
 	t_command *data;
@@ -350,10 +425,13 @@ t_command *ft_create_data(char *str, t_vars *vars)
 	ft_print_dp(data->pre_comand_bon, "data->pre_comand_bon");
 	if(!ft_check_redir(data->pre_comand_bon, data))
 	{
-		data->comando_bonito = data->pre_comand_bon;        ////////////////// duplicar
+		data->comando_bonito = ft_dup_dp(data->pre_comand_bon);        ////////////////// duplicar
 		data->comando_a_pelo = data->pre_comand_bon[0];
 	}
+	ft_resolv_com_bon(data, vars);
 	ft_print_dp(data->comando_bonito, "COMANDO BONITO FIN");
+	if (data->infiles)
+		ft_print_dp(data->infiles, "infile after resolv");
 
 	// else
 	// {
