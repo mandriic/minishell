@@ -19,12 +19,16 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 			// free(acum);
 			return (acum); //<--------//ft_cleaning(str, vars)
 		}
-		return(str);
+		return(ft_strdup(str));
 		// return(ft_cleaning(str, vars)); //return(ft_strdup(str)); return(ft_cleaning(str));
 	}
-	vars->temp2 = ft_substr(str, vars->start, vars->i - vars->start); //start - 1
+	// printf("str[i %c \n", str[vars->i -1]);
+	vars->temp2 = ft_substr(str, vars->start, vars->i - vars->start + 1); //start - 1
 	if (vars->temp2 != NULL) //&& temp[0] != '\0' 
 	{
+		// printf("check\n");
+		// printf("vars->temp2,%s.\n", vars->temp2);
+		// printf("acum,%s.\n", acum);
 		acum = ft_acumulate(acum, vars->temp2);
 		free(type);
 		// vars->temp2 = ft_cleaning(acum, vars);
@@ -51,7 +55,7 @@ void	ft_pre_getenv(char *str, char **acum, t_vars *vars)
 	vars->i++;
 	while (str[vars->i] != ' ' && str[vars->i] != '\0'  && str[vars->i] != '/'  && str[vars->i] != '"' && str[vars->i] != '$'  && str[vars->i] != vars->quotes[0])
 		vars->i++;
-	vars->var = ft_get_env(str + vars->start - 1, vars->i - vars->start); 
+	vars->var = ft_get_env(str + vars->start - 1, vars->i - vars->start);  // +1 
 	vars->start = vars->i + 1;
 	*acum = ft_acumulate(*acum, vars->var);
 	lastchar = str[vars->i];
@@ -61,7 +65,7 @@ void	ft_pre_getenv(char *str, char **acum, t_vars *vars)
 void	ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars)
 {
 	vars->i = 0;
-	while (str[vars->i] != '\0')
+	while (1) //str[vars->i] != '\0'
 	{
 		if (str[vars->i] == '$' && (type[vars->i] == 6 \
 		|| type[vars->i] == 0) && str[vars->i + 1] != ' ')
@@ -113,4 +117,45 @@ char	*ft_get_env(char *str, int len)
 	else
 		temp = ft_strdup(valor);
 	return (temp);
+}
+// char *ft_checkif_var2(char *str, t_vars *vars)
+// {
+// 	int i = -1;
+// 	int start = 0;
+// 	char *accum;
+// 	char *var;
+// 	char *res;
+// 	while (str[++i])
+// 	{
+// 		if (str[0] == '"' || str[0] == vars->quotes[0])
+// 			start = 1;
+// 		if (str[i] == '$' && str[i + 1] != '$')
+// 		{
+// 			while (str[i] != '\0' && str[i] != '"' && str[i] != vars->quotes[0])
+// 				i++;
+// 				printf("cjhesadf\n");
+// 			var = ft_substr(str, start, i - start);
+// 			res = getenv(var);
+// 			printf("res%s\n", res);
+// 			printf("var%s\n", var);
+// 		}
+// 	}
+// }
+
+void ft_get_env2(char **arr, t_vars *vars)
+{
+	int i;
+	int i2;
+	char *temp;
+	
+	i = -1;
+	while(arr[++i] != NULL)
+	{
+		temp = ft_checkif_var(arr[i], vars);
+		printf("str .%s.\n", arr[i]);
+		free(arr[i]);
+		arr[i] = temp;
+	}
+	// 	printf("arr[i] .%s.\n", arr[i]);
+	// }
 }
