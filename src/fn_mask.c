@@ -8,7 +8,7 @@ int	ft_singquot(char *line, int *type, t_vars *vars)
 	if (line[vars->i] == '\0')
 		{
 			printf("Not interpret unclosed quotes \n");
-			free(type);
+			ft_my_free(type);
 			if(vars->cmd_list)
 				ft_del_list(vars->cmd_list);
 			return(1);
@@ -26,7 +26,7 @@ int	ft_dobquot(char *line, int *type, t_vars *vars)
 	if (line[vars->i] == '\0')
 		{
 			printf("Not interpret unclosed quotes \n");
-			free(type);
+			ft_my_free(type);
 			if(vars->cmd_list)
 				ft_del_list(vars->cmd_list);
 			return(1);
@@ -76,7 +76,7 @@ char	*ft_acumulate(char *dest, char *part)
 	if (lenpart == 0)
 	{
 		// printf("lenpart %d\n", lenpart);
-		free(part);
+		ft_my_free(part);
 		return (dest);
 	}
 	// printf("part %s\n", part);
@@ -84,7 +84,7 @@ char	*ft_acumulate(char *dest, char *part)
 	{
 		// printf("CHARC\n");
 		temp = ft_strdup(part);
-		free(part);
+		ft_my_free(part);
 	}
 	else
 	{
@@ -93,11 +93,11 @@ char	*ft_acumulate(char *dest, char *part)
 		if(dest != NULL)
 		{
 			// printf("dest %s\n", dest);
-			free(dest);
+			ft_my_free(dest);
 			dest = NULL;
 		}
 		// if (part != NULL)
-			free(part);
+			ft_my_free(part);
 		part = NULL;
 	}
 	return (temp);

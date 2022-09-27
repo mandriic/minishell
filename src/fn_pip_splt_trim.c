@@ -52,8 +52,8 @@ void	ft_subtrim(char **separ, char **temp, int *i, int *i2, t_vars *vars)
 		separ[*i][i3] = temp[0][*i2];
 		i3++;
 	}
-	free(sub_type);
-	free(temp[0]);
+	ft_my_free(sub_type);
+	ft_my_free(temp[0]);
 	separ[*i][i3] = '\0';
 }
 
@@ -71,7 +71,7 @@ void    ft_triming(char **separ, size_t num_pipes, t_vars *vars, int one_comand)
 		i2 = -1;
 		ft_subtrim(separ, temp, &i, &i2, vars);
 	}
-	free(temp);
+	ft_my_free(temp);
 	if (one_comand)
 		vars->split = separ;
 }
@@ -107,7 +107,7 @@ size_t  ft_numpipes(char *wololoco, int *type)
 // 		while (data->vars_resolv[++i])
 // 			if (data->vars_resolv[i] == ' ')
 // 				i2++;
-// 		data->comando_bonito = malloc (sizeof(char *) * (i2 + 2));     ///free
+// 		data->comando_bonito = malloc (sizeof(char *) * (i2 + 2));     ///ft_my_free
 // 		i = -1;
 // 		i2 = 0;
 // 		while(data->vars_resolv[++i])
@@ -144,9 +144,9 @@ size_t  ft_numpipes(char *wololoco, int *type)
 // 		}
 // 		while(i2 != 0)
 // 		{
-// 			 printf("com bon %s\n", data->comando_bonito[--i2]); //printf - to free
+// 			 printf("com bon %s\n", data->comando_bonito[--i2]); //printf - to ft_my_free
 // 		}
-// 		// free(data->comando_bonito);
+// 		// ft_my_free(data->comando_bonito);
 // 	}
-// 	free(type);
+// 	ft_my_free(type);
 // }

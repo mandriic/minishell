@@ -167,6 +167,8 @@ void		ft_lst_cmd(t_vars *vars);
 t_command	*ft_lstnew_mod(t_command *content);
 void	ft_lstadd_back_mod(t_command **lst, t_command *new);
 t_command	*ft_lstlast_mod(t_command *lst);
+void ft_my_free(char *str);
+void ft_my_free_d(char **arr);
 
 // fn_main_readline.c
 void		ft_readline(void);
@@ -203,5 +205,5 @@ char		*ft_checkif_var(char *str, t_vars *vars);
 void		ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars);
 char		*ft_get_env(char *str, int len);
 void		ft_pre_getenv(char *str, char **acum, t_vars *vars);
-void		ft_get_env2(char **arr, t_vars *vars);
+void		ft_get_env2(char ***arr, t_vars *vars);
 #endif
