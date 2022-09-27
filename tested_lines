@@ -17,4 +17,6 @@ echo $HOME'$HO'
 echo '$'$HOME - n/w
 echo ''asd'"sad"' 
 << EOF command -flag -fl -f <infile < infile2    <     infile3
-<< EOF command -flag -fl -f <infile < infile2    <     infile3 > outfiile1 >    outfile  >> append1 >>  append2
+echo "    $HOME " | 123 '    $HOME ' < infile$USER
+<<EOF
+asd | - error

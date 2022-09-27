@@ -109,9 +109,9 @@ char	*ft_cleaning(char *str, t_vars *vars)
 	vars->start2 = 0;
 	while (str[++vars->i2])
 	{
-		printf(" str .%c. ", str[vars->i2]);
-		printf(" type %d", type[vars->i2]);
-		printf(" i2 %d \n", vars->i2);
+		// printf(" str .%c. ", str[vars->i2]);
+		// printf(" type %d", type[vars->i2]);
+		// printf(" i2 %d \n", vars->i2);
 		if (type[vars->i2] == 2 || type[vars->i2] == 1) ///str[vars->i2] == '"' || str[vars->i2] == vars->quotes[0])
 		{
 			if ((str[vars->i2] == '"' && str[vars->i2 + 1] == '"') || (str[vars->i2] == vars->quotes[0] && str[vars->i2 + 1] == vars->quotes[0]) || str[vars->i2 + 1] == '\0')

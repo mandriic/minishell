@@ -442,16 +442,16 @@ t_command *ft_create_data(char *str, t_vars *vars)
 			str = readline(">");
 	}
 	data->pre_comand_bon = ft_pre_com_bon(str, vars);
-	ft_print_dp(data->pre_comand_bon, "data->pre_comand_bon");
+	// ft_print_dp(data->pre_comand_bon, "data->pre_comand_bon");
 	if(!ft_check_redir(data->pre_comand_bon, data))
 	{
 		data->comando_bonito = ft_dup_dp(data->pre_comand_bon);        ////////////////// duplicarft_dup_dp(
 		data->comando_a_pelo = data->comando_bonito[0];
 	}
 	ft_resolv_com_bon(data, vars);
-	ft_print_dp(data->comando_bonito, "COMANDO BONITO FIN");
-	if (data->infiles)
-		ft_print_dp(data->infiles, "infile after resolv");
+	// ft_print_dp(data->comando_bonito, "COMANDO BONITO FIN");
+	// if (data->infiles)
+	// 	ft_print_dp(data->infiles, "infile after resolv");
 
 	// else
 	// {
@@ -486,11 +486,12 @@ void ft_lst_cmd(t_vars *vars)
 	t_command *temp;
 	t_command *vars_data;
 	t_command *data;
+	t_command *prev;
 	int i;
 	i = -1;
 	if (vars->cmd_list)
 		ft_del_list(vars->cmd_list);
-	// prev = NULL;
+	prev = NULL;
 	vars->cmd_list = NULL;
 	while (vars->split[++i])
 	{
@@ -503,16 +504,18 @@ void ft_lst_cmd(t_vars *vars)
 		if (vars->cmd_list == NULL)
 		{
 			vars->cmd_list = ft_lstnew_mod((t_command *)vars_data);
-			// data->prev = NULL;
+			data->prev = NULL;
 			// printf("lsst_cmd %s\n", ((t_data *)vars->cmd_list->content)->cmd_list->comando_con_flags);
 			temp = vars->cmd_list;
 		}
 		else 
 		{
+			data->prev = prev;
 			temp = ft_lstnew_mod(((t_command*)vars_data));
 			ft_lstadd_back_mod(&vars->cmd_list, temp);
+
 		}
-		// prev = temp;
+		prev = temp;
 		temp = temp->next;
 
 	}
@@ -520,7 +523,12 @@ void ft_lst_cmd(t_vars *vars)
 	temp = vars->cmd_list;
 	while (temp)
 	{
-		ft_print_dp(temp->comando_bonito, "comando bonito list");
+		ft_print_dp(temp->comando_bonito, "!comando bonito!");
+		if (temp->prev)
+			ft_print_dp(temp->prev->comando_bonito, "prev ");
+		if (data->infiles)
+			ft_print_dp(temp->infiles, "infiles");
+		printf("end\n");
 		temp = temp->next;
 	}
 	// printf("I%d",i);

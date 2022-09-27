@@ -155,8 +155,8 @@ void ft_get_env2(char ***arr, t_vars *vars)
 	while(arr[0][++i] != NULL)
 	{
 		temp = ft_checkif_var(arr[0][i], vars);
-		printf("str .%s.\n", arr[0][i]);
-		printf("temp .%s.\n",temp);
+		// printf("str .%s.\n", arr[0][i]);
+		// printf("temp .%s.\n",temp);
 		if (temp == NULL)
 		{
 			ft_my_free(arr[0][i]);
