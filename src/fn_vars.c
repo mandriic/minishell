@@ -19,7 +19,7 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 			// free(acum);
 			return (acum); //<--------//ft_cleaning(str, vars)
 		}
-		return(ft_strdup(str));
+		return(str);
 		// return(ft_cleaning(str, vars)); //return(ft_strdup(str)); return(ft_cleaning(str));
 	}
 	// printf("str[i %c \n", str[vars->i -1]);
@@ -142,19 +142,23 @@ char	*ft_get_env(char *str, int len)
 // 	}
 // }
 
-void ft_get_env2(char **arr, t_vars *vars)
+void ft_get_env2(char ***arr, t_vars *vars)
 {
 	int i;
 	int i2;
 	char *temp;
 	
 	i = -1;
-	while(arr[++i] != NULL)
+	while(arr[0][++i] != NULL)
 	{
-		temp = ft_checkif_var(arr[i], vars);
-		printf("str .%s.\n", arr[i]);
-		free(arr[i]);
-		arr[i] = temp;
+		temp = ft_checkif_var(arr[0][i], vars);
+		printf("str .%s.\n", arr[0][i]);
+		if(arr[0][i] != temp)
+		{
+			ft_my_free(arr[0][i]);
+			arr[0][i] = ft_strdup(temp);
+			ft_my_free(temp);
+		}
 	}
 	// 	printf("arr[i] .%s.\n", arr[i]);
 	// }

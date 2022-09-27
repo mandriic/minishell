@@ -19,7 +19,7 @@ void	ft_line_exist(t_vars *vars)
 		vars->split = spliting(vars->line, vars->type, vars->num_pipes, vars);
 	else
 	{
-		free(vars->type);
+		ft_my_free(vars->type);
 		vars->type = NULL;
 		ft_triming(&vars->line, 0, vars, 1);
 	}
@@ -50,10 +50,8 @@ void	ft_submain(t_vars *vars)
 
 void	ft_end_of_cicle(t_vars *vars)
 {
-	free(vars->line);
-	vars->line = NULL;
-	free(vars->type);
-	vars->type = NULL;
+	ft_my_free(vars->line);
+	ft_my_free(vars->type);
 }
 
 int	ft_pre_check(t_vars *vars)
@@ -120,7 +118,7 @@ char	*ft_cleaning(char *str, t_vars *vars)
 	{
 		temp = ft_substr(str, vars->start + 1,vars->i - vars->start - 1);
 		clear = ft_acumulate(clear, temp);	
-		// free(str);
+		// ft_my_free(str);
 		return (clear);
 	}
 	else if (clear == NULL)

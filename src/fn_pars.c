@@ -4,7 +4,7 @@ void	fr_subargs(char *str, char *temp, t_command *data, t_vars *vars)
 {
 	temp = ft_substr(str, vars->start2, vars->i2 - vars->start2);
 	data->arg = ft_checkif_var(temp, vars); 
-	free(temp);
+	ft_my_free(temp);
 	vars->start2 = vars->i2 + 1;
 	if (str[vars->i2] == '<' && str[vars->i2 + 1] == '<')
 	{

@@ -1,4 +1,16 @@
 #include "../inc/minishell.h"
+void ft_my_free_d(char **arr)
+{
+	free(arr);
+	arr = NULL;
+}
+
+void ft_my_free(char *str)
+{
+	free(str);
+	str = NULL;
+}
+
 void ft_free_dob_arr(char **arr)
 {
 	int	i;
@@ -7,12 +19,8 @@ void ft_free_dob_arr(char **arr)
 	if (arr)
 	{
 		while (arr[++i])
-		{
-			free(arr[i]);
-			arr[i] = NULL;
-		}
-		free(arr);
-		arr = NULL;
+			ft_my_free(arr[i]);
+		ft_my_free_d(arr);
 	}
 }
 void	ft_del_list(t_command *list)
@@ -25,35 +33,39 @@ void	ft_del_list(t_command *list)
 	while(1)
 	{
 		temp = list->next;
-		ft_free_dob_arr(list->pre_comand_bon);
+		ft_free_dob_arr(list->infiles);
 		ft_free_dob_arr(list->heredocs);
+		ft_free_dob_arr(list->comando_bonito);
+		// ft_free_dob_arr(list->pre_comand_bon);
 
-		// free(list->comando_a_pelo);
-		// free(list->vars_resolv);
+		//ft_my_free(list->comando_a_pelo);
+		//ft_my_free(list->vars_resolv);
 		free(list->cmd_splited);
 		// if (list->heredocs)
-		if(list->infiles != NULL)
-			free(list->infiles);
-		if(list->outfiles != NULL)
-			free(list->outfiles);
-		if(list->comando_bonito)
-			free(list->comando_bonito);
-		if(list->appends != NULL)
-			free(list->appends);
-		free(list->pre_args);
-		// free(list->infiles);
-		// free(list->appends);
-		// free(list->outfiles);
+		// if (list->pre_comand_bon)
+		// 	ft_my_free_d(list->pre_comand_bon);
+		// if(list->infiles != NULL)
+		// 	ft_my_free_d(list->infiles);
+		// if(list->outfiles != NULL)
+		// 	ft_my_free_d(list->outfiles);
+		// if(list->comando_bonito)
+		// 	ft_my_free_d(list->comando_bonito);
+		// if(list->appends != NULL)
+		// 	ft_my_free_d(list->appends);
+		// ft_my_free_d(list->pre_args);
+		//ft_my_free(list->infiles);
+		//ft_my_free(list->appends);
+		//ft_my_free(list->outfiles);
 		// if(list->heredocs)
-		// 	free(list->heredocs);
+		// 	ft_my_free(list->heredocs);
 		// ft_free_dob_arr(list->pre_args);
 		// ft_free_dob_arr(list->infiles);
 		
-		// free(((t_data *)list->content)->cmd_list->comando_con_flags);
+		//ft_my_free(((t_data *)list->content)->cmd_list->comando_con_flags);
 		if (list->sub_arg)
-			free(list->sub_arg);
-		// free(((t_command *)list->content)->cmd_list);
-		// free(list->content);
+			ft_my_free(list->sub_arg);
+		//ft_my_free(((t_command *)list->content)->cmd_list);
+		//ft_my_free(list->content);
 		free(list);
 		if(list  == last)
 			break ;
@@ -133,14 +145,14 @@ char	**ft_pre_com_bon(char *str, t_vars *vars)
 				{
 					temp = ft_substr(str, start, i - start);
 					com_bon[i2++] = ft_strtrim(temp, " ");
-					free(temp);
+					ft_my_free(temp);
 					start = i;
 				}
 				while( str[i] == '<' || str[i] == '>') //str[i] == ' ' ||
 					i++;
 				temp = ft_substr(str, start, i - start);
 				com_bon[i2++] = ft_strtrim(temp, " ");
-				free(temp);
+				ft_my_free(temp);
 				start = i;
 				// com_bon[i2++] = "<< ";
 			}
@@ -150,21 +162,21 @@ char	**ft_pre_com_bon(char *str, t_vars *vars)
 				{
 					temp = ft_substr(str, start, i - start);
 					com_bon[i2++] = ft_strtrim(temp, " ");
-					free(temp);
+					ft_my_free(temp);
 					start = i;
 				}
 				while(str[i] == '<' || str[i] == '>') //str[i] == ' ' || 
 					i++;
 				temp = ft_substr(str, start, i - start);
 				com_bon[i2++] = ft_strtrim(temp, " ");
-					free(temp);
+					ft_my_free(temp);
 				start = i;
 			}
 			else
 			{
 				temp = ft_substr(str, start, i - start + 1);
 				com_bon[i2++] = ft_strtrim(temp, " ");
-				free(temp);
+				ft_my_free(temp);
 				start = i + 1;
 			}
 			// }
@@ -174,7 +186,7 @@ char	**ft_pre_com_bon(char *str, t_vars *vars)
 	}
 	temp = ft_substr(str, start, i - start + 1);
 	com_bon[i2++] = ft_strtrim(temp, " ");
-	free(temp);
+	ft_my_free(temp);
 	com_bon[i2] = NULL;
 	// printf("combom .%s. \n", com_bon[i2 - 1]);
 	// sleep(10);
@@ -195,7 +207,7 @@ void	ft_merge_comando_args(t_command *data)
 		// data->comando_bonito[0] = data->comando_a_pelo;
 		i = -1;
 		while(data->pre_args[++i])
-			data->comando_bonito[i] = data->pre_args[i];
+			data->comando_bonito[i] = ft_strdup(data->pre_args[i]);
 		data->comando_bonito[i] = NULL;
 
 	}
@@ -206,6 +218,7 @@ void	ft_merge_comando_args(t_command *data)
 		data->comando_bonito[1] = NULL;
 
 	}
+	ft_free_dob_arr(data->pre_args);
 
 }
 
@@ -272,7 +285,7 @@ int ft_check_redir(char **arr, t_command *data)
 
 					else if (!data->comando_a_pelo)
 						data->comando_a_pelo = arr[0];
-					data->infiles[i5++] = arr[i + 1];
+					data->infiles[i5++] = ft_strdup(arr[i + 1]);
 					data->infiles[i5] = NULL;
 					i++;
 
@@ -288,7 +301,7 @@ int ft_check_redir(char **arr, t_command *data)
 						data->comando_a_pelo = arr[3];
 					else if (!data->comando_a_pelo)
 						data->comando_a_pelo = arr[0];
-					data->appends[i6++] = arr[i + 1];
+					data->appends[i6++] = ft_strdup(arr[i + 1]);
 					data->appends[i6] = NULL;
 					i++;
 				}
@@ -303,7 +316,7 @@ int ft_check_redir(char **arr, t_command *data)
 						data->comando_a_pelo = arr[3];
 					else if (!data->comando_a_pelo)
 						data->comando_a_pelo = arr[0];
-					data->outfiles[i7++] = arr[i + 1];
+					data->outfiles[i7++] = ft_strdup(arr[i + 1]);
 					data->outfiles[i7] = NULL;
 					i++;
 				}
@@ -314,24 +327,25 @@ int ft_check_redir(char **arr, t_command *data)
 						data->pre_args = malloc(sizeof(char *) * BUFFER_SIZE);
 						// data->pre_args[0] = NULL;
 					}
-					data->pre_args[i4++] = arr[i];
+					data->pre_args[i4++] = ft_strdup(arr[i]);
 					data->pre_args[i4] = NULL;
 				}
+
 								
 				// printf("arr - ? .%c.\n", arr[i][0]);
-
 				i++;
 			}
-			if (data->pre_args && data->pre_args[0] != NULL)
-				ft_print_dp(data->pre_args, "args");
-			if (data->appends && data->appends[0] != NULL)
-				ft_print_dp(data->appends, "Appends");
-			if (data->outfiles && data->outfiles[0] != NULL)
-				ft_print_dp(data->outfiles, "Outfiles");
-			if (data->infiles && data->infiles[0] != NULL)	
-				ft_print_dp(data->infiles, "infiles");
-			printf("comando a pelo .%s.\n", data->comando_a_pelo);
+			// if (data->pre_args && data->pre_args[0] != NULL)
+			// 	ft_print_dp(data->pre_args, "args");
+			// if (data->appends && data->appends[0] != NULL)
+			// 	ft_print_dp(data->appends, "Appends");
+			// if (data->outfiles && data->outfiles[0] != NULL)
+			// 	ft_print_dp(data->outfiles, "Outfiles");
+			// if (data->infiles && data->infiles[0] != NULL)	
+			// 	ft_print_dp(data->infiles, "infiles");
+			// printf("comando a pelo .%s.\n", data->comando_a_pelo);
 			ft_merge_comando_args(data);
+			ft_free_dob_arr(arr);
 			return(1);
 		}
 
@@ -367,7 +381,7 @@ int ft_check_redir(char **arr, t_command *data)
 // 	while(arr[++i])
 // 	{
 // 		temp = ft_get_env(arr[i], ft_strlen(arr[i]));
-// 		free(arr[i]);
+// 		ft_my_free(arr[i]);
 // 		arr[i] = temp;
 // 	}
 // }
@@ -385,12 +399,12 @@ void	ft_resolv_com_bon(t_command *data, t_vars *vars)
 {
 	if (data->infiles)
 	{
-		ft_get_env2(data->infiles, vars);
+		ft_get_env2(&data->infiles, vars);
 		// ft_clean_dp(data->infiles, vars);
 	}
 	if (data->comando_bonito)
 	{
-		ft_get_env2(data->comando_bonito, vars);
+		ft_get_env2(&data->comando_bonito, vars);
 		// ft_clean_dp(data->comando_bonito, vars);
 	}
 	
@@ -429,7 +443,7 @@ t_command *ft_create_data(char *str, t_vars *vars)
 		data->comando_bonito = ft_dup_dp(data->pre_comand_bon);        ////////////////// duplicarft_dup_dp(
 		data->comando_a_pelo = data->pre_comand_bon[0];
 	}
-	// ft_resolv_com_bon(data, vars);
+	ft_resolv_com_bon(data, vars);
 	ft_print_dp(data->comando_bonito, "COMANDO BONITO FIN");
 	if (data->infiles)
 		ft_print_dp(data->infiles, "infile after resolv");
@@ -476,7 +490,7 @@ void ft_lst_cmd(t_vars *vars)
 	while (vars->split[++i])
 	{
 		// data->cmd_arg = vars->split[i];
-		// free(vars->split[i]);
+		//ft_my_free(vars->split[i]);
 		// vars_data = malloc(sizeof(t_command));
 		data = ft_create_data(vars->split[i], vars); //prev,
 		vars_data = data;
@@ -501,14 +515,14 @@ void ft_lst_cmd(t_vars *vars)
 	temp = vars->cmd_list;
 	while (temp)
 	{
-		ft_print_dp(temp->comando_bonito, "comando bonito list");
+		// ft_print_dp(temp->comando_bonito, "comando bonito list");
 		temp = temp->next;
 	}
 	// printf("I%d",i);
 	if (i != 1)
 	{
 		while (i != -1) // -1
-			free(vars->split[i--]); //i--
-		free(vars->split);
+			ft_my_free(vars->split[i--]); //i--
+		ft_my_free_d(vars->split);
 	}
 }
