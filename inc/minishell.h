@@ -179,10 +179,10 @@ void    	ft_end_of_cicle(t_vars *vars);
 void    	ft_line_exist(t_vars *vars);
 
 // fn_mask.c
-int			*ft_mask(char *line, t_vars *vars);
+int			*ft_mask(char *line, t_vars *vars, int check);
 char		*ft_acumulate(char *dest, char *part);
-int			ft_singquot(char *line, int *type, t_vars *vars);
-int			ft_dobquot(char *line, int *type, t_vars *vars);
+int			ft_singquot(char *line, int *type, t_vars *vars, int check);
+int			ft_dobquot(char *line, int *type, t_vars *vars, int check);
 
 
 

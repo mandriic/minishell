@@ -6,7 +6,7 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 	char	*acum;
 
 	vars->start = 0;
-	type = ft_mask(str, vars);
+	type = ft_mask(str, vars, 0);
 	acum = NULL;
 	ft_checkif_var_subfoo(str, &acum, type, vars);
 	if (acum == NULL || str[vars->start - 1] == '\0') //  && -> ||

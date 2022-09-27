@@ -43,7 +43,7 @@ void	ft_subtrim(char **separ, char **temp, int *i, int *i2, t_vars *vars)
 	int	i3;
 
 	i3 = 0;
-	sub_type = ft_mask(temp[0], vars);
+	sub_type = ft_mask(temp[0], vars, 1);
 	while (temp[0][++*i2])
 	{
 		if (temp[0][*i2] == ' ' && temp[0][*i2 + 1] == ' '\
@@ -52,7 +52,7 @@ void	ft_subtrim(char **separ, char **temp, int *i, int *i2, t_vars *vars)
 		separ[*i][i3] = temp[0][*i2];
 		i3++;
 	}
-	ft_my_free(sub_type);
+	free(sub_type);
 	ft_my_free(temp[0]);
 	separ[*i][i3] = '\0';
 }
@@ -71,7 +71,7 @@ void    ft_triming(char **separ, size_t num_pipes, t_vars *vars, int one_comand)
 		i2 = -1;
 		ft_subtrim(separ, temp, &i, &i2, vars);
 	}
-	ft_my_free(temp);
+	ft_my_free_d(temp);
 	if (one_comand)
 		vars->split = separ;
 }
