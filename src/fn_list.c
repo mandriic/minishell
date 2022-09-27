@@ -419,8 +419,9 @@ char	**ft_dup_dp(char **src)
 	dst = malloc(sizeof(char *) * (i + 1));
 	i = -1;
 	while (src[++i])
-		dst[i] = src[i];
+		dst[i] = ft_strdup(src[i]);
 	dst[i] = NULL;
+	ft_free_dob_arr(src);
 	return (dst);
 	
 }
@@ -441,7 +442,7 @@ t_command *ft_create_data(char *str, t_vars *vars)
 	if(!ft_check_redir(data->pre_comand_bon, data))
 	{
 		data->comando_bonito = ft_dup_dp(data->pre_comand_bon);        ////////////////// duplicarft_dup_dp(
-		data->comando_a_pelo = data->pre_comand_bon[0];
+		data->comando_a_pelo = data->comando_bonito[0];
 	}
 	ft_resolv_com_bon(data, vars);
 	ft_print_dp(data->comando_bonito, "COMANDO BONITO FIN");
