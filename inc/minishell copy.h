@@ -15,7 +15,6 @@
 # include <sys/param.h>
 # include <string.h>
 
-# define BUFFER_SIZE 10000
 //no hay nada preparado para $_ (el último comando utilizado, se guarda en las variables de entorno)
 
 // typedef struct s_data
@@ -31,12 +30,9 @@
 typedef struct s_command
 {
 	char	**cmd_splited; //data->cmd_splited[0] [1] - args
-	// char 	*comando_con_flags;//este se transforma en comando_bonito con un split
+	char 	*comando_con_flags;//este se transforma en comando_bonito con un split
 	char	**comando_bonito;//este si se usa
 	char	*comando_a_pelo;//este si se usa
-	char	*vars_resolv;
-	char	**pre_comand_bon;
-	char	**pre_args;
 	int		fd[2];
 	char	*arg;
 	char	**infiles;
@@ -54,7 +50,7 @@ typedef struct s_command
 
 typedef struct s_vars
 {
-	// t_command	*list;
+	// t_list	*list;
 	struct s_command	*cmd_list; //t_comad
 	char	**split;
 	char	*quotes;
@@ -94,21 +90,16 @@ typedef struct s_vars
 
 // extern t_data	g_data;
 
-void ft_print_arrint(int *arr, char *name);
-void ft_print_dp(char **str, char *name);
 char	*leelinea(void);
 void	ft_cd(char *route);
-
-//export.c
-void	ft_add_line_to_matrix(char ***matrix, char *line);
 
 /* pwd.c */
 
 char	**ft_copy_enviroment_vars_into_matrix(char *envp_original[]);
 void	ft_free_array(char **envp_copy);
-void	ft_free_list(t_command *lst);
-t_command	**ft_copy_enviroment_vars_into_list(t_command **env_copy, char **envp);
-void	ft_print_command(t_command *env_copy);
+void	ft_free_list(t_list *lst);
+t_list	**ft_copy_enviroment_vars_into_list(t_list **env_copy, char **envp);
+void	ft_print_list(t_list *env_copy);
 void	ft_pwd(char **env);
 void	ft_pwd_2(void);
 
@@ -161,17 +152,12 @@ int	ft_jose(t_vars *vars);
 int	ft_check_existing_variable_in_matrix(char **matrix, char *var_name, int *index);
 
 // fn_lists.c
-void		ft_del_list(t_command *list);
+void		ft_del_list(t_list *list);
 t_command	*ft_create_data(char *str, t_vars *vars);
 void		ft_lst_cmd(t_vars *vars);
-t_command	*ft_lstnew_mod(t_command *content);
-void	ft_lstadd_back_mod(t_command **lst, t_command *new);
-t_command	*ft_lstlast_mod(t_command *lst);
-void ft_my_free(char *str);
-void ft_my_free_d(char **arr);
 
 // fn_main_readline.c
-void		ft_readline(t_vars *vars);
+void		ft_readline(void);
 void	    ft_submain(t_vars *vars);
 char		*ft_cleaning(char *str, t_vars *vars);
 int			ft_pre_check(t_vars *vars);
@@ -179,10 +165,10 @@ void    	ft_end_of_cicle(t_vars *vars);
 void    	ft_line_exist(t_vars *vars);
 
 // fn_mask.c
-int			*ft_mask(char *line, t_vars *vars, int check);
+int			*ft_mask(char *line, t_vars *vars);
 char		*ft_acumulate(char *dest, char *part);
-int			ft_singquot(char *line, int *type, t_vars *vars, int check);
-int			ft_dobquot(char *line, int *type, t_vars *vars, int check);
+int			ft_singquot(char *line, int *type, t_vars *vars);
+int			ft_dobquot(char *line, int *type, t_vars *vars);
 
 
 
@@ -205,5 +191,5 @@ char		*ft_checkif_var(char *str, t_vars *vars);
 void		ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars);
 char		*ft_get_env(char *str, int len);
 void		ft_pre_getenv(char *str, char **acum, t_vars *vars);
-void		ft_get_env2(char ***arr, t_vars *vars);
+
 #endif

@@ -33,6 +33,7 @@ char    **spliting(char *wololoco, int *type, size_t num_pipes, t_vars *vars)
 	separ[i2++] = ft_substr(wololoco, start, i  - start);
 	separ[i2] = NULL;
 	ft_triming(separ, num_pipes, vars, 0);
+	// printf(" **spliting - separ + 1 %s", separ[0]);
  	return(separ);
 }
 
@@ -42,7 +43,7 @@ void	ft_subtrim(char **separ, char **temp, int *i, int *i2, t_vars *vars)
 	int	i3;
 
 	i3 = 0;
-	sub_type = ft_mask(temp[0], vars);
+	sub_type = ft_mask(temp[0], vars, 1);
 	while (temp[0][++*i2])
 	{
 		if (temp[0][*i2] == ' ' && temp[0][*i2 + 1] == ' '\
@@ -52,7 +53,7 @@ void	ft_subtrim(char **separ, char **temp, int *i, int *i2, t_vars *vars)
 		i3++;
 	}
 	free(sub_type);
-	free(temp[0]);
+	ft_my_free(temp[0]);
 	separ[*i][i3] = '\0';
 }
 
@@ -70,7 +71,7 @@ void    ft_triming(char **separ, size_t num_pipes, t_vars *vars, int one_comand)
 		i2 = -1;
 		ft_subtrim(separ, temp, &i, &i2, vars);
 	}
-	free(temp);
+	ft_my_free_d(temp);
 	if (one_comand)
 		vars->split = separ;
 }
@@ -100,52 +101,52 @@ size_t  ft_numpipes(char *wololoco, int *type)
 // 	i = -1; //0
 // 	i2 = 0;
 // 	start = 0;
-// 	type = ft_mask(data->arg, vars);
-// 	if (data->arg)
+// 	type = ft_mask(data->vars_resolv, vars);
+// 	if (data->vars_resolv)
 // 	{
-// 		while (data->arg[++i])
-// 			if (data->arg[i] == ' ')
+// 		while (data->vars_resolv[++i])
+// 			if (data->vars_resolv[i] == ' ')
 // 				i2++;
-// 		data->comando_bonito = malloc (sizeof(char *) * (i2 + 2));     ///free
+// 		data->comando_bonito = malloc (sizeof(char *) * (i2 + 2));     ///ft_my_free
 // 		i = -1;
 // 		i2 = 0;
-// 		while(data->arg[++i])
+// 		while(data->vars_resolv[++i])
 // 		{
-// 			if(data->arg[i] == '-' && data->arg[i + 1] != ' ')
+// 			if(data->vars_resolv[i] == '-' && data->vars_resolv[i + 1] != ' ')
 // 			{
-// 				while(data->arg[i] != ' ' && data->arg[i + 1] != '-')
+// 				while(data->vars_resolv[i] != ' ' && data->vars_resolv[i + 1] != '-')
 // 				{
 // 					i++;
-// 					if (!data->arg[i + 1])
+// 					if (!data->vars_resolv[i + 1])
 // 						break;
 // 				}
-// 				data->comando_bonito[i2++] = ft_substr(data->arg, start + 1, i - start); //ft_substr(data->arg, start + 1, i - 1);
+// 				data->comando_bonito[i2++] = ft_substr(data->vars_resolv, start + 1, i - start); //ft_substr(data->arg, start + 1, i - 1);
 // 				start = i + 1;
 // 			}
-// 			if (data->arg[i] == ' ' && type[i] != 5 && type[i] != 6)
+// 			if (data->vars_resolv[i] == ' ' && type[i] != 5 && type[i] != 6)
 // 			{
 // 				i++;
-// 				if(data->arg[i] && type[i])
+// 				if(data->vars_resolv[i] && type[i])
 // 				{
-// 					while ((data->arg[i] != ' ' && data->arg[i] != '\0') || type[i] == 6 || type[i] == 5)
+// 					while ((data->vars_resolv[i] != ' ' && data->vars_resolv[i] != '\0') || type[i] == 6 || type[i] == 5)
 // 					{
 // 						i++;
-// 						if(!data->arg[i] || !type[i])
+// 						if(!data->vars_resolv[i] || !type[i])
 // 							break ;
 // 					}
-// 					data->comando_bonito[i2++] = ft_substr(data->arg, start + 1, i - start); //ft_substr(data->arg, start, i - start + 1)
+// 					data->comando_bonito[i2++] = ft_substr(data->vars_resolv, start + 1, i - start); //ft_substr(data->arg, start, i - start + 1)
 // 					start = i + 1;
 // 					i--;
 // 				}
 // 			}
-// 			if (!data->arg[i])
+// 			if (!data->vars_resolv[i])
 // 				break ;
 // 		}
 // 		while(i2 != 0)
 // 		{
-// 			free(data->comando_bonito[--i2]); //printf - to free
+// 			 printf("com bon %s\n", data->comando_bonito[--i2]); //printf - to ft_my_free
 // 		}
-// 		free(data->comando_bonito);
+// 		// ft_my_free(data->comando_bonito);
 // 	}
-// 	free(type);
+// 	ft_my_free(type);
 // }

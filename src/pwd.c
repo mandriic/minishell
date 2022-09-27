@@ -35,10 +35,10 @@ void	ft_free_array(char **envp_copy)
 	free(envp_copy);
 }
 
-void	ft_free_list(t_list *lst)
+void	ft_free_list(t_command *lst)
 {
-	t_list	*aux;
-	t_list	*aux2;
+	t_command	*aux;
+	t_command	*aux2;
 
 	aux = lst;
 	while (aux)
@@ -49,7 +49,7 @@ void	ft_free_list(t_list *lst)
 	}
 }
 
-t_list	**ft_copy_enviroment_vars_into_list(t_list **env_copy, char **envp)
+t_command	**ft_copy_enviroment_vars_into_list(t_command **env_copy, char **envp)
 {
 	int	i;
 
@@ -63,9 +63,9 @@ t_list	**ft_copy_enviroment_vars_into_list(t_list **env_copy, char **envp)
 	return (0);
 }
 
-void	ft_print_list(t_list *env_copy)
+void	ft_print_command(t_command *env_copy)
 {
-	t_list *aux;
+	t_command *aux;
 	int i = 0;
 
 	aux = env_copy;
