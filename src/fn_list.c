@@ -26,7 +26,6 @@ void	ft_del_list(t_command *list)
 	{
 		temp = list->next;
 		ft_free_dob_arr(list->pre_comand_bon);
-		ft_free_dob_arr(list->comando_bonito);
 		ft_free_dob_arr(list->heredocs);
 
 		// free(list->comando_a_pelo);
@@ -37,6 +36,8 @@ void	ft_del_list(t_command *list)
 			free(list->infiles);
 		if(list->outfiles != NULL)
 			free(list->outfiles);
+		if(list->comando_bonito)
+			free(list->comando_bonito);
 		if(list->appends != NULL)
 			free(list->appends);
 		free(list->pre_args);
@@ -404,7 +405,7 @@ char	**ft_dup_dp(char **src)
 	dst = malloc(sizeof(char *) * (i + 1));
 	i = -1;
 	while (src[++i])
-		dst[i] = ft_strdup(src[i]);
+		dst[i] = src[i];
 	dst[i] = NULL;
 	return (dst);
 	
@@ -425,10 +426,10 @@ t_command *ft_create_data(char *str, t_vars *vars)
 	ft_print_dp(data->pre_comand_bon, "data->pre_comand_bon");
 	if(!ft_check_redir(data->pre_comand_bon, data))
 	{
-		data->comando_bonito = ft_dup_dp(data->pre_comand_bon);        ////////////////// duplicar
+		data->comando_bonito = ft_dup_dp(data->pre_comand_bon);        ////////////////// duplicarft_dup_dp(
 		data->comando_a_pelo = data->pre_comand_bon[0];
 	}
-	ft_resolv_com_bon(data, vars);
+	// ft_resolv_com_bon(data, vars);
 	ft_print_dp(data->comando_bonito, "COMANDO BONITO FIN");
 	if (data->infiles)
 		ft_print_dp(data->infiles, "infile after resolv");
@@ -500,7 +501,7 @@ void ft_lst_cmd(t_vars *vars)
 	temp = vars->cmd_list;
 	while (temp)
 	{
-		// ft_print_dp(temp->comando_bonito, "comando bonito list");
+		ft_print_dp(temp->comando_bonito, "comando bonito list");
 		temp = temp->next;
 	}
 	// printf("I%d",i);
