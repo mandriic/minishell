@@ -128,7 +128,7 @@ char	**ft_pre_com_bon(char *str, t_vars *vars)
 	i2 = 0;
 	start = 0;
 	com_bon = malloc(sizeof(char *) * BUFFER_SIZE);
-	type = ft_mask(str, vars);
+	type = ft_mask(str, vars, 0);
 	int len = ft_strlen(str);
 	// while(++i != len)
 	// 	printf("type[%d] - %d\n", i, type[i]);
@@ -404,7 +404,7 @@ void	ft_resolv_com_bon(t_command *data, t_vars *vars)
 	if (data->infiles)
 	{
 		ft_get_env2(&data->infiles, vars);
-		// ft_clean_dp(data->infiles, vars);
+		ft_clean_dp(data->infiles, vars);
 	}
 	if (data->comando_bonito)
 	{

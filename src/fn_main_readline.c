@@ -114,11 +114,16 @@ char	*ft_cleaning(char *str, t_vars *vars)
 		printf(" i2 %d \n", vars->i2);
 		if (type[vars->i2] == 2 || type[vars->i2] == 1) ///str[vars->i2] == '"' || str[vars->i2] == vars->quotes[0])
 		{
+			if ((str[vars->i2] == '"' && str[vars->i2 + 1] == '"') || (str[vars->i2] == vars->quotes[0] && str[vars->i2 + 1] == vars->quotes[0]) || str[vars->i2 + 1] == '\0')
+			{
+				free(type);
+				return(NULL);
+			}
 			ft_subcleaning(str, &clear, &temp, vars, type);
 			if (str[vars->i2] == '\0')
 				break ;
 		}
-					if (str[vars->i2] == '\0')
+		if (str[vars->i2] == '\0')
 				break ;
 	}
 	free(type);

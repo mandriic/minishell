@@ -9,7 +9,7 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 	type = ft_mask(str, vars, 0);
 	acum = NULL;
 	ft_checkif_var_subfoo(str, &acum, type, vars);
-	if (acum == NULL || str[vars->start - 1] == '\0') //  && -> ||
+	if ((acum == NULL || str[vars->start - 1] == '\0') && str[0] != '$') //  && -> ||
 	{
 		free(type);
 		if (vars->start - 1 > 0 && str[vars->start - 1] == '\0' && acum != NULL) //? 
@@ -110,6 +110,9 @@ char	*ft_get_env(char *str, int len)
 	else
 		ft_sub_get_env(str, var, len, &i);
 	valor = getenv(var);
+	printf("valor %s\n",valor);
+	if (!valor)
+		return (NULL);
 	if (str[i + 1] == ' ' ) //|| str[i + 1] == '"'
 		temp = ft_strjoin(valor, " ");
 	else if (str[i + 1] == '/')
@@ -153,7 +156,13 @@ void ft_get_env2(char ***arr, t_vars *vars)
 	{
 		temp = ft_checkif_var(arr[0][i], vars);
 		printf("str .%s.\n", arr[0][i]);
-		if(arr[0][i] != temp)
+		printf("temp .%s.\n",temp);
+		if (temp == NULL)
+		{
+			ft_my_free(arr[0][i]);
+			arr[0][i] = NULL;
+		}
+		else if(arr[0][i] != temp)
 		{
 			ft_my_free(arr[0][i]);
 			arr[0][i] = ft_strdup(temp);
