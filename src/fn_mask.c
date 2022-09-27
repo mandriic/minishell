@@ -32,7 +32,11 @@ int	ft_dobquot(char *line, int *type, t_vars *vars, int check)
 			return(1);
 		}
 	else if (line[vars->i] == '\0' && !check)
+	{
+		type[vars->i - 1] = 0;
 		return (0);
+
+	}
 	else
 		type[vars->i] = 2;
 	return(0);

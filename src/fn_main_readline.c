@@ -82,7 +82,7 @@ void	ft_subcleaning(char *str, char **clear, char **temp, t_vars *vars, int *typ
 		}
 	vars->start2 = vars->i2;
 	vars->i2++;
-	while (type[vars->i2] != 1 && type[vars->i2] != 2  && str[vars->i2] != '\0') //(str[vars->i2] != '"' && str[vars->i2] != vars->quotes[0]  && str[vars->i2] != '\0')
+	while (str[vars->i2] != '\0' && type[vars->i2] != 1 && type[vars->i2] != 2) //(str[vars->i2] != '"' && str[vars->i2] != vars->quotes[0]  && str[vars->i2] != '\0')
 		vars->i2++;
 	*temp = ft_substr(str, vars->start2 + 1, vars->i2 - vars->start2 - 1);
 	vars->start2 = vars->i2;
