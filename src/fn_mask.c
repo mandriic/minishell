@@ -1,14 +1,14 @@
 #include "../inc/minishell.h"
 
-int	ft_singquot(char *line, int *type, t_vars *vars)
+int	ft_singquot(char *line, int *type, t_vars *vars, int check)
 {
 	type[vars->i] = 1;
-	while (line[++vars->i] != vars->quotes[0] && line[vars->i] != '\0')
+	while (line[++vars->i] != vars->quotes[0] && line[vars->i] != '\0' )
 		type[vars->i] = 5;
-	if (line[vars->i] == '\0')
+	if (line[vars->i] == '\0' && check)
 		{
 			printf("Not interpret unclosed quotes \n");
-			ft_my_free(type);
+			free(type);
 			if(vars->cmd_list)
 				ft_del_list(vars->cmd_list);
 			return(1);
@@ -18,24 +18,26 @@ int	ft_singquot(char *line, int *type, t_vars *vars)
 	return (0);
 }
 
-int	ft_dobquot(char *line, int *type, t_vars *vars)
+int	ft_dobquot(char *line, int *type, t_vars *vars, int check)
 {
 	type[vars->i] = 2;
 	while (line[++vars->i] != '"' && line[vars->i] != '\0')
 		type[vars->i] = 6;
-	if (line[vars->i] == '\0')
+	if (line[vars->i] == '\0' && check)
 		{
 			printf("Not interpret unclosed quotes \n");
-			ft_my_free(type);
+			free(type);
 			if(vars->cmd_list)
 				ft_del_list(vars->cmd_list);
 			return(1);
 		}
+	else if (line[vars->i] == '\0' && !check)
+		return (0);
 	else
 		type[vars->i] = 2;
 	return(0);
 }
-int	*ft_mask(char *line, t_vars *vars)
+int	*ft_mask(char *line, t_vars *vars, int check)
 {
 	int len;
 	int *type;
@@ -45,12 +47,12 @@ int	*ft_mask(char *line, t_vars *vars)
 	len = ft_strlen(line);
 	if (len == 0)
 		return(type);
-	type = malloc(sizeof(int) * len);
+	type = malloc(sizeof(int) * len + 2);
 	while (line[++vars->i] != '\0')
 	{
-		if(line[vars->i] == vars->quotes[0] && ft_singquot(line, type, vars))
+		if(line[vars->i] == vars->quotes[0] && ft_singquot(line, type, vars, check))
 			return (NULL);
-		else if (line[vars->i] == '"' && ft_dobquot(line, type, vars))
+		else if (line[vars->i] == '"' && ft_dobquot(line, type, vars, check))
 			return (NULL);
 		else if (line[vars->i] == '|')
 			type[vars->i] = 3; 
@@ -60,8 +62,10 @@ int	*ft_mask(char *line, t_vars *vars)
 			type[vars->i] = 11;
 		else if (line[vars->i] == '<' || line[vars->i] == '>')
 			type[vars->i] = 10;
-		else if (line[vars->i] != '"' && line[vars->i] != vars->quotes[0])
+		else if (line[vars->i] != '"' && line[vars->i] != vars->quotes[0] && line[vars->i] != '\0')
 			type[vars->i] = 0;
+		if (line[vars->i] == '\0')
+			break ;
 	}
 	return (type);
 }
