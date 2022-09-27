@@ -385,16 +385,20 @@ int ft_check_redir(char **arr, t_command *data)
 // 		arr[i] = temp;
 // 	}
 // }
-// void	ft_clean_dp(char **arr, t_vars *vars)
-// {
-// 	int i = -1;
-// 	int i2 = -1;
+void	ft_clean_dp(char **arr, t_vars *vars)
+{
+	int i = -1;
+	int i2 = -1;
+	char *temp;
 	
-// 	while(arr[++i])
-// 	{
-// 		if(arr[i][0]);
-// 	}
-// }
+	while(arr[++i])
+	{
+		temp = ft_cleaning(arr[i], vars);
+		ft_my_free(arr[i]);
+		arr[i] = ft_strdup(temp);
+		ft_my_free(temp);
+	}
+}
 void	ft_resolv_com_bon(t_command *data, t_vars *vars)
 {
 	if (data->infiles)
@@ -405,7 +409,7 @@ void	ft_resolv_com_bon(t_command *data, t_vars *vars)
 	if (data->comando_bonito)
 	{
 		ft_get_env2(&data->comando_bonito, vars);
-		// ft_clean_dp(data->comando_bonito, vars);
+		ft_clean_dp(data->comando_bonito, vars);
 	}
 	
 }
@@ -516,7 +520,7 @@ void ft_lst_cmd(t_vars *vars)
 	temp = vars->cmd_list;
 	while (temp)
 	{
-		// ft_print_dp(temp->comando_bonito, "comando bonito list");
+		ft_print_dp(temp->comando_bonito, "comando bonito list");
 		temp = temp->next;
 	}
 	// printf("I%d",i);
