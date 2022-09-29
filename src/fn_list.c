@@ -215,9 +215,9 @@ void	ft_merge_comando_args(t_command *data)
 	}
 	else
 	{
-		data->comando_bonito = malloc(sizeof(char *) * 2);
-		data->comando_bonito[0] = data->comando_a_pelo;
-		data->comando_bonito[1] = NULL;
+		// data->comando_bonito = malloc(sizeof(char *) * 2);
+		// data->comando_bonito[0] = data->comando_a_pelo;
+		data->comando_bonito = NULL;
 
 	}
 	ft_free_dob_arr(data->pre_args);
@@ -228,10 +228,10 @@ void	ft_heredoc(char **arr, t_command *data, int *i)
 	char	*eofile;
 	int		str_cmp;
 
-	if (i[0] == 0)
-		data->comando_a_pelo = arr[3];
-	else
-		data->comando_a_pelo = arr[0];
+	// if (i[0] == 0)
+	// 	data->comando_a_pelo = arr[3];
+	// else
+	// 	data->comando_a_pelo = arr[0];
 	eofile = arr[i[0] + 1];
 	// printf("eofcheck\n");
 	// printf("eof %s\n", eofile);
@@ -404,8 +404,11 @@ void	ft_resolv_com_bon(t_command *data, t_vars *vars)
 	{
 		if (data->infiles)
 			ft_get_env2(&data->infiles, vars);
-		if (data->comando_bonito)
-			ft_get_env2(&data->comando_bonito, vars);
+		if (data && data->comando_bonito)
+			{
+			
+				ft_get_env2(&data->comando_bonito, vars);
+			}
 		if (data->appends)
 			ft_get_env2(&data->appends, vars);
 		if (data->heredocs)
@@ -431,6 +434,7 @@ char	**ft_dup_dp(char **src)
 	return (dst);
 	
 }
+
 t_command *ft_create_data(char *str, t_vars *vars)
 {
 	t_command *data;
@@ -487,7 +491,8 @@ void ft_lst_cmd(t_vars *vars)
 	temp = vars->cmd_list;
 	while (temp)
 	{
-		ft_print_dp(temp->comando_bonito, "!comando bonito!");
+		if(temp->comando_bonito)
+			ft_print_dp(temp->comando_bonito, "!comando bonito!");
 		if (temp->prev)
 			ft_print_dp(temp->prev->comando_bonito, "prev ");
 		if (temp->infiles)
