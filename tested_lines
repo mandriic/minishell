@@ -18,5 +18,5 @@ echo '$'$HOME - n/w
 echo ''asd'"sad"' 
 << EOF command -flag -fl -f <infile < infile2    <     infile3
 echo "    $HOME " | 123 '    $HOME ' < infile$USER
-<<EOF
+<<EOF - not work
 asd | - error

@@ -223,135 +223,130 @@ void	ft_merge_comando_args(t_command *data)
 	ft_free_dob_arr(data->pre_args);
 
 }
+void	ft_heredoc(char **arr, t_command *data, int *i)
+{
+	char	*eofile;
+	int		str_cmp;
 
+	if (i[0] == 0)
+		data->comando_a_pelo = arr[3];
+	else
+		data->comando_a_pelo = arr[0];
+	eofile = arr[i[0] + 1];
+	// printf("eofcheck\n");
+	// printf("eof %s\n", eofile);
+	// printf("len %ld\n",  ft_strlen(eofile));
+	str_cmp = 1;
+	if(!data->heredocs)
+		data->heredocs = malloc(sizeof(char *) * BUFFER_SIZE);
+	while(str_cmp)
+	{
+		data->heredocs[i[1]] = readline(">"); //<---------i'm here // i'm was here
+		str_cmp = ft_strncmp(eofile, data->heredocs[i[1]], ft_strlen(eofile));
+		i[1]++;
+	}
+	free(data->heredocs[--i[1]]);
+	data->heredocs[i[1]--] = NULL;
+	ft_print_dp(data->heredocs, "heredocs");
+	i[0]++;
+	// printf("ch3%d\n",chk);
+	// while(ft_strncmp(eofile, data->heredocs[i3], ft_strlen(eofile)))
+}
+void	ft_initint(int *i, int len)
+{
+	int cou;
+
+	cou = -1;
+	while (++cou != len)
+		i[cou] = 0;
+}
+
+void	ft_infile(char **arr, t_command *data, int *i)
+{
+	if (!data->infiles)
+	{
+		data->infiles = malloc(sizeof(char *) * BUFFER_SIZE);
+		data->infiles[0] = NULL;
+	}
+	if (i[0] == 0)
+		data->comando_a_pelo = arr[3];
+	else if (!data->comando_a_pelo)
+		data->comando_a_pelo = arr[0];
+	data->infiles[i[3]++] = ft_strdup(arr[i[0] + 1]);
+	data->infiles[i[3]] = NULL;
+	i[0]++;
+
+}
+
+void	ft_appends(char **arr, t_command *data, int *i)
+{
+	if (!data->appends)
+	{
+		data->appends = malloc(sizeof(char *) * BUFFER_SIZE);
+		// data->infiles[0] = NULL;
+	}
+	if (i[0] == 0)
+		data->comando_a_pelo = arr[3];
+	else if (!data->comando_a_pelo)
+		data->comando_a_pelo = arr[0];
+	data->appends[i[4]++] = ft_strdup(arr[i[0] + 1]);
+	data->appends[i[4]] = NULL;
+	i[0]++;
+}
+
+void	ft_outfiles(char **arr, t_command *data, int *i)
+{
+	if (!data->outfiles)
+	{
+		data->outfiles = malloc(sizeof(char *) * BUFFER_SIZE);
+		// data->infiles[0] = NULL;
+	}
+	if (i[0] == 0)
+		data->comando_a_pelo = arr[3];
+	else if (!data->comando_a_pelo)
+		data->comando_a_pelo = arr[0];
+	data->outfiles[i[5]++] = ft_strdup(arr[i[0] + 1]);
+	data->outfiles[i[5]] = NULL;
+	i[0]++;
+}
+
+void	ft_check_redir_create(char **arr, t_command *data, int *i)
+{
+	if (arr[i[0]][0] == '<' && arr[i[0]][1] == '<')
+		ft_heredoc(arr, data, i);
+	else if (arr[i[0]][0] == '<')
+		ft_infile(arr, data, i);
+	else if (arr[i[0]][0] == '>' && arr[i[0]][1] == '>')
+		ft_appends(arr, data, i);
+	else if (arr[i[0]][0] == '>')
+		ft_outfiles(arr, data, i);
+	else //(arr[i][0] != '<' && arr[i][0] != '>')
+	{
+		if (!data->pre_args)
+			data->pre_args = malloc(sizeof(char *) * BUFFER_SIZE);
+		data->pre_args[i[2]++] = ft_strdup(arr[i[0]]);
+		data->pre_args[i[2]] = NULL;
+	}
+}
 int ft_check_redir(char **arr, t_command *data)
 {
-	int i;
-	// int i2;
-	int i3;
-	int i4;
-	int i5;
-	int i6;
-	int i7;
-	char *eofile;
-	// int ret = 0;
+	int i[6];
 
-	i = -1;
-	while(arr[++i] != NULL)
+	i[0] = -1;
+	while(arr[++i[0]] != NULL)
 	{
-		// i2 = 0;
-		if(arr[i][0] == '<' || arr[i][0] == '>')
+		if(arr[i[0]][0] == '<' || arr[i[0]][0] == '>')
 		{
-			i = 0;
-			i4 = 0;
-			i5 = 0;
-			i6 = 0;
-			i7 = 0;
-			i3 = -1;
-			while(arr[i] != NULL)
+			ft_initint(i, 6);
+			while(arr[i[0]] != NULL)
 			{
-				if (arr[i][0] == '<' && arr[i][1] == '<')
-				{
-
-					if (i == 0)
-						data->comando_a_pelo = arr[3];
-					else
-						data->comando_a_pelo = arr[0];
-					eofile = arr[i + 1];
-					// printf("eofcheck\n");
-					printf("eof %s\n", eofile);
-					// printf("len %ld\n",  ft_strlen(eofile));
-					int str_cmp = 1;
-					if(!data->heredocs)
-						data->heredocs = malloc(sizeof(char *) * BUFFER_SIZE);
-					while(str_cmp)
-					{
-						data->heredocs[++i3] = readline(">"); //<---------i'm here
-						str_cmp = ft_strncmp(eofile, data->heredocs[i3], ft_strlen(eofile));
-					}
-					free(data->heredocs[i3]);
-					data->heredocs[i3--] = NULL;
-					ft_print_dp(data->heredocs, "heredocs");
-					i++;
-					// printf("ch3%d\n",chk);
-					// while(ft_strncmp(eofile, data->heredocs[i3], ft_strlen(eofile)))
-				}
-				else if (arr[i][0] == '<')
-				{
-					if (!data->infiles)
-					{
-						data->infiles = malloc(sizeof(char *) * BUFFER_SIZE);
-						data->infiles[0] = NULL;
-					}
-					if (i == 0)
-						data->comando_a_pelo = arr[3];
-
-					else if (!data->comando_a_pelo)
-						data->comando_a_pelo = arr[0];
-					data->infiles[i5++] = ft_strdup(arr[i + 1]);
-					data->infiles[i5] = NULL;
-					i++;
-
-				}
-				else if (arr[i][0] == '>' && arr[i][1] == '>')
-				{
-					if (!data->appends)
-					{
-						data->appends = malloc(sizeof(char *) * BUFFER_SIZE);
-						// data->infiles[0] = NULL;
-					}
-					if (i == 0)
-						data->comando_a_pelo = arr[3];
-					else if (!data->comando_a_pelo)
-						data->comando_a_pelo = arr[0];
-					data->appends[i6++] = ft_strdup(arr[i + 1]);
-					data->appends[i6] = NULL;
-					i++;
-				}
-				else if (arr[i][0] == '>')
-				{
-					if (!data->outfiles)
-					{
-						data->outfiles = malloc(sizeof(char *) * BUFFER_SIZE);
-						// data->infiles[0] = NULL;
-					}
-					if (i == 0)
-						data->comando_a_pelo = arr[3];
-					else if (!data->comando_a_pelo)
-						data->comando_a_pelo = arr[0];
-					data->outfiles[i7++] = ft_strdup(arr[i + 1]);
-					data->outfiles[i7] = NULL;
-					i++;
-				}
-				else //(arr[i][0] != '<' && arr[i][0] != '>')
-				{
-					if (!data->pre_args)
-					{
-						data->pre_args = malloc(sizeof(char *) * BUFFER_SIZE);
-						// data->pre_args[0] = NULL;
-					}
-					data->pre_args[i4++] = ft_strdup(arr[i]);
-					data->pre_args[i4] = NULL;
-				}
-
-								
-				// printf("arr - ? .%c.\n", arr[i][0]);
-				i++;
+				ft_check_redir_create(arr, data, i);
+				i[0]++;
 			}
-			// if (data->pre_args && data->pre_args[0] != NULL)
-			// 	ft_print_dp(data->pre_args, "args");
-			// if (data->appends && data->appends[0] != NULL)
-			// 	ft_print_dp(data->appends, "Appends");
-			// if (data->outfiles && data->outfiles[0] != NULL)
-			// 	ft_print_dp(data->outfiles, "Outfiles");
-			// if (data->infiles && data->infiles[0] != NULL)	
-			// 	ft_print_dp(data->infiles, "infiles");
-			// printf("comando a pelo .%s.\n", data->comando_a_pelo);
 			ft_merge_comando_args(data);
 			ft_free_dob_arr(arr);
 			return(1);
 		}
-
 	}
 	return (0);
 }
