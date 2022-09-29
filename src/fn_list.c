@@ -269,6 +269,7 @@ int ft_check_redir(char **arr, t_command *data)
 						data->heredocs[++i3] = readline(">"); //<---------i'm here
 						str_cmp = ft_strncmp(eofile, data->heredocs[i3], ft_strlen(eofile));
 					}
+					free(data->heredocs[i3]);
 					data->heredocs[i3--] = NULL;
 					ft_print_dp(data->heredocs, "heredocs");
 					i++;

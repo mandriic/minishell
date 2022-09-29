@@ -7,7 +7,7 @@ int	ft_singquot(char *line, int *type, t_vars *vars, int check)
 		type[vars->i] = 5;
 	if (line[vars->i] == '\0' && check)
 		{
-			printf("Not interpret unclosed quotes \n");
+			printf("Minishell: Not interpret unclosed quotes \n");
 			free(type);
 			// if(vars->cmd_list)
 			// 	ft_del_list(vars->cmd_list);
@@ -31,7 +31,7 @@ int	ft_dobquot(char *line, int *type, t_vars *vars, int check)
 		type[vars->i] = 6;
 	if (line[vars->i] == '\0' && check)
 		{
-			printf("Not interpret unclosed quotes \n");
+			printf("Minishell: Not interpret unclosed quotes \n");
 			free(type);
 			// if(vars->cmd_list)
 			// 	ft_del_list(vars->cmd_list);

@@ -66,7 +66,11 @@ int	ft_pre_check(t_vars *vars)
 			alpha++;
 	}
 	if (alpha == 0)
+	{
+		printf("Minishell: syntax error near unexpected token \n");
+		free(vars->line);
 		return (1);
+	}
 	return (0);
 }
 
