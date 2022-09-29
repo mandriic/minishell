@@ -167,8 +167,12 @@ void ft_get_env2(char ***arr, t_vars *vars)
 			ft_my_free(arr[0][i]);
 			arr[0][i] = ft_strdup(temp);
 			ft_my_free(temp);
+
 		}
+
 	}
+	ft_clean_dp(arr[0], vars);
+
 	// 	printf("arr[i] .%s.\n", arr[i]);
 	// }
 }

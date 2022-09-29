@@ -169,6 +169,7 @@ void	ft_lstadd_back_mod(t_command **lst, t_command *new);
 t_command	*ft_lstlast_mod(t_command *lst);
 void ft_my_free(char *str);
 void ft_my_free_d(char **arr);
+void	ft_clean_dp(char **arr, t_vars *vars);
 
 // fn_main_readline.c
 void		ft_readline(void);
