@@ -455,11 +455,24 @@ t_command *ft_create_data(char *str, t_vars *vars)
 	ft_resolv_com_bon(data, vars);
 	return (data);
 }
-
+void	ft_add2list(t_vars *vars, t_command *data, t_command **prev, t_command **temp)
+{
+		if (vars->cmd_list == NULL)
+		{
+			vars->cmd_list = ft_lstnew_mod((t_command *)data); //vars_data
+			data->prev = NULL;
+			*temp = vars->cmd_list;
+		}
+		else 
+		{
+			data->prev = *prev;
+			*temp = ft_lstnew_mod(((t_command*)data)); //vars_data
+			ft_lstadd_back_mod(&vars->cmd_list, *temp);
+		}
+}
 void ft_lst_cmd(t_vars *vars)
 {
 	t_command *temp;
-	// t_command *vars_data;
 	t_command *data;
 	t_command *prev;
 
@@ -468,23 +481,12 @@ void ft_lst_cmd(t_vars *vars)
 	if (vars->cmd_list)
 		ft_del_list(vars->cmd_list);
 	prev = NULL;
+	temp = NULL;
 	vars->cmd_list = NULL;
 	while (vars->split[++i])
 	{
 		data = ft_create_data(vars->split[i], vars); //prev,
-		// vars_data = data;
-		if (vars->cmd_list == NULL)
-		{
-			vars->cmd_list = ft_lstnew_mod((t_command *)data); //vars_data
-			data->prev = NULL;
-			temp = vars->cmd_list;
-		}
-		else 
-		{
-			data->prev = prev;
-			temp = ft_lstnew_mod(((t_command*)data)); //vars_data
-			ft_lstadd_back_mod(&vars->cmd_list, temp);
-		}
+		ft_add2list(vars, data, &prev, &temp);
 		prev = temp;
 		temp = temp->next;
 	}
