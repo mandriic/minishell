@@ -22,7 +22,7 @@ fn_mask.c fn_pars.c fn_pip_splt_trim.c fn_vars.c main.c export.c\
 
 OBJS = $(SRCS:%.c=bin/%.o)
 CC = gcc
-CFLAGS = -g -O0  #-Wall -Werror -Wextra
+CFLAGS = -g -O0  -Wall -Werror -Wextra
 LIBFT_FLAGS = -I$(LIBFT_PATH) -L$(LIBFT_PATH) -lft
 LIBRL_FLAGS = -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include -lreadline
 LIBRL_FLAGS += -L/Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include -lreadline

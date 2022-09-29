@@ -148,7 +148,6 @@ char	*ft_get_env(char *str, int len)
 void ft_get_env2(char ***arr, t_vars *vars)
 {
 	int i;
-	int i2;
 	char *temp;
 	
 	i = -1;
