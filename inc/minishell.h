@@ -160,16 +160,18 @@ int	ft_jose(t_vars *vars);
 /* export.c */
 int	ft_check_existing_variable_in_matrix(char **matrix, char *var_name, int *index);
 
-// fn_lists.c
-void		ft_del_list(t_command *list);
-t_command	*ft_create_data(char *str, t_vars *vars);
-void		ft_lst_cmd(t_vars *vars);
-t_command	*ft_lstnew_mod(t_command *content);
-void	ft_lstadd_back_mod(t_command **lst, t_command *new);
-t_command	*ft_lstlast_mod(t_command *lst);
-void ft_my_free(char *str);
-void ft_my_free_d(char **arr);
-void	ft_clean_dp(char **arr, t_vars *vars);
+// fn_list.c
+char	**ft_pre_com_bon(char *str, t_vars *vars);
+void	ft_merge_comando_args(t_command *data);
+int		ft_check_redir(char **arr, t_command *data);
+void	ft_resolv_com_bon(t_command *data, t_vars *vars);
+t_command *ft_create_data(char *str, t_vars *vars);
+void	ft_add2list(t_vars *vars, t_command *data, t_command **prev, t_command **temp);
+void ft_lst_cmd(t_vars *vars);
+
+
+
+
 
 // fn_main_readline.c
 void		ft_readline(void);
@@ -207,4 +209,33 @@ void		ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars);
 char		*ft_get_env(char *str, int len);
 void		ft_pre_getenv(char *str, char **acum, t_vars *vars);
 void		ft_get_env2(char ***arr, t_vars *vars);
+
+// fnadd_free.c
+void ft_my_free_d(char **arr);
+void ft_my_free(char *str);
+void ft_free_dob_arr(char **arr);
+void	ft_del_list(t_command *list);
+void	ft_clean_dp(char **arr, t_vars *vars);
+
+// fn_additional.c
+char		**ft_dup_dp(char **src);
+int	ft_pre_check(t_vars *vars);
+void	ft_end_of_cicle(t_vars *vars);
+void	ft_initint(int *i, int len);
+
+//fnadd_lstmod.c
+t_command	*ft_lstnew_mod(t_command *content);
+t_command	*ft_lstlast_mod(t_command *lst);
+void	ft_lstadd_back_mod(t_command **lst, t_command *new);
+
+//fn_redirs.c
+void	ft_heredoc(char **arr, t_command *data, int *i);
+void	ft_infile(char **arr, t_command *data, int *i);
+void	ft_appends(char **arr, t_command *data, int *i);
+void	ft_outfiles(char **arr, t_command *data, int *i);
+void	ft_check_redir_create(char **arr, t_command *data, int *i);
+
+
+
 #endif
+

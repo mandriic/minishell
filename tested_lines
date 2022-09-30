@@ -20,3 +20,4 @@ echo ''asd'"sad"'
 echo "    $HOME " | 123 '    $HOME ' < infile$USER
 <<EOF work
 asd | work
+echo $HOME "$HOME" '$HOME' | dsa $USER "$USER" '$USER' |sdf $HOME "$HOME" '$HOME' | dsa $USER "$USER" '$USER' |sdf $HOME "$HOME" '$HOME' | dsa $USER > outfile "$USER" '$USER' < infile |sdf $HOME "$HOME" '$HOME' << EOF | dsa $USER "$USER" '$USER' >> append
