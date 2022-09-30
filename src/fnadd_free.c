@@ -66,12 +66,3 @@ void	ft_clean_dp(char **arr, t_vars *vars)
 		ft_my_free(temp);
 	}
 }
-
-// void	ft_initint(int *i, int len)
-// {
-// 	int cou;
-
-// 	cou = -1;
-// 	while (++cou != len)
-// 		i[cou] = 0;
-// }

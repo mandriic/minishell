@@ -1,73 +1,5 @@
 #include "../inc/minishell.h"
 
-char	**ft_pre_com_bon(char *str, t_vars *vars)
-{
-	int	i;
-	int i2;
-	int	start;
-	char	*temp;
-	char	**com_bon;
-	int 	*type;
-
-	i2 = 0;
-	start = 0;
-	com_bon = malloc(sizeof(char *) * BUFFER_SIZE);
-	type = ft_mask(str, vars, 0);
-	i = -1;
-	while (str[++i] != '\0')
-	{
-		if ((str[i] == ' ' && type[i] != 5 && type[i] != 6 ) || type[i] == 11 || type[i] == 10)
-		{
-			if (type[i] == 11)
-			{
-				if (i != 0 && str[i - 1] != ' ')
-				{
-					temp = ft_substr(str, start, i - start);
-					com_bon[i2++] = ft_strtrim(temp, " ");
-					ft_my_free(temp);
-					start = i;
-				}
-				while( str[i] == '<' || str[i] == '>') //str[i] == ' ' ||
-					i++;
-				temp = ft_substr(str, start, i - start);
-				com_bon[i2++] = ft_strtrim(temp, " ");
-				ft_my_free(temp);
-				start = i;
-				// com_bon[i2++] = "<< ";
-			}
-			else if(type[i] == 10)
-			{
-				if (i != 0 && str[i - 1] != ' ')
-				{
-					temp = ft_substr(str, start, i - start);
-					com_bon[i2++] = ft_strtrim(temp, " ");
-					ft_my_free(temp);
-					start = i;
-				}
-				while(str[i] == '<' || str[i] == '>') //str[i] == ' ' || 
-					i++;
-				temp = ft_substr(str, start, i - start);
-				com_bon[i2++] = ft_strtrim(temp, " ");
-					ft_my_free(temp);
-				start = i;
-			}
-			else
-			{
-				temp = ft_substr(str, start, i - start + 1);
-				com_bon[i2++] = ft_strtrim(temp, " ");
-				ft_my_free(temp);
-				start = i + 1;
-			}
-		}
-	}
-	temp = ft_substr(str, start, i - start + 1);
-	com_bon[i2++] = ft_strtrim(temp, " ");
-	ft_my_free(temp);
-	com_bon[i2] = NULL;
-	free(type);
-	return (com_bon);
-}
-
 void	ft_merge_comando_args(t_command *data)
 {
 	int	i;
@@ -138,28 +70,9 @@ void	ft_resolv_com_bon(t_command *data, t_vars *vars)
 }
 
 
-t_command *ft_create_data(char *str, t_vars *vars)
-{
-	t_command *data;
 
-	data = malloc(sizeof(t_command));
-	*data = (t_command){};
-	if (!str[0])
-	{
-		while (str[0] == '\0')
-			str = readline(">");
-	}
-	data->pre_comand_bon = ft_pre_com_bon(str, vars);
-	if(!ft_check_redir(data->pre_comand_bon, data))
-	{
-		data->comando_bonito = ft_dup_dp(data->pre_comand_bon);        ////////////////// duplicarft_dup_dp(
-		data->comando_a_pelo = data->comando_bonito[0];
-	}
-	ft_resolv_com_bon(data, vars);
-	return (data);
-}
-
-void	ft_add2list(t_vars *vars, t_command *data, t_command **prev, t_command **temp)
+void	ft_add2list(t_vars *vars, t_command *data, t_command **prev, 
+		t_command **temp)
 {
 	if (vars->cmd_list == NULL)
 	{

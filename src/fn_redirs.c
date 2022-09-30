@@ -6,16 +6,20 @@ void	ft_heredoc(char **arr, t_command *data, int *i)
 	int		str_cmp;
 
 	eofile = arr[i[0] + 1];
+	printf("eof %s\n", eofile);
+	printf("leneof %ld \n", ft_strlen(eofile));
 	str_cmp = 1;
+	i[1] = -1;
 	if(!data->heredocs)
 		data->heredocs = malloc(sizeof(char *) * BUFFER_SIZE);
-	while(str_cmp)
+	while(1)
 	{
-		data->heredocs[i[1]] = readline(">"); //<---------i'm here // i'm was here
+		data->heredocs[++i[1]] = readline(">"); //<---------i'm here // i'm was here
 		str_cmp = ft_strncmp(eofile, data->heredocs[i[1]], ft_strlen(eofile));
-		i[1]++;
+		if (!str_cmp && ft_strlen(data->heredocs[i[1]]) == ft_strlen(eofile))
+			break ;
 	}
-	free(data->heredocs[--i[1]]);
+	free(data->heredocs[i[1]]);
 	data->heredocs[i[1]--] = NULL;
 	ft_print_dp(data->heredocs, "heredocs");
 	i[0]++;
