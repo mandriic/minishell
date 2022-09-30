@@ -12,19 +12,19 @@
 
 #include "../inc/minishell.h"
 
-void ft_my_free_d(char **arr)
+void	ft_my_free_d(char **arr)
 {
-	free(arr);
+	free (arr);
 	arr = NULL;
 }
 
-void ft_my_free(char *str)
+void	ft_my_free(char *str)
 {
 	free(str);
 	str = NULL;
 }
 
-void ft_free_dob_arr(char **arr)
+void	ft_free_dob_arr(char **arr)
 {
 	int	i;
 
@@ -44,7 +44,7 @@ void	ft_del_list(t_command *list)
 
 	temp = list;
 	last = ft_lstlast_mod(list);
-	while(1)
+	while (1)
 	{
 		temp = list->next;
 		ft_free_dob_arr(list->infiles);
@@ -53,15 +53,11 @@ void	ft_del_list(t_command *list)
 		ft_free_dob_arr(list->heredocs);
 		ft_free_dob_arr(list->comando_bonito);
 		free(list->cmd_splited);
-
 		if (list->sub_arg)
 			ft_my_free(list->sub_arg);
 		free(list);
-		if(list  == last)
+		if (list == last)
 			break ;
 		list = temp;
 	}
-	
 }
-
-

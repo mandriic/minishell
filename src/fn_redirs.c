@@ -18,15 +18,13 @@ void	ft_heredoc(char **arr, t_command *data, int *i)
 	int		str_cmp;
 
 	eofile = arr[i[0] + 1];
-	printf("eof %s\n", eofile);
-	printf("leneof %ld \n", ft_strlen(eofile));
 	str_cmp = 1;
 	i[1] = -1;
-	if(!data->heredocs)
+	if (!data->heredocs)
 		data->heredocs = malloc(sizeof(char *) * BUFFER_SIZE);
-	while(1)
+	while (1)
 	{
-		data->heredocs[++i[1]] = readline(">"); //<---------i'm here // i'm was here
+		data->heredocs[++i[1]] = readline(">");
 		str_cmp = ft_strncmp(eofile, data->heredocs[i[1]], ft_strlen(eofile));
 		if (!str_cmp && ft_strlen(data->heredocs[i[1]]) == ft_strlen(eofile))
 			break ;
@@ -51,16 +49,12 @@ void	ft_infile(char **arr, t_command *data, int *i)
 	data->infiles[i[3]++] = ft_strdup(arr[i[0] + 1]);
 	data->infiles[i[3]] = NULL;
 	i[0]++;
-
 }
 
 void	ft_appends(char **arr, t_command *data, int *i)
 {
 	if (!data->appends)
-	{
 		data->appends = malloc(sizeof(char *) * BUFFER_SIZE);
-		// data->infiles[0] = NULL;
-	}
 	if (i[0] == 0)
 		data->comando_a_pelo = arr[3];
 	else if (!data->comando_a_pelo)
@@ -73,10 +67,7 @@ void	ft_appends(char **arr, t_command *data, int *i)
 void	ft_outfiles(char **arr, t_command *data, int *i)
 {
 	if (!data->outfiles)
-	{
 		data->outfiles = malloc(sizeof(char *) * BUFFER_SIZE);
-		// data->infiles[0] = NULL;
-	}
 	if (i[0] == 0)
 		data->comando_a_pelo = arr[3];
 	else if (!data->comando_a_pelo)
@@ -96,7 +87,7 @@ void	ft_check_redir_create(char **arr, t_command *data, int *i)
 		ft_appends(arr, data, i);
 	else if (arr[i[0]][0] == '>')
 		ft_outfiles(arr, data, i);
-	else //(arr[i][0] != '<' && arr[i][0] != '>')
+	else
 	{
 		if (!data->pre_args)
 			data->pre_args = malloc(sizeof(char *) * BUFFER_SIZE);
