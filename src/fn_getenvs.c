@@ -14,13 +14,14 @@
 
 char	*ft_get_env(char *str, int len)
 {
-	char	var[len];
+	char	*var;
 	char	*valor;
 	char	*temp;
-	int 	i;
+	int		i;
 
+	var = malloc(sizeof(char *) * len);
 	i = -1;
-	if(str[1] == '?')
+	if (str[1] == '?')
 	{
 		var[0] = '$';
 		var[1] = '?';
@@ -29,10 +30,10 @@ char	*ft_get_env(char *str, int len)
 	else
 		ft_sub_get_env(str, var, len, &i);
 	valor = getenv(var);
-	printf("valor %s\n",valor);
+	free(var);
 	if (!valor)
 		return (NULL);
-	if (str[i + 1] == ' ' ) //|| str[i + 1] == '"'
+	if (str[i + 1] == ' ' )
 		temp = ft_strjoin(valor, " ");
 	else if (str[i + 1] == '/')
 		temp = ft_strjoin(valor, "/");
@@ -45,9 +46,9 @@ void	ft_get_env2(char ***arr, t_vars *vars)
 {
 	int		i;
 	char	*temp;
-	
+
 	i = -1;
-	while(arr[0][++i] != NULL)
+	while (arr[0][++i] != NULL)
 	{
 		temp = ft_checkif_var(arr[0][i], vars);
 		if (temp == NULL)
@@ -55,7 +56,7 @@ void	ft_get_env2(char ***arr, t_vars *vars)
 			ft_my_free(arr[0][i]);
 			arr[0][i] = NULL;
 		}
-		else if(arr[0][i] != temp)
+		else if (arr[0][i] != temp)
 		{
 			ft_my_free(arr[0][i]);
 			arr[0][i] = ft_strdup(temp);

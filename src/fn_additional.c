@@ -18,7 +18,7 @@ char	**ft_dup_dp(char **src)
 	char	**dst;
 
 	i = -1;
-	while(src[++i])
+	while (src[++i])
 		;
 	dst = malloc(sizeof(char *) * (i + 1));
 	i = -1;
@@ -31,7 +31,7 @@ char	**ft_dup_dp(char **src)
 
 int	ft_pre_check(t_vars *vars)
 {
-	int alpha;
+	int	alpha;
 
 	vars->i = -1;
 	alpha = 0;
@@ -57,7 +57,7 @@ void	ft_end_of_cicle(t_vars *vars)
 
 void	ft_initint(int *i, int len)
 {
-	int cou;
+	int	cou;
 
 	cou = -1;
 	while (++cou != len)
@@ -66,13 +66,13 @@ void	ft_initint(int *i, int len)
 
 void	ft_print_dp(char **str, char *name)
 {
-	int i; 
+	int	i;
 
 	i = -1;
 	printf("_____________printing doble punbtero %s _______\n", name);
 	while (str[++i])
 	{
-		printf("\t %s[%d] = .%s.\n" , name, i, str[i]);
+		printf("\t %s[%d] = .%s.\n", name, i, str[i]);
 	}
 	printf("\n");
 }

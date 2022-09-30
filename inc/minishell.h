@@ -200,7 +200,7 @@ char		**spliting(char *wololoco, int *type, size_t num_pipes, t_vars *vars);
 void    	ft_triming(char **separ, size_t num_pipes, t_vars *vars, int one_comand);
 size_t 		ft_numpipes(char *wololoco, int *type);
 // void		ft_split_args(t_command *data, t_vars *vars); // <- FUncion comentada, no se usa, se puede usar si va a hacer falta comando bonito
-void		ft_subtrim(char **separ, char **temp, int *i, int *i2, t_vars *vars);
+void		ft_subtrim(char **separ, char **temp, int *i, t_vars *vars);
 
 //	fn_pars.c
 void		ft_subpars(char *str, t_command *data, t_vars * vars);

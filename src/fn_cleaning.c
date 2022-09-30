@@ -15,37 +15,37 @@
 void	ft_subcleaning(char *str, char **clear, t_vars *vars, int *type)
 {
 	if (vars->i2 - vars->start2 != 0)
-		{
-			if (vars->start2 == 0)
-				vars->temp = ft_substr(str, vars->start2, vars->i2 - vars->start2);
-			else
-				vars->temp = ft_substr(str, vars->start2 + 1, 
-				vars->i2 - vars->start2 - 1);
-			*clear = ft_acumulate(*clear, vars->temp);
-		}
+	{
+		if (vars->start2 == 0)
+			vars->temp = ft_substr(str, vars->start2, vars->i2 - vars->start2);
+		else
+			vars->temp = ft_substr(str, vars->start2 + 1,
+					vars->i2 - vars->start2 - 1);
+		*clear = ft_acumulate(*clear, vars->temp);
+	}
 	vars->start2 = vars->i2;
 	vars->i2++;
-	while (str[vars->i2] != '\0' && type[vars->i2] != 1 && type[vars->i2] != 2) //(str[vars->i2] != '"' && str[vars->i2] != vars->quotes[0]  && str[vars->i2] != '\0')
+	while (str[vars->i2] != '\0' && type[vars->i2] != 1 && type[vars->i2] != 2)
 		vars->i2++;
 	vars->temp = ft_substr(str, vars->start2 + 1, vars->i2 - vars->start2 - 1);
 	vars->start2 = vars->i2;
 	*clear = ft_acumulate(*clear, vars->temp);
 }
 
-int		ft_clear_quot(char *str, char **clear, t_vars *vars, int *type)
+int	ft_clear_quot(char *str, char **clear, t_vars *vars, int *type)
 {
-	if (type[vars->i2] == 2 || type[vars->i2] == 1) ///str[vars->i2] == '"' || str[vars->i2] == vars->quotes[0])
+	if (type[vars->i2] == 2 || type[vars->i2] == 1)
 	{
-		if ((str[vars->i2] == '"' && str[vars->i2 + 1] == '"') 
-		|| (str[vars->i2] == vars->quotes[0] 
-		&& str[vars->i2 + 1] == vars->quotes[0]))// || str[vars->i2 + 1] == '\0')
+		if ((str[vars->i2] == '"' && str[vars->i2 + 1] == '"')
+			|| (str[vars->i2] == vars->quotes[0]
+				&& str[vars->i2 + 1] == vars->quotes[0]))
 		{
 			free(type);
-			return(1);
+			return (1);
 		}
 		ft_subcleaning(str, clear, vars, type);
 	}
-	return(0);
+	return (0);
 }
 
 char	*ft_cleaning(char *str, t_vars *vars)
@@ -65,10 +65,11 @@ char	*ft_cleaning(char *str, t_vars *vars)
 			break ;
 	}
 	free(type);
-	if (vars->start2 !=vars->i2 && clear != NULL)
+	if (vars->start2 != vars->i2 && clear != NULL)
 	{
-		vars->temp = ft_substr(str, vars->start2 + 1,vars->i2 - vars->start2 - 1);
-		clear = ft_acumulate(clear, vars->temp);	
+		vars->temp = ft_substr(str, vars->start2 + 1,
+				vars->i2 - vars->start2 - 1);
+		clear = ft_acumulate(clear, vars->temp);
 		return (clear);
 	}
 	else if (clear == NULL)
@@ -80,9 +81,9 @@ void	ft_clean_dp(char **arr, t_vars *vars)
 {
 	int		i;
 	char	*temp;
-	
+
 	i = -1;
-	while(arr[++i])
+	while (arr[++i])
 	{
 		vars->start2 = 0;
 		temp = ft_cleaning(arr[i], vars);

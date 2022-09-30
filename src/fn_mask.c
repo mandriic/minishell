@@ -21,7 +21,7 @@ int	ft_singquot(char *line, int *type, t_vars *vars, int check)
 	{
 		printf("Minishell: Not interpret unclosed quotes \n");
 		free(type);
-		return(1);
+		return (1);
 	}
 	else if (line[vars->i] == '\0' && !check)
 	{
@@ -39,11 +39,11 @@ int	ft_dobquot(char *line, int *type, t_vars *vars, int check)
 	while (line[++vars->i] != '"' && line[vars->i] != '\0')
 		type[vars->i] = 6;
 	if (line[vars->i] == '\0' && check)
-		{
-			printf("Minishell: Not interpret unclosed quotes \n");
-			free(type);
-			return(1);
-		}
+	{
+		printf("Minishell: Not interpret unclosed quotes \n");
+		free(type);
+		return (1);
+	}
 	else if (line[vars->i] == '\0' && !check)
 	{
 		type[vars->i - 1] = 0;
@@ -51,40 +51,41 @@ int	ft_dobquot(char *line, int *type, t_vars *vars, int check)
 	}
 	else
 		type[vars->i] = 2;
-	return(0);
+	return (0);
 }
 
-int		ft_search_redir(char *line, t_vars *vars, int check, int *type)
+int	ft_search_redir(char *line, t_vars *vars, int check, int *type)
 {
-	if(line[vars->i] == vars->quotes[0] && ft_singquot(line, type, vars, check))
+	if (line[vars->i] == vars->quotes[0]
+		&& ft_singquot(line, type, vars, check))
 		return (1);
 	else if (line[vars->i] == '"' && ft_dobquot(line, type, vars, check))
 		return (1);
 	else if (line[vars->i] == '|')
-		type[vars->i] = 3; 
+		type[vars->i] = 3;
 	else if (line[vars->i] == '|' && line[vars->i + 1] == '\0')
 		type[vars->i] = 4;
-	else if ((line[vars->i] == '<' && line[vars->i + 1] == '<') 
-			|| (line[vars->i] == '>' &&  line[vars->i + 1] == '>'))
+	else if ((line[vars->i] == '<' && line[vars->i + 1] == '<')
+		|| (line[vars->i] == '>' && line[vars->i + 1] == '>'))
 		type[vars->i] = 11;
 	else if (line[vars->i] == '<' || line[vars->i] == '>')
 		type[vars->i] = 10;
-	else if (line[vars->i] != '"' && line[vars->i] != vars->quotes[0] 
-			&& line[vars->i] != '\0')
+	else if (line[vars->i] != '"' && line[vars->i] != vars->quotes[0]
+		&& line[vars->i] != '\0')
 		type[vars->i] = 0;
 	return (0);
 }
 
-int		*ft_mask(char *line, t_vars *vars, int check)
+int	*ft_mask(char *line, t_vars *vars, int check)
 {
-	int len;
-	int *type;
+	int	len;
+	int	*type;
 
 	vars->i = -1;
 	type = NULL;
 	len = ft_strlen(line);
 	if (len == 0)
-		return(type);
+		return (type);
 	type = malloc(sizeof(int) * len + 2);
 	while (line[++vars->i] != '\0')
 	{
@@ -115,7 +116,7 @@ char	*ft_acumulate(char *dest, char *part)
 	else
 	{
 		temp = ft_strjoin(dest, part);
-		if(dest != NULL)
+		if (dest != NULL)
 			ft_my_free(dest);
 		ft_my_free(part);
 	}
