@@ -161,13 +161,19 @@ int	ft_jose(t_vars *vars);
 int	ft_check_existing_variable_in_matrix(char **matrix, char *var_name, int *index);
 
 // fn_list.c
-char	**ft_pre_com_bon(char *str, t_vars *vars);
-void	ft_merge_comando_args(t_command *data);
-int		ft_check_redir(char **arr, t_command *data);
-void	ft_resolv_com_bon(t_command *data, t_vars *vars);
-t_command *ft_create_data(char *str, t_vars *vars);
-void	ft_add2list(t_vars *vars, t_command *data, t_command **prev, t_command **temp);
-void ft_lst_cmd(t_vars *vars);
+char		**ft_pre_com_bon(char *str, t_vars *vars);
+void		ft_merge_comando_args(t_command *data);
+int			ft_check_redir(char **arr, t_command *data);
+void		ft_resolv_com_bon(t_command *data, t_vars *vars);
+t_command 	*ft_create_data(char *str, t_vars *vars);
+void		ft_add2list(t_vars *vars, t_command *data, t_command **prev, t_command **temp);
+void		ft_lst_cmd(t_vars *vars);
+int			ft_check_apphdoc(char *str, char **com_bon, int *i, int *type);
+int			ft_check_inoutfile(char *str, char **com_bon, int *i, int *type);
+void		ft_check_total(char *str, char **com_bon, int *i, int *type);
+t_command 	*ft_create_data(char *str, t_vars *vars);
+
+
 
 
 
@@ -186,18 +192,15 @@ int			*ft_mask(char *line, t_vars *vars, int check);
 char		*ft_acumulate(char *dest, char *part);
 int			ft_singquot(char *line, int *type, t_vars *vars, int check);
 int			ft_dobquot(char *line, int *type, t_vars *vars, int check);
-
-
+int			ft_search_redir(char *line, t_vars *vars, int check, int *type);
 
 // fn_pip_splt_trim.c
 int		    ft_lastpipe(char *str);
 char		**spliting(char *wololoco, int *type, size_t num_pipes, t_vars *vars);
 void    	ft_triming(char **separ, size_t num_pipes, t_vars *vars, int one_comand);
 size_t 		ft_numpipes(char *wololoco, int *type);
-void		ft_split_args(t_command *data, t_vars *vars); // <- FUncion comentada, no se usa, se puede usar si va a hacer falta comando bonito
+// void		ft_split_args(t_command *data, t_vars *vars); // <- FUncion comentada, no se usa, se puede usar si va a hacer falta comando bonito
 void		ft_subtrim(char **separ, char **temp, int *i, int *i2, t_vars *vars);
-
-
 
 //	fn_pars.c
 void		ft_subpars(char *str, t_command *data, t_vars * vars);

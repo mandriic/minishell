@@ -49,14 +49,16 @@ void	ft_submain(t_vars *vars)
 }
 
 
-void	ft_subcleaning(char *str, char **clear, char **temp, t_vars *vars, int *type)
+void	ft_subcleaning(char *str, char **clear, char **temp, t_vars *vars, 
+		int *type)
 {
 	if (vars->i2 - vars->start2 != 0)
 		{
 			if (vars->start2 == 0)
 				*temp = ft_substr(str, vars->start2, vars->i2 - vars->start2);
 			else
-				*temp = ft_substr(str, vars->start2 + 1, vars->i2 - vars->start2 - 1);
+				*temp = ft_substr(str, vars->start2 + 1, 
+				vars->i2 - vars->start2 - 1);
 			*clear = ft_acumulate(*clear, *temp);
 		}
 	vars->start2 = vars->i2;
@@ -86,7 +88,9 @@ char	*ft_cleaning(char *str, t_vars *vars)
 		printf(" i2 %d \n", vars->i2);
 		if (type[vars->i2] == 2 || type[vars->i2] == 1) ///str[vars->i2] == '"' || str[vars->i2] == vars->quotes[0])
 		{
-			if ((str[vars->i2] == '"' && str[vars->i2 + 1] == '"') || (str[vars->i2] == vars->quotes[0] && str[vars->i2 + 1] == vars->quotes[0]))// || str[vars->i2 + 1] == '\0')
+			if ((str[vars->i2] == '"' && str[vars->i2 + 1] == '"') 
+			|| (str[vars->i2] == vars->quotes[0] 
+			&& str[vars->i2 + 1] == vars->quotes[0]))// || str[vars->i2 + 1] == '\0')
 			{
 				free(type);
 				return(NULL);
@@ -96,14 +100,13 @@ char	*ft_cleaning(char *str, t_vars *vars)
 				break ;
 		}
 		if (str[vars->i2] == '\0')
-				break ;
+			break ;
 	}
 	free(type);
 	if (vars->start2 !=vars->i2 && clear != NULL)
 	{
 		temp = ft_substr(str, vars->start2 + 1,vars->i2 - vars->start2 - 1);
 		clear = ft_acumulate(clear, temp);	
-		// ft_my_free(str);
 		return (clear);
 	}
 	else if (clear == NULL)

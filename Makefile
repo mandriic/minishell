@@ -17,8 +17,8 @@ INCS_PATH = inc/
 BIN_PATH = bin/
 LIBFT_PATH = libft/
 
-SRCS = fn_list.c fn_main_readline.c fnadd_free.c fnadd_lstmod.c fn_additional.c\
-fn_mask.c fn_pars.c fn_pip_splt_trim.c fn_vars.c main.c export.c fn_redirs.c\
+SRCS = fn_list.c fn_main_readline.c fnadd_free.c fnadd_libftmod.c fn_additional.c\
+fn_mask.c fn_pars.c fn_pip_splt_trim.c fn_vars.c main.c export.c fn_redirs.c fn_create_data.c\
 
 OBJS = $(SRCS:%.c=bin/%.o)
 CC = gcc
