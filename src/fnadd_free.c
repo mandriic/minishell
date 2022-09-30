@@ -52,17 +52,4 @@ void	ft_del_list(t_command *list)
 	
 }
 
-void	ft_clean_dp(char **arr, t_vars *vars)
-{
-	int		i;
-	char	*temp;
-	
-	i = -1;
-	while(arr[++i])
-	{
-		temp = ft_cleaning(arr[i], vars);
-		ft_my_free(arr[i]);
-		arr[i] = ft_strdup(temp);
-		ft_my_free(temp);
-	}
-}
+

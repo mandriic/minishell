@@ -25,8 +25,6 @@ void	ft_merge_comando_args(t_command *data)
 	ft_free_dob_arr(data->pre_args);
 }
 
-
-
 int		ft_check_redir(char **arr, t_command *data)
 {
 	int	i[6];
@@ -50,7 +48,6 @@ int		ft_check_redir(char **arr, t_command *data)
 	return (0);
 }
 
-
 void	ft_resolv_com_bon(t_command *data, t_vars *vars)
 {
 	if (data->infiles || data->comando_bonito || data->appends\
@@ -68,8 +65,6 @@ void	ft_resolv_com_bon(t_command *data, t_vars *vars)
 			ft_get_env2(&data->outfiles, vars);
 	}
 }
-
-
 
 void	ft_add2list(t_vars *vars, t_command *data, t_command **prev, 
 		t_command **temp)

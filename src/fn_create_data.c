@@ -82,6 +82,8 @@ char	**ft_pre_com_bon(char *str, t_vars *vars)
 		if ((str[i[0]] == ' ' && type[i[0]] != 5 && type[i[0]] != 6 )
 			|| type[i[0]] == 11 || type[i[0]] == 10)
 			ft_check_total(str, com_bon, i, type);
+        if (str[i[0]] == '\0')
+            break ;
 	}
 	temp = ft_substr(str, i[1], i[0] - i[1] + 1);
 	com_bon[i[2]++] = ft_strtrim(temp, " ");
