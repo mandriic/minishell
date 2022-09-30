@@ -1,19 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fnadd_libftmod.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mandriic <mandriic@student.42madrid.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/30 16:12:11 by mandriic          #+#    #+#             */
+/*   Updated: 2022/09/30 16:12:17 by mandriic         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/minishell.h"
 
 t_command	*ft_lstnew_mod(t_command *content)
 {
 	t_command	*new;
 
-	// new = (t_command *)malloc(sizeof(t_command));
-	// if (!new)
-	// 	return (NULL);
 	new = content;
-	// new->content = content;
 	new->next = NULL;
 	return (new);
 }
-
-
 
 t_command	*ft_lstlast_mod(t_command *lst)
 {
