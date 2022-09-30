@@ -1,119 +1,4 @@
 #include "../inc/minishell.h"
-void ft_my_free_d(char **arr)
-{
-	free(arr);
-	arr = NULL;
-}
-
-void ft_my_free(char *str)
-{
-	free(str);
-	str = NULL;
-}
-
-void ft_free_dob_arr(char **arr)
-{
-	int	i;
-
-	i = -1;
-	if (arr)
-	{
-		while (arr[++i])
-			ft_my_free(arr[i]);
-		ft_my_free_d(arr);
-	}
-}
-void	ft_del_list(t_command *list)
-{
-	t_command	*last;
-	t_command	*temp;
-
-	temp = list;
-	last = ft_lstlast_mod(list);
-	while(1)
-	{
-		temp = list->next;
-		ft_free_dob_arr(list->infiles);
-		ft_free_dob_arr(list->outfiles);
-		ft_free_dob_arr(list->appends);
-		ft_free_dob_arr(list->heredocs);
-		ft_free_dob_arr(list->comando_bonito);
-		// ft_free_dob_arr(list->pre_comand_bon);
-
-		//ft_my_free(list->comando_a_pelo);
-		//ft_my_free(list->vars_resolv);
-		free(list->cmd_splited);
-		// if (list->heredocs)
-		// if (list->pre_comand_bon)
-		// 	ft_my_free_d(list->pre_comand_bon);
-		// if(list->infiles != NULL)
-		// 	ft_my_free_d(list->infiles);
-		// if(list->outfiles != NULL)
-		// 	ft_my_free_d(list->outfiles);
-		// if(list->comando_bonito)
-		// 	ft_my_free_d(list->comando_bonito);
-		// if(list->appends != NULL)
-		// 	ft_my_free_d(list->appends);
-		// ft_my_free_d(list->pre_args);
-		//ft_my_free(list->infiles);
-		//ft_my_free(list->appends);
-		//ft_my_free(list->outfiles);
-		// if(list->heredocs)
-		// 	ft_my_free(list->heredocs);
-		// ft_free_dob_arr(list->pre_args);
-		// ft_free_dob_arr(list->infiles);
-		
-		//ft_my_free(((t_data *)list->content)->cmd_list->comando_con_flags);
-		if (list->sub_arg)
-			ft_my_free(list->sub_arg);
-		//ft_my_free(((t_command *)list->content)->cmd_list);
-		//ft_my_free(list->content);
-		free(list);
-		if(list  == last)
-			break ;
-		list = temp;
-	}
-	
-}
-
-t_command	*ft_lstnew_mod(t_command *content)
-{
-	t_command	*new;
-
-	// new = (t_command *)malloc(sizeof(t_command));
-	// if (!new)
-	// 	return (NULL);
-	new = content;
-	// new->content = content;
-	new->next = NULL;
-	return (new);
-}
-
-
-
-t_command	*ft_lstlast_mod(t_command *lst)
-{
-	if (!lst)
-		return (0);
-	while (lst->next)
-		lst = lst->next;
-	return (lst);
-}
-
-void	ft_lstadd_back_mod(t_command **lst, t_command *new)
-{
-	t_command	*old_last;
-
-	if (!*lst)
-	{
-		*lst = new;
-		return ;
-	}
-	if (!new)
-		return ;
-	old_last = ft_lstlast_mod(*lst);
-	old_last->next = new;
-}
 
 char	**ft_pre_com_bon(char *str, t_vars *vars)
 {
@@ -122,21 +7,13 @@ char	**ft_pre_com_bon(char *str, t_vars *vars)
 	int	start;
 	char	*temp;
 	char	**com_bon;
-	// char	**pre_bon;
-	// int		num_args;
 	int 	*type;
 
-	i = -1;
 	i2 = 0;
 	start = 0;
 	com_bon = malloc(sizeof(char *) * BUFFER_SIZE);
 	type = ft_mask(str, vars, 0);
-	// int len = ft_strlen(str);
-	// while(++i != len)
-	// 	printf("type[%d] - %d\n", i, type[i]);
 	i = -1;
-	// ft_print_arrint(type, "type");
-	// printf("string %s\n", str);
 	while (str[++i] != '\0')
 	{
 		if ((str[i] == ' ' && type[i] != 5 && type[i] != 6 ) || type[i] == 11 || type[i] == 10)
@@ -181,20 +58,16 @@ char	**ft_pre_com_bon(char *str, t_vars *vars)
 				ft_my_free(temp);
 				start = i + 1;
 			}
-			// }
-			// printf("combom .%s. \n", com_bon[i2 - 1]);
-	
 		}
 	}
 	temp = ft_substr(str, start, i - start + 1);
 	com_bon[i2++] = ft_strtrim(temp, " ");
 	ft_my_free(temp);
 	com_bon[i2] = NULL;
-	// printf("combom .%s. \n", com_bon[i2 - 1]);
-	// sleep(10);
 	free(type);
 	return (com_bon);
 }
+
 void	ft_merge_comando_args(t_command *data)
 {
 	int	i;
@@ -220,103 +93,7 @@ void	ft_merge_comando_args(t_command *data)
 	ft_free_dob_arr(data->pre_args);
 }
 
-void	ft_heredoc(char **arr, t_command *data, int *i)
-{
-	char	*eofile;
-	int		str_cmp;
 
-	eofile = arr[i[0] + 1];
-	str_cmp = 1;
-	if(!data->heredocs)
-		data->heredocs = malloc(sizeof(char *) * BUFFER_SIZE);
-	while(str_cmp)
-	{
-		data->heredocs[i[1]] = readline(">"); //<---------i'm here // i'm was here
-		str_cmp = ft_strncmp(eofile, data->heredocs[i[1]], ft_strlen(eofile));
-		i[1]++;
-	}
-	free(data->heredocs[--i[1]]);
-	data->heredocs[i[1]--] = NULL;
-	ft_print_dp(data->heredocs, "heredocs");
-	i[0]++;
-}
-
-void	ft_initint(int *i, int len)
-{
-	int cou;
-
-	cou = -1;
-	while (++cou != len)
-		i[cou] = 0;
-}
-
-void	ft_infile(char **arr, t_command *data, int *i)
-{
-	if (!data->infiles)
-	{
-		data->infiles = malloc(sizeof(char *) * BUFFER_SIZE);
-		data->infiles[0] = NULL;
-	}
-	if (i[0] == 0)
-		data->comando_a_pelo = arr[3];
-	else if (!data->comando_a_pelo)
-		data->comando_a_pelo = arr[0];
-	data->infiles[i[3]++] = ft_strdup(arr[i[0] + 1]);
-	data->infiles[i[3]] = NULL;
-	i[0]++;
-
-}
-
-void	ft_appends(char **arr, t_command *data, int *i)
-{
-	if (!data->appends)
-	{
-		data->appends = malloc(sizeof(char *) * BUFFER_SIZE);
-		// data->infiles[0] = NULL;
-	}
-	if (i[0] == 0)
-		data->comando_a_pelo = arr[3];
-	else if (!data->comando_a_pelo)
-		data->comando_a_pelo = arr[0];
-	data->appends[i[4]++] = ft_strdup(arr[i[0] + 1]);
-	data->appends[i[4]] = NULL;
-	i[0]++;
-}
-
-void	ft_outfiles(char **arr, t_command *data, int *i)
-{
-	if (!data->outfiles)
-	{
-		data->outfiles = malloc(sizeof(char *) * BUFFER_SIZE);
-		// data->infiles[0] = NULL;
-	}
-	if (i[0] == 0)
-		data->comando_a_pelo = arr[3];
-	else if (!data->comando_a_pelo)
-		data->comando_a_pelo = arr[0];
-	data->outfiles[i[5]++] = ft_strdup(arr[i[0] + 1]);
-	data->outfiles[i[5]] = NULL;
-	i[0]++;
-}
-
-void	ft_check_redir_create(char **arr, t_command *data, int *i)
-{
-	if (arr[i[0]][0] == '<' && arr[i[0]][1] == '<')
-		ft_heredoc(arr, data, i);
-	else if (arr[i[0]][0] == '<')
-		ft_infile(arr, data, i);
-	else if (arr[i[0]][0] == '>' && arr[i[0]][1] == '>')
-		ft_appends(arr, data, i);
-	else if (arr[i[0]][0] == '>')
-		ft_outfiles(arr, data, i);
-	else //(arr[i][0] != '<' && arr[i][0] != '>')
-	{
-		if (!data->pre_args)
-			data->pre_args = malloc(sizeof(char *) * BUFFER_SIZE);
-		data->pre_args[i[2]++] = ft_strdup(arr[i[0]]);
-		data->pre_args[i[2]] = NULL;
-	}
-}
 
 int		ft_check_redir(char **arr, t_command *data)
 {
@@ -341,20 +118,6 @@ int		ft_check_redir(char **arr, t_command *data)
 	return (0);
 }
 
-void	ft_clean_dp(char **arr, t_vars *vars)
-{
-	int		i;
-	char	*temp;
-	
-	i = -1;
-	while(arr[++i])
-	{
-		temp = ft_cleaning(arr[i], vars);
-		ft_my_free(arr[i]);
-		arr[i] = ft_strdup(temp);
-		ft_my_free(temp);
-	}
-}
 
 void	ft_resolv_com_bon(t_command *data, t_vars *vars)
 {
@@ -374,22 +137,6 @@ void	ft_resolv_com_bon(t_command *data, t_vars *vars)
 	}
 }
 
-char	**ft_dup_dp(char **src)
-{
-	int		i;
-	char	**dst;
-
-	i = -1;
-	while(src[++i])
-		;
-	dst = malloc(sizeof(char *) * (i + 1));
-	i = -1;
-	while (src[++i])
-		dst[i] = ft_strdup(src[i]);
-	dst[i] = NULL;
-	ft_free_dob_arr(src);
-	return (dst);
-}
 
 t_command *ft_create_data(char *str, t_vars *vars)
 {

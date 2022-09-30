@@ -48,31 +48,6 @@ void	ft_submain(t_vars *vars)
 	}
 }
 
-void	ft_end_of_cicle(t_vars *vars)
-{
-	ft_my_free(vars->line);
-	free(vars->type);
-}
-
-int	ft_pre_check(t_vars *vars)
-{
-	int alpha;
-
-	vars->i = -1;
-	alpha = 0;
-	while (vars->line[++vars->i])
-	{
-		if (ft_isalnum(vars->line[vars->i]))
-			alpha++;
-	}
-	if (alpha == 0)
-	{
-		printf("Minishell: syntax error near unexpected token \n");
-		free(vars->line);
-		return (1);
-	}
-	return (0);
-}
 
 void	ft_subcleaning(char *str, char **clear, char **temp, t_vars *vars, int *type)
 {
@@ -90,14 +65,7 @@ void	ft_subcleaning(char *str, char **clear, char **temp, t_vars *vars, int *typ
 		vars->i2++;
 	*temp = ft_substr(str, vars->start2 + 1, vars->i2 - vars->start2 - 1);
 	vars->start2 = vars->i2;
-
-	printf("CHEEECK\n");
-	printf("cleaning temp .%s.\n", *temp);
-	
-	printf("clear befor .%s.\n", *clear);
 	*clear = ft_acumulate(*clear, *temp);
-	printf("clean desp .%s.\n", *clear);
-
 }
 
 char	*ft_cleaning(char *str, t_vars *vars)
