@@ -212,6 +212,7 @@ void		ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars);
 char		*ft_get_env(char *str, int len);
 void		ft_pre_getenv(char *str, char **acum, t_vars *vars);
 void		ft_get_env2(char ***arr, t_vars *vars);
+void		ft_sub_get_env(char *str, char *var, int len, int *i);
 
 // fnadd_free.c
 void ft_my_free_d(char **arr);
@@ -225,6 +226,7 @@ char		**ft_dup_dp(char **src);
 int	ft_pre_check(t_vars *vars);
 void	ft_end_of_cicle(t_vars *vars);
 void	ft_initint(int *i, int len);
+void	ft_print_dp(char **str, char *name);
 
 //fnadd_lstmod.c
 t_command	*ft_lstnew_mod(t_command *content);

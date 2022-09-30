@@ -1,0 +1,84 @@
+#include "../inc/minishell.h"
+
+void	ft_subcleaning(char *str, char **clear, char **temp, t_vars *vars, 
+		int *type)
+{
+	if (vars->i2 - vars->start2 != 0)
+		{
+			if (vars->start2 == 0)
+				*temp = ft_substr(str, vars->start2, vars->i2 - vars->start2);
+			else
+				*temp = ft_substr(str, vars->start2 + 1, 
+				vars->i2 - vars->start2 - 1);
+			*clear = ft_acumulate(*clear, *temp);
+		}
+	vars->start2 = vars->i2;
+	vars->i2++;
+	while (str[vars->i2] != '\0' && type[vars->i2] != 1 && type[vars->i2] != 2) //(str[vars->i2] != '"' && str[vars->i2] != vars->quotes[0]  && str[vars->i2] != '\0')
+		vars->i2++;
+	*temp = ft_substr(str, vars->start2 + 1, vars->i2 - vars->start2 - 1);
+	vars->start2 = vars->i2;
+	*clear = ft_acumulate(*clear, *temp);
+}
+
+int		ft_clear_quot(char *str, char **clear, char **temp, t_vars *vars, 
+		int *type)
+{
+	if (type[vars->i2] == 2 || type[vars->i2] == 1) ///str[vars->i2] == '"' || str[vars->i2] == vars->quotes[0])
+	{
+		if ((str[vars->i2] == '"' && str[vars->i2 + 1] == '"') 
+		|| (str[vars->i2] == vars->quotes[0] 
+		&& str[vars->i2 + 1] == vars->quotes[0]))// || str[vars->i2 + 1] == '\0')
+		{
+			free(type);
+			return(1);
+		}
+		ft_subcleaning(str, clear, temp, vars, type);
+	}
+	return(0);
+}
+
+char	*ft_cleaning(char *str, t_vars *vars)
+{
+	char	*clear;
+	char	*temp;
+	int		*type;
+
+	vars->i2 = -1;
+	clear = NULL;
+	temp = NULL;
+	type = ft_mask(str, vars, 0);
+	while (str[++vars->i2])
+	{
+		if (ft_clear_quot(str, &clear, &temp, vars, type))
+			return (NULL);
+		if (str[vars->i2] == '\0')
+			break ;
+	}
+	free(type);
+	if (vars->start2 !=vars->i2 && clear != NULL)
+	{
+		temp = ft_substr(str, vars->start2 + 1,vars->i2 - vars->start2 - 1);
+		clear = ft_acumulate(clear, temp);	
+		return (clear);
+	}
+	else if (clear == NULL)
+		return (ft_strdup(str));
+	return (clear);
+}
+
+void	ft_clean_dp(char **arr, t_vars *vars)
+{
+	int		i;
+	char	*temp;
+	
+	i = -1;
+	while(arr[++i])
+	{
+		vars->start2 = 0;
+		temp = ft_cleaning(arr[i], vars);
+		ft_my_free(arr[i]);
+		arr[i] = ft_strdup(temp);
+		ft_my_free(temp);
+	}
+}

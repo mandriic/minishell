@@ -51,3 +51,16 @@ void	ft_initint(int *i, int len)
 	while (++cou != len)
 		i[cou] = 0;
 }
+
+void	ft_print_dp(char **str, char *name)
+{
+	int i; 
+
+	i = -1;
+	printf("_____________printing doble punbtero %s _______\n", name);
+	while (str[++i])
+	{
+		printf("\t %s[%d] = .%s.\n" , name, i, str[i]);
+	}
+	printf("\n");
+}
