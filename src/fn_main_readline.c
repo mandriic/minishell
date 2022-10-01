@@ -12,13 +12,15 @@
 
 #include "../inc/minishell.h"
 
-void	ft_readline(void)
+void	ft_readline(t_vars *vars)
 {
-	t_vars	vars;
 
-	vars = (t_vars){};
-	vars.quotes = "'";
-	ft_submain(&vars);
+	// vars = (t_vars){};
+	// vars.split = NULL;
+	// // vars.list = NULL;
+	// vars.line = NULL;
+	// vars.quotes  = "'";
+	ft_submain(vars);
 }
 
 void	ft_line_exist(t_vars *vars)
@@ -53,6 +55,7 @@ void	ft_submain(t_vars *vars)
 		vars->type = ft_mask(vars->line, vars, 1);
 		if (vars->type != NULL)
 			ft_line_exist(vars);
+		// ft_jose(vars);
 		ft_end_of_cicle(vars);
 	}
 }
