@@ -1,3 +1,4 @@
+minishell
 .DS_Store
 *subject*
 # Prerequisites
@@ -52,3 +53,4 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+/venv
