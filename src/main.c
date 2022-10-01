@@ -1,9 +1,22 @@
 #include "../inc/minishell.h"
 
+// t_data	g_data;
 
-int	main()
+int	ft_count_cmd(t_command *cmd)
 {
-	ft_readline();
+	t_command	*aux;
+	int			i;
+
+	if (cmd == NULL)
+		return (0);
+	i = 0;
+	aux = cmd;
+	while (aux)
+	{
+		i++;
+		aux = aux->next;
+	}
+	return (i);
 }
 
 // void ft_print_dp(char **str, char *name)
@@ -34,4 +47,8 @@ int	main()
 // 		i++;
 // 	}
 // 	printf("{\n");
+<<<<<<< HEAD
 // }
+=======
+// }
+>>>>>>> f7b171b00af0be478efea994be4b728396b12cfb

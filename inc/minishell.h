@@ -180,7 +180,7 @@ t_command 	*ft_create_data(char *str, t_vars *vars);
 
 
 // fn_main_readline.c
-void		ft_readline(void);
+void		ft_readline(t_vars *vars);
 void	    ft_submain(t_vars *vars);
 char		*ft_cleaning(char *str, t_vars *vars);
 int			ft_pre_check(t_vars *vars);

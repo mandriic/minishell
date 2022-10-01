@@ -1,8 +1,13 @@
 minishell
+*.swp
 .DS_Store
 *subject*
+.vscode/
 # Prerequisites
 *.d
+wololo.txt
+mierda.txt
+borrar.txt
 
 # Object files
 *.o
