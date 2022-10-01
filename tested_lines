@@ -1,0 +1,23 @@
+echo $HOME sadf "$USER" - pass
+echo $HOME sadf "$USER" '     $HOME       '
+echo $HOME sadf "      $SHELL         $USER          " '     $HOME       '
+echo $HOME "$HOME" '$HOME'
+echo $HOME "$HOME" '$HOME' | dsa $USER "$USER" '$USER'
+echo $HOME "$HOME" '$HOME' | dsa $USER "$USER" '$USER' |sdf $HOME "$HOME" '$HOME' | dsa $USER "$USER" '$USER' |sdf $HOME "$HOME" '$HOME' | dsa $USER "$USER" '$USER' |sdf $HOME "$HOME" '$HOME' | dsa $USER "$USER" '$USER' 
+echo sss $HOME/test "$USER/test"
+echo "1" '2' "3"
+echo " as d" asd  " asd $HOME".
+echo "text in quotes" text out of quotes  "variable  $HOME ".
+echo $HOME$USER$HOME$USER
+echo $HOME"$USER"$HOME
+echo '$HOME'"$USER"
+echo $"HOME"
+echo $'HOME' - n/w
+echo $HOME'$HO'
+echo '$'$HOME - n/w
+echo ''asd'"sad"' 
+<< EOF command -flag -fl -f <infile < infile2    <     infile3
+echo "    $HOME " | 123 '    $HOME ' < infile$USER
+<<EOF work
+asd | work
+echo $HOME "$HOME" '$HOME' | dsa $USER "$USER" '$USER' |sdf $HOME "$HOME" '$HOME' | dsa $USER "$USER" '$USER' |sdf $HOME "$HOME" '$HOME' | dsa $USER > outfile "$USER" '$USER' < infile |sdf $HOME "$HOME" '$HOME' << EOF | dsa $USER "$USER" '$USER' >> append
