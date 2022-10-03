@@ -27,7 +27,7 @@ void	ft_delete_line_from_matrix(char ***matrix, int index)
 	*matrix = aux;
 }
 
-void	ft_unset_builtin(t_command cmd, t_data *g_data)
+void	ft_unset_builtin(t_command cmd, t_vars *vars)
 {
 	(void)cmd;
 
@@ -38,10 +38,10 @@ void	ft_unset_builtin(t_command cmd, t_data *g_data)
 	index = -1;
 	while (cmd.comando_bonito[i])
 	{
-		if (ft_check_existing_variable_in_matrix(g_data->envp_copy, cmd.comando_bonito[i], &index) == 1)
-			ft_delete_line_from_matrix(&g_data->envp_copy, index);
-		if (ft_check_existing_variable_in_matrix(g_data->export, cmd.comando_bonito[i], &index) == 1)
-			ft_delete_line_from_matrix(&g_data->export, index);
+		if (ft_check_existing_variable_in_matrix(vars->env_var, cmd.comando_bonito[i], &index) == 1)
+			ft_delete_line_from_matrix(&vars->env_var, index);
+		if (ft_check_existing_variable_in_matrix(vars->export, cmd.comando_bonito[i], &index) == 1)
+			ft_delete_line_from_matrix(&vars->export, index);
 		i++;
 	}
     return ;

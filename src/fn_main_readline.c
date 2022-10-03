@@ -55,7 +55,7 @@ void	ft_submain(t_vars *vars)
 		vars->type = ft_mask(vars->line, vars, 1);
 		if (vars->type != NULL)
 			ft_line_exist(vars);
-		// ft_jose(vars);
+		ft_jose(vars);
 		ft_end_of_cicle(vars);
 	}
 }
