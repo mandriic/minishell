@@ -14,7 +14,11 @@
 
 void	ft_subcleaning(char *str, char **clear, t_vars *vars, int *type)
 {
-	if (vars->i2 - vars->start2 != 0)
+	if (str[vars->i2] == '~')
+	{
+		vars->temp = ft_strdup(getenv("HOME"));
+	}
+	else if (vars->i2 - vars->start2 != 0)
 	{
 		if (vars->start2 == 0)
 			vars->temp = ft_substr(str, vars->start2, vars->i2 - vars->start2);
@@ -27,14 +31,15 @@ void	ft_subcleaning(char *str, char **clear, t_vars *vars, int *type)
 	vars->i2++;
 	while (str[vars->i2] != '\0' && type[vars->i2] != 1 && type[vars->i2] != 2)
 		vars->i2++;
-	vars->temp = ft_substr(str, vars->start2 + 1, vars->i2 - vars->start2 - 1);
+	if (!vars->temp)
+		vars->temp = ft_substr(str, vars->start2 + 1, vars->i2 - vars->start2 - 1);
 	vars->start2 = vars->i2;
 	*clear = ft_acumulate(*clear, vars->temp);
 }
 
 int	ft_clear_quot(char *str, char **clear, t_vars *vars, int *type)
 {
-	if (type[vars->i2] == 2 || type[vars->i2] == 1)
+	if (type[vars->i2] == 2 || type[vars->i2] == 1 || str[vars->i2] == '~')
 	{
 		if ((str[vars->i2] == '"' && str[vars->i2 + 1] == '"')
 			|| (str[vars->i2] == vars->quotes[0]
