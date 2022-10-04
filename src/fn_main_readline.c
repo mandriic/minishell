@@ -41,7 +41,8 @@ void	ft_submain(t_vars *vars)
 {
 	while (1)
 	{
-		vars->line = readline("Minishell $ ");
+		printf("checj\n");
+		vars->line = readline("Minishell $ "); 
 		if (!ft_strncmp ("exit", vars->line, ft_strlen(vars->line)))
 		{
 			write(1, "exit\n", 5);
@@ -55,7 +56,8 @@ void	ft_submain(t_vars *vars)
 		vars->type = ft_mask(vars->line, vars, 1);
 		if (vars->type != NULL)
 			ft_line_exist(vars);
-		ft_jose(vars);
+		// ft_jose(vars);
+		ft_mi_exec(vars);
 		ft_end_of_cicle(vars);
 	}
 }

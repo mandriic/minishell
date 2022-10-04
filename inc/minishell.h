@@ -241,6 +241,10 @@ void	ft_outfiles(char **arr, t_command *data, int *i);
 void	ft_check_redir_create(char **arr, t_command *data, int *i);
 
 
+//fn_cd.c
+void ft_chdir(t_vars *vars);
+
+void ft_mi_exec(t_vars *vars);
 
 #endif
 
