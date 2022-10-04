@@ -72,9 +72,9 @@ void	ft_print_command(t_command *env_copy)
 	while (aux->next)
 	{
 		i++;
-		printf("%d - %s\n", i, (char *)(aux->content));
+		// printf("%d - %s\n", i, (char *)(aux->content));
 		aux = aux->next;
 	}
-	printf("%d - %s\n", ++i, (char *)(aux->content));
+	// printf("%d - %s\n", ++i, (char *)(aux->content));
 }
 
