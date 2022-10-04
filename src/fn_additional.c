@@ -74,5 +74,23 @@ void	ft_print_dp(char **str, char *name)
 	{
 		printf("\t %s[%d] = .%s.\n", name, i, str[i]);
 	}
+	printf("check NULL %s", str[i]);
 	printf("\n");
 }
+
+// void	ft_strcopy(char *dst, const char *src)
+// {
+// 	size_t	i;
+// 	size_t	srclen;
+
+// 	i = 0;
+// 	srclen = ft_strlen(src);
+// 	if (!src)
+// 		return ;
+// 	while (src[i] && i < strlen)
+// 	{
+// 		dst[i] = src[i];
+// 		i++;
+// 	}
+// 	dst[i] = '\0';
+// }

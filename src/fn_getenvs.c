@@ -19,13 +19,20 @@ char	*ft_get_env(char *str, int len)
 	char	*temp;
 	int		i;
 
-	var = malloc(sizeof(char *) * len);
+	var = malloc(sizeof(char *) * len + 1);
 	i = -1;
 	if (str[1] == '?')
 	{
-		var[0] = '$';
-		var[1] = '?';
-		var[2] = '\0';
+		free(var);
+		var = malloc(sizeof(char *) * 3);
+		ft_strlcpy(var, "$?", 3);
+		return (var);
+	}
+	else if (str[1] == '~')
+	{
+		free(var);
+		var = malloc(sizeof(char *) * 6);
+		ft_strlcpy(var, "HOME", 5);
 	}
 	else
 		ft_sub_get_env(str, var, len, &i);

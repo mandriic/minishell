@@ -45,17 +45,17 @@ void	ft_pre_getenv(char *str, char **acum, t_vars *vars)
 	char	lastchar;
 
 	lastchar = '\0';
-	if (vars->i - vars->start > 0 && (str [vars->i - 1] == ' '
-			|| lastchar == '/' || str[vars->i - 1] != vars->quotes[0]))
+	if (vars->i - vars->start > 0 && (str [vars->i - 1] == ' ' \
+			|| lastchar == '/' || str[vars->i - 1] != vars->quotes[0]) && str[0] != '~')
 	{
 		vars->temp = ft_substr(str, vars->start, vars->i - vars->start);
 		*acum = ft_acumulate(*acum, vars->temp);
 	}
 	vars->start = vars->i + 1;
 	vars->i++;
-	while (str[vars->i] != ' ' && str[vars->i] != '\0' && str[vars->i] != '/'
+	while ( str[vars->i] != '\0' && str[vars->i] != '/' //str[vars->i] != ' '  &&
 		&& str[vars->i] != '"' && str[vars->i] != '$'
-		&& str[vars->i] != vars->quotes[0])
+		&& str[vars->i] != vars->quotes[0] && str[vars->i] != '~') // && str[vars->i] != '~'
 		vars->i++;
 	vars->var = ft_get_env(str + vars->start - 1, vars->i - vars->start);
 	vars->start = vars->i + 1;
@@ -71,8 +71,8 @@ void	ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars)
 	vars->i = 0;
 	while (1)
 	{
-		if (str[vars->i] == '$' && (type[vars->i] == 6 \
-		|| type[vars->i] == 0) && str[vars->i + 1] != ' ')
+		if ((str[vars->i] == '$' && (type[vars->i] == 6 \
+		|| type[vars->i] == 0) && str[vars->i + 1] != ' ')) // && str[vars->i] != '~'
 			ft_pre_getenv(str, acum, vars);
 		if (str[vars->i] == '\0')
 			break ;
