@@ -40,11 +40,12 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 	return (acum);
 }
 
-void	ft_pre_getenv(char *str, char **acum, t_vars *vars)
+void	ft_pre_getenv(char *str, char **acum, t_vars *vars) //<- "$H"
 {
 	char	lastchar;
 
 	lastchar = '\0';
+
 	if (vars->i - vars->start > 0 && (str [vars->i - 1] == ' ' \
 			|| lastchar == '/' || str[vars->i - 1] != vars->quotes[0]) && str[0] != '~')
 	{
@@ -53,17 +54,18 @@ void	ft_pre_getenv(char *str, char **acum, t_vars *vars)
 	}
 	vars->start = vars->i + 1;
 	vars->i++;
-	while ( str[vars->i] != '\0' && str[vars->i] != '/' //str[vars->i] != ' '  &&
+	while ( str[vars->i] != '\0' && str[vars->i] != '/' && str[vars->i] != ' '
 		&& str[vars->i] != '"' && str[vars->i] != '$'
 		&& str[vars->i] != vars->quotes[0] && str[vars->i] != '~') // && str[vars->i] != '~'
 		vars->i++;
 	vars->var = ft_get_env(str + vars->start - 1, vars->i - vars->start);
 	vars->start = vars->i + 1;
 	*acum = ft_acumulate(*acum, vars->var);
+	// ft_debug_pr(acum, 2, "ACUM");
 	lastchar = str[vars->i];
-	if (str[vars->i] == '$' && str[vars->i - 1] != ' '
-		&& str[vars->i - 1] != '"')
+	if (str[vars->i] == '$' && str[vars->i - 1] != ' ') // && str[vars->i - 1] != '"'
 		vars->i--;
+	
 }
 
 void	ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars)

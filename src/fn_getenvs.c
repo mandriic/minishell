@@ -40,7 +40,7 @@ char	*ft_get_env(char *str, int len)
 	free(var);
 	if (!valor)
 		return (NULL);
-	if (str[i + 1] == ' ' )
+	if (str[i + 1] == ' ')
 		temp = ft_strjoin(valor, " ");
 	else if (str[i + 1] == '/')
 		temp = ft_strjoin(valor, "/");

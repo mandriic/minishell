@@ -43,7 +43,7 @@ int	ft_clear_quot(char *str, char **clear, t_vars *vars, int *type)
 	{
 		if ((str[vars->i2] == '"' && str[vars->i2 + 1] == '"')
 			|| (str[vars->i2] == vars->quotes[0]
-				&& str[vars->i2 + 1] == vars->quotes[0]))
+				&& str[vars->i2 + 1] == vars->quotes[0])) // || (str[vars->i2] == '"' && !str[vars->i2 + 1])
 		{
 			free(type);
 			return (1);

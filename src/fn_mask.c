@@ -75,28 +75,31 @@ int	ft_search_redir(char *line, t_vars *vars, int check, int *type)
 		type[vars->i] = 0;
 	return (0);
 }
-void	ft_debug_pr(void *arg, int type)
+void	ft_debug_pr(void *arg, int type, char *name)
 {
+	static int iteracion = 0;
+
 	if (type == 1)
 	{
 		int *temp = arg;
 		for(int i = 0; temp[i]; i++)
-				printf("DEBUG %d\n", temp[i]);
+				printf("DEBUG_FN_INT %d - %s\n", temp[i], name);
 	}
 	if (type == 2)
 	{
 		char *temp;
 		temp = arg;
 		for(int i = 0; temp[i]; i++)
-			printf("DEBUG %c\n", temp[i]);
+			printf("DEBUG_FN_CHR %c - %s\n", temp[i], name);
 	}
 	if (type == 3)
 	{
 		char *temp;
 		temp = arg;
-		printf("DEBUG %s\n", temp);
-
+		printf("DEBUG_FN_STR %s - %s\n", temp, name);
 	}
+	printf("iter %d - %s\n", iteracion, name);
+	iteracion++;
 }
 int	*ft_mask(char *line, t_vars *vars, int check)
 {
@@ -116,7 +119,6 @@ int	*ft_mask(char *line, t_vars *vars, int check)
 		if (line[vars->i] == '\0')
 			break ;
 	}
-	ft_debug_pr(type, 1);
 	return (type);
 }
 
