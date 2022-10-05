@@ -50,7 +50,7 @@ void ft_submain(t_vars *vars)
 			exit(0);
 		}
 		if (ft_pre_check(vars))
-			continue;
+			continue;				//wtf?
 		add_history(vars->line);
 		vars->line_len = ft_strlen(vars->line);
 		vars->type = ft_mask(vars->line, vars, 1);

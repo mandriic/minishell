@@ -245,6 +245,6 @@ void	ft_check_redir_create(char **arr, t_command *data, int *i, t_vars *vars);
 void ft_chdir(t_vars *vars);
 
 void ft_mi_exec(t_vars *vars);
-
+void ft_debug_pr(void *arg, int type);
 #endif
 
