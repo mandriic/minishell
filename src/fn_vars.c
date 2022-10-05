@@ -53,7 +53,7 @@ void	ft_pre_getenv(char *str, char **acum, t_vars *vars)
 	}
 	vars->start = vars->i + 1;
 	vars->i++;
-	while ( str[vars->i] != '\0' && str[vars->i] != '/' //str[vars->i] != ' '  &&
+	while ( str[vars->i] != '\0' && str[vars->i] != '/' && str[vars->i] != ' ' // <- ' ' was comented, made error in "$HOME "
 		&& str[vars->i] != '"' && str[vars->i] != '$'
 		&& str[vars->i] != vars->quotes[0] && str[vars->i] != '~') // && str[vars->i] != '~'
 		vars->i++;
