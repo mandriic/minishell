@@ -116,7 +116,7 @@ t_command	*ft_create_data(char *str, t_vars *vars)
 			str = readline(">");
 	}
 	data->pre_comand_bon = ft_pre_com_bon(str, vars);
-	if (!ft_check_redir(data->pre_comand_bon, data))
+	if (!ft_check_redir(data->pre_comand_bon, data, vars))
 	{
 		data->comando_bonito = ft_dup_dp(data->pre_comand_bon);
 		data->comando_a_pelo = data->comando_bonito[0];

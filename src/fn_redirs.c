@@ -12,12 +12,17 @@
 
 #include "../inc/minishell.h"
 
-void	ft_heredoc(char **arr, t_command *data, int *i)
+void		ft_heredoc(char **arr, t_command *data, int *i, t_vars *vars)
 {
 	char	*eofile;
 	int		str_cmp;
 
 	eofile = arr[i[0] + 1];
+	// if (!eofile[0])
+	// {
+	// 	printf("Minishell: syntax error near unexpected token `newline'\n");
+	// 	return (1);
+	// }
 	str_cmp = 1;
 	i[1] = -1;
 	if (!data->heredocs)
@@ -77,10 +82,10 @@ void	ft_outfiles(char **arr, t_command *data, int *i)
 	i[0]++;
 }
 
-void	ft_check_redir_create(char **arr, t_command *data, int *i)
+void	ft_check_redir_create(char **arr, t_command *data, int *i, t_vars *vars)
 {
 	if (arr[i[0]][0] == '<' && arr[i[0]][1] == '<')
-		ft_heredoc(arr, data, i);
+		ft_heredoc(arr, data, i, vars);
 	else if (arr[i[0]][0] == '<')
 		ft_infile(arr, data, i);
 	else if (arr[i[0]][0] == '>' && arr[i[0]][1] == '>')

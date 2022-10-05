@@ -32,7 +32,7 @@ void	ft_merge_comando_args(t_command *data)
 	ft_free_dob_arr(data->pre_args);
 }
 
-int	ft_check_redir(char **arr, t_command *data)
+int	ft_check_redir(char **arr, t_command *data, t_vars *vars)
 {
 	int	i[6];
 
@@ -44,7 +44,7 @@ int	ft_check_redir(char **arr, t_command *data)
 			ft_initint(i, 6);
 			while (arr[i[0]] != NULL)
 			{
-				ft_check_redir_create(arr, data, i);
+				ft_check_redir_create(arr, data, i, vars);
 				i[0]++;
 			}
 			ft_merge_comando_args(data);

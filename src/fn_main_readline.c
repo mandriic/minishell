@@ -12,7 +12,7 @@
 
 #include "../inc/minishell.h"
 
-void	ft_readline(t_vars *vars)
+void ft_readline(t_vars *vars)
 {
 
 	// vars = (t_vars){};
@@ -23,7 +23,7 @@ void	ft_readline(t_vars *vars)
 	ft_submain(vars);
 }
 
-void	ft_line_exist(t_vars *vars)
+void ft_line_exist(t_vars *vars)
 {
 	vars->num_pipes = ft_numpipes(vars->line, vars->type);
 	if (vars->num_pipes)
@@ -37,27 +37,30 @@ void	ft_line_exist(t_vars *vars)
 	ft_lst_cmd(vars);
 }
 
-void	ft_submain(t_vars *vars)
+void ft_submain(t_vars *vars)
 {
 	while (1)
 	{
 		// printf("checj\n");
-		vars->line = readline("Minishell $ "); 
-		if (!ft_strncmp ("exit", vars->line, ft_strlen(vars->line)))
+		vars->line = readline("Minishell $ ");
+		if (!ft_strncmp("exit", vars->line, ft_strlen(vars->line)))
 		{
 			write(1, "exit\n", 5);
 			system("leaks minishell");
-			exit (0);
+			exit(0);
 		}
 		if (ft_pre_check(vars))
-			continue ;
+			continue;
 		add_history(vars->line);
 		vars->line_len = ft_strlen(vars->line);
 		vars->type = ft_mask(vars->line, vars, 1);
 		if (vars->type != NULL)
+		{
 			ft_line_exist(vars);
+			ft_jose(vars);
+		}
+
 		// printf("comando a pelo %s\n",vars->cmd_list->comando_a_pelo);
-		ft_jose(vars);
 		// ft_mi_exec(vars);
 		ft_end_of_cicle(vars);
 	}

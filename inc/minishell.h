@@ -163,7 +163,7 @@ int	ft_check_existing_variable_in_matrix(char **matrix, char *var_name, int *ind
 // fn_list.c
 char		**ft_pre_com_bon(char *str, t_vars *vars);
 void		ft_merge_comando_args(t_command *data);
-int			ft_check_redir(char **arr, t_command *data);
+int			ft_check_redir(char **arr, t_command *data, t_vars *vars);
 void		ft_resolv_com_bon(t_command *data, t_vars *vars);
 t_command 	*ft_create_data(char *str, t_vars *vars);
 void		ft_add2list(t_vars *vars, t_command *data, t_command **prev, t_command **temp);
@@ -234,11 +234,11 @@ t_command	*ft_lstlast_mod(t_command *lst);
 void	ft_lstadd_back_mod(t_command **lst, t_command *new);
 
 //fn_redirs.c
-void	ft_heredoc(char **arr, t_command *data, int *i);
+void		ft_heredoc(char **arr, t_command *data, int *i, t_vars *vars);
 void	ft_infile(char **arr, t_command *data, int *i);
 void	ft_appends(char **arr, t_command *data, int *i);
 void	ft_outfiles(char **arr, t_command *data, int *i);
-void	ft_check_redir_create(char **arr, t_command *data, int *i);
+void	ft_check_redir_create(char **arr, t_command *data, int *i, t_vars *vars);
 
 
 //fn_cd.c

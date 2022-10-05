@@ -39,6 +39,12 @@ int	ft_pre_check(t_vars *vars)
 	{
 		if (ft_isalnum(vars->line[vars->i]))
 			alpha++;
+		if(vars->line[vars->i] == '<' && vars->line[vars->i + 1] == '<' 
+			&& (vars->line[vars->i + 2] == ' ' || !vars->line[vars->i + 2]))
+		{
+			alpha = 0;
+			break ;
+		}
 	}
 	if (alpha == 0)
 	{
