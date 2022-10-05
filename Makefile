@@ -21,7 +21,7 @@ HEADER = $(INCS_PATH)/$(NAME).h
 
 SRCS = main.c pwd.c cd.c execve.c pipe.c aux_functions.c multiple_pipes.c builtins.c export.c \
 	unset.c fn_list.c fn_main_readline.c fn_mask.c  fn_pip_splt_trim.c fn_vars.c fn_cleaning.c fn_create_data.c\
-	fn_getenvs.c fn_redirs.c fn_additional.c fnadd_free.c hardcoded.c
+	fn_getenvs.c fn_redirs.c fn_additional.c fnadd_free.c fnadd_libftmod.c fn_cd.c mi_execve.c #hardcoded.c
 
 OBJS = $(SRCS:%.c=bin/%.o)
 CC = gcc

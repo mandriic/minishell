@@ -125,7 +125,7 @@ void	ft_lst_cmd(t_vars *vars)
 			ft_print_dp(temp->appends, "appends");
 		if (temp->heredocs)
 			ft_print_dp(temp->heredocs, "heredocs");
-		printf("end\n");
+		printf("DEBUG end one struct of list\n");
 		temp = temp->next;
 	}
 	if (i != 1)

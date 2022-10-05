@@ -74,7 +74,7 @@ void	ft_print_dp(char **str, char *name)
 	{
 		printf("\t %s[%d] = .%s.\n", name, i, str[i]);
 	}
-	printf("check NULL %s", str[i]);
+	printf("DEBUG check NULL %s", str[i]);
 	printf("\n");
 }
 

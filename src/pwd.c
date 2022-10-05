@@ -56,7 +56,7 @@ t_command	**ft_copy_enviroment_vars_into_list(t_command **env_copy, char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		ft_lstadd_back(env_copy, ft_lstnew((void *)envp[i]));
+		ft_lstadd_back_mod(env_copy, ft_lstnew_mod((void *)envp[i]));
 		i++;
 	}
 	//esto hay que liberarlo

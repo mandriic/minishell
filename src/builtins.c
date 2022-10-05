@@ -6,7 +6,8 @@ void	ft_echo_builtin(t_command cmd, t_vars *vars)
 }
 void	ft_cd_builtin(t_command cmd, t_vars *vars)
 {
-    (void)cmd;
+    // (void)cmd;
+	ft_chdir(vars);
 }
 
 void	ft_pwd_builtin(t_command cmd, t_vars *vars)
