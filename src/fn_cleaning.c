@@ -39,11 +39,13 @@ void	ft_subcleaning(char *str, char **clear, t_vars *vars, int *type)
 
 int	ft_clear_quot(char *str, char **clear, t_vars *vars, int *type)
 {
-	if (type[vars->i2] == 2 || type[vars->i2] == 1 || str[vars->i2] == '~')
+	printf("type[0] %d\n", type[0]);
+	if (type[vars->i2] == 2 || type[vars->i2] == 1 || str[vars->i2] == '~' || str[0] == '"')
 	{
 		if ((str[vars->i2] == '"' && str[vars->i2 + 1] == '"')
 			|| (str[vars->i2] == vars->quotes[0]
-				&& str[vars->i2 + 1] == vars->quotes[0])) // || (str[vars->i2] == '"' && !str[vars->i2 + 1])
+				&& str[vars->i2 + 1] == vars->quotes[0])
+					|| (str[0] == '"' && !str[1]))
 		{
 			free(type);
 			return (1);
