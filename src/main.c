@@ -42,21 +42,21 @@ int main(int argc, char *argv[], char *envp[])
 	vars.line = NULL;
 	vars.quotes  = "'";
 	vars.env_var = envp;
-
+	vars.env_var = ft_copy_enviroment_vars_into_matrix(envp);
 	ft_readline(&vars);
 }
 
 int	ft_jose(t_vars *vars)
 {
 	ft_initialize_global_var(vars);
-	if (vars->num_cmds > 1)
+	// if (vars->num_cmds > 1)
 		ft_multiple_pipes(vars);
-	else
+	// else
 		{
-			if (ft_is_builtin(*vars->cmd_list) == true)
-				{
-					ft_execute_buitlin(*vars->cmd_list, vars);
-				}
+			// if (ft_is_builtin(*vars->cmd_list) == true)
+			// 	{
+			// 		ft_execute_buitlin(*vars->cmd_list, vars);
+			// 	}
 			//falta else -> ejecutar comando con execve
 		}
 	return (0);

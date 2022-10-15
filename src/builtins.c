@@ -30,6 +30,7 @@ void	ft_env_builtin(t_command cmd, t_vars *vars)
     (void)cmd;
     //gestion errores entrada
     i = 0;
+	printf("SOY BUILTIN\n");
     while (vars->env_var[i])
     {
         printf("%s\n", vars->env_var[i]);

@@ -11,8 +11,12 @@
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-char	*ft_get_env(char *str, int len)
+char *ft_get_var(char *var, t_vars *vars)
+{
+	// ft_print_dp(vars->env_var, "envvar");
+		
+}
+char	*ft_get_env(char *str, int len, t_vars *vars)
 {
 	char	*var;
 	char	*valor;
@@ -36,7 +40,7 @@ char	*ft_get_env(char *str, int len)
 	}
 	else
 		ft_sub_get_env(str, var, len, &i);
-	valor = getenv(var);
+	valor = ft_get_var(var, vars);
 	free(var);
 	if (!valor)
 		return (NULL);

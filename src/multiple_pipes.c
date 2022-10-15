@@ -18,7 +18,6 @@ void	ft_multiple_pipes(t_vars *vars)
 	aux = vars->cmd_list;
 	while (aux)
 	{
-		path_to_execve = ft_get_path_to_execve(vars->env_var, aux->comando_a_pelo);
 		id = fork();
 		if (id < 0)
 		{
@@ -27,9 +26,23 @@ void	ft_multiple_pipes(t_vars *vars)
 		}
 		if (id == 0)
 		{
+		//evaluar builtins
+			//si no es builtin ejecuta el codigo de abajo
+			if (ft_is_builtin(*vars->cmd_list) == false)
+				{
+			path_to_execve = ft_get_path_to_execve(vars->env_var, aux->comando_a_pelo);
 			ft_redirections(aux);
 			ft_close_pipes(aux);
 			ft_execute(path_to_execve, aux->comando_bonito, vars->env_var);
+				}
+			//si es builtin hay ejecutar el builtin
+			else
+				{
+				ft_redirections(aux);
+				ft_close_pipes(aux);
+				ft_execute_buitlin(*vars->cmd_list, vars);
+				}
+			//ejecutar builtin
 		}
 		free(path_to_execve);
 		aux = aux->next;

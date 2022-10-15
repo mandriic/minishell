@@ -57,7 +57,7 @@ void ft_submain(t_vars *vars)
 		if (vars->type != NULL)
 		{
 			ft_line_exist(vars);
-			ft_jose(vars);
+			// ft_jose(vars);
 		}
 
 		// printf("comando a pelo %s\n",vars->cmd_list->comando_a_pelo);

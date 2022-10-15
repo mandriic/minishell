@@ -209,7 +209,7 @@ void		fr_subargs(char *str, char *temp, t_command *data, t_vars *vars);
 //	fn_vars.c
 char		*ft_checkif_var(char *str, t_vars *vars);
 void		ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars);
-char		*ft_get_env(char *str, int len);
+char		*ft_get_env(char *str, int len, t_vars *vars);
 void		ft_pre_getenv(char *str, char **acum, t_vars *vars);
 void		ft_get_env2(char ***arr, t_vars *vars);
 void		ft_sub_get_env(char *str, char *var, int len, int *i);

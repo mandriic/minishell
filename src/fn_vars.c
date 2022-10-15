@@ -58,7 +58,7 @@ void	ft_pre_getenv(char *str, char **acum, t_vars *vars) //<- "$H"
 		&& str[vars->i] != '"' && str[vars->i] != '$'
 		&& str[vars->i] != vars->quotes[0] && str[vars->i] != '~') // && str[vars->i] != '~'
 		vars->i++;
-	vars->var = ft_get_env(str + vars->start - 1, vars->i - vars->start);
+	vars->var = ft_get_env(str + vars->start - 1, vars->i - vars->start, vars);
 	vars->start = vars->i + 1;
 	*acum = ft_acumulate(*acum, vars->var);
 	// ft_debug_pr(acum, 2, "ACUM");
