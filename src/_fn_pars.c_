@@ -67,8 +67,8 @@
 // 		else
 // 			fr_subargs(str, temp, data, vars);
 // 		printf("command\t\t|%s\n", data->comando_a_pelo);
-// 		data->comando_bonito = ft_split(data->arg, ' ');
-// 		ft_print_dp(data->comando_bonito, "comando bonito");
+// 		data->cmd = ft_split(data->arg, ' ');
+// 		ft_print_dp(data->cmd, "comando bonito");
 
 // 		printf("arg\t\t|%s\n", data->arg);
 // 		printf("redir_men\t|%d\n", data->menos);

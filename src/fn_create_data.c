@@ -118,8 +118,8 @@ t_command	*ft_create_data(char *str, t_vars *vars)
 	data->pre_comand_bon = ft_pre_com_bon(str, vars);
 	if (!ft_check_redir(data->pre_comand_bon, data))
 	{
-		data->comando_bonito = ft_dup_dp(data->pre_comand_bon);
-		data->comando_a_pelo = data->comando_bonito[0];
+		data->cmd = ft_dup_dp(data->pre_comand_bon);
+		data->comando_a_pelo = data->cmd[0];
 	}
 	ft_resolv_com_bon(data, vars);
 	return (data);
