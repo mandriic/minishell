@@ -31,8 +31,8 @@
 typedef struct s_command
 {
 	char	**cmd_splited; //data->cmd_splited[0] [1] - args
-	// char 	*comando_con_flags;//este se transforma en comando_bonito con un split
-	char	**comando_bonito;//este si se usa
+	// char 	*comando_con_flags;//este se transforma en cmd con un split
+	char	**cmd;//este si se usa
 	char	*comando_a_pelo;//este si se usa
 	char	*vars_resolv;
 	char	**pre_comand_bon;
@@ -83,7 +83,7 @@ typedef struct s_vars
 // {
 // 	char		*comando_a_pelo;
 // 	char		*comando_con_flags;
-// 	char		**comando_bonito;
+// 	char		**cmd;
 // 	char		**infiles;
 // 	char		**outfiles;
 
@@ -227,7 +227,7 @@ int	ft_pre_check(t_vars *vars);
 void	ft_end_of_cicle(t_vars *vars);
 void	ft_initint(int *i, int len);
 void	ft_print_dp(char **str, char *name);
-
+char	**ft_dupl_dp(char **src);
 //fnadd_lstmod.c
 t_command	*ft_lstnew_mod(t_command *content);
 t_command	*ft_lstlast_mod(t_command *lst);

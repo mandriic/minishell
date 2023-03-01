@@ -29,6 +29,23 @@ char	**ft_dup_dp(char **src)
 	return (dst);
 }
 
+char	**ft_dupl_dp(char **src)
+{
+	int		i;
+	char	**dst;
+
+	i = -1;
+	while (src[++i])
+		;
+	dst = malloc(sizeof(char *) * (i + 1));
+	i = -1;
+	while (src[++i])
+		dst[i] = ft_strdup(src[i]);
+	dst[i] = NULL;
+	// ft_free_dob_arr(src);
+	return (dst);
+}
+
 int	ft_pre_check(t_vars *vars)
 {
 	int	alpha;
