@@ -9,7 +9,7 @@ t_command	*dar_datos_a_los_cmd(void)
 
 /* 	(cmd1)->comando_a_pelo = ft_strdup("unset");
 	(cmd1)->comando_con_flags = ft_strdup("unset");
-	(cmd1)->comando_bonito = ft_split("unset ", ' ');
+	(cmd1)->cmd = ft_split("unset ", ' ');
 	(cmd1)->infiles = NULL;
 	(cmd1)->outfiles = NULL;
 	(cmd1)->next = NULL;
@@ -24,19 +24,19 @@ t_command	*dar_datos_a_los_cmd(void)
 
 	(cmd1)->comando_a_pelo = ft_strdup("unset");
 	(cmd1)->comando_con_flags = ft_strdup("unset");
-	//(cmd1)->comando_bonito = ft_split("export 234243", ' ');
+	//(cmd1)->cmd = ft_split("export 234243", ' ');
 	(cmd1)->infiles = NULL;
 	(cmd1)->outfiles = NULL;
 	(cmd1)->next = NULL;
 	(cmd1)->prev = NULL;
 	
-	(cmd1)->comando_bonito = aux;
+	(cmd1)->cmd = aux;
  */
 
 
 	(cmd1)->comando_a_pelo = ft_strdup("cat");
 	(cmd1)->comando_con_flags = ft_strdup("cat");
-	(cmd1)->comando_bonito = ft_split("cat", ' ');
+	(cmd1)->cmd = ft_split("cat", ' ');
 	(cmd1)->infiles = NULL;
 	(cmd1)->outfiles = NULL;
 	(cmd1)->next = cmd2;
@@ -44,7 +44,7 @@ t_command	*dar_datos_a_los_cmd(void)
 	
  	(cmd2)->comando_a_pelo = ft_strdup("cat");
 	(cmd2)->comando_con_flags = ft_strdup("cat");
-	(cmd2)->comando_bonito = ft_split("cat", ' ');
+	(cmd2)->cmd = ft_split("cat", ' ');
 	(cmd2)->infiles = NULL;
 	(cmd2)->outfiles = NULL;
 	(cmd2)->next = cmd3;
@@ -52,7 +52,7 @@ t_command	*dar_datos_a_los_cmd(void)
 	
 	(cmd3)->comando_a_pelo = ft_strdup("ls");
 	(cmd3)->comando_con_flags = ft_strdup("ls");
-	(cmd3)->comando_bonito = ft_split("ls -la", ' ');
+	(cmd3)->cmd = ft_split("ls -la", ' ');
 	(cmd3)->infiles = NULL;
 	(cmd3)->outfiles = NULL;
 	(cmd3)->next = NULL;
@@ -63,7 +63,7 @@ t_command	*dar_datos_a_los_cmd(void)
 /* 
 	(*cmd1)->comando_a_pelo = ft_strdup("cat");
 	(*cmd1)->comando_con_flags = ft_strdup("cat");
-	(*cmd1)->comando_bonito = ft_split("cat", ' ');
+	(*cmd1)->cmd = ft_split("cat", ' ');
 	(*cmd1)->infiles = ft_split("lotr.txt", ' ');
 	(*cmd1)->outfiles = NULL;
 	(*cmd1)->next = *cmd2;
@@ -71,7 +71,7 @@ t_command	*dar_datos_a_los_cmd(void)
 
 	(*cmd2)->comando_a_pelo = ft_strdup("grep");
 	(*cmd2)->comando_con_flags = ft_strdup("grep Moria");
-	(*cmd2)->comando_bonito = ft_split("grep Moria", ' ');
+	(*cmd2)->cmd = ft_split("grep Moria", ' ');
 	(*cmd2)->infiles = NULL;
 	(*cmd2)->outfiles = NULL;
 	(*cmd2)->next = *cmd3;
@@ -79,7 +79,7 @@ t_command	*dar_datos_a_los_cmd(void)
 
 	(*cmd3)->comando_a_pelo = ft_strdup("grep");
 	(*cmd3)->comando_con_flags = ft_strdup("grep -n mines");
-	(*cmd3)->comando_bonito = ft_split("grep -n mines", ' ');
+	(*cmd3)->cmd = ft_split("grep -n mines", ' ');
 	(*cmd3)->infiles = NULL;
 	(*cmd3)->outfiles = NULL;
 	(*cmd3)->next = *cmd4;
@@ -87,7 +87,7 @@ t_command	*dar_datos_a_los_cmd(void)
 
 	(*cmd4)->comando_a_pelo = ft_strdup("nl");
 	(*cmd4)->comando_con_flags = ft_strdup("nl");
-	(*cmd4)->comando_bonito = ft_split("nl", ' ');
+	(*cmd4)->cmd = ft_split("nl", ' ');
 	(*cmd4)->infiles = NULL;
 	(*cmd4)->outfiles = ft_split("wololo.txt", ' ');
 	(*cmd4)->next = NULL;
@@ -96,7 +96,7 @@ t_command	*dar_datos_a_los_cmd(void)
 /* 
 	(*cmd1)->comando_a_pelo = ft_strdup("cat");
 	(*cmd1)->comando_con_flags = ft_strdup("cat");
-	(*cmd1)->comando_bonito = ft_split("cat", ' ');
+	(*cmd1)->cmd = ft_split("cat", ' ');
 	(*cmd1)->infiles = NULL;
 	(*cmd1)->outfiles = NULL;
 	(*cmd1)->next = *cmd2;
@@ -104,7 +104,7 @@ t_command	*dar_datos_a_los_cmd(void)
 
 	(*cmd2)->comando_a_pelo = ft_strdup("cat");
 	(*cmd2)->comando_con_flags = ft_strdup("cat");
-	(*cmd2)->comando_bonito = ft_split("cat", ' ');
+	(*cmd2)->cmd = ft_split("cat", ' ');
 	(*cmd2)->infiles = NULL;
 	(*cmd2)->outfiles = NULL;
 	(*cmd2)->next = *cmd3;
@@ -112,7 +112,7 @@ t_command	*dar_datos_a_los_cmd(void)
 
 	(*cmd3)->comando_a_pelo = ft_strdup("cat");
 	(*cmd3)->comando_con_flags = ft_strdup("cat");
-	(*cmd3)->comando_bonito = ft_split("cat", ' ');
+	(*cmd3)->cmd = ft_split("cat", ' ');
 	(*cmd3)->infiles = NULL;
 	(*cmd3)->outfiles = NULL;
 	(*cmd3)->next = *cmd4;
@@ -120,7 +120,7 @@ t_command	*dar_datos_a_los_cmd(void)
 
 	(*cmd4)->comando_a_pelo = ft_strdup("cat");
 	(*cmd4)->comando_con_flags = ft_strdup("cat");
-	(*cmd4)->comando_bonito = ft_split("cat", ' ');
+	(*cmd4)->cmd = ft_split("cat", ' ');
 	(*cmd4)->infiles = NULL;
 	(*cmd4)->outfiles = NULL;
 	(*cmd4)->next = NULL;

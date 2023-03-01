@@ -36,11 +36,11 @@ void	ft_unset_builtin(t_command cmd, t_data *g_data)
 
 	i = 1;
 	index = -1;
-	while (cmd.comando_bonito[i])
+	while (cmd.cmd[i])
 	{
-		if (ft_check_existing_variable_in_matrix(g_data->envp_copy, cmd.comando_bonito[i], &index) == 1)
+		if (ft_check_existing_variable_in_matrix(g_data->envp_copy, cmd.cmd[i], &index) == 1)
 			ft_delete_line_from_matrix(&g_data->envp_copy, index);
-		if (ft_check_existing_variable_in_matrix(g_data->export, cmd.comando_bonito[i], &index) == 1)
+		if (ft_check_existing_variable_in_matrix(g_data->export, cmd.cmd[i], &index) == 1)
 			ft_delete_line_from_matrix(&g_data->export, index);
 		i++;
 	}

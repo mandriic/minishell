@@ -31,7 +31,7 @@ void ft_chdir(t_vars *vars)
     static int first = 0;
 
     cd_err = -100;
-    cb = vars->cmd_list->comando_bonito;
+    cb = vars->cmd_list->cmd;
     env_copy = vars->env_var;
     // env_copy = ft_copy_enviroment_vars_into_matrix2(vars->env_var);
     if(!cb[1])

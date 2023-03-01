@@ -21,7 +21,7 @@ void	ft_free_nodes(t_command *cmd)
 	{
 		free(aux->comando_a_pelo);
 		free(aux->comando_con_flags);
-		ft_free_array(aux->comando_bonito);
+		ft_free_array(aux->cmd);
 		ft_free_array(aux->infiles);
 		ft_free_array(aux->outfiles);
 		aux = aux->next;

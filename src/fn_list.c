@@ -21,14 +21,14 @@ void	ft_merge_comando_args(t_command *data)
 	{
 		while (data->pre_args[++i])
 			;
-		data->comando_bonito = malloc(sizeof(char *) * (i + 3));
+		data->cmd = malloc(sizeof(char *) * (i + 3));
 		i = -1;
 		while (data->pre_args[++i])
-			data->comando_bonito[i] = ft_strdup(data->pre_args[i]);
-		data->comando_bonito[i] = NULL;
+			data->cmd[i] = ft_strdup(data->pre_args[i]);
+		data->cmd[i] = NULL;
 	}
 	else
-		data->comando_bonito = NULL;
+		data->cmd = NULL;
 	ft_free_dob_arr(data->pre_args);
 }
 
@@ -57,13 +57,13 @@ int	ft_check_redir(char **arr, t_command *data)
 
 void	ft_resolv_com_bon(t_command *data, t_vars *vars)
 {
-	if (data->infiles || data->comando_bonito || data->appends
+	if (data->infiles || data->cmd || data->appends
 		|| data->heredocs || data->outfiles)
 	{
 		if (data->infiles)
 			ft_get_env2(&data->infiles, vars);
-		if (data->comando_bonito)
-			ft_get_env2(&data->comando_bonito, vars);
+		if (data->cmd)
+			ft_get_env2(&data->cmd, vars);
 		if (data->appends)
 			ft_get_env2(&data->appends, vars);
 		if (data->heredocs)
@@ -113,10 +113,10 @@ void	ft_lst_cmd(t_vars *vars)
 	temp = vars->cmd_list;
 	while (temp)
 	{
-		if (temp->comando_bonito)
-			ft_print_dp(temp->comando_bonito, "!comando bonito!");
+		if (temp->cmd)
+			ft_print_dp(temp->cmd, "!comando bonito!");
 		if (temp->prev)
-			ft_print_dp(temp->prev->comando_bonito, "prev ");
+			ft_print_dp(temp->prev->cmd, "prev ");
 		if (temp->infiles)
 			ft_print_dp(temp->infiles, "infiles");
 		if (temp->outfiles)

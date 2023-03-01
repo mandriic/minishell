@@ -125,7 +125,7 @@ void	ft_multiple_pipes()
 		{
 			ft_redirections(aux);
 			ft_close_pipes(cmd1);
-			ft_execute(path_to_execve, aux->comando_bonito, g_data.envp_copy);
+			ft_execute(path_to_execve, aux->cmd, g_data.envp_copy);
 		}
 		free(path_to_execve);
 		aux = aux->next;
