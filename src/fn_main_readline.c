@@ -41,7 +41,6 @@ void	ft_submain(t_vars *vars)
 {
 	while (1)
 	{
-		printf("checj\n");
 		vars->line = readline("Minishell $ "); 
 		if (!ft_strncmp ("exit", vars->line, ft_strlen(vars->line)))
 		{

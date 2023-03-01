@@ -14,7 +14,8 @@
 # include <sys/wait.h>//para linux funcion wait
 # include <sys/param.h>
 # include <string.h>
-
+# include <sys/types.h>
+# include <dirent.h>
 # define BUFFER_SIZE 10000
 //no hay nada preparado para $_ (el último comando utilizado, se guarda en las variables de entorno)
 
