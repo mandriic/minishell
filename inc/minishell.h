@@ -98,20 +98,20 @@ typedef struct s_vars
 void ft_print_arrint(int *arr, char *name);
 void ft_print_dp(char **str, char *name);
 char	*leelinea(void);
-void	ft_cd(char *route);
+// void	ft_cd(char *route);
 
 //export.c
 void	ft_add_line_to_matrix(char ***matrix, char *line);
 
 /* pwd.c */
 
-char	**ft_copy_enviroment_vars_into_matrix(char *envp_original[]);
-void	ft_free_array(char **envp_copy);
-void	ft_free_list(t_command *lst);
-t_command	**ft_copy_enviroment_vars_into_list(t_command **env_copy, char **envp);
-void	ft_print_command(t_command *env_copy);
-void	ft_pwd(char **env);
-void	ft_pwd_2(void);
+// char	**ft_copy_enviroment_vars_into_matrix(char *envp_original[]);
+// void	ft_free_array(char **envp_copy);
+// void	ft_free_list(t_command *lst);
+// t_command	**ft_copy_enviroment_vars_into_list(t_command **env_copy, char **envp);
+// void	ft_print_command(t_command *env_copy);
+// void	ft_pwd(char **env);
+// void	ft_pwd_2(void);
 
 /* execve.c */
 char	**ft_copy_enviroment_vars_into_matrix(char *envp_original[]);
@@ -143,13 +143,13 @@ void	ft_redirections(t_command *cmd);
 void	ft_multiple_pipes(t_vars *vars);
 
 /* builtins.c */
-void	ft_echo_builtin(t_command cmd, t_vars *vars);
-void	ft_cd_builtin(t_command cmd, t_vars *vars);
-void	ft_pwd_builtin(t_command cmd, t_vars *vars);
-int		ft_export_builtin(t_command cmd, t_vars *vars);
-void	ft_unset_builtin(t_command cmd, t_vars *vars);
-void	ft_env_builtin(t_command cmd, t_vars *vars);
-void	ft_exit_builtin(t_command cmd, t_vars *vars);
+int	ft_echo(t_vars *vars);
+int	ft_cd(t_vars *vars);
+int	ft_pwd(t_vars *vars);
+int		ft_export(t_vars *vars);
+int	ft_unset(t_vars *vars);
+int	ft_env(t_vars *vars);
+int	ft_exit(t_vars *vars);
 
 bool	ft_is_builtin(t_command cmd);
 void	ft_execute_buitlin(t_command cmd, t_vars *vars);
