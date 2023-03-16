@@ -1,36 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcat.c                                       :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: josgarci <josgarci@student.42madrid.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/22 16:42:39 by josgarci          #+#    #+#             */
-/*   Updated: 2021/09/23 21:29:27 by josgarci         ###   ########.fr       */
+/*   Created: 2021/09/26 19:30:16 by josgarci          #+#    #+#             */
+/*   Updated: 2021/09/30 14:08:24 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	size_t	i;
-	size_t	j;
-	size_t	lendst;
-	size_t	lensrc;
+	int		i;
+	char	*aux;
 
-	i = ft_strlen(dst);
-	j = 0;
-	lendst = ft_strlen(dst);
-	lensrc = ft_strlen(src);
-	if (dstsize < lendst)
-		return (dstsize + lensrc);
-	while (src[j] && i + 1 < dstsize)
+	if (!s)
+		return (0);
+	i = 0;
+	aux = (char *)malloc(sizeof(char) * (ft_strlen(s) + 1));
+	if (!aux)
+		return (0);
+	while (s[i])
 	{
-		dst[i] = src[j];
+		aux[i] = f(i, s[i]);
 		i++;
-		j++;
 	}
-	dst[i] = '\0';
-	return (lendst + lensrc);
+	aux[i] = '\0';
+	return (aux);
 }
