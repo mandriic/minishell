@@ -1,36 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcat.c                                       :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: josgarci <josgarci@student.42madrid.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/22 16:42:39 by josgarci          #+#    #+#             */
-/*   Updated: 2021/09/23 21:29:27 by josgarci         ###   ########.fr       */
+/*   Created: 2021/09/19 20:37:16 by josgarci          #+#    #+#             */
+/*   Updated: 2022/02/07 18:48:15 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
+char	*ft_strrchr(const char *s, int c)
 {
-	size_t	i;
-	size_t	j;
-	size_t	lendst;
-	size_t	lensrc;
+	int	i;
 
-	i = ft_strlen(dst);
-	j = 0;
-	lendst = ft_strlen(dst);
-	lensrc = ft_strlen(src);
-	if (dstsize < lendst)
-		return (dstsize + lensrc);
-	while (src[j] && i + 1 < dstsize)
+	i = ft_strlen(s);
+	while (i >= 0)
 	{
-		dst[i] = src[j];
-		i++;
-		j++;
+		if (s[i] == (unsigned char)c)
+			return ((char *)&s[i]);
+		if (i == 0)
+			return (0);
+		i--;
 	}
-	dst[i] = '\0';
-	return (lendst + lensrc);
+	return (0);
 }

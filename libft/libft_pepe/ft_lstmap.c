@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcat.c                                       :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: josgarci <josgarci@student.42madrid.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/22 16:42:39 by josgarci          #+#    #+#             */
-/*   Updated: 2021/09/23 21:29:27 by josgarci         ###   ########.fr       */
+/*   Created: 2021/09/28 13:57:00 by josgarci          #+#    #+#             */
+/*   Updated: 2021/10/01 22:00:53 by josgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	size_t	i;
-	size_t	j;
-	size_t	lendst;
-	size_t	lensrc;
+	t_list	*new_lst;
+	t_list	*node;
 
-	i = ft_strlen(dst);
-	j = 0;
-	lendst = ft_strlen(dst);
-	lensrc = ft_strlen(src);
-	if (dstsize < lendst)
-		return (dstsize + lensrc);
-	while (src[j] && i + 1 < dstsize)
+	if (!lst)
+		return (0);
+	node = 0;
+	new_lst = 0;
+	while (lst)
 	{
-		dst[i] = src[j];
-		i++;
-		j++;
+		node = ft_lstnew(f(lst->content));
+		if (!node)
+		{
+			ft_lstclear(&new_lst, del);
+			return (0);
+		}
+		lst = lst->next;
+		ft_lstadd_back(&new_lst, node);
 	}
-	dst[i] = '\0';
-	return (lendst + lensrc);
+	return (new_lst);
 }
