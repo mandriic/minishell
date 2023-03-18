@@ -67,7 +67,7 @@ char *ft_pars_path(char *path, char *cmd, int len, t_vars *vars) //char *
                 if(dir)
                     free(dir);
                 dir = ft_strjoin(ifhome, dir);
-                printf("dir is %s \n", dir);
+                // printf("dir is %s \n", dir);
             }
             if (ft_check_dir(dir, cmd, ft_strlen(cmd)) == 1)
             {
@@ -129,9 +129,9 @@ void ft_mi_exec(t_vars *vars)
     if (ft_check_if_builtins(vars) == 0)
     {
         path = ft_get_val("PATH", vars->env_var);
-        printf("PATH is %s \n", path);
+        // printf("PATH is %s \n", path);
         cmd_path = ft_pars_path(path, vars->cmd_list->cmd[0], 5, vars);  
-        printf("cmd_path is %s \n", cmd_path);
+        // printf("cmd_path is %s \n", cmd_path);
         if (cmd_path)
         {
             temp = cmd_path;

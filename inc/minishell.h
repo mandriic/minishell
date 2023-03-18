@@ -101,7 +101,7 @@ char	*leelinea(void);
 // void	ft_cd(char *route);
 
 //export.c
-void	ft_add_line_to_matrix(char ***matrix, char *line);
+// void	ft_add_line_to_matrix(char ***matrix, char *line); //pepeline :( )
 
 /* pwd.c */
 
@@ -114,33 +114,33 @@ void	ft_add_line_to_matrix(char ***matrix, char *line);
 // void	ft_pwd_2(void);
 
 /* execve.c */
-char	**ft_copy_enviroment_vars_into_matrix(char *envp_original[]);
-char	*ft_get_path_to_execve(char **envp, char *arg);
-void	ft_execute(char *path_to_execve, char **args, char **envp_copy);
+// char	**ft_copy_enviroment_vars_into_matrix(char *envp_original[]);
+// char	*ft_get_path_to_execve(char **envp, char *arg);
+// void	ft_execute(char *path_to_execve, char **args, char **envp_copy);  //pepeline :( 
 
 /* hardcoded.c */
-t_command	*dar_datos_a_los_cmd();
+// t_command	*dar_datos_a_los_cmd();
 
 /* aux_functions.c */
-void	ft_error_exit(char *err_msg);
-void	ft_free_nodes(t_command *cmd);
-void	ft_preliminar_check(int argc, char *argv[]);
-int		ft_strchr_index(char *str, char c);
-int		ft_env_var_key_len(char *env_var);
-void	ft_print_matrix(char **matrix, int fd);
-int		ft_matrix_len(char **matrix);
+// void	ft_error_exit(char *err_msg);
+// void	ft_free_nodes(t_command *cmd);
+// void	ft_preliminar_check(int argc, char *argv[]);
+// int		ft_strchr_index(char *str, char c);
+// int		ft_env_var_key_len(char *env_var);
+// void	ft_print_matrix(char **matrix, int fd);
+// int		ft_matrix_len(char **matrix);
 
 
 void leaks ();
 
 /* pipe.c */
-void	ft_close_pipes(t_command *cmd);
-void	ft_dup_infile(t_command *cmd);
-void	ft_dup_outfile(t_command *cmd);
-void	ft_redirections(t_command *cmd);
+// void	ft_close_pipes(t_command *cmd);
+// void	ft_dup_infile(t_command *cmd);
+// void	ft_dup_outfile(t_command *cmd);
+// void	ft_redirections(t_command *cmd);
 
 /* multiple_pipes */
-void	ft_multiple_pipes(t_vars *vars);
+// void	ft_multiple_pipes(t_vars *vars);
 
 /* builtins.c */
 int	ft_echo(t_vars *vars);
@@ -151,15 +151,15 @@ int	ft_unset(t_vars *vars);
 int	ft_env(t_vars *vars);
 int	ft_exit(t_vars *vars);
 
-bool	ft_is_builtin(t_command cmd);
-void	ft_execute_buitlin(t_command cmd, t_vars *vars);
+// bool	ft_is_builtin(t_command cmd);
+// void	ft_execute_buitlin(t_command cmd, t_vars *vars);
 
 //main.c
 
-int	ft_jose(t_vars *vars);
+// int	ft_jose(t_vars *vars);
 
 /* export.c */
-int	ft_check_existing_variable_in_matrix(char **matrix, char *var_name, int *index);
+// int	ft_check_existing_variable_in_matrix(char **matrix, char *var_name, int *index);
 
 // fn_list.c
 char		**ft_pre_com_bon(char *str, t_vars *vars);
@@ -173,11 +173,6 @@ int			ft_check_apphdoc(char *str, char **com_bon, int *i, int *type);
 int			ft_check_inoutfile(char *str, char **com_bon, int *i, int *type);
 void		ft_check_total(char *str, char **com_bon, int *i, int *type);
 t_command 	*ft_create_data(char *str, t_vars *vars);
-
-
-
-
-
 
 
 // fn_main_readline.c
