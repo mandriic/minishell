@@ -14,7 +14,8 @@
 # include <sys/wait.h>//para linux funcion wait
 # include <sys/param.h>
 # include <string.h>
-
+# include <sys/types.h>
+# include <dirent.h>
 # define BUFFER_SIZE 10000
 //no hay nada preparado para $_ (el último comando utilizado, se guarda en las variables de entorno)
 
@@ -31,8 +32,8 @@
 typedef struct s_command
 {
 	char	**cmd_splited; //data->cmd_splited[0] [1] - args
-	// char 	*comando_con_flags;//este se transforma en comando_bonito con un split
-	char	**comando_bonito;//este si se usa
+	// char 	*comando_con_flags;//este se transforma en cmd con un split
+	char	**cmd;//este si se usa
 	char	*comando_a_pelo;//este si se usa
 	char	*vars_resolv;
 	char	**pre_comand_bon;
@@ -83,7 +84,7 @@ typedef struct s_vars
 // {
 // 	char		*comando_a_pelo;
 // 	char		*comando_con_flags;
-// 	char		**comando_bonito;
+// 	char		**cmd;
 // 	char		**infiles;
 // 	char		**outfiles;
 
@@ -97,20 +98,20 @@ typedef struct s_vars
 void ft_print_arrint(int *arr, char *name);
 void ft_print_dp(char **str, char *name);
 char	*leelinea(void);
-void	ft_cd(char *route);
+// void	ft_cd(char *route);
 
 //export.c
 void	ft_add_line_to_matrix(char ***matrix, char *line);
 
 /* pwd.c */
 
-char	**ft_copy_enviroment_vars_into_matrix(char *envp_original[]);
-void	ft_free_array(char **envp_copy);
-void	ft_free_list(t_command *lst);
-t_command	**ft_copy_enviroment_vars_into_list(t_command **env_copy, char **envp);
-void	ft_print_command(t_command *env_copy);
-void	ft_pwd(char **env);
-void	ft_pwd_2(void);
+// char	**ft_copy_enviroment_vars_into_matrix(char *envp_original[]);
+// void	ft_free_array(char **envp_copy);
+// void	ft_free_list(t_command *lst);
+// t_command	**ft_copy_enviroment_vars_into_list(t_command **env_copy, char **envp);
+// void	ft_print_command(t_command *env_copy);
+// void	ft_pwd(char **env);
+// void	ft_pwd_2(void);
 
 /* execve.c */
 char	**ft_copy_enviroment_vars_into_matrix(char *envp_original[]);
@@ -142,13 +143,13 @@ void	ft_redirections(t_command *cmd);
 void	ft_multiple_pipes(t_vars *vars);
 
 /* builtins.c */
-void	ft_echo_builtin(t_command cmd, t_vars *vars);
-void	ft_cd_builtin(t_command cmd, t_vars *vars);
-void	ft_pwd_builtin(t_command cmd, t_vars *vars);
-int		ft_export_builtin(t_command cmd, t_vars *vars);
-void	ft_unset_builtin(t_command cmd, t_vars *vars);
-void	ft_env_builtin(t_command cmd, t_vars *vars);
-void	ft_exit_builtin(t_command cmd, t_vars *vars);
+int	ft_echo(t_vars *vars);
+int	ft_cd(t_vars *vars);
+int	ft_pwd(t_vars *vars);
+int		ft_export(t_vars *vars);
+int	ft_unset(t_vars *vars);
+int	ft_env(t_vars *vars);
+int	ft_exit(t_vars *vars);
 
 bool	ft_is_builtin(t_command cmd);
 void	ft_execute_buitlin(t_command cmd, t_vars *vars);
@@ -227,7 +228,7 @@ int	ft_pre_check(t_vars *vars);
 void	ft_end_of_cicle(t_vars *vars);
 void	ft_initint(int *i, int len);
 void	ft_print_dp(char **str, char *name);
-
+char	**ft_dupl_dp(char **src);
 //fnadd_lstmod.c
 t_command	*ft_lstnew_mod(t_command *content);
 t_command	*ft_lstlast_mod(t_command *lst);

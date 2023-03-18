@@ -223,7 +223,7 @@ t_command *ft_create_data(char *str, t_vars *vars)
 
 	// ft_split_args(data,vars);
 
-	// ft_print_dp(data->comando_bonito," com bon");
+	// ft_print_dp(data->cmd," com bon");
 	// printf("DATAcmdarg_full %s\n", data->comando_con_flags);
 
 	// ft_subpars(str, data, vars);

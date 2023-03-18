@@ -51,7 +51,7 @@ void	ft_del_list(t_command *list)
 		ft_free_dob_arr(list->outfiles);
 		ft_free_dob_arr(list->appends);
 		ft_free_dob_arr(list->heredocs);
-		ft_free_dob_arr(list->comando_bonito);
+		ft_free_dob_arr(list->cmd);
 		free(list->cmd_splited);
 		if (list->sub_arg)
 			ft_my_free(list->sub_arg);
