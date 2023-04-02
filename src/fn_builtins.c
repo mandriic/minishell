@@ -23,6 +23,10 @@ int	ft_echo(t_vars *vars)
 int	ft_cd(t_vars *vars)
 {
     printf("cd builtin\n");
+    if (chdir(vars->cmd_list->cmd[1]) == 0)
+    {
+        printf("success\n");
+    }
     // printf("TEST\n");
     return(1);
 }
@@ -56,7 +60,14 @@ int	ft_unset(t_vars *vars)
 }
 int	ft_env(t_vars *vars)
 {
+    int i;
+
+    i = 0;
     printf("env builtin\n");
+    while (vars->env_var[i] != NULL)
+    {
+        printf("%s\n", vars->env_var[i++]);
+    }
     return(1);
 }
 
