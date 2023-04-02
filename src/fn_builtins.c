@@ -9,9 +9,11 @@ int	ft_echo(t_vars *vars)
         i++;
     while (vars->cmd_list->cmd[i] != NULL)
     {
-        printf ("%s", vars->cmd_list->cmd[i++]);
-        if (vars->cmd_list->cmd[i + 1] != NULL && ft_strncmp(vars->cmd_list->cmd[1], "-n", 2) != 0)
-            write(1, " ", 1);
+        printf ("%s", vars->cmd_list->cmd[i]);
+        // if (ft_strncmp(vars->cmd_list->cmd[1], "-n", 2) != 0) //(vars->cmd_list->cmd[i + 1] != NULL)// && ft_strncmp(vars->cmd_list->cmd[1], "-n", 2) != 0)
+        if (vars->cmd_list->cmd[i + 1] != NULL)
+            printf(" ");
+        i++;
     }
     if (ft_strncmp(vars->cmd_list->cmd[1], "-n", 2) != 0)
         printf("\n");
