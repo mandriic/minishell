@@ -1,14 +1,15 @@
 #!/bin/bash
 # echo "Create <1> or <2> to connect\n"
-read -p "Create <1> or <2> to connect => " num
+read -p "<1> - create, <2> - connect: " num
 # read var
 # if [ $var -eq 1 ]
 # then
 case $num in
 [1]* )ssh-keygen -f id_rsa_shared
+	chmod 600 ./id_rsa_shared
 	docker stop $(docker ps -a -q)
-	# docker rm $(docker ps -a -q) #!!!!! ALERT !!!!Elimina todos containers
-	# docker rmi $(docker image list) #!ATTEEEENCION!!!! elimina imagenes
+	docker rm $(docker ps -a -q) #!!!!! ALERT !!!!Elimina todos containers
+	docker rmi $(docker image list) #!ATTEEEENCION!!!! elimina imagenes
 	#docker build -t minishell . 
 	docker build -t test_ssh . 
 	docker run -v $PWD/:/home/sshcls/mounted -itd -p 2222:22 test_ssh 
@@ -20,7 +21,7 @@ case $num in
 esac
 
 
-# docker run -v $PWD/:/home/sshcls/mount -itd -p 2222:22  mandriic/minishell #esta montamdo carpeta con minishell en /home/mount
+# docker run -v $PWD/:/home/sshcls/mount -itd -p 2222:22 --name minishell mandriic/minishell #esta montamdo carpeta con minishell en /home/mount
 # sleep 3
 # ssh sshcls@localhost -p 2222 
 # pass 12345/home/sshcls/

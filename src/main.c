@@ -18,7 +18,6 @@ int	ft_count_cmd(t_command *cmd)
 	}
 	return (i);
 }
-
 // void	ft_initialize_global_var(char **envp)
 // {
 // 	g_data.cmd_list = dar_datos_a_los_cmd();

@@ -40,10 +40,10 @@ typedef struct s_command
 	char	**pre_args;
 	int		fd[2];
 	char	*arg;
-	char	**infiles;
-	char	**heredocs;
-	char	**outfiles;
-	char	**appends;
+	char	**infiles;  // 	<
+	char	**heredocs; //	<<
+	char	**outfiles; //	>
+	char	**appends; 	//	>>
 	int		menos;
 	int		menos_dob;
 	int		mas;

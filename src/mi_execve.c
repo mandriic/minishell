@@ -141,7 +141,7 @@ void ft_mi_exec(t_vars *vars)
             cmd_path = ft_strjoin(cmd_path, vars->cmd_list->cmd[0]);
             free(temp);
             printf("cmd_path is %s \n", cmd_path);
-            ft_execuve(cmd_path, vars->cmd_list->cmd, vars);
+            ft_execuve(cmd_path, vars->cmd_list->cmd, vars);    // ATENTION
             free(cmd_path);
         }
         else
