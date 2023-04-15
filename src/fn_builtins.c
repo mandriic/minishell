@@ -5,8 +5,13 @@ int	ft_echo(t_vars *vars)
     int i;
 
     i = 1;
-    if (ft_strncmp(vars->cmd_list->cmd[1], "-n", 2) == 0)
+    // printf("%s\n", vars->cmd_list->cmd[1]);
+    if (ft_strncmp(vars->cmd_list->cmd[1], "-n", 2) == 0  && ft_strlen(vars->cmd_list->cmd[1]) == 2)
         i++;
+    // {
+    //     i++;
+    //     printf("tetst\n");
+    // }
     while (vars->cmd_list->cmd[i] != NULL)
     {
         printf ("%s", vars->cmd_list->cmd[i]);
@@ -15,7 +20,7 @@ int	ft_echo(t_vars *vars)
             printf(" ");
         i++;
     }
-    if (ft_strncmp(vars->cmd_list->cmd[1], "-n", 2) != 0)
+    if (ft_strncmp(vars->cmd_list->cmd[1], "-n", 2) != 0 || ft_strlen(vars->cmd_list->cmd[1]) != 2)
         printf("\n");
     return(1);
 }
