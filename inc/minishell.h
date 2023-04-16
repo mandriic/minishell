@@ -150,7 +150,8 @@ int		ft_export(t_vars *vars);
 int	ft_unset(t_vars *vars);
 int	ft_env(t_vars *vars);
 int	ft_exit(t_vars *vars);
-
+int ft_change_env(t_vars *vars, char *name, char *new_value, int len);
+char *ft_get_value(char *str, char **env);
 // bool	ft_is_builtin(t_command cmd);
 // void	ft_execute_buitlin(t_command cmd, t_vars *vars);
 

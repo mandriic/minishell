@@ -46,24 +46,24 @@ int ft_change_env(t_vars *vars, char *name, char *new_value, int len)
     int i;
 
     i = 0;
-    if (ft_strncmp(new_value, "~", 1) == 0)
-    {
-        new_value = ft_get_value("HOME", vars->env_var);
-        printf("new value is %s\n", new_value);
-        new_value = new_value + 5;
-    }
+    // if (ft_strncmp(new_value, "~", 1) == 0)
+    // {
+    //     new_value = ft_get_value("HOME", vars->env_var);
+    //     printf("new value is %s\n", new_value);
+    //     new_value = new_value + 5;
+    // }
     while(vars->env_var[i] != NULL)
     {
         if (ft_strncmp(vars->env_var[i], name, len) == 0)
         {    
-            printf("%s \n", vars->env_var[i]);
+            // printf("%s \n", vars->env_var[i]);
             free(vars->env_var[i]);
             vars->env_var[i] = ft_strjoin(name, new_value);
-            printf("VARI %s\n", vars->env_var[i]);
+            // printf("VARI %s\n", vars->env_var[i]);
         }
         i++;
     }
-    ft_print_dp(vars->env_var, "change env test");
+    // ft_print_dp(vars->env_var, "change env test");
     return (0);
 }
 

@@ -12,9 +12,28 @@
 
 #include "../inc/minishell.h"
 
+void	ft_check_shlvl(t_vars *vars)
+{
+	char	*shlvl;
+	char	*temp;
+	int		int_shlvl;
+
+	shlvl = ft_get_value("SHLVL", vars->env_var);
+	shlvl = shlvl + 1;
+	printf("shlvl: %s\n", shlvl);
+	if (shlvl)
+	{
+		printf( "inttest %d\n", ft_atoi(shlvl) + 1);
+		temp = ft_itoa(ft_atoi(shlvl) + 1);
+		ft_change_env(vars, "SHLVL=", temp, 6);
+	}
+	// else
+	// 	setenv("SHLVL", "1", 1);
+}
+
 void	ft_readline(t_vars *vars)
 {
-
+	ft_check_shlvl(vars);
 	// vars = (t_vars){};
 	// vars.split = NULL;
 	// // vars.list = NULL;
@@ -42,6 +61,7 @@ void	ft_submain(t_vars *vars)
 	while (1)
 	{
 		vars->line = readline("Minishell $ "); 
+		printf("line: %s\n", vars->line);
 		if (!ft_strncmp ("exit", vars->line, ft_strlen(vars->line)))
 		{
 			write(1, "exit\n", 5);
