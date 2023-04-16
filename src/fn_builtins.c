@@ -24,13 +24,66 @@ int	ft_echo(t_vars *vars)
         printf("\n");
     return(1);
 }
+// int ft_check_root(char * root)
+// {
+//     if ft_strncmp(vars->)
+// }
+char *ft_get_value(char *str, char **env)
+{
+    int i = 0;
+    if (!str)
+        return (NULL);
+    while (env[i])
+    {
+        if (ft_strncmp(str, env[i], ft_strlen(str)) == 0)
+            return (env[i] + ft_strlen(str));
+        i++;
+    }
+    return (0);
+}
+int ft_change_env(t_vars *vars, char *name, char *new_value, int len)
+{
+    int i;
+
+    i = 0;
+    if (ft_strncmp(new_value, "~", 1) == 0)
+    {
+        new_value = ft_get_value("HOME", vars->env_var);
+        printf("new value is %s\n", new_value);
+        new_value = new_value + 5;
+    }
+    while(vars->env_var[i] != NULL)
+    {
+        if (ft_strncmp(vars->env_var[i], name, len) == 0)
+        {    
+            printf("%s \n", vars->env_var[i]);
+            free(vars->env_var[i]);
+            vars->env_var[i] = ft_strjoin(name, new_value);
+            printf("VARI %s\n", vars->env_var[i]);
+        }
+        i++;
+    }
+    ft_print_dp(vars->env_var, "change env test");
+    return (0);
+}
 
 int	ft_cd(t_vars *vars)
 {
+    char *cdir;
     printf("cd builtin\n");
     if (chdir(vars->cmd_list->cmd[1]) == 0)
     {
-        printf("success\n");
+        cdir = getcwd(NULL, 0);
+        printf("%s \n",  cdir);
+        ft_change_env(vars, "OLDPWD", ft_get_value("PWD", vars->env_var), 6);
+        ft_change_env(vars, "PWD=", cdir, 4);
+        free(cdir);
+        ft_print_dp(vars->env_var, "ENVVAR");
+
+        // ft_change_env(vars, "PWD=", vars->cmd_list->cmd[1], 4);
+
+        // printf("success\n");
+        // printf("%s\n", vars->cmd_list->cmd[1]);
     }
     // printf("TEST\n");
     return(1);
