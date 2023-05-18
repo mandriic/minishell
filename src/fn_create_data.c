@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_create_data.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: angalsty <angalsty@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:12:58 by mandriic          #+#    #+#             */
-/*   Updated: 2022/09/30 16:13:02 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/04/08 19:42:28 by angalsty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

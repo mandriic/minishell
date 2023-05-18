@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_main_readline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: angalsty <angalsty@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:14:18 by mandriic          #+#    #+#             */
-/*   Updated: 2022/09/30 16:14:20 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/05/18 20:14:35 by angalsty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	ft_readline(t_vars *vars)
 {
-
 	// vars = (t_vars){};
 	// vars.split = NULL;
 	// // vars.list = NULL;
@@ -41,12 +40,12 @@ void	ft_submain(t_vars *vars)
 {
 	while (1)
 	{
-		vars->line = readline("Minishell $ "); 
-		if (!ft_strncmp ("exit", vars->line, ft_strlen(vars->line)))
+		vars->line = readline("Minishell $ ");
+		if (!ft_strncmp("exit", vars->line, ft_strlen(vars->line)))
 		{
 			write(1, "exit\n", 5);
 			system("leaks minishell");
-			exit (0);
+			exit(0);
 		}
 		if (ft_pre_check(vars))
 			continue ;
@@ -58,7 +57,7 @@ void	ft_submain(t_vars *vars)
 		// ft_jose(vars);
 		// printf("%s\n", vars->cmd_list->cmd_splited[0]);
 		// ft_print_dp(vars->cmd_list->pre_args, "vars->cmd_list->cmd");
-		ft_mi_exec(vars);
+		ft_mi_exec(vars, vars->env_var);
 		ft_end_of_cicle(vars);
 	}
 }

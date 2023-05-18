@@ -9,6 +9,7 @@ int	ft_count_cmd(t_command *cmd)
 
 	if (cmd == NULL)
 		return (0);
+
 	i = 0;
 	aux = cmd;
 	while (aux)
@@ -69,9 +70,6 @@ int main(int argc, char *argv[], char *envp[])
 	
 
 // }
-
-
-
 // void ft_print_arrint(int *arr, char *name)
 // {
 // 	int i;
