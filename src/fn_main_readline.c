@@ -6,7 +6,11 @@
 /*   By: angalsty <angalsty@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:14:18 by mandriic          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/06/07 19:33:05 by angalsty         ###   ########.fr       */
+=======
+/*   Updated: 2023/05/18 20:14:35 by angalsty         ###   ########.fr       */
+>>>>>>> b447e562ae4c366cc6354a5d8bdd187107f881fe
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +61,14 @@ void	ft_submain(t_vars *vars)
 		// ft_jose(vars);
 		// printf("%s\n", vars->cmd_list->cmd_splited[0]);
 		// ft_print_dp(vars->cmd_list->pre_args, "vars->cmd_list->cmd");
+<<<<<<< HEAD
 		printf("sdfsdffss %s\n", vars->cmd_list->cmd[0]);
 		printf("sdfsdffss %s\n", vars->cmd_list->cmd[1]);
 		printf("sdfsdffss %s\n", vars->cmd_list->cmd[2]);
 		ft_mi_exec(vars);
+=======
+		ft_mi_exec(vars, vars->env_var);
+>>>>>>> b447e562ae4c366cc6354a5d8bdd187107f881fe
 		ft_end_of_cicle(vars);
 	}
 }
