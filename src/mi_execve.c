@@ -83,24 +83,157 @@ char *ft_pars_path(char *path, char *cmd, int len, t_vars *vars) //char *
     return (0);
 }
 
-void ft_execuve(char *path, char **cmd, t_vars *vars)
+/*void ft_pipe(char *path, t_vars *vars, int i, int *prev_fd)
 {
     pid_t pid;
-    int status;
-    pid = fork();
-    if (pid == 0)
+
+    if (pipe(vars->cmd_list->fd) == -1)
     {
-        if (execve(path, cmd, vars->env_var) == -1)
-        {
-            printf("Minishell: command not found: %s \n", cmd[0]);
-            exit(0);
-        }
+        perror ("Error: ");
+        return ;
     }
-    else if (pid < 0)
-        printf("Error forking \n");
+    pid = fork();
+    if (pid == -1)
+    {
+        perror ("Error: ");
+        return ;
+    }
+    else if ( pid == 0)
+    {
+        close (vars->cmd_list->fd[0]);
+        dup2(vars->cmd_list->fd[1], STDOUT_FILENO);
+        close (vars->cmd_list->fd[1]);
+        dup2(*prev_fd, STDIN_FILENO);
+        close (*prev_fd);
+        execve(path, &vars->cmd_list->cmd[i], vars->env_var);
+    }
     else
-        waitpid(pid, &status, 0);
+    {
+        close (vars->cmd_list->fd[1]);
+        close (*prev_fd);
+        *prev_fd = vars->cmd_list->fd[0];
+    }
 }
+
+void ft_last_pipe(char *path, t_vars *vars, int i, int *prev_fd)
+{
+    pid_t pid;
+
+    pid = fork();
+    if (pid == -1)
+    {
+        perror ("Error: ");
+        return ;
+    }
+    else if ( pid == 0)
+    {
+        dup2(*prev_fd, STDIN_FILENO);
+        close (*prev_fd);
+        execve(path, &vars->cmd_list->cmd[i], vars->env_var);
+    }
+    else
+    {
+        close (*prev_fd);
+        waitpid(-1, NULL, 0);
+    }  
+}*/
+
+/*void ft_execuve(char *path, char **cmd, t_vars *vars)
+{
+    //pid_t pid;
+    //int status;
+    int prev_fd;
+    int i;
+
+    //prev_fd = 0;
+    //if (prev_fd == -1)
+    //{
+        //perror("Error:");
+    //}
+    i = 0;
+    //printf("num_pipes is %zu \n", vars->num_pipes);
+    while (i < vars->num_pipes)
+    {
+        prev_fd = 0;
+        if (pipe(vars->cmd_list->fd) == -1)
+        {
+            perror ("Error: ");
+            return ;
+        }
+
+        pid_t pid = fork();
+        if (pid == -1)
+        {
+            perror ("Error: ");
+            return ;
+        }
+        else if (pid == 0)
+        {
+            //printf("i is %d \n", i);
+            if (i > 0)
+            {
+                if (dup2(prev_fd, STDIN_FILENO) == -1)
+                {
+                    perror("Duplication failed");
+                    exit(EXIT_FAILURE);
+                } 
+                close(prev_fd); 
+            }
+            if (dup2(vars->cmd_list->fd[1], STDOUT_FILENO) == -1)
+            {
+                perror("Duplication failed");
+                exit(EXIT_FAILURE);
+            }
+            close(vars->cmd_list->fd[0]);
+
+            if (execve(path, &vars->cmd_list->cmd[i], vars->env_var) == -1)
+            {
+                perror("Error: ");
+                exit(EXIT_FAILURE);
+            }
+        }
+        else 
+        {
+            close (vars->cmd_list->fd[1]);
+            if (prev_fd != 0)
+            {
+                close(prev_fd);
+            }
+                prev_fd = vars->cmd_list->fd[0];
+                printf("prev_fd is %d \n", prev_fd);
+                //printf("cmd is %d\n", vars->num_cmds);
+        }
+        i++;
+    }
+    if (prev_fd != 0)
+    {
+        close(prev_fd);
+    }
+
+    i = 0;
+    while (i < vars->num_pipes)
+    {
+        waitpid(-1, NULL, 0);
+        i++;
+    }
+        
+}*/
+
+    /*{
+        if (i == vars->num_pipes - 1)
+        {
+            ft_last_pipe(path, vars, i, &prev_fd);
+            printf("last pipe \n");
+        }
+        else if (i < vars->num_pipes)
+        {
+            ft_pipe(path, vars, i, &prev_fd);
+            printf("pipe \n");
+        }
+        i++;
+    }*/
+   
+//}
 
 int ft_check_if_builtins(t_vars *vars)
 {
@@ -121,6 +254,60 @@ int ft_check_if_builtins(t_vars *vars)
     else
         return (0);
 }
+
+void ft_execuve(char *path, char **cmd, t_vars *vars)
+{
+    pid_t pid;
+    int prev_pipe;
+    int i;
+    int status;
+
+    i = 0;
+    prev_pipe = 0;
+    while (i < vars->num_pipes + 1)
+{
+    if(pipe(vars->cmd_list->fd) == -1)
+    {
+        perror("pipe");
+        exit(EXIT_FAILURE);
+    }
+
+    pid = fork();
+    if (pid == -1)
+    {
+        perror ("fork");
+        exit(EXIT_FAILURE);
+    }
+    if ( pid == 0)
+    {
+        dup2(prev_pipe, STDIN_FILENO);
+        if (i < vars->num_pipes - 1)
+        {
+            dup2(vars->cmd_list->fd[1], STDOUT_FILENO);
+        }
+        close(vars->cmd_list->fd[0]);
+        execve(path, cmd, vars->env_var);
+
+        perror ("execvp");
+        exit(EXIT_FAILURE);
+    }
+    else
+    {
+        close(vars->cmd_list->fd[1]);
+        prev_pipe = vars->cmd_list->fd[0];
+        waitpid(-1, &status, WUNTRACED | WNOHANG);
+    }
+    i++;
+}
+    /*i = 0;
+    while (i < vars->num_pipes)
+    {
+        
+        i++;
+    }*/
+}
+
+
 void ft_mi_exec(t_vars *vars)
 {
     char *path;
@@ -141,6 +328,14 @@ void ft_mi_exec(t_vars *vars)
             cmd_path = ft_strjoin(cmd_path, vars->cmd_list->cmd[0]);
             free(temp);
             printf("cmd_path is %s \n", cmd_path);
+            //printf("cmd is %s \n", vars->cmd_list->cmd[0]);
+            //printf("cmd is %s \n", vars->cmd_list->cmd[1]);
+            //printf("cmd is %s \n", vars->cmd_list->cmd[2]);
+            //printf("cmd_splited is %s\n", vars->cmd_list->cmd_splited[0]);
+            //printf("cmd_splited is %s\n", vars->cmd_list->cmd_splited[1]);
+            printf("num_cmds is %d\n", vars->num_cmds);
+            printf("num_pipes is %zu\n", vars->num_pipes);
+            //printf("cmd_splited is %c\n", vars->cmd_list->cmd_splited[0][1]);
             ft_execuve(cmd_path, vars->cmd_list->cmd, vars);    // ATENTION
             free(cmd_path);
         }

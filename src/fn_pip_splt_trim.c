@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_pip_splt_trim.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: angalsty <angalsty@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:15:12 by mandriic          #+#    #+#             */
-/*   Updated: 2022/09/30 16:15:19 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/06/06 14:08:55 by angalsty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
