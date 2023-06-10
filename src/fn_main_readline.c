@@ -27,6 +27,7 @@ void	ft_check_shlvl(t_vars *vars)
 		temp = ft_itoa(ft_atoi(shlvl) + 1);
 		ft_change_env(vars, "SHLVL=", temp, 6);
 	}
+	free(temp);
 	// else
 	// 	setenv("SHLVL", "1", 1);
 }
