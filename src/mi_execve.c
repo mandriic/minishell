@@ -121,6 +121,21 @@ int ft_check_if_builtins(t_vars *vars)
     else
         return (0);
 }
+
+int ft_check_if_vars(t_vars *vars, t_command *cmd_struct)
+{
+    int i = 0;
+
+        while(cmd_struct->cmd[0][i])
+            if (cmd_struct->cmd[0][i++] == '=')
+            {
+                vars->env_var = ft_append_to_dobl_arr(vars->env_var, cmd_struct->cmd[0]);
+                return (1);
+            }
+    return (0);
+}
+
+
 void ft_mi_exec(t_vars *vars)
 {
     char *path;
@@ -130,7 +145,12 @@ void ft_mi_exec(t_vars *vars)
     temp_cmd = vars->cmd_list;
     while (temp_cmd != NULL)
     {
-        if (ft_check_if_builtins(vars) == 0)
+        if(ft_check_if_vars(vars, temp_cmd))
+        {
+            temp_cmd = temp_cmd->next;
+            continue ;
+        }
+        else if (ft_check_if_builtins(vars) == 0)
         {
             path = ft_get_val("PATH", vars->env_var);
             // printf("PATH is %s \n", path);
