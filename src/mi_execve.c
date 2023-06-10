@@ -126,30 +126,36 @@ void ft_mi_exec(t_vars *vars)
     char *path;
     char *cmd_path;
     char *temp;
-    if (ft_check_if_builtins(vars) == 0)
+    t_command *temp_cmd;
+    temp_cmd = vars->cmd_list;
+    while (temp_cmd != NULL)
     {
-        path = ft_get_val("PATH", vars->env_var);
-        // printf("PATH is %s \n", path);
-        printf("cmd is %s \n", vars->cmd_list->cmd[0]);
-        cmd_path = ft_pars_path(path, vars->cmd_list->cmd[0], 5, vars);  
-        // printf("cmd_path is %s \n", cmd_path);
-        if (cmd_path)
+        if (ft_check_if_builtins(vars) == 0)
         {
-            temp = cmd_path;
-            cmd_path = ft_strjoin(cmd_path, "/");
-            free(temp);
-            temp = cmd_path;
-            cmd_path = ft_strjoin(cmd_path, vars->cmd_list->cmd[0]);
-            free(temp);
-            printf("cmd_path is %s \n", cmd_path);
-            ft_execuve(cmd_path, vars->cmd_list->cmd, vars);    // ATENTION
-            free(cmd_path);
-        }
-        else if ((vars->cmd_list->cmd[0][0] == '.' && (vars->cmd_list->cmd[0][1] == '/' || vars->cmd_list->cmd[0][1] == '.')) || vars->cmd_list->cmd[0][0] == '/')
-            ft_execuve(vars->cmd_list->cmd[0], vars->cmd_list->cmd, vars);
-        else
-            {   // ATENTION
-                printf("Minishell: command not found: %s \n", vars->cmd_list->cmd[0]);
+            path = ft_get_val("PATH", vars->env_var);
+            // printf("PATH is %s \n", path);
+            // printf("cmd is %s \n", vars->cmd_list->cmd[0]);
+            cmd_path = ft_pars_path(path, temp_cmd->cmd[0], 5, vars);  
+            // printf("cmd_path is %s \n", cmd_path);
+            if (cmd_path)
+            {
+                temp = cmd_path;
+                cmd_path = ft_strjoin(cmd_path, "/");
+                free(temp);
+                temp = cmd_path;
+                cmd_path = ft_strjoin(cmd_path, temp_cmd->cmd[0]);
+                free(temp);
+                printf("cmd_path is %s \n", cmd_path);
+                ft_execuve(cmd_path, temp_cmd->cmd, vars);    // ATENTION
+                free(cmd_path);
             }
+            else if ((temp_cmd->cmd[0][0] == '.' && (temp_cmd->cmd[0][1] == '/' || temp_cmd->cmd[0][1] == '.')) || temp_cmd->cmd[0][0] == '/')
+                ft_execuve(temp_cmd->cmd[0], temp_cmd->cmd, vars);
+            else
+            {   // ATENTION
+                printf("Minishell: command not found: %s \n", temp_cmd->cmd[0]);
+            }
+        }
+        temp_cmd = temp_cmd->next;
     }
 }
