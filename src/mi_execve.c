@@ -130,6 +130,7 @@ void ft_mi_exec(t_vars *vars)
     {
         path = ft_get_val("PATH", vars->env_var);
         // printf("PATH is %s \n", path);
+        printf("cmd is %s \n", vars->cmd_list->cmd[0]);
         cmd_path = ft_pars_path(path, vars->cmd_list->cmd[0], 5, vars);  
         // printf("cmd_path is %s \n", cmd_path);
         if (cmd_path)
@@ -144,7 +145,11 @@ void ft_mi_exec(t_vars *vars)
             ft_execuve(cmd_path, vars->cmd_list->cmd, vars);    // ATENTION
             free(cmd_path);
         }
+        else if ((vars->cmd_list->cmd[0][0] == '.' && (vars->cmd_list->cmd[0][1] == '/' || vars->cmd_list->cmd[0][1] == '.')) || vars->cmd_list->cmd[0][0] == '/')
+            ft_execuve(vars->cmd_list->cmd[0], vars->cmd_list->cmd, vars);
         else
-            printf("Minishell: command not found: %s \n", vars->cmd_list->cmd[0]);
+            {   // ATENTION
+                printf("Minishell: command not found: %s \n", vars->cmd_list->cmd[0]);
+            }
     }
 }
