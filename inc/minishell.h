@@ -48,6 +48,7 @@ typedef struct s_command
 	int		menos_dob;
 	int		mas;
 	int		mas_dob;
+	char   **cpy_env;
 	char 	*sub_arg;
 	struct s_command	*next;
 	struct s_command	*prev;
@@ -225,6 +226,7 @@ void	ft_end_of_cicle(t_vars *vars);
 void	ft_initint(int *i, int len);
 void	ft_print_dp(char **str, char *name);
 char	**ft_dupl_dp(char **src);
+char **ft_append_to_dobl_arr(char **main, char *to_append);
 //fnadd_lstmod.c
 t_command	*ft_lstnew_mod(t_command *content);
 t_command	*ft_lstlast_mod(t_command *lst);

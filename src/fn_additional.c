@@ -46,6 +46,26 @@ char	**ft_dupl_dp(char **src)
 	return (dst);
 }
 
+char **ft_append_to_dobl_arr(char **main, char *to_append)
+{
+	
+	int		i;
+	char	**dst;
+
+	i = -1;
+	while (main[++i])
+		;
+	dst = malloc(sizeof(char *) * (i + 2));
+	i = -1;
+	while (main[++i])
+		dst[i] = ft_strdup(main[i]);
+	dst[i++] = ft_strdup(to_append);
+	dst[i] = NULL;
+	ft_free_dob_arr(main);
+	return (dst);
+}
+
+
 int	ft_pre_check(t_vars *vars)
 {
 	int	alpha;
