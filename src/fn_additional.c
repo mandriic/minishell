@@ -115,6 +115,10 @@ void	ft_print_dp(char **str, char *name)
 	printf("\n");
 }
 
+void c(char *str)
+{
+	printf("check %s\n", str);
+}
 // void	ft_strcopy(char *dst, const char *src)
 // {
 // 	size_t	i;
