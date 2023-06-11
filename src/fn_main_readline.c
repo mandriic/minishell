@@ -78,7 +78,7 @@ void	ft_submain(t_vars *vars)
 			ft_line_exist(vars);
 		// ft_jose(vars);
 		// printf("%s\n", vars->cmd_list->cmd_splited[0]);
-		// ft_print_dp(vars->cmd_list->pre_args, "vars->cmd_list->cmd");
+		// ft_print_dp(vars->cmd_list->next->cmd, "vars->cmd_list->cmd");
 		ft_mi_exec(vars);
 		ft_end_of_cicle(vars);
 	}

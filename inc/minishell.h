@@ -1,6 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+
 # include "../libft/libft.h"
 # include <stdio.h>
 # include <unistd.h>
@@ -17,6 +18,8 @@
 # include <sys/types.h>
 # include <dirent.h>
 # define BUFFER_SIZE 10000
+# define READ_END    0    /* index pipe extremo lectura */
+# define WRITE_END   1 
 //no hay nada preparado para $_ (el último comando utilizado, se guarda en las variables de entorno)
 
 // typedef struct s_data
@@ -39,6 +42,7 @@ typedef struct s_command
 	char	**pre_comand_bon;
 	char	**pre_args;
 	int		fd[2];
+	int		mem_pipe;
 	char	*arg;
 	char	**infiles;  // 	<
 	char	**heredocs; //	<<
@@ -95,6 +99,7 @@ typedef struct s_vars
 // }	t_command;
 
 // extern t_data	g_data;
+void c(char *str);
 
 void ft_print_arrint(int *arr, char *name);
 void ft_print_dp(char **str, char *name);
