@@ -61,10 +61,12 @@ int ft_change_env(t_vars *vars, char *name, char *new_value, int len)
     {
         if (ft_strncmp(vars->env_var[i], name, len) == 0)
         {    
-            // printf("%s \n", vars->env_var[i]);
+            printf("11111%s \n", vars->env_var[i]);
             free(vars->env_var[i]);
+            printf("22222%s \n", name);
             vars->env_var[i] = ft_strjoin(name, new_value);
-            // printf("VARI %s\n", vars->env_var[i]);
+            printf("VARI %s\n", vars->env_var[i]);
+            return (1);
         }
         i++;
     }

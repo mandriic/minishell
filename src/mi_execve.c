@@ -156,12 +156,15 @@ int ft_check_if_builtins(t_vars *vars)
 
 int ft_check_if_vars(t_vars *vars, t_command *cmd_struct)
 {
+    char *temp;
     int i = 0;
-
         while(cmd_struct->cmd[0][i])
             if (cmd_struct->cmd[0][i++] == '=')
             {
-                vars->env_var = ft_append_to_dobl_arr(vars->env_var, cmd_struct->cmd[0]);
+                temp = ft_substr(cmd_struct->cmd[0],0, i);
+                if (ft_change_env(vars, temp, cmd_struct->cmd[0] + i, ft_strlen(cmd_struct->cmd[0]) - i) == 0)
+                    vars->env_var = ft_append_to_dobl_arr(vars->env_var, cmd_struct->cmd[0]);
+                free(temp);
                 return (1);
             }
     return (0);
