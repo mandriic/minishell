@@ -111,23 +111,23 @@ void	ft_lst_cmd(t_vars *vars)
 		temp = temp->next;
 	}
 	temp = vars->cmd_list;
-	// while (temp)
-	// {
-	// 	if (temp->cmd)
-	// 		ft_print_dp(temp->cmd, "!comando bonito!");
-	// 	if (temp->prev)
-	// 		ft_print_dp(temp->prev->cmd, "prev ");
-	// 	if (temp->infiles)
-	// 		ft_print_dp(temp->infiles, "infiles");
-	// 	if (temp->outfiles)
-	// 		ft_print_dp(temp->outfiles, "outfiles");
-	// 	if (temp->appends)
-	// 		ft_print_dp(temp->appends, "appends");
-	// 	if (temp->heredocs)
-	// 		ft_print_dp(temp->heredocs, "heredocs");
-	// 	printf("end\n");
-	// 	temp = temp->next;
-	// }
+	while (temp)
+	{
+		if (temp->cmd)
+			ft_print_dp(temp->cmd, "!comando bonito!");
+		if (temp->prev)
+			ft_print_dp(temp->prev->cmd, "prev ");
+		if (temp->infiles)
+			ft_print_dp(temp->infiles, "infiles");
+		if (temp->outfiles)
+			ft_print_dp(temp->outfiles, "outfiles");
+		if (temp->appends)
+			ft_print_dp(temp->appends, "appends");
+		if (temp->heredocs)
+			ft_print_dp(temp->heredocs, "heredocs");
+		printf("end\n");
+		temp = temp->next;
+	}
 	if (i != 1)
 		ft_free_dob_arr(vars->split);
 }

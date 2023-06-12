@@ -12,8 +12,12 @@
 
 #include "../inc/minishell.h"
 
+// char *ft_loc_getenv(char *valor, t_vars vars)
+// {
+// 	ft_get_value(valor, vars->env);
+// }
 
-char	*ft_get_env(char *str, int len)
+char	*ft_get_env(char *str, int len, t_vars *vars)
 {
 	char	*var;
 	char	*valor;
@@ -37,7 +41,9 @@ char	*ft_get_env(char *str, int len)
 	}
 	else
 		ft_sub_get_env(str, var, len, &i);
-	valor = getenv(var);
+		// printf("var: %s\n", var);
+	valor = ft_get_value(var, vars->env_var);//GETENV HERE NOT WORKING
+	// printf("valor: %s\n", valor);
 	free(var);
 	if (!valor)
 		return (NULL);
