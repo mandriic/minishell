@@ -120,6 +120,8 @@ t_command	*ft_create_data(char *str, t_vars *vars)
 	{
 		data->cmd = ft_dup_dp(data->pre_comand_bon);
 		data->comando_a_pelo = data->cmd[0];
+		data->fd[0] = -1;
+		data->fd[1] = -1;
 	}
 	ft_resolv_com_bon(data, vars);
 	return (data);

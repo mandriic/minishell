@@ -92,10 +92,26 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
 {
 
     int status, pid;
+    pipe(cmd->fd);
 
     pid = fork();
     if (pid == 0)
     {
+        if (cmd->next)
+        {   
+            c("cmd->next"); 
+            dup2(cmd->fd[1], 1);
+            close(cmd->fd[0]);
+            close(cmd->fd[1]);
+        }
+        if (cmd->prev && cmd->prev->fd[0] != -1)
+        {
+            dup2(cmd->prev->fd[0], 0);
+            close(cmd->prev->fd[0]);
+            close(cmd->prev->fd[1]);
+        }
+        // printf("cmd is %s \n", cmd->cmd[0]);
+        // printf("cmd2 is %s \n", cmd->next->cmd[0]);
         if (execve(path, cmd->cmd, vars->env_var) == -1)
         {
             printf("Minishell: command not found: %s \n", cmd->cmd[0]);
@@ -105,7 +121,17 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
     else if (pid < 0)
         printf("Error forking \n");
     else
+    {
+        // if (cmd->next)
+        //     close(cmd->fd[1]);
+        if (cmd->prev && cmd->prev->fd[0] != -1)
+            close(cmd->prev->fd[0]);
+        if (cmd->prev && cmd->prev->fd[1] != -1)
+            close(cmd->prev->fd[1]);
+        // close(cmd->prev->fd[0]);
         waitpid(pid, &status, 0);
+        waitpid(pid, &status, 0);
+    }
 }
 
 int ft_check_if_builtins(t_vars *vars)
