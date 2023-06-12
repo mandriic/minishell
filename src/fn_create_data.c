@@ -108,6 +108,7 @@ t_command	*ft_create_data(char *str, t_vars *vars)
 {
 	t_command	*data;
 
+
 	data = malloc(sizeof(t_command));
 	*data = (t_command){};
 	if (!str[0])

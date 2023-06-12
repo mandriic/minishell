@@ -36,7 +36,12 @@ char *ft_get_value(char *str, char **env)
     while (env[i])
     {
         if (ft_strncmp(str, env[i], ft_strlen(str)) == 0)
-            return (env[i] + ft_strlen(str));
+        {
+            if (ft_strlen(env[i]) == ft_strlen(str))
+                return (env[i] + ft_strlen(str));
+            else if (env[i][ft_strlen(str)] == '=')
+                return (env[i] + ft_strlen(str) + 1);
+        }
         i++;
     }
     return (0);
