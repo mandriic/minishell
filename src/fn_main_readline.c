@@ -19,8 +19,10 @@ void	ft_check_shlvl(t_vars *vars)
 	int		int_shlvl;
 
 	shlvl = ft_get_value("SHLVL", vars->env_var);
-	shlvl = shlvl + 1;
 	printf("shlvl: %s\n", shlvl);
+	
+	// shlvl = shlvl + 1;
+	// printf("shlvl: %s\n", shlvl);
 	if (shlvl)
 	{
 		printf( "inttest %d\n", ft_atoi(shlvl) + 1);
