@@ -83,9 +83,54 @@ char *ft_pars_path(char *path, char *cmd, int len, t_vars *vars) //char *
     return (0);
 }
 
-void ft_pipe(void)
+void	ft_dup_infile(t_command *cmd)
 {
+	int	fd_infile;
 
+	if(cmd->infiles)
+	{
+		fd_infile = open(cmd->infiles[0], O_RDONLY);
+		if (fd_infile < 0)
+			perror("fd_infile");
+		dup2(fd_infile, 0);
+		close(fd_infile);
+		close(fd_infile);
+        // a function to creat heredocs to do << redirections
+	}
+}
+
+void	ft_dup_outfile(t_command *cmd)
+{
+	int	fd_outfile;
+
+    if (cmd->appends)
+    {
+        fd_outfile = open(cmd->appends[0], O_APPEND | O_CREAT | O_RDWR, 0664);
+        if (fd_outfile < 0)
+            perror("fd_outfile:");
+        close(STDOUT_FILENO);
+        dup2(fd_outfile, 1);
+        close(fd_outfile);
+    }    
+     else if (cmd->outfiles != NULL)
+    {
+        fd_outfile = open(cmd->outfiles[0], O_TRUNC | O_CREAT | O_RDWR, 0664);
+        if (fd_outfile < 0)
+            perror("fd_outfile:");
+        close(STDOUT_FILENO);
+        dup2(fd_outfile, 1);
+        close(fd_outfile);
+	}
+}
+
+void	ft_redirections(t_command *cmd)
+{
+	/*if (cmd->prev != NULL)
+		dup2(cmd->prev->fd[0], 0);
+	if (cmd->next != NULL)
+		dup2(cmd->fd[1], 1);*/
+	ft_dup_infile(cmd);
+	ft_dup_outfile(cmd);
 }
 
 void ft_execuve(char *path, t_command *cmd, t_vars *vars)
@@ -97,9 +142,9 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
     pid = fork();
     if (pid == 0)
     {
+        ft_redirections(cmd); //si es echo no lo hace
         if (cmd->next)
-        {   
-            c("cmd->next"); 
+        {    
             dup2(cmd->fd[1], 1);
             close(cmd->fd[0]);
             close(cmd->fd[1]);
@@ -110,8 +155,6 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
             close(cmd->prev->fd[0]);
             close(cmd->prev->fd[1]);
         }
-        // printf("cmd is %s \n", cmd->cmd[0]);
-        // printf("cmd2 is %s \n", cmd->next->cmd[0]);
         if (execve(path, cmd->cmd, vars->env_var) == -1)
         {
             printf("Minishell: command not found: %s \n", cmd->cmd[0]);
