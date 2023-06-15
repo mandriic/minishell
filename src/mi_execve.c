@@ -83,27 +83,27 @@ char *ft_pars_path(char *path, char *cmd, int len, t_vars *vars) //char *
     return (0);
 }
 
-/*void    heredoc(t_command *cmd, int fd_infile)
+void    heredoc(t_command *cmd, int fd_infile)
 {
-    char *buf;
+    char *temp;
 
     fd_infile = open(cmd->infiles[0], O_TRUNC | O_CREAT | O_RDWR, 0664);
     while(1)
     {
         write(1, "heredoc>", 9);
-        buf = readline("");//hes to chge for the function get_next_line
-        if(!ft_strncmp(buf, cmd->infiles[0], ft_strlen(cmd->infiles[0])))
+        temp = readline("");//hes to chge for the function get_next_line
+        if(!ft_strncmp(temp, cmd->heredocs[0], ft_strlen(cmd->heredocs[0] - 1)))
         {
-            free(buf);
+            free(temp);
             break;
         }
-        write(fd_infile, buf, ft_strlen(buf));
-        free(buf);
+        write(fd_infile, temp, ft_strlen(temp));
+        free(temp);
     }
-    free(buf);
+    //free(buf);
     //free(cmd->infiles[0]);
     close(fd_infile);
-}*/
+}
 
 void	ft_dup_infile(t_command *cmd)
 {
@@ -119,11 +119,12 @@ void	ft_dup_infile(t_command *cmd)
 		close(fd_infile);
         // a function to creat heredocs to do << redirections
 	}
-    /*else if (cmd->heredocs)
+    else if (cmd->heredocs)
     {
+        fd_infile = -1;
         cmd->infiles[0] = ft_strdup("./.infile.tmp");
         heredoc(cmd, fd_infile);
-    }*/
+    }
     //to check if it works correctly
 }
 
