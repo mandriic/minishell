@@ -114,7 +114,31 @@ int	ft_pwd(t_vars *vars)
 
 int		ft_export(t_vars *vars)
 {
-    printf("export builtin\n");
+    int i;
+    int j;
+    i = 0;
+
+
+    if(vars->cmd_list->cmd[1] != NULL)
+    {
+        printf("export builtin\n");
+        // printf("check %d\n", ft_strncmp(vars->cmd_list->cmd[1], "=", 1));
+            // ft_change_env(vars, vars->cmd_list->cmd[1], char *new_value, int len)
+        return(1);
+    }
+
+    while(vars->env_var[i])
+    {
+        j = 0;
+        printf("declare -x ");
+        while(vars->env_var[i][j] != '=')
+        {
+            printf("%c", vars->env_var[i][j]);
+            j++;
+        }
+        printf("=\"%s\"\n", vars->env_var[i] + j + 1);
+        i++;
+    }
     return(1);
 }
 
