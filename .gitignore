@@ -8,6 +8,7 @@ minishell
 wololo.txt
 mierda.txt
 borrar.txt
+*test*
 
 # Object files
 *.o
