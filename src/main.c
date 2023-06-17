@@ -35,6 +35,7 @@ int main(int argc, char *argv[], char *envp[])
 	t_vars  vars;
 
 	// ft_preliminar_check(argc, argv);
+	//set_signal();
 	vars = (t_vars){};
 	vars.split = NULL;
 	vars.cmd_list = NULL;
