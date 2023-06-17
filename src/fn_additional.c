@@ -46,23 +46,35 @@ char	**ft_dupl_dp(char **src)
 	return (dst);
 }
 
-char **ft_append_to_dobl_arr(char **main, char *to_append)
+char **ft_append_to_temp_env(t_vars *vars, char *to_append)
 {
 	
 	int		i;
 	char	**dst;
 
 	i = -1;
-	while (main[++i])
-		;
-	dst = malloc(sizeof(char *) * (i + 2));
-	i = -1;
-	while (main[++i])
-		dst[i] = ft_strdup(main[i]);
-	dst[i++] = ft_strdup(to_append);
-	dst[i] = NULL;
-	ft_free_dob_arr(main);
-	return (dst);
+
+	if (vars->temp_env)
+	{
+		while (vars->temp_env[++i])
+			;
+		dst = malloc(sizeof(char *) * (i + 2));
+		i = -1;
+		while (vars->temp_env[++i])
+			dst[i] = ft_strdup(vars->temp_env[i]);
+		dst[i++] = ft_strdup(to_append);
+		dst[i] = NULL;
+		ft_free_dob_arr(vars->temp_env);
+		return (dst);
+	}
+	else
+	{
+		vars->temp_env = malloc(sizeof(char *) * 2);
+		vars->temp_env[0] = ft_strdup(to_append);
+		vars->temp_env[1] = NULL;
+		return (vars->temp_env);
+	}
+	
 }
 
 
