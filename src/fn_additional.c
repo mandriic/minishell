@@ -76,7 +76,45 @@ char **ft_append_to_temp_env(t_vars *vars, char *to_append)
 	}
 	
 }
+char *ft_find_in_temp_env(t_vars *vars, char *to_append)
+{
+	int i = -1;
+	char *dst;
+	while (vars->temp_env[++i])
+	{
+		if (ft_strncmp(vars->temp_env[i], to_append, ft_strlen(to_append)) == 0)
+		{
+			dst = vars->temp_env[i];
+			return (dst);
+		}
+	}
+	return (NULL);
+}
 
+char **ft_append_to_env(t_vars *vars, char *to_append)
+{
+	
+	int		i;
+	char	**dst;
+	char	*temp;
+	i = -1;
+	temp = ft_find_in_temp_env(vars, to_append);
+	if (vars->env_var)
+	{
+		while (vars->env_var[++i])
+			;
+		dst = malloc(sizeof(char *) * (i + 2));
+		i = -1;
+		while (vars->env_var[++i])
+			dst[i] = ft_strdup(vars->env_var[i]);
+		dst[i++] = ft_strdup(temp);
+		dst[i] = NULL;
+		ft_free_dob_arr(vars->env_var);
+		return (dst);
+	}
+	else
+		return (NULL);
+}
 
 int	ft_pre_check(t_vars *vars)
 {

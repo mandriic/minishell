@@ -233,6 +233,7 @@ void	ft_initint(int *i, int len);
 void	ft_print_dp(char **str, char *name);
 char	**ft_dupl_dp(char **src);
 char **ft_append_to_temp_env(t_vars *vars, char *to_append);
+char **ft_append_to_env(t_vars *vars, char *to_append);
 //fnadd_lstmod.c
 t_command	*ft_lstnew_mod(t_command *content);
 t_command	*ft_lstlast_mod(t_command *lst);
