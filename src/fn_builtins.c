@@ -75,6 +75,35 @@ int ft_change_temp_env(t_vars *vars, char *name, char *new_value, int len)
     return (0);
 }
 
+
+int ft_change_temp_env(t_vars *vars, char *name, char *new_value, int len)
+{
+    int i;
+
+    i = 0;
+    // if (ft_strncmp(new_value, "~", 1) == 0)
+    // {
+    //     new_value = ft_get_value("HOME", vars->env_var);
+    //     printf("new value is %s\n", new_value);
+    //     new_value = new_value + 5;
+    // }
+    while(vars->temp_env[i] != NULL)
+    {
+        if (ft_strncmp(vars->temp_env[i], name, len) == 0)
+        {    
+            printf("11111%s \n", vars->temp_env[i]);
+            free(vars->temp_env[i]);
+            printf("22222%s \n", name);
+            vars->temp_env[i] = ft_strjoin(name, new_value);
+            printf("VARI %s\n", vars->temp_env[i]);
+            return (1);
+        }
+        i++;
+    }
+    // ft_print_dp(vars->env_var, "change env test");
+    return (0);
+}
+
 int ft_change_env(t_vars *vars, char *name, char *new_value, int len)
 {
     int i;
@@ -194,16 +223,16 @@ int		ft_export(t_vars *vars, t_command *cmd)
 
 int	ft_unset(t_vars *vars, t_command *cmd)
 {
-    if (cmd->cmd[1] != NULL)
+    if (vars->cmd_list->cmd[1] != NULL)
     {
-        if (ft_get_value(cmd->cmd[1], vars->env_var) != NULL)
+        if (ft_get_value(vars->cmd_list->cmd[1], vars->env_var) != NULL)
         {
-            ft_change_env(vars, cmd->cmd[1], "", ft_strlen(cmd->cmd[1]));
+            ft_change_env(vars, vars->cmd_list->cmd[1], "", ft_strlen(vars->cmd_list->cmd[1]));
             return(1);
         }
-        else if (ft_get_value(cmd->cmd[1], vars->temp_env) != NULL)
+        else if (ft_get_value(vars->cmd_list->cmd[1], vars->temp_env) != NULL)
         {
-            ft_change_temp_env(vars, cmd->cmd[1], "", ft_strlen(cmd->cmd[1]));
+            ft_change_temp_env(vars, vars->cmd_list->cmd[1], "", ft_strlen(vars->cmd_list->cmd[1]));
             return(1);
 
         }
