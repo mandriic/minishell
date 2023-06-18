@@ -150,6 +150,7 @@ void leaks ();
 // void	ft_multiple_pipes(t_vars *vars);
 
 /* builtins.c */
+<<<<<<< HEAD
 int	ft_echo(t_vars *vars, t_command *cmd);
 int	ft_cd(t_vars *vars, t_command *cmd);
 int	ft_pwd(t_vars *vars, t_command *cmd);
@@ -157,6 +158,15 @@ int		ft_export(t_vars *vars, t_command *cmd);
 int	ft_unset(t_vars *vars, t_command *cmd);
 int	ft_env(t_vars *vars, t_command *cmd);
 int	ft_exit(t_vars *vars, t_command *cmd);
+=======
+int	ft_echo(t_vars *vars);
+int	ft_cd(t_vars *vars);
+int	ft_pwd(t_vars *vars);
+int		ft_export(t_vars *vars);
+int	ft_unset(t_vars *vars);
+int	ft_env(t_vars *vars, t_command *cmd);
+int	ft_exit(t_vars *vars);
+>>>>>>> 73e2ec5 (chacnge check if builtins)
 int ft_change_env(t_vars *vars, char *name, char *new_value, int len);
 char *ft_get_value(char *str, char **env);
 // bool	ft_is_builtin(t_command cmd);
