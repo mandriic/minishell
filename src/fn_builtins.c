@@ -151,6 +151,7 @@ int		ft_export(t_vars *vars, t_command *cmd)
 
     if(cmd->cmd[1] != NULL)
     {
+<<<<<<< HEAD
         printf("export builtin%s\n", cmd->cmd[1]);
         if (ft_strchr(cmd->cmd[1], '=') != NULL)
             vars->env_var = ft_append_to_env(vars, cmd->cmd[1]);
@@ -166,6 +167,13 @@ int		ft_export(t_vars *vars, t_command *cmd)
         // printf("export builtin\n");
         // printf("check %d\n", ft_strncmp(cmd->cmd[1], "=", 1));
             // ft_change_env(vars, cmd->cmd[1], char *new_value, int len)
+=======
+        // printf("export builtin%s\n", vars->cmd_list->cmd[]);
+        vars->env_var = ft_append_to_env(vars, vars->cmd_list->cmd[1]);
+        // printf("export builtin\n");
+        // printf("check %d\n", ft_strncmp(vars->cmd_list->cmd[1], "=", 1));
+            // ft_change_env(vars, vars->cmd_list->cmd[1], char *new_value, int len)
+>>>>>>> 5df0c1f (export with var)
         return(1);
     }
 
