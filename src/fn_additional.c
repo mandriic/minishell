@@ -80,6 +80,8 @@ char *ft_find_in_temp_env(t_vars *vars, char *to_append)
 {
 	int i = -1;
 	char *dst;
+	if (!vars->temp_env)
+		return (NULL);
 	while (vars->temp_env[++i])
 	{
 		if (ft_strncmp(vars->temp_env[i], to_append, ft_strlen(to_append)) == 0)
@@ -99,6 +101,9 @@ char **ft_append_to_env(t_vars *vars, char *to_append)
 	char	*temp;
 	i = -1;
 	temp = ft_find_in_temp_env(vars, to_append);
+	if (temp == NULL)
+		temp = to_append;
+	printf("temp = %s\n", temp);
 	if (vars->env_var)
 	{
 		while (vars->env_var[++i])
