@@ -121,7 +121,9 @@ int		ft_export(t_vars *vars)
 
     if(vars->cmd_list->cmd[1] != NULL)
     {
-        printf("export builtin\n");
+        // printf("export builtin%s\n", vars->cmd_list->cmd[]);
+        vars->env_var = ft_append_to_env(vars, vars->cmd_list->cmd[1]);
+        // printf("export builtin\n");
         // printf("check %d\n", ft_strncmp(vars->cmd_list->cmd[1], "=", 1));
             // ft_change_env(vars, vars->cmd_list->cmd[1], char *new_value, int len)
         return(1);
