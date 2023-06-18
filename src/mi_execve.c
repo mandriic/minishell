@@ -152,10 +152,12 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
 
     int status, pid;
     pipe(cmd->fd);
+   
 
     pid = fork();
     if (pid == 0)
     {
+        signal(SIGUSR2, handle_process_on);
         ft_redirections(cmd); //si es echo no lo hace
         if (cmd->next)
         {    
@@ -169,6 +171,7 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
             close(cmd->prev->fd[0]);
             close(cmd->prev->fd[1]);
         }
+        //signal(SIGUSR2, handle_process_on);
         if (execve(path, cmd->cmd, vars->env_var) == -1)
         {
             printf("Minishell: command not found: %s \n", cmd->cmd[0]);
@@ -179,6 +182,7 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
         printf("Error forking \n");
     else
     {
+        signal(SIGUSR2, SIG_IGN);
         // if (cmd->next)
         //     close(cmd->fd[1]);
         if (cmd->prev && cmd->prev->fd[0] != -1)
@@ -234,9 +238,11 @@ void ft_mi_exec(t_vars *vars)
     char *cmd_path;
     char *temp;
     t_command *temp_cmd;
+
     temp_cmd = vars->cmd_list;
     while (temp_cmd != NULL)
     {
+        //signal(SIGUSR2, SIG_IGN);
         if(ft_check_if_vars(vars, temp_cmd))
         {
             if (temp_cmd->next)
@@ -259,6 +265,7 @@ void ft_mi_exec(t_vars *vars)
                 cmd_path = ft_strjoin(cmd_path, temp_cmd->cmd[0]);
                 free(temp);
                 printf("cmd_path is %s \n", cmd_path);
+                signal(SIGUSR2, SIG_IGN);
                 ft_execuve(cmd_path, temp_cmd, vars);  // ATENTION
                 free(cmd_path);
             }
