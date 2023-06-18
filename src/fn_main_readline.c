@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_main_readline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: angalsty <angalsty@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:14:18 by mandriic          #+#    #+#             */
-/*   Updated: 2022/09/30 16:14:20 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/06/18 19:29:39 by angalsty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,21 +59,47 @@ void	ft_line_exist(t_vars *vars)
 	ft_lst_cmd(vars);
 }
 
+//Anush has added  to check if the line is empty or not
+int	ft_check_rl(t_vars *vars)
+{
+	if (vars->line == NULL)
+	{
+		free(vars->line);
+		rl_clear_history();
+		exit(0);
+	}
+	if (vars->line[0] == '\0')
+	{
+		rl_on_new_line();
+		return (1);
+	}
+	return (0);
+}
+
 void	ft_submain(t_vars *vars)
 {
 	while (1)
 	{
 		vars->line = readline("Minishell $ "); 
-		printf("line: %s\n", vars->line);
-		if (!ft_strncmp ("exit", vars->line, ft_strlen(vars->line)))
+		//printf("line: %s\n", vars->line);
+		//Sirus´s code comented , it works for exit, but it doesnt work for enter
+		/*if (!ft_strncmp ("exit", vars->line, ft_strlen(vars->line)))
 		{
 			write(1, "exit\n", 5);
-			system("leaks minishell");
+			//system("leaks minishell");
 			exit (0);
+		}*/
+		if (vars->line == NULL)
+		{
+			signal(SIGTERM, handler_ctrl_d);
+			ft_putstr_fd ("Minishell $ exit\n", 1); //coregir para que escriba exit bien
+			exit(0);
 		}
-		if (ft_pre_check(vars))
+		//this one is also Sirus code
+		if (ft_pre_check(vars) || ft_check_rl(vars))
 			continue ;
-		add_history(vars->line);
+		if (vars->line)
+			add_history(vars->line);
 		vars->line_len = ft_strlen(vars->line);
 		vars->type = ft_mask(vars->line, vars, 1);
 		if (vars->type != NULL)

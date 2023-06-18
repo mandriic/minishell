@@ -135,6 +135,7 @@ int	ft_env(t_vars *vars)
 
 int	ft_exit(t_vars *vars)
 {
-    printf("exit builtin\n");
+    printf("exit\n");
+    exit(0); //added by Anush in order to exit the program
     return(1);
 }

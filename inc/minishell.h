@@ -17,6 +17,7 @@
 # include <string.h>
 # include <sys/types.h>
 # include <dirent.h>
+# include <termios.h>
 # define BUFFER_SIZE 10000
 # define READ_END    0    /* index pipe extremo lectura */
 # define WRITE_END   1 
@@ -249,6 +250,11 @@ void	ft_check_redir_create(char **arr, t_command *data, int *i);
 void ft_chdir(t_vars *vars);
 
 void ft_mi_exec(t_vars *vars);
+
+void    set_signal(void);
+void    handle_process_on(int sig);
+void    handle_ctrl_c(int sig);
+void 	handler_ctrl_d(int signum);
 
 
 #endif

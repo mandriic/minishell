@@ -18,14 +18,14 @@ BIN_PATH = bin/
 LIBFT_PATH = libft/
 
 SRCS = fn_list.c fn_builtins.c fn_main_readline.c fnadd_free.c fnadd_libftmod.c fn_additional.c fn_cleaning.c fn_getenvs.c\
-fn_mask.c fn_pip_splt_trim.c fn_vars.c main.c fn_redirs.c fn_create_data.c mi_execve.c fn_cd.c\
+fn_mask.c fn_pip_splt_trim.c fn_vars.c main.c fn_redirs.c fn_create_data.c mi_execve.c fn_cd.c signal.c\
 
 OBJS = $(SRCS:%.c=bin/%.o)
 CC = gcc
 CFLAGS = -g -O0 # -Wall -Werror -Wextra
 LIBFT_FLAGS = -I$(LIBFT_PATH) -L$(LIBFT_PATH) -lft
-LIBRL_FLAGS = -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include -lreadline
-LIBRL_FLAGS += -L/Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include -lreadline
+LIBRL_FLAGS =  -I/sgoinfre/goinfre/Perso/angalsty/homebrew/opt/readline/include -L/sgoinfre/goinfre/Perso/angalsty/homebrew/opt/readline/lib/ -lreadline
+#LIBRL_FLAGS += -L/sgoinfre/goinfre/Perso/angalsty/homebrew/opt/readline/lib/ -I/sgoinfre/goinfre/Perso/angalsty/homebrew/opt/readline/include -lreadline
 RM = rm -f
 
 ###		RULES		###
@@ -34,12 +34,12 @@ all: $(NAME)
 
 $(BIN_PATH)%.o: $(SRCS_PATH)%.c
 	@mkdir -p $(BIN_PATH)
-	@$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c $< -o $@
+	@$(CC) $(CFLAGS) -I$(LIBFT_PATH) $(LIBRL_FLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
 	@$(MAKE) -C $(LIBFT_PATH) --silent
 	@echo $(PURPLE)"[Creating $(NAME)]"$(NONE)
-	@$(CC) -o $(NAME) $(OBJS) $(LIBFT_FLAGS) $(LIBRL_FLAGS) #-fsanitize=address
+	@$(CC) -o $(NAME) $(OBJS)   $(LIBFT_FLAGS) $(LIBRL_FLAGS) #-fsanitize=address
 	@echo $(GREEN)"$(NAME): ready to be executed"$(NONE)
 
 clean:

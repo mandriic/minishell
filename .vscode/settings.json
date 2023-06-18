@@ -1,7 +1,8 @@
 {
     "files.associations": {
         "stdio.h": "c",
-        "fcntl.h": "c"
+        "fcntl.h": "c",
+        "history.h": "c"
     },
     "makefile.launchConfigurations": [
         {
