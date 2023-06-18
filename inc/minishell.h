@@ -155,7 +155,7 @@ int	ft_cd(t_vars *vars);
 int	ft_pwd(t_vars *vars);
 int		ft_export(t_vars *vars);
 int	ft_unset(t_vars *vars);
-int	ft_env(t_vars *vars);
+int	ft_env(t_vars *vars, t_command *cmd);
 int	ft_exit(t_vars *vars);
 int ft_change_env(t_vars *vars, char *name, char *new_value, int len);
 char *ft_get_value(char *str, char **env);

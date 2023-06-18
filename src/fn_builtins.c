@@ -202,7 +202,7 @@ int	ft_unset(t_vars *vars)
     }
     return(1);
 }
-int	ft_env(t_vars *vars)
+int	ft_env(t_vars *vars, t_command *cmd)
 {
     int i;
 
@@ -210,7 +210,8 @@ int	ft_env(t_vars *vars)
     printf("env builtin\n");
     while (vars->env_var[i] != NULL)
     {
-        printf("%s\n", vars->env_var[i++]);
+        ft_putstr_fd(vars->env_var[i++], vars->cmd_list->fd[1]);
+        // printf("%s\n", vars->env_var[i++]);
     }
     return(1);
 }

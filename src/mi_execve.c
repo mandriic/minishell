@@ -134,21 +134,21 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
     }
 }
 
-int ft_check_if_builtins(t_vars *vars)
+int ft_check_if_builtins(t_vars *vars, t_command *cmd)
 {
-    if (ft_strncmp(vars->cmd_list->cmd[0], "echo", 4) == 0 && ft_strlen(vars->cmd_list->cmd[0]) == 4)
+    if (ft_strncmp(cmd->cmd[0], "echo", 4) == 0 && ft_strlen(cmd->cmd[0]) == 4)
         return (ft_echo(vars));
-    else if (ft_strncmp(vars->cmd_list->cmd[0], "cd", 2) == 0 && ft_strlen(vars->cmd_list->cmd[0]) == 2)
+    else if (ft_strncmp(cmd->cmd[0], "cd", 2) == 0 && ft_strlen(cmd->cmd[0]) == 2)
         return (ft_cd(vars));
-    else if (ft_strncmp(vars->cmd_list->cmd[0], "pwd", 3) == 0 && ft_strlen(vars->cmd_list->cmd[0]) == 3)
+    else if (ft_strncmp(cmd->cmd[0], "pwd", 3) == 0 && ft_strlen(cmd->cmd[0]) == 3)
         return (ft_pwd(vars));
-    else if (ft_strncmp(vars->cmd_list->cmd[0], "export", 6) == 0 && ft_strlen(vars->cmd_list->cmd[0]) == 6)
+    else if (ft_strncmp(cmd->cmd[0], "export", 6) == 0 && ft_strlen(cmd->cmd[0]) == 6)
         return (ft_export(vars));
-    else if (ft_strncmp(vars->cmd_list->cmd[0], "unset", 5) == 0 && ft_strlen(vars->cmd_list->cmd[0]) == 5)
+    else if (ft_strncmp(cmd->cmd[0], "unset", 5) == 0 && ft_strlen(cmd->cmd[0]) == 5)
         return (ft_unset(vars));
-    else if (ft_strncmp(vars->cmd_list->cmd[0], "env", 3) == 0 && ft_strlen(vars->cmd_list->cmd[0]) == 3)
-        return (ft_env(vars));
-    else if (ft_strncmp(vars->cmd_list->cmd[0], "exit", 4) == 0 && ft_strlen(vars->cmd_list->cmd[0]) == 4)
+    else if (ft_strncmp(cmd->cmd[0], "env", 3) == 0 && ft_strlen(cmd->cmd[0]) == 3)
+        return (ft_env(vars, cmd));
+    else if (ft_strncmp(cmd->cmd[0], "exit", 4) == 0 && ft_strlen(cmd->cmd[0]) == 4)
         return (ft_exit(vars));
     else
         return (0);
@@ -188,7 +188,7 @@ void ft_mi_exec(t_vars *vars)
             else
                 break ;
         }
-        else if (ft_check_if_builtins(vars) == 0)
+        else if (ft_check_if_builtins(vars, temp_cmd) == 0)
         {
             path = ft_get_val("PATH", vars->env_var);
             cmd_path = ft_pars_path(path, temp_cmd->cmd[0], 5, vars);
