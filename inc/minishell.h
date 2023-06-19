@@ -253,5 +253,7 @@ void ft_chdir(t_vars *vars);
 
 void ft_mi_exec(t_vars *vars);
 
+int ft_check_if_builtins(t_vars *vars, t_command *cmd);
+
 #endif
 
