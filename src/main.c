@@ -42,7 +42,7 @@ int main(int argc, char *argv[], char *envp[])
 	vars.cmd_list = NULL;
 	vars.line = NULL;
 	vars.quotes  = "'";
-
+	vars.temp_env = NULL;
 	vars.env_var = ft_dupl_dp(envp);
 
 	ft_readline(&vars);

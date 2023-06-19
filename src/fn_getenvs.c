@@ -24,6 +24,7 @@ char	*ft_get_env(char *str, int len, t_vars *vars)
 	char	*temp;
 	int		i;
 
+	valor = NULL;
 	var = malloc(sizeof(char *) * len + 1);
 	i = -1;
 	if (str[1] == '?')
@@ -42,8 +43,10 @@ char	*ft_get_env(char *str, int len, t_vars *vars)
 	else
 		ft_sub_get_env(str, var, len, &i);
 		// printf("var: %s\n", var);
-	valor = ft_get_value(var, vars->env_var);//GETENV HERE NOT WORKING
-	// printf("valor: %s\n", valor);
+	if (vars->temp_env)
+		valor = ft_get_value(var, vars->temp_env);
+	if (valor == NULL)
+		valor = ft_get_value(var, vars->env_var);	// printf("valor: %s\n", valor);
 	free(var);
 	if (!valor)
 		return (NULL);
