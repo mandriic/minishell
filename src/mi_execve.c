@@ -237,10 +237,10 @@ void ft_mi_exec(t_vars *vars)
             // printf("PATH is %s \n", path);
             // printf("cmd is %s \n", vars->cmd_list->cmd[0]);
             // printf("cmd_path is %s \n", cmd_path);         
-            else
-            {   // ATENTION
-                printf("Minishell: command not found: %s \n", temp_cmd->cmd[0]);
-            }
+            // else
+            // {   // ATENTION
+            //     printf("Minishell: command not found: %s \n", temp_cmd->cmd[0]);
+            // }
         // }
         temp_cmd = temp_cmd->next;
     }

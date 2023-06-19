@@ -151,11 +151,15 @@ void leaks ();
 
 /* builtins.c */
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e6c0c31 (export with var, fn check_if_builtin_true)
 int	ft_echo(t_vars *vars, t_command *cmd);
 int	ft_cd(t_vars *vars, t_command *cmd);
 int	ft_pwd(t_vars *vars, t_command *cmd);
 int		ft_export(t_vars *vars, t_command *cmd);
 int	ft_unset(t_vars *vars, t_command *cmd);
+<<<<<<< HEAD
 int	ft_env(t_vars *vars, t_command *cmd);
 int	ft_exit(t_vars *vars, t_command *cmd);
 =======
@@ -167,6 +171,10 @@ int	ft_unset(t_vars *vars);
 int	ft_env(t_vars *vars, t_command *cmd);
 int	ft_exit(t_vars *vars);
 >>>>>>> 73e2ec5 (chacnge check if builtins)
+=======
+int	ft_env(t_vars *vars, t_command *cmd);
+int	ft_exit(t_vars *vars, t_command *cmd);
+>>>>>>> e6c0c31 (export with var, fn check_if_builtin_true)
 int ft_change_env(t_vars *vars, char *name, char *new_value, int len);
 char *ft_get_value(char *str, char **env);
 // bool	ft_is_builtin(t_command cmd);
@@ -265,9 +273,13 @@ void ft_mi_exec(t_vars *vars);
 
 int ft_check_if_builtins(t_vars *vars, t_command *cmd);
 <<<<<<< HEAD
+<<<<<<< HEAD
 int ft_check_if_builtins_true(t_vars *vars, t_command *cmd);
 =======
 
 >>>>>>> d780366 (builts with pipes works)
+=======
+int ft_check_if_builtins_true(t_vars *vars, t_command *cmd);
+>>>>>>> e6c0c31 (export with var, fn check_if_builtin_true)
 #endif
 
