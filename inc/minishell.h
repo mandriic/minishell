@@ -264,6 +264,10 @@ void ft_chdir(t_vars *vars);
 void ft_mi_exec(t_vars *vars);
 
 int ft_check_if_builtins(t_vars *vars, t_command *cmd);
+<<<<<<< HEAD
 int ft_check_if_builtins_true(t_vars *vars, t_command *cmd);
+=======
+
+>>>>>>> d780366 (builts with pipes works)
 #endif
 
