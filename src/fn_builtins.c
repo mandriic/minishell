@@ -1,26 +1,26 @@
 #include "../inc/minishell.h"
 
-int	ft_echo(t_vars *vars)
+int	ft_echo(t_vars *vars, t_command *cmd)
 {
     int i;
 
     i = 1;
-    // printf("%s\n", vars->cmd_list->cmd[1]);
-    if (ft_strncmp(vars->cmd_list->cmd[1], "-n", 2) == 0  && ft_strlen(vars->cmd_list->cmd[1]) == 2)
+    // printf("%s\n", cmd->cmd[1]);
+    if (ft_strncmp(cmd->cmd[1], "-n", 2) == 0  && ft_strlen(cmd->cmd[1]) == 2)
         i++;
     // {
     //     i++;
     //     printf("tetst\n");
     // }
-    while (vars->cmd_list->cmd[i] != NULL)
+    while (cmd->cmd[i] != NULL)
     {
-        printf ("%s", vars->cmd_list->cmd[i]);
-        // if (ft_strncmp(vars->cmd_list->cmd[1], "-n", 2) != 0) //(vars->cmd_list->cmd[i + 1] != NULL)// && ft_strncmp(vars->cmd_list->cmd[1], "-n", 2) != 0)
-        if (vars->cmd_list->cmd[i + 1] != NULL)
+        printf ("%s", cmd->cmd[i]);
+        // if (ft_strncmp(cmd->cmd[1], "-n", 2) != 0) //(cmd->cmd[i + 1] != NULL)// && ft_strncmp(cmd->cmd[1], "-n", 2) != 0)
+        if (cmd->cmd[i + 1] != NULL)
             printf(" ");
         i++;
     }
-    if (ft_strncmp(vars->cmd_list->cmd[1], "-n", 2) != 0 || ft_strlen(vars->cmd_list->cmd[1]) != 2)
+    if (ft_strncmp(cmd->cmd[1], "-n", 2) != 0 || ft_strlen(cmd->cmd[1]) != 2)
         printf("\n");
     return(1);
 }
@@ -103,11 +103,11 @@ int ft_change_env(t_vars *vars, char *name, char *new_value, int len)
     return (0);
 }
 
-int	ft_cd(t_vars *vars)
+int	ft_cd(t_vars *vars, t_command *cmd)
 {
     char *cdir;
     printf("cd builtin\n");
-    if (chdir(vars->cmd_list->cmd[1]) == 0)
+    if (chdir(cmd->cmd[1]) == 0)
     {
         cdir = getcwd(NULL, 0);
         printf("%s \n",  cdir);
@@ -116,16 +116,16 @@ int	ft_cd(t_vars *vars)
         free(cdir);
         ft_print_dp(vars->env_var, "ENVVAR");
 
-        // ft_change_env(vars, "PWD=", vars->cmd_list->cmd[1], 4);
+        // ft_change_env(vars, "PWD=", cmd->cmd[1], 4);
 
         // printf("success\n");
-        // printf("%s\n", vars->cmd_list->cmd[1]);
+        // printf("%s\n", cmd->cmd[1]);
     }
     // printf("TEST\n");
     return(1);
 }
 
-int	ft_pwd(t_vars *vars)
+int	ft_pwd(t_vars *vars, t_command *cmd)
 {
     int i;
 
@@ -141,7 +141,7 @@ int	ft_pwd(t_vars *vars)
     return(1);
 }
 
-int		ft_export(t_vars *vars)
+int		ft_export(t_vars *vars, t_command *cmd)
 {
     int i;
     int j;
@@ -149,23 +149,23 @@ int		ft_export(t_vars *vars)
     char *temp;
 
 
-    if(vars->cmd_list->cmd[1] != NULL)
+    if(cmd->cmd[1] != NULL)
     {
-        printf("export builtin%s\n", vars->cmd_list->cmd[1]);
-        if (ft_strchr(vars->cmd_list->cmd[1], '=') != NULL)
-            vars->env_var = ft_append_to_env(vars, vars->cmd_list->cmd[1]);
-        else if (ft_find_in_temp_env(vars, vars->cmd_list->cmd[1]) != NULL)
+        printf("export builtin%s\n", cmd->cmd[1]);
+        if (ft_strchr(cmd->cmd[1], '=') != NULL)
+            vars->env_var = ft_append_to_env(vars, cmd->cmd[1]);
+        else if (ft_find_in_temp_env(vars, cmd->cmd[1]) != NULL)
         {
-            temp = ft_find_in_temp_env(vars, vars->cmd_list->cmd[1]);
+            temp = ft_find_in_temp_env(vars, cmd->cmd[1]);
             printf("temp is %s\n", temp);
             vars->env_var = ft_append_to_env(vars, temp);
 
         }
         // else
-        //     vars->env_var = ft_append_to_env(vars, vars->cmd_list->cmd[1]);
+        //     vars->env_var = ft_append_to_env(vars, cmd->cmd[1]);
         // printf("export builtin\n");
-        // printf("check %d\n", ft_strncmp(vars->cmd_list->cmd[1], "=", 1));
-            // ft_change_env(vars, vars->cmd_list->cmd[1], char *new_value, int len)
+        // printf("check %d\n", ft_strncmp(cmd->cmd[1], "=", 1));
+            // ft_change_env(vars, cmd->cmd[1], char *new_value, int len)
         return(1);
     }
 
@@ -184,18 +184,18 @@ int		ft_export(t_vars *vars)
     return(1);
 }
 
-int	ft_unset(t_vars *vars)
+int	ft_unset(t_vars *vars, t_command *cmd)
 {
-    if (vars->cmd_list->cmd[1] != NULL)
+    if (cmd->cmd[1] != NULL)
     {
-        if (ft_get_value(vars->cmd_list->cmd[1], vars->env_var) != NULL)
+        if (ft_get_value(cmd->cmd[1], vars->env_var) != NULL)
         {
-            ft_change_env(vars, vars->cmd_list->cmd[1], "", ft_strlen(vars->cmd_list->cmd[1]));
+            ft_change_env(vars, cmd->cmd[1], "", ft_strlen(cmd->cmd[1]));
             return(1);
         }
-        else if (ft_get_value(vars->cmd_list->cmd[1], vars->temp_env) != NULL)
+        else if (ft_get_value(cmd->cmd[1], vars->temp_env) != NULL)
         {
-            ft_change_temp_env(vars, vars->cmd_list->cmd[1], "", ft_strlen(vars->cmd_list->cmd[1]));
+            ft_change_temp_env(vars, cmd->cmd[1], "", ft_strlen(cmd->cmd[1]));
             return(1);
 
         }
@@ -217,7 +217,7 @@ int	ft_env(t_vars *vars, t_command *cmd)
     return(1);
 }
 
-int	ft_exit(t_vars *vars)
+int	ft_exit(t_vars *vars, t_command *cmd)
 {
     printf("exit builtin\n");
     return(1);
