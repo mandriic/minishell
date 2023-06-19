@@ -113,6 +113,7 @@ char **ft_append_to_env(t_vars *vars, char *to_append)
 		while (vars->env_var[++i])
 			dst[i] = ft_strdup(vars->env_var[i]);
 		dst[i++] = ft_strdup(temp);
+		printf("dst[i] = %s\n", dst[i - 1]);
 		dst[i] = NULL;
 		ft_free_dob_arr(vars->env_var);
 		return (dst);
