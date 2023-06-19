@@ -276,7 +276,7 @@ void ft_mi_exec(t_vars *vars)
                 break ;
         }
         if ( ft_check_if_builtins_true(vars, temp_cmd))
-                ft_check_if_builtins(vars, temp_cmd);
+                ft_execuve(NULL, temp_cmd, vars); // ATENTION
         // else if (ft_check_if_builtins(vars, temp_cmd) == 0)
         // {
             printf("cmd CHECK is %s \n", temp_cmd->cmd[0]);

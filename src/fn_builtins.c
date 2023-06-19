@@ -217,6 +217,7 @@ int	ft_env(t_vars *vars, t_command *cmd)
 int	ft_exit(t_vars *vars, t_command *cmd)
 {
     printf("exit\n");
-    exit(0); //added by Anush in order to exit the program
+    // system("leaks minishell");
+    // exit(0); //added by Anush in order to exit the program
     return(1);
 }
