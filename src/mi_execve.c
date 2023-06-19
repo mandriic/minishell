@@ -67,7 +67,7 @@ char *ft_pars_path(char *path, char *cmd, int len, t_vars *vars) //char *
                 if(dir)
                     free(dir);
                 dir = ft_strjoin(ifhome, dir);
-                // printf("dir is %s \n", dir);
+                printf("dir is %s \n", dir);
             }
             if (ft_check_dir(dir, cmd, ft_strlen(cmd)) == 1)
             {
@@ -171,12 +171,17 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
             close(cmd->prev->fd[0]);
             close(cmd->prev->fd[1]);
         }
-        //signal(SIGUSR2, handle_process_on);
-        if (execve(path, cmd->cmd, vars->env_var) == -1)
-        {
-            printf("Minishell: command not found: %s \n", cmd->cmd[0]);
-            exit(0);
+        // printf("cmd2 is %s \n", cmd->next->cmd[0]);
+        if (ft_check_if_builtins(vars, cmd) == 0)
+        {    
+            printf("debug %s \n", cmd->cmd[0]);
+            if (execve(path, cmd->cmd, vars->env_var) == -1)
+            {
+                 printf("Minishell: command not found: %s \n", cmd->cmd[0]);
+                exit(0);
+            }
         }
+        exit(0);
     }
     else if (pid < 0)
         printf("Error forking \n");
@@ -194,23 +199,42 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
         waitpid(pid, &status, 0);
     }
 }
-
-int ft_check_if_builtins(t_vars *vars)
+int ft_check_if_builtins_true(t_vars *vars, t_command *cmd)
 {
-    if (ft_strncmp(vars->cmd_list->cmd[0], "echo", 4) == 0 && ft_strlen(vars->cmd_list->cmd[0]) == 4)
-        return (ft_echo(vars));
-    else if (ft_strncmp(vars->cmd_list->cmd[0], "cd", 2) == 0 && ft_strlen(vars->cmd_list->cmd[0]) == 2)
-        return (ft_cd(vars));
-    else if (ft_strncmp(vars->cmd_list->cmd[0], "pwd", 3) == 0 && ft_strlen(vars->cmd_list->cmd[0]) == 3)
-        return (ft_pwd(vars));
-    else if (ft_strncmp(vars->cmd_list->cmd[0], "export", 6) == 0 && ft_strlen(vars->cmd_list->cmd[0]) == 6)
-        return (ft_export(vars));
-    else if (ft_strncmp(vars->cmd_list->cmd[0], "unset", 5) == 0 && ft_strlen(vars->cmd_list->cmd[0]) == 5)
-        return (ft_unset(vars));
-    else if (ft_strncmp(vars->cmd_list->cmd[0], "env", 3) == 0 && ft_strlen(vars->cmd_list->cmd[0]) == 3)
-        return (ft_env(vars));
-    else if (ft_strncmp(vars->cmd_list->cmd[0], "exit", 4) == 0 && ft_strlen(vars->cmd_list->cmd[0]) == 4)
-        return (ft_exit(vars));
+    if (ft_strncmp(cmd->cmd[0], "echo", 4) == 0 && ft_strlen(cmd->cmd[0]) == 4)
+        return (1);
+    else if (ft_strncmp(cmd->cmd[0], "cd", 2) == 0 && ft_strlen(cmd->cmd[0]) == 2)
+        return (1);
+    else if (ft_strncmp(cmd->cmd[0], "pwd", 3) == 0 && ft_strlen(cmd->cmd[0]) == 3)
+        return (1);
+    else if (ft_strncmp(cmd->cmd[0], "export", 6) == 0 && ft_strlen(cmd->cmd[0]) == 6)
+        return (1);
+    else if (ft_strncmp(cmd->cmd[0], "unset", 5) == 0 && ft_strlen(cmd->cmd[0]) == 5)
+        return (1);
+    else if (ft_strncmp(cmd->cmd[0], "env", 3) == 0 && ft_strlen(cmd->cmd[0]) == 3)
+        return (1);
+    else if (ft_strncmp(cmd->cmd[0], "exit", 4) == 0 && ft_strlen(cmd->cmd[0]) == 4)
+        return (1);
+    else
+        return (0);
+}
+
+int ft_check_if_builtins(t_vars *vars, t_command *cmd)
+{
+    if (ft_strncmp(cmd->cmd[0], "echo", 4) == 0 && ft_strlen(cmd->cmd[0]) == 4)
+        return (ft_echo(vars, cmd));
+    else if (ft_strncmp(cmd->cmd[0], "cd", 2) == 0 && ft_strlen(cmd->cmd[0]) == 2)
+        return (ft_cd(vars, cmd));
+    else if (ft_strncmp(cmd->cmd[0], "pwd", 3) == 0 && ft_strlen(cmd->cmd[0]) == 3)
+        return (ft_pwd(vars, cmd));
+    else if (ft_strncmp(cmd->cmd[0], "export", 6) == 0 && ft_strlen(cmd->cmd[0]) == 6)
+        return (ft_export(vars, cmd));
+    else if (ft_strncmp(cmd->cmd[0], "unset", 5) == 0 && ft_strlen(cmd->cmd[0]) == 5)
+        return (ft_unset(vars, cmd));
+    else if (ft_strncmp(cmd->cmd[0], "env", 3) == 0 && ft_strlen(cmd->cmd[0]) == 3)
+        return (ft_env(vars, cmd));
+    else if (ft_strncmp(cmd->cmd[0], "exit", 4) == 0 && ft_strlen(cmd->cmd[0]) == 4)
+        return (ft_exit(vars, cmd));
     else
         return (0);
 }
@@ -218,13 +242,14 @@ int ft_check_if_builtins(t_vars *vars)
 int ft_check_if_vars(t_vars *vars, t_command *cmd_struct)
 {
     char *temp;
+    char **temp2;
     int i = 0;
         while(cmd_struct->cmd[0][i])
             if (cmd_struct->cmd[0][i++] == '=')
             {
                 temp = ft_substr(cmd_struct->cmd[0],0, i);
                 if (ft_change_env(vars, temp, cmd_struct->cmd[0] + i, ft_strlen(cmd_struct->cmd[0]) - i) == 0)
-                    vars->env_var = ft_append_to_dobl_arr(vars->env_var, cmd_struct->cmd[0]);
+                    vars->temp_env =ft_append_to_temp_env(vars, cmd_struct->cmd[0]);
                 free(temp);
                 return (1);
             }
@@ -250,12 +275,17 @@ void ft_mi_exec(t_vars *vars)
             else
                 break ;
         }
-        else if (ft_check_if_builtins(vars) == 0)
-        {
+        if ( ft_check_if_builtins_true(vars, temp_cmd))
+                ft_check_if_builtins(vars, temp_cmd);
+        // else if (ft_check_if_builtins(vars, temp_cmd) == 0)
+        // {
+            printf("cmd CHECK is %s \n", temp_cmd->cmd[0]);
             path = ft_get_val("PATH", vars->env_var);
             cmd_path = ft_pars_path(path, temp_cmd->cmd[0], 5, vars);
+            printf("cmd_path is %s \n", cmd_path);
             if (!cmd_path && (temp_cmd->cmd[0][0] == '.' || temp_cmd->cmd[0][0] == '/')) //&& (temp_cmd->cmd[0][1] == '/' || temp_cmd->cmd[0][1] == '.'))
                 ft_execuve(temp_cmd->cmd[0], temp_cmd, vars); // ATENTION
+
             else if (cmd_path)
             {
                 temp = cmd_path;
@@ -272,11 +302,11 @@ void ft_mi_exec(t_vars *vars)
             // printf("PATH is %s \n", path);
             // printf("cmd is %s \n", vars->cmd_list->cmd[0]);
             // printf("cmd_path is %s \n", cmd_path);         
-            else
-            {   // ATENTION
-                printf("Minishell: command not found: %s \n", temp_cmd->cmd[0]);
-            }
-        }
+            // else
+            // {   // ATENTION
+            //     printf("Minishell: command not found: %s \n", temp_cmd->cmd[0]);
+            // }
+        // }
         temp_cmd = temp_cmd->next;
     }
 }

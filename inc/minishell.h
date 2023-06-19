@@ -68,6 +68,7 @@ typedef struct s_vars
 	char	*line;
 	int		*type;
 	char	**env_var;
+	char 	**temp_env;
 	int		i;
 	int		i2;
 	char	*temp;
@@ -150,13 +151,13 @@ void leaks ();
 // void	ft_multiple_pipes(t_vars *vars);
 
 /* builtins.c */
-int	ft_echo(t_vars *vars);
-int	ft_cd(t_vars *vars);
-int	ft_pwd(t_vars *vars);
-int		ft_export(t_vars *vars);
-int	ft_unset(t_vars *vars);
-int	ft_env(t_vars *vars);
-int	ft_exit(t_vars *vars);
+int	ft_echo(t_vars *vars, t_command *cmd);
+int	ft_cd(t_vars *vars, t_command *cmd);
+int	ft_pwd(t_vars *vars, t_command *cmd);
+int		ft_export(t_vars *vars, t_command *cmd);
+int	ft_unset(t_vars *vars, t_command *cmd);
+int	ft_env(t_vars *vars, t_command *cmd);
+int	ft_exit(t_vars *vars, t_command *cmd);
 int ft_change_env(t_vars *vars, char *name, char *new_value, int len);
 char *ft_get_value(char *str, char **env);
 // bool	ft_is_builtin(t_command cmd);
@@ -232,7 +233,9 @@ void	ft_end_of_cicle(t_vars *vars);
 void	ft_initint(int *i, int len);
 void	ft_print_dp(char **str, char *name);
 char	**ft_dupl_dp(char **src);
-char **ft_append_to_dobl_arr(char **main, char *to_append);
+char *ft_find_in_temp_env(t_vars *vars, char *to_append);
+char **ft_append_to_temp_env(t_vars *vars, char *to_append);
+char **ft_append_to_env(t_vars *vars, char *to_append);
 //fnadd_lstmod.c
 t_command	*ft_lstnew_mod(t_command *content);
 t_command	*ft_lstlast_mod(t_command *lst);
@@ -257,5 +260,16 @@ void    handle_ctrl_c(int sig);
 void 	handler_ctrl_d(int signum);
 
 
+<<<<<<< HEAD
+void    set_signal(void);
+void    handle_process_on(int sig);
+void    handle_ctrl_c(int sig);
+void 	handler_ctrl_d(int signum);
+
+
+=======
+int ft_check_if_builtins(t_vars *vars, t_command *cmd);
+int ft_check_if_builtins_true(t_vars *vars, t_command *cmd);
+>>>>>>> origin/4nico_work_pipe
 #endif
 
