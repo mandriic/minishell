@@ -112,11 +112,15 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
         }
         // printf("cmd is %s \n", cmd->cmd[0]);
         // printf("cmd2 is %s \n", cmd->next->cmd[0]);
-        if (execve(path, cmd->cmd, vars->env_var) == -1)
-        {
-            printf("Minishell: command not found: %s \n", cmd->cmd[0]);
-            exit(0);
+        if (ft_check_if_builtins(vars, cmd) == 0)
+        {    
+            if (execve(path, cmd->cmd, vars->env_var) == -1)
+            {
+                 printf("Minishell: command not found: %s \n", cmd->cmd[0]);
+                exit(0);
+            }
         }
+        exit(0);
     }
     else if (pid < 0)
         printf("Error forking \n");
@@ -188,8 +192,9 @@ void ft_mi_exec(t_vars *vars)
             else
                 break ;
         }
-        else if (ft_check_if_builtins(vars, temp_cmd) == 0)
-        {
+        // else if (ft_check_if_builtins(vars, temp_cmd) == 0)
+        // {
+            printf("cmd CHECK is %s \n", temp_cmd->cmd[0]);
             path = ft_get_val("PATH", vars->env_var);
             cmd_path = ft_pars_path(path, temp_cmd->cmd[0], 5, vars);
             if (!cmd_path && (temp_cmd->cmd[0][0] == '.' || temp_cmd->cmd[0][0] == '/')) //&& (temp_cmd->cmd[0][1] == '/' || temp_cmd->cmd[0][1] == '.'))
@@ -213,7 +218,7 @@ void ft_mi_exec(t_vars *vars)
             {   // ATENTION
                 printf("Minishell: command not found: %s \n", temp_cmd->cmd[0]);
             }
-        }
+        // }
         temp_cmd = temp_cmd->next;
     }
 }

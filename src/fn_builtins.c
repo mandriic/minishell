@@ -210,7 +210,8 @@ int	ft_env(t_vars *vars, t_command *cmd)
     printf("env builtin\n");
     while (vars->env_var[i] != NULL)
     {
-        ft_putstr_fd(vars->env_var[i++], vars->cmd_list->fd[1]);
+        ft_putstr_fd(vars->env_var[i++], 1);
+        ft_putstr_fd("\n", 1);
         // printf("%s\n", vars->env_var[i++]);
     }
     return(1);
