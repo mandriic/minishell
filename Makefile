@@ -1,59 +1,24 @@
-### --- COLORS --- ###
-
-RED		= '\033[1;31m'
-GREEN	= '\033[1;32m'
-PURPLE	= '\033[1;35m'
-YELLOW	= '\033[1;33m'
-NONE	= '\033[0m'
-BLUE	= '\033[1;34m'
-
-
-### --- VARIABLES --- ###
-NAME = minishell
-
-
-SRCS_PATH = src/
-INCS_PATH = inc/
+INCS     = inc/
 BIN_PATH = bin/
+SRCS_PATH = src/
 LIBFT_PATH = libft/
-
-SRCS = fn_list.c fn_builtins.c fn_main_readline.c fnadd_free.c fnadd_libftmod.c fn_additional.c fn_cleaning.c fn_getenvs.c\
-fn_mask.c fn_pip_splt_trim.c fn_vars.c main.c fn_redirs.c fn_create_data.c mi_execve.c fn_cd.c signal.c\
-
-OBJS = $(SRCS:%.c=bin/%.o)
-CC = gcc
-CFLAGS = -g -O0 # -Wall -Werror -Wextra
 LIBFT_FLAGS = -I$(LIBFT_PATH) -L$(LIBFT_PATH) -lft
-LIBRL_FLAGS =  -I/sgoinfre/goinfre/Perso/angalsty/homebrew/opt/readline/include -L/sgoinfre/goinfre/Perso/angalsty/homebrew/opt/readline/lib/ -lreadline
-#LIBRL_FLAGS += -L/sgoinfre/goinfre/Perso/angalsty/homebrew/opt/readline/lib/ -I/sgoinfre/goinfre/Perso/angalsty/homebrew/opt/readline/include -lreadline
-RM = rm -f
-
-###		RULES		###
-
-all: $(NAME)
-
+SRCS = fn_list.c fn_builtins.c fn_main_readline.c fnadd_free.c fnadd_libftmod.c fn_additional.c fn_cleaning.c fn_getenvs.c \
+fn_mask.c fn_pip_splt_trim.c fn_vars.c main.c fn_redirs.c fn_create_data.c mi_execve.c fn_cd.c signal.c
+CC       = gcc
+OBJS     = $(SRCS:%.c=$(BIN_PATH)%.o)
+CFLAGS   = #-Wall -Wextra -Werror
+NAME     = minishell
+RM       = rm -f
 $(BIN_PATH)%.o: $(SRCS_PATH)%.c
-	@mkdir -p $(BIN_PATH)
-	@$(CC) $(CFLAGS) -I$(LIBFT_PATH) $(LIBRL_FLAGS) -c $< -o $@
-
+	$(CC) $(CFLAGS) -c $< -o $@ -I$(INCS) -I/sgoinfre/goinfre/Perso/angalsty/homebrew/opt/readline/include
 $(NAME): $(OBJS)
 	@$(MAKE) -C $(LIBFT_PATH) --silent
-	@echo $(PURPLE)"[Creating $(NAME)]"$(NONE)
-	@$(CC) -o $(NAME) $(OBJS)   $(LIBFT_FLAGS) $(LIBRL_FLAGS) #-fsanitize=address
-	@echo $(GREEN)"$(NAME): ready to be executed"$(NONE)
-
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_FLAGS) -I$(INCS) -o $(NAME) -L/sgoinfre/goinfre/Perso/angalsty/homebrew/opt/readline/lib/ -I/sgoinfre/goinfre/Perso/angalsty/homebrew/opt/readline/include -lreadline
+all:        $(NAME)
 clean:
-	@$(RM) $(OBJS)
-	@rm -rf $(BIN_PATH)
-	@$(MAKE) -C $(LIBFT_PATH) clean --silent
-	@echo $(RED)"[Object Files Deleted]"$(NONE)
-
-fclean: clean
-	@$(RM) $(NAME)
-	@$(MAKE) -C $(LIBFT_PATH) fclean --silent
-	@echo $(RED)"[Executable File Deleted]"$(NONE)
-
-re: fclean 
-	@$(MAKE)
-
-.PHONY: all clean fclean re
+			$(RM) $(OBJS)
+fclean:     clean
+			$(RM) $(NAME)
+re:         fclean all
+.PHONY:     all clean fclean re

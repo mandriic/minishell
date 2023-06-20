@@ -16,13 +16,12 @@ void    handle_process_on(int sig)
 {
     (void)sig;
     //rl_replace_line("", 0); //clears the line
-    rl_on_new_line(); //moves the cursor to the beginning of the line and writes Minishell
+    //rl_on_new_line(); //moves the cursor to the beginning of the line and writes Minishell
     rl_redisplay(); //writes minishell on the desktop
 }
 
 void handler_ctrl_d(int sig) 
 {
-    (void)sig;
     printf("exit\n");
     exit(0);
 }
@@ -30,8 +29,8 @@ void handler_ctrl_d(int sig)
 void    set_signal(void)
 {
     signal(SIGINT, handle_ctrl_c);
-    signal(SIGQUIT, SIG_IGN);
-    signal(SIGTERM, handler_ctrl_d);  
+    signal(SIGQUIT, SIG_IGN); //ignores the signal
+    //signal(SIGTERM, handler_ctrl_d);  
     signal(SIGUSR2, handle_process_on);
     tcgetattr(0, &t);
 	t.c_lflag &= ~ECHOCTL;
