@@ -151,8 +151,10 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
 {
 
     int status, pid;
+    if (ft_strncmp("exit", cmd->cmd[0], 4) == 0)
+        exit(0);
     pipe(cmd->fd);
-   
+    
 
     pid = fork();
     if (pid == 0)

@@ -83,18 +83,18 @@ void	ft_submain(t_vars *vars)
 		vars->line = readline("Minishell $ "); 
 		//printf("line: %s\n", vars->line);
 		//Sirus´s code comented , it works for exit, but it doesnt work for enter
-		if (!ft_strncmp ("exit", vars->line, ft_strlen(vars->line)))
-		{
-			write(1, "exit\n", 5);
-			system("leaks minishell");
-			exit (0);
-		}
-		if (vars->line == NULL)
-		{
-			signal(SIGTERM, handler_ctrl_d);
-			ft_putstr_fd ("Minishell $ exit\n", 1); //coregir para que escriba exit bien
-			exit(0);
-		}
+		// if (ft_strncmp ("exit", vars->line, 4) != 0)
+		// {
+		// 	write(1, "exit\n", 5);
+		// 	system("leaks minishell");
+		// 	exit (0);
+		// }
+		// if (vars->line == NULL)
+		// {
+		// 	signal(SIGTERM, handler_ctrl_d);
+		// 	ft_putstr_fd ("Minishell $ exit\n", 1); //coregir para que escriba exit bien
+		// 	exit(0);
+		// }
 		//this one is also Sirus code
 		if (ft_pre_check(vars) || ft_check_rl(vars))
 			continue ;
