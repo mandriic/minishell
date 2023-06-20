@@ -21,7 +21,7 @@ int	ft_echo(t_vars *vars, t_command *cmd)
         i++;
     }
     if (ft_strncmp(cmd->cmd[1], "-n", 2) != 0 || ft_strlen(cmd->cmd[1]) != 2)
-        printf("\n");
+        printf("echo builtin\n");
     return(1);
 }
 // int ft_check_root(char * root)
@@ -216,8 +216,8 @@ int	ft_env(t_vars *vars, t_command *cmd)
 
 int	ft_exit(t_vars *vars, t_command *cmd)
 {
-    printf("exit\n");
-    // system("leaks minishell");
-    // exit(0); //added by Anush in order to exit the program
+    printf("exit builtin\n");
+    system("leaks minishell");
+    exit(0); //added by Anush in order to exit the program
     return(1);
 }

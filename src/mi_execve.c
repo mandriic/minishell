@@ -157,7 +157,7 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
     pid = fork();
     if (pid == 0)
     {
-        signal(SIGUSR2, handle_process_on);
+        signal(SIGUSR2, handle_process_on); //signal to catch
         ft_redirections(cmd); //si es echo no lo hace
         if (cmd->next)
         {    
@@ -174,7 +174,7 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
         // printf("cmd2 is %s \n", cmd->next->cmd[0]);
         if (ft_check_if_builtins(vars, cmd) == 0)
         {    
-            printf("debug %s \n", cmd->cmd[0]);
+            //printf("debug %s \n", cmd->cmd[0]);
             if (execve(path, cmd->cmd, vars->env_var) == -1)
             {
                  printf("Minishell: command not found: %s \n", cmd->cmd[0]);
@@ -187,7 +187,7 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
         printf("Error forking \n");
     else
     {
-        signal(SIGUSR2, SIG_IGN);
+       signal(SIGUSR2, SIG_IGN); //signal to ignore
         // if (cmd->next)
         //     close(cmd->fd[1]);
         if (cmd->prev && cmd->prev->fd[0] != -1)
@@ -275,8 +275,13 @@ void ft_mi_exec(t_vars *vars)
             else
                 break ;
         }
-        if ( ft_check_if_builtins_true(vars, temp_cmd))
+        if (ft_check_if_builtins_true(vars, temp_cmd))
+        {
+            if (ft_check_if_builtins_true(vars, temp_cmd) && temp_cmd->next != NULL)
                 ft_execuve(NULL, temp_cmd, vars); // ATENTION
+                else 
+                ft_check_if_builtins(vars, temp_cmd);
+        }
         // else if (ft_check_if_builtins(vars, temp_cmd) == 0)
         // {
             printf("cmd CHECK is %s \n", temp_cmd->cmd[0]);
@@ -286,7 +291,7 @@ void ft_mi_exec(t_vars *vars)
             if (!cmd_path && (temp_cmd->cmd[0][0] == '.' || temp_cmd->cmd[0][0] == '/')) //&& (temp_cmd->cmd[0][1] == '/' || temp_cmd->cmd[0][1] == '.'))
                 ft_execuve(temp_cmd->cmd[0], temp_cmd, vars); // ATENTION
 
-            else if (cmd_path)
+            if (cmd_path)
             {
                 temp = cmd_path;
                 cmd_path = ft_strjoin(cmd_path, "/");
@@ -307,6 +312,10 @@ void ft_mi_exec(t_vars *vars)
             //     printf("Minishell: command not found: %s \n", temp_cmd->cmd[0]);
             // }
         // }
+        else 
+        {
+            printf("Minishell: command not found: %s \n", temp_cmd->cmd[0]);
+        }
         temp_cmd = temp_cmd->next;
     }
 }

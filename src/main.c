@@ -31,11 +31,10 @@ int	ft_count_cmd(t_command *cmd)
 int main(int argc, char *argv[], char *envp[])
 {
 	// atexit(leaks);
-
 	t_vars  vars;
 
 	// ft_preliminar_check(argc, argv);
-	set_signal();
+	set_signal(); //signals set to start
 	//signal(SIGQUIT, SIG_IGN);
 	vars = (t_vars){};
 	vars.split = NULL;
