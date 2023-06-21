@@ -59,10 +59,10 @@ int ft_check_error(char *line, int *type, int len)
 	i = -1;
 	while (++i < len)
 	{
-		printf("type[%d] = %d\n", i, type[i]);
+		// printf("type[%d] = %d\n", i, type[i]);
 		if (type[i] == 11 && (type[i + 1] != 10 || type[i + 2] == 10) || (type[i] == 10 && type[i + 1] == 10))
 		{
-		printf("type[%d] = %d\n", i, type[i + 1]);
+		// printf("type[%d] = %d\n", i, type[i + 1]);
 
 			if (type[i + 1] == 11)
 			{
