@@ -49,6 +49,7 @@ typedef struct s_command
 	char	**heredocs; //	<<
 	char	**outfiles; //	>
 	char	**appends; 	//	>>
+	char	*exit_status; //$?
 	int		menos;
 	int		menos_dob;
 	int		mas;
@@ -264,7 +265,6 @@ void    set_signal(void);
 void    handle_process_on(int sig);
 void    handle_ctrl_c(int sig);
 void 	handler_ctrl_d(int signum);
-
 
 int ft_check_if_builtins(t_vars *vars, t_command *cmd);
 int ft_check_if_builtins_true(t_vars *vars, t_command *cmd);

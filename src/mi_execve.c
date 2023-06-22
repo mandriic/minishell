@@ -14,7 +14,7 @@ char *ft_get_val(char *str, char **env)
     return (0);
 }
 
-int ft_check_dir(char *dir, char *cmd, int len)
+int ft_check_dir(char *dir, char *cmd, size_t len)
 {
     DIR *d;
     struct dirent *dirr;
@@ -147,6 +147,20 @@ void	ft_redirections(t_command *cmd)
 	ft_dup_outfile(cmd);
 }
 
+void	ft_exit_cmd(int exit, t_command *cmd)
+{
+    if (cmd->exit_status)
+	    free (cmd->exit_status);
+    else
+    {
+        cmd->exit_status = malloc(sizeof(char) * 3);
+        cmd->exit_status[0] = '0';
+        cmd->exit_status[1] = '\0';
+	    cmd->exit_status = ft_itoa(exit);
+        printf("exit anush2 %s \n", cmd->exit_status);
+    }
+}
+
 void ft_execuve(char *path, t_command *cmd, t_vars *vars)
 {
 
@@ -177,7 +191,7 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
             //printf("debug %s \n", cmd->cmd[0]);
             if (execve(path, cmd->cmd, vars->env_var) == -1)
             {
-                 printf("Minishell: command not found: %s \n", cmd->cmd[0]);
+                printf("Minishell: command not found: %s \n", cmd->cmd[0]);
                 exit(0);
             }
         }
@@ -196,11 +210,19 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
             close(cmd->prev->fd[1]);
         // close(cmd->prev->fd[0]);
         waitpid(pid, &status, 0);
-        waitpid(pid, &status, 0);
+        printf("exit %d\n", WEXITSTATUS(status));
+        if(WIFEXITED(status))
+        {
+            // cmd->exit_status = WEXITSTATUS(status);
+            ft_exit_cmd(WEXITSTATUS(status), cmd);
+            printf("exit anush%s \n", cmd->exit_status);
+        }
+        // free(cmd->exit_status);
     }
 }
 int ft_check_if_builtins_true(t_vars *vars, t_command *cmd)
 {
+    (void)vars;
     if (ft_strncmp(cmd->cmd[0], "echo", 4) == 0 && ft_strlen(cmd->cmd[0]) == 4)
         return (1);
     else if (ft_strncmp(cmd->cmd[0], "cd", 2) == 0 && ft_strlen(cmd->cmd[0]) == 2)
@@ -242,7 +264,7 @@ int ft_check_if_builtins(t_vars *vars, t_command *cmd)
 int ft_check_if_vars(t_vars *vars, t_command *cmd_struct)
 {
     char *temp;
-    char **temp2;
+    // char **temp2;
     int i = 0;
         while(cmd_struct->cmd[0][i])
             if (cmd_struct->cmd[0][i++] == '=')
@@ -279,11 +301,11 @@ void ft_mi_exec(t_vars *vars)
         {
             if (ft_check_if_builtins_true(vars, temp_cmd) && temp_cmd->next != NULL)
                 ft_execuve(NULL, temp_cmd, vars); // ATENTION
-                else 
+            else
                 ft_check_if_builtins(vars, temp_cmd);
         }
-        // else if (ft_check_if_builtins(vars, temp_cmd) == 0)
-        // {
+        else
+        {
             printf("cmd CHECK is %s \n", temp_cmd->cmd[0]);
             path = ft_get_val("PATH", vars->env_var);
             cmd_path = ft_pars_path(path, temp_cmd->cmd[0], 5, vars);
@@ -311,11 +333,11 @@ void ft_mi_exec(t_vars *vars)
             // {   // ATENTION
             //     printf("Minishell: command not found: %s \n", temp_cmd->cmd[0]);
             // }
-        // }
-        else 
+        }
+       /* else 
         {
             printf("Minishell: command not found: %s \n", temp_cmd->cmd[0]);
-        }
+        }*/
         temp_cmd = temp_cmd->next;
     }
 }

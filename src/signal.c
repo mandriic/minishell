@@ -22,6 +22,7 @@ void    handle_process_on(int sig)
 
 void handler_ctrl_d(int sig) 
 {
+    (void)sig;
     printf("exit\n");
     exit(0);
 }
@@ -37,3 +38,4 @@ void    set_signal(void)
 	tcsetattr(0, TCSANOW, &t);
     //signal(SIGTSTP, SIG_IGN);
 }
+
