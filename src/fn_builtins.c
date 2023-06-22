@@ -4,24 +4,39 @@ int	ft_echo(t_vars *vars, t_command *cmd)
 {
     int i;
 
+    (void)vars;
     i = 1;
-    // printf("%s\n", cmd->cmd[1]);
+    //printf("%s\n", cmd->cmd[1]);
     if (ft_strncmp(cmd->cmd[1], "-n", 2) == 0  && ft_strlen(cmd->cmd[1]) == 2)
         i++;
     // {
     //     i++;
     //     printf("tetst\n");
     // }
+
     while (cmd->cmd[i] != NULL)
     {
-        printf ("%s", cmd->cmd[i]);
+        if (ft_strncmp(cmd->cmd[i], "$?", 2) == 0) //to get exit status and print it
+        {
+            //ft_signal_cmd(cmd->exit_status, cmd);
+            printf("fn_builtins.c:22 > %s", cmd->exit_status);
+            //ft_putstr_fd("\n", ms_data->fd_blt);
+        }
+        else if (ft_strncmp(cmd->cmd[1], "-n", 2) != 0)
+            printf("%s", cmd->cmd[i]);
+
         // if (ft_strncmp(cmd->cmd[1], "-n", 2) != 0) //(cmd->cmd[i + 1] != NULL)// && ft_strncmp(cmd->cmd[1], "-n", 2) != 0)
         if (cmd->cmd[i + 1] != NULL)
             printf(" ");
         i++;
     }
     if (ft_strncmp(cmd->cmd[1], "-n", 2) != 0 || ft_strlen(cmd->cmd[1]) != 2)
-        printf("echo builtin\n");
+        printf("\n");
+    /*else if (ft_strncmp(cmd->cmd[1], "$?", 2) != 0)
+	{
+		printf("%s", cmd->exit_status);
+		//ft_putstr_fd("\n", ms_data->fd_blt);
+	}*/
     return(1);
 }
 // int ft_check_root(char * root)
@@ -126,6 +141,7 @@ int	ft_pwd(t_vars *vars, t_command *cmd)
 {
     int i;
 
+    (void)vars;(void)cmd;
     i = 0;
     printf("pwd builtin\n");
     while (vars->env_var[i] != NULL)
@@ -203,6 +219,7 @@ int	ft_env(t_vars *vars, t_command *cmd)
 {
     int i;
 
+    (void)cmd;
     i = 0;
     printf("env builtin\n");
     while (vars->env_var[i] != NULL)
@@ -216,6 +233,7 @@ int	ft_env(t_vars *vars, t_command *cmd)
 
 int	ft_exit(t_vars *vars, t_command *cmd)
 {
+    (void)vars;(void)cmd;
     printf("exit builtin\n");
     system("leaks minishell");
     exit(0); //added by Anush in order to exit the program

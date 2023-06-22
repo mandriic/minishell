@@ -7,7 +7,7 @@ SRCS = fn_list.c fn_builtins.c fn_main_readline.c fnadd_free.c fnadd_libftmod.c 
 fn_mask.c fn_pip_splt_trim.c fn_vars.c main.c fn_redirs.c fn_create_data.c mi_execve.c fn_cd.c signal.c
 CC       = gcc
 OBJS     = $(SRCS:%.c=$(BIN_PATH)%.o)
-CFLAGS   = #-Wall -Wextra -Werror
+CFLAGS   = -Wall -Wextra -Werror
 NAME     = minishell
 RM       = rm -f
 $(BIN_PATH)%.o: $(SRCS_PATH)%.c
@@ -15,6 +15,8 @@ $(BIN_PATH)%.o: $(SRCS_PATH)%.c
 $(NAME): $(OBJS)
 	@$(MAKE) -C $(LIBFT_PATH) --silent
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_FLAGS) -I$(INCS) -o $(NAME) -L/sgoinfre/goinfre/Perso/angalsty/homebrew/opt/readline/lib/ -I/sgoinfre/goinfre/Perso/angalsty/homebrew/opt/readline/include -lreadline
+norm:
+	norminette $(SRCS_PATH)
 all:        $(NAME)
 clean:
 			$(RM) $(OBJS)

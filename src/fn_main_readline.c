@@ -6,7 +6,7 @@
 /*   By: angalsty <angalsty@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:14:18 by mandriic          #+#    #+#             */
-/*   Updated: 2023/06/20 19:02:15 by angalsty         ###   ########.fr       */
+/*   Updated: 2023/06/22 21:10:15 by angalsty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	ft_check_shlvl(t_vars *vars)
 	char	*temp;
 	int		int_shlvl;
 
+	(void)int_shlvl;(void)temp;
 	shlvl = ft_get_value("SHLVL", vars->env_var);
 	printf("shlvl: %s\n", shlvl);
 	
@@ -29,7 +30,7 @@ void	ft_check_shlvl(t_vars *vars)
 		temp = ft_itoa(ft_atoi(shlvl) + 1);
 		ft_change_env(vars, "SHLVL=", temp, 6);
 	}
-	free(temp);
+	// free(temp);
 	// else
 	// 	setenv("SHLVL", "1", 1);
 }
