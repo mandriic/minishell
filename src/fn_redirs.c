@@ -31,7 +31,7 @@ void	ft_heredoc(char **arr, t_command *data, int *i)
 	}
 	free(data->heredocs[i[1]]);
 	data->heredocs[i[1]--] = NULL;
-	ft_print_dp(data->heredocs, "heredocs");
+	// ft_print_dp(data->heredocs, "heredocs");
 	i[0]++;
 }
 

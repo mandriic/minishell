@@ -67,7 +67,7 @@ char *ft_pars_path(char *path, char *cmd, int len, t_vars *vars) //char *
                 if(dir)
                     free(dir);
                 dir = ft_strjoin(ifhome, dir);
-                printf("dir is %s \n", dir);
+                // printf("dir is %s \n", dir);
             }
             if (ft_check_dir(dir, cmd, ft_strlen(cmd)) == 1)
             {
@@ -175,7 +175,7 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
         }
         if (ft_check_if_builtins(vars, cmd) == 0)
         {    
-            printf("debug %s \n", cmd->cmd[0]);
+            // printf("debug %s \n", cmd->cmd[0]);
             if (execve(path, cmd->cmd, vars->env_var) == -1)
             {
                  printf("Minishell: command not found: %s \n", cmd->cmd[0]);
@@ -280,10 +280,10 @@ void ft_mi_exec(t_vars *vars)
                 ft_execuve(NULL, temp_cmd, vars); // ATENTION
         // else if (ft_check_if_builtins(vars, temp_cmd) == 0)
         // {
-            printf("cmd CHECK is %s \n", temp_cmd->cmd[0]);
+            // printf("cmd CHECK is %s \n", temp_cmd->cmd[0]);
             path = ft_get_val("PATH", vars->env_var);
             cmd_path = ft_pars_path(path, temp_cmd->cmd[0], 5, vars);
-            printf("cmd_path is %s \n", cmd_path);
+            // printf("cmd_path is %s \n", cmd_path);
             if (!cmd_path && (temp_cmd->cmd[0][0] == '.' || temp_cmd->cmd[0][0] == '/')) //&& (temp_cmd->cmd[0][1] == '/' || temp_cmd->cmd[0][1] == '.'))
                 ft_execuve(temp_cmd->cmd[0], temp_cmd, vars); // ATENTION
 
@@ -295,7 +295,7 @@ void ft_mi_exec(t_vars *vars)
                 temp = cmd_path;
                 cmd_path = ft_strjoin(cmd_path, temp_cmd->cmd[0]);
                 free(temp);
-                printf("cmd_path is %s \n", cmd_path);
+                // printf("cmd_path is %s \n", cmd_path);
                 signal(SIGUSR2, SIG_IGN);
                 ft_execuve(cmd_path, temp_cmd, vars);  // ATENTION
                 free(cmd_path);

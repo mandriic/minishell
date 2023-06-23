@@ -103,7 +103,7 @@ char **ft_append_to_env(t_vars *vars, char *to_append)
 	temp = ft_find_in_temp_env(vars, to_append);
 	if (temp == NULL)
 		temp = to_append;
-	printf("temp = %s\n", temp);
+	// printf("temp = %s\n", temp);
 	if (vars->env_var)
 	{
 		while (vars->env_var[++i])
@@ -113,7 +113,7 @@ char **ft_append_to_env(t_vars *vars, char *to_append)
 		while (vars->env_var[++i])
 			dst[i] = ft_strdup(vars->env_var[i]);
 		dst[i++] = ft_strdup(temp);
-		printf("dst[i] = %s\n", dst[i - 1]);
+		// printf("dst[i] = %s\n", dst[i - 1]);
 		dst[i] = NULL;
 		ft_free_dob_arr(vars->env_var);
 		return (dst);
@@ -171,10 +171,10 @@ void	ft_print_dp(char **str, char *name)
 	printf("\n");
 }
 
-void c(char *str)
-{
-	printf("check %s\n", str);
-}
+// void c(char *str)
+// {
+// 	printf("check %s\n", str);
+// }
 // void	ft_strcopy(char *dst, const char *src)
 // {
 // 	size_t	i;
