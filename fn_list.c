@@ -101,7 +101,7 @@ char	**ft_pre_com_bon(char *str, t_vars *vars)
 	// 	printf("type[%d] - %d\n", i, type[i]);
 	i = -1;
 	com_bon = malloc(sizeof(char *) * 10000);
-	printf("string %s\n", str);
+	// printf("string %s\n", str);
 	while(str[++i] != '\0')
 	{
 		if (str[i] == ' ' && vars->type[i] != 5 && vars->type[i] != 6)
@@ -110,11 +110,11 @@ char	**ft_pre_com_bon(char *str, t_vars *vars)
 			start = i + 1;
 		}
 	}
-	printf("start %d i %d\n", start,i);
+	// printf("start %d i %d\n", start,i);
 	if (i != start)
 	{
 		com_bon[i2++] = ft_substr(str, start, i - start);
-		printf("com bom last .%s.\n", com_bon[i2 - 1]);
+		// printf("com bom last .%s.\n", com_bon[i2 - 1]);
 	}
 	com_bon[i2] = NULL;
 	// ft_print_dp(com_bon, "comando bonito");
