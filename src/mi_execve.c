@@ -147,19 +147,26 @@ void	ft_redirections(t_command *cmd)
 	ft_dup_outfile(cmd);
 }
 
-void	ft_exit_cmd(int exit, t_command *cmd)
+/*char	ft_exit_cmd(int exit, t_command *cmd)
 {
     if (cmd->exit_status)
 	    free (cmd->exit_status);
     else
     {
-        cmd->exit_status = malloc(sizeof(char) * 3);
-        cmd->exit_status[0] = '0';
-        cmd->exit_status[1] = '\0';
+        cmd->exit_status = malloc(sizeof(char) * 2);
+        //cmd->exit_status[0] = '0';
+        //cmd->exit_status[1] = '\0';
+        if(!cmd->exit_status)
+            return (0);
 	    cmd->exit_status = ft_itoa(exit);
-        printf("exit anush2 %s \n", cmd->exit_status);
+        {
+            printf("exit_status2 %s \n", cmd->exit_status);
+            return(*cmd->exit_status);
+        } 
     }
-}
+    
+    free(cmd->exit_status);
+}*/
 
 void ft_execuve(char *path, t_command *cmd, t_vars *vars)
 {
@@ -210,14 +217,12 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
             close(cmd->prev->fd[1]);
         // close(cmd->prev->fd[0]);
         waitpid(pid, &status, 0);
-        printf("exit %d\n", WEXITSTATUS(status));
+        //printf("exit %d\n", WEXITSTATUS(status));
         if(WIFEXITED(status))
         {
-            // cmd->exit_status = WEXITSTATUS(status);
-            ft_exit_cmd(WEXITSTATUS(status), cmd);
-            printf("exit anush%s \n", cmd->exit_status);
+            g_error = WEXITSTATUS(status);
+            //printf("g_error after Wexitstatus is %d \n", g_error);
         }
-        // free(cmd->exit_status);
     }
 }
 int ft_check_if_builtins_true(t_vars *vars, t_command *cmd)
@@ -302,7 +307,10 @@ void ft_mi_exec(t_vars *vars)
             if (ft_check_if_builtins_true(vars, temp_cmd) && temp_cmd->next != NULL)
                 ft_execuve(NULL, temp_cmd, vars); // ATENTION
             else
+            {
+                //printf("g_error is %d \n", g_error);
                 ft_check_if_builtins(vars, temp_cmd);
+            }
         }
         else
         {
@@ -326,6 +334,11 @@ void ft_mi_exec(t_vars *vars)
                 ft_execuve(cmd_path, temp_cmd, vars);  // ATENTION
                 free(cmd_path);
             }
+            else
+            {
+                printf("Minishell: command not found: %s \n", temp_cmd->cmd[0]);
+            }
+
             // printf("PATH is %s \n", path);
             // printf("cmd is %s \n", vars->cmd_list->cmd[0]);
             // printf("cmd_path is %s \n", cmd_path);         

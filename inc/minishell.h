@@ -33,6 +33,8 @@
 // 	char				**export;
 // }	t_data;
 
+int g_error; //global variable to store the exit status
+
 typedef struct s_command
 {
 	char	**cmd_splited; //data->cmd_splited[0] [1] - args
@@ -49,7 +51,6 @@ typedef struct s_command
 	char	**heredocs; //	<<
 	char	**outfiles; //	>
 	char	**appends; 	//	>>
-	char	*exit_status; //$?
 	int		menos;
 	int		menos_dob;
 	int		mas;
