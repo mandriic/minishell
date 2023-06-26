@@ -19,7 +19,9 @@ int	ft_echo(t_vars *vars, t_command *cmd)
         if (ft_strncmp(cmd->cmd[i], "$?", 2) == 0) //to get exit status and print it
         {
             //ft_signal_cmd(cmd->exit_status, cmd);
-            printf("fn_builtins.c:22 > %s", cmd->exit_status);
+            //printf("The recent exit status:  %d", g_error); // have to add as a global varient
+            ft_putnbr_fd(g_error, 1);
+            g_error = 0;
             //ft_putstr_fd("\n", ms_data->fd_blt);
         }
         else if (ft_strncmp(cmd->cmd[1], "-n", 2) != 0)
