@@ -6,7 +6,7 @@
 /*   By: angalsty <angalsty@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:14:18 by mandriic          #+#    #+#             */
-/*   Updated: 2023/06/22 21:10:15 by angalsty         ###   ########.fr       */
+/*   Updated: 2023/06/28 20:55:24 by angalsty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,14 @@ void	ft_submain(t_vars *vars)
 			system("leaks minishell");
 			exit (0);
 		}*/
+		if (vars->line && ft_strncmp(" ", vars->line, ft_strlen(vars->line) == 0))
+			continue ; //this helps to get off the leaks when you try to exit the program
 		if (vars->line == NULL)
 		{
 			//signal(SIGTERM, handler_ctrl_d);
 			ft_putstr_fd ("exit\n", 1); //coregir para que escriba exit bien
+			system("leaks minishell");
+			free(vars->line);
 			exit(0);
 		}
 		//this one is also Sirus code
