@@ -9,10 +9,6 @@ int	ft_echo(t_vars *vars, t_command *cmd)
     //printf("%s\n", cmd->cmd[1]);
     if (ft_strncmp(cmd->cmd[1], "-n", 2) == 0  && ft_strlen(cmd->cmd[1]) == 2)
         i++;
-    // {
-    //     i++;
-    //     printf("tetst\n");
-    // }
 
     while (cmd->cmd[i] != NULL)
     {
@@ -20,23 +16,22 @@ int	ft_echo(t_vars *vars, t_command *cmd)
         {
             //printf("The recent exit status:  %d", g_error); // have to add as a global varient
             ft_putnbr_fd(g_error, 1);
-            g_error = 0;
         }
-        else if (ft_strncmp(cmd->cmd[1], "-n", 2) != 0)
-            printf("%s", cmd->cmd[i]);
+    
+        else if (ft_strncmp(cmd->cmd[i], "$?", 2) != 0 && ft_strncmp(cmd->cmd[i], "-n", 2) != 0)
+            ft_putstr_fd(cmd->cmd[i], 1);
+        /*else if (ft_strncmp(cmd->cmd[1], "-n", 2) != 0)
+            printf("%s", cmd->cmd[i]);*/
 
         // if (ft_strncmp(cmd->cmd[1], "-n", 2) != 0) //(cmd->cmd[i + 1] != NULL)// && ft_strncmp(cmd->cmd[1], "-n", 2) != 0)
-        if (cmd->cmd[i + 1] != NULL)
-            printf(" ");
+        //if (cmd->cmd[i + 1] != NULL)
+        ft_putstr_fd(" ", 1);
+        //printf("the cmd is %s \n", cmd->cmd[i]);
         i++;
     }
     if (ft_strncmp(cmd->cmd[1], "-n", 2) != 0 || ft_strlen(cmd->cmd[1]) != 2)
-        printf("\n");
-    /*else if (ft_strncmp(cmd->cmd[1], "$?", 2) != 0)
-	{
-		printf("%s", cmd->exit_status);
-		//ft_putstr_fd("\n", ms_data->fd_blt);
-	}*/
+    printf("\n");
+    g_error = 0;
     return(1);
 }
 // int ft_check_root(char * root)
