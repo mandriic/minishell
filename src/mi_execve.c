@@ -178,6 +178,7 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
     pid = fork();
     if (pid == 0)
     {
+        
         signal(SIGUSR2, handle_process_on); //signal to catch
         ft_redirections(cmd); //si es echo no lo hace
         if (cmd->next)
@@ -209,6 +210,7 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
     else if (pid > 0)
     {
         signal(SIGUSR2, SIG_IGN); //signal to ignore
+        rl_set_prompt("");
         // if (cmd->next)
         //     close(cmd->fd[1]);
         if (cmd->prev && cmd->prev->fd[0] != -1)
@@ -290,6 +292,23 @@ int ft_check_if_vars(t_vars *vars, t_command *cmd_struct)
     return (0);
 }
 
+int   ft_get_$(t_vars *vars, t_command *temp_cmd)
+{
+    (void)vars;
+      int i = 1;
+
+      while (temp_cmd->cmd[i])
+      {
+          if (ft_strncmp(temp_cmd->cmd[i], "$?", 2) == 0)
+          {
+              free(temp_cmd->cmd[i]);
+              temp_cmd->cmd[i] = ft_itoa(g_error);
+          }
+          i++;
+      }
+      return(0);
+}
+
 
 void ft_mi_exec(t_vars *vars)
 {
@@ -330,6 +349,7 @@ void ft_mi_exec(t_vars *vars)
 
             else if (cmd_path)
             {
+                //signal(SIGUSR2, SIG_IGN);
                 temp = cmd_path;
                 cmd_path = ft_strjoin(cmd_path, "/");
                 free(temp);
@@ -337,7 +357,8 @@ void ft_mi_exec(t_vars *vars)
                 cmd_path = ft_strjoin(cmd_path, temp_cmd->cmd[0]);
                 free(temp);
                 printf("cmd_path is %s \n", cmd_path);
-                signal(SIGUSR2, SIG_IGN);
+                ft_get_$(vars, temp_cmd);
+    
                 ft_execuve(cmd_path, temp_cmd, vars);  // ATENTION
                 free(cmd_path);
             }

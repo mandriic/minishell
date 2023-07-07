@@ -6,22 +6,25 @@ void    handle_ctrl_c(int sig)
 {
     (void)sig;
     
-    kill(0, SIGUSR2); //sends a signal to the process
+   
     rl_replace_line("", 0); //clears the line
     rl_on_new_line(); //moves the cursor to the beginning of the line and writes Minishell
     //rl_redisplay();
+    kill(0, SIGUSR2); //sends a signal to the process
     
     ft_putstr_fd("\n", 0); //writes a new line
-    //rl_on_new_line(); //moves the cursor to the beginning of the line and writes Minishell
-    rl_redisplay();
+    rl_on_new_line(); //moves the cursor to the beginning of the line and writes Minishell
+    //rl_replace_line("", 0); //clears the line
+    rl_redisplay(); //writes minishell on the desktop
 }
 
 void    handle_process_on(int sig)
 {
     (void)sig;
-    //rl_replace_line("", 0); //clears the line
+    rl_replace_line("", 0); //clears the line
     //rl_on_new_line(); //moves the cursor to the beginning of the line and writes Minishell
-    //rl_redisplay(); //writes minishell on the desktop
+    rl_redisplay(); //writes minishell on the desktop
+    //rl_set_prompt("");
 }
 
 void handler_ctrl_d(int sig) 
