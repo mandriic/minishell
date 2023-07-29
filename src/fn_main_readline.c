@@ -29,6 +29,7 @@ void	ft_check_shlvl(t_vars *vars)
 		printf( "inttest %d\n", ft_atoi(shlvl) + 1);
 		temp = ft_itoa(ft_atoi(shlvl) + 1);
 		ft_change_env(vars, "SHLVL=", temp, 6);
+		free(temp);
 	}
 	// free(temp);
 	// else
@@ -91,18 +92,26 @@ void	ft_submain(t_vars *vars)
 			exit (0);
 		}*/
 		if (vars->line && ft_strncmp(" ", vars->line, ft_strlen(vars->line) == 0))
-			continue ; //this helps to get off the leaks when you try to exit the program
-		if (vars->line == NULL)
 		{
-			//signal(SIGTERM, handler_ctrl_d);
-			ft_putstr_fd ("exit\n", 1); //coregir para que escriba exit bien
-			system("leaks minishell");
-			free(vars->line);
-			exit(0);
+			// free(vars->line);
+			continue ; //this helps to get off the leaks when you try to exit the program
+
 		}
+		// if (vars->line == NULL)
+		// {
+		// 	//signal(SIGTERM, handler_ctrl_d);
+		// 	ft_putstr_fd ("exit\n", 1); //coregir para que escriba exit bien
+		// 	system("leaks minishell");
+		// 	free(vars->line);
+		// 	exit(0);
+		// }
 		//this one is also Sirus code
 		if (ft_pre_check(vars) || ft_check_rl(vars))
+		{
+			free(vars->line);
 			continue ;
+
+		}
 		if (vars->line)
 			add_history(vars->line);
 		vars->line_len = ft_strlen(vars->line);

@@ -18,8 +18,8 @@ int	ft_echo(t_vars *vars, t_command *cmd)
     {
         if (ft_strncmp(cmd->cmd[i], "$?", 2) == 0) //to get exit status and print it
         {
-            //printf("The recent exit status:  %d", g_error); // have to add as a global varient
-            ft_putnbr_fd(g_error, 1);
+            //printf("The recent exit status:  %d", vars->error); // have to add as a global varient
+            ft_putnbr_fd(vars->error, 1);
         }
     
         else if (ft_strncmp(cmd->cmd[i], "$?", 2) != 0 && ft_strncmp(cmd->cmd[i], "-n", 2) != 0)
@@ -36,7 +36,7 @@ int	ft_echo(t_vars *vars, t_command *cmd)
     }
     if (cmd->cmd[1] == NULL || (ft_strncmp(cmd->cmd[1], "-n", 2) != 0 || ft_strlen(cmd->cmd[1]) != 2))
     printf("\n");
-    g_error = 0;
+    vars->error = 0;
     return(1);
 }
 // int ft_check_root(char * root)
@@ -245,9 +245,10 @@ int	ft_exit(t_vars *vars, t_command *cmd)
             if (ft_isdigit(cmd->cmd[i][j]) == 0)
             {
                 printf("minishell: exit: %s: numeric argument required\n", cmd->cmd[i]);
-                g_error = 255;
-                printf("g_error = %d\n", g_error);
+                vars->error = 255;
+                printf("vars->error = %d\n", vars->error);
                 system("leaks minishell");
+        		// free(vars->line);
                 exit(0); //added by Anush in order to exit the program
                 return(1);
             }
@@ -257,6 +258,8 @@ int	ft_exit(t_vars *vars, t_command *cmd)
     }
     printf("exit builtin\n");
     system("leaks minishell");
+    // ft_end_of_cicle(vars);
+    // free(vars->line);
     exit(0); //added by Anush in order to exit the program
     return(1);
 }

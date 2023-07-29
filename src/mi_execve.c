@@ -249,8 +249,8 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
           
             if(WIFEXITED(status))
             {
-                g_error = WEXITSTATUS(status);
-                //printf("g_error after Wexitstatus is %d \n", g_error);
+                vars->error = WEXITSTATUS(status);
+                //printf("vars->error after Wexitstatus is %d \n", vars->error);
             }
           
         }  
@@ -325,7 +325,7 @@ int   ft_get_dollar(t_vars *vars, t_command *temp_cmd)
           if (ft_strncmp(temp_cmd->cmd[i], "$?", 2) == 0)
           {
               free(temp_cmd->cmd[i]);
-              temp_cmd->cmd[i] = ft_itoa(g_error);
+              temp_cmd->cmd[i] = ft_itoa(vars->error);
           }
           i++;
       }
@@ -359,7 +359,7 @@ void ft_mi_exec(t_vars *vars)
                 ft_execuve(NULL, temp_cmd, vars); // ATENTION
             else
             {
-                //printf("g_error is %d \n", g_error);
+                //printf("vars->error is %d \n", vars->error);
                 ft_check_if_builtins(vars, temp_cmd);
             }
         }
@@ -390,7 +390,7 @@ void ft_mi_exec(t_vars *vars)
             else
             {
                 printf("Minishell: command not found: %s \n", temp_cmd->cmd[0]);
-                g_error = 127;
+                vars->error = 127;
             }
 
             // printf("PATH is %s \n", path);

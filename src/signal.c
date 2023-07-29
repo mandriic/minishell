@@ -29,7 +29,7 @@ void    handle_process_on(int sig)
 
 void handler_ctrl_d(int sig) 
 {
-    (void)sig;
+    printf("%d",sig);
     printf("exit\n");
     exit(0);//no esta fiuncionando
 }
@@ -38,7 +38,7 @@ void    set_signal(void)
 {
     signal(SIGINT, handle_ctrl_c);
     signal(SIGQUIT, SIG_IGN); //ignores the signal
-    //signal(SIGTERM, handler_ctrl_d);  
+    // signal(SIGTERM, handler_ctrl_d);  
     signal(SIGUSR2, handle_process_on);
     tcgetattr(0, &t);
 	t.c_lflag &= ~ECHOCTL;
