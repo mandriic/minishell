@@ -44,6 +44,7 @@ typedef struct s_command
 	char	*vars_resolv;
 	char	**pre_comand_bon;
 	char	**pre_args;
+	//pid_t*	child_pid;
 	int		fd[2];
 	int		mem_pipe;
 	char	*arg;
@@ -80,7 +81,7 @@ typedef struct s_vars
 	char	*var;
 	int		need_cleaning;
 	int					num_cmds;
-	// int					num_pipes;
+	//int					num_pipes;
 	int					last_code;
 	// char				**envp_copy;
 	char				**export;
