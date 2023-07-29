@@ -7,6 +7,10 @@ int	ft_echo(t_vars *vars, t_command *cmd)
     (void)vars;
     i = 1;
     //printf("%s\n", cmd->cmd[1]);
+    if (cmd->cmd[i] != NULL && strncmp(cmd->cmd[i], "$", 1) == 0) {
+        ft_putstr_fd("$", 1);
+        i++;
+    }
     if (ft_strncmp(cmd->cmd[1], "-n", 2) == 0  && ft_strlen(cmd->cmd[1]) == 2)
         i++;
 
@@ -20,6 +24,7 @@ int	ft_echo(t_vars *vars, t_command *cmd)
     
         else if (ft_strncmp(cmd->cmd[i], "$?", 2) != 0 && ft_strncmp(cmd->cmd[i], "-n", 2) != 0)
             ft_putstr_fd(cmd->cmd[i], 1);
+           // printf("the cmd is %s \n", cmd->cmd[i] );
         /*else if (ft_strncmp(cmd->cmd[1], "-n", 2) != 0)
             printf("%s", cmd->cmd[i]);*/
 
@@ -29,7 +34,7 @@ int	ft_echo(t_vars *vars, t_command *cmd)
         //printf("the cmd is %s \n", cmd->cmd[i]);
         i++;
     }
-    if (ft_strncmp(cmd->cmd[1], "-n", 2) != 0 || ft_strlen(cmd->cmd[1]) != 2)
+    if (cmd->cmd[1] == NULL || (ft_strncmp(cmd->cmd[1], "-n", 2) != 0 || ft_strlen(cmd->cmd[1]) != 2))
     printf("\n");
     g_error = 0;
     return(1);
@@ -205,7 +210,6 @@ int	ft_unset(t_vars *vars, t_command *cmd)
         {
             ft_change_temp_env(vars, cmd->cmd[1], "", ft_strlen(cmd->cmd[1]));
             return(1);
-
         }
     }
     return(1);

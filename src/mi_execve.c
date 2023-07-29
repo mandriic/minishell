@@ -168,14 +168,20 @@ void	ft_redirections(t_command *cmd)
     free(cmd->exit_status);
 }*/
 
+
 void ft_execuve(char *path, t_command *cmd, t_vars *vars)
 {
 
     int status, pid;
+ 
     pipe(cmd->fd);
-   
+    //pid_t* child_pid;
 
+    //child_pid = (pid_t *)malloc(sizeof(pid_t) * vars->num_pipes + 1);
+   
     pid = fork();
+    
+    
     if (pid == 0)
     {
         
@@ -183,14 +189,16 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
         ft_redirections(cmd); //si es echo no lo hace
         if (cmd->next)
         {  
-            close(cmd->fd[0]);  
-            dup2(cmd->fd[1], 1); 
+            close(cmd->fd[0]);
+            dup2(cmd->fd[1], 1);
+            ft_redirections(cmd);
             close(cmd->fd[1]);
         }
         if (cmd->prev && cmd->prev->fd[0] != -1)
         {
             close(cmd->prev->fd[1]);
             dup2(cmd->prev->fd[0], 0);
+            ft_redirections(cmd);
             close(cmd->prev->fd[0]);
         }
         // printf("cmd2 is %s \n", cmd->next->cmd[0]);
@@ -203,7 +211,14 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
                 exit(0);
             }
         }
-        exit(0);
+      /*if (cmd->next && cmd->fd[1] != 1)
+            exit(1);
+      else */
+      //if (cmd->next ==  NULL)
+         //exit(1);
+        //else 
+         exit(0);
+            //ft_execuve(path, cmd->next, vars);
     }
     else if (pid < 0)
         printf("Error forking \n");
@@ -213,6 +228,7 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
         rl_set_prompt("");
         // if (cmd->next)
         //     close(cmd->fd[1]);
+        //cmd->child_pid[i] = pid;
         if (cmd->prev && cmd->prev->fd[0] != -1)
         {
             close(cmd->prev->fd[0]);
@@ -223,16 +239,23 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
             close(cmd->prev->fd[1]);
             close (cmd->prev->fd[0]);//added after to check the signals
         }
-        // close(cmd->prev->fd[0]);
     
-        waitpid(pid, &status, 0);
-        //printf("exit %d\n", WEXITSTATUS(status));
-        if(WIFEXITED(status))
+        // close(cmd->prev->fd[0]);
+
+        if (cmd->next == NULL) // it prints only the last command
         {
-            g_error = WEXITSTATUS(status);
-            //printf("g_error after Wexitstatus is %d \n", g_error);
-        }
+            waitpid(pid, &status, 0);
+            //printf("exit %d\n", WEXITSTATUS(status));
+          
+            if(WIFEXITED(status))
+            {
+                g_error = WEXITSTATUS(status);
+                //printf("g_error after Wexitstatus is %d \n", g_error);
+            }
+          
+        }  
     }
+             //free(child_pid);
 }
 int ft_check_if_builtins_true(t_vars *vars, t_command *cmd)
 {
@@ -292,7 +315,7 @@ int ft_check_if_vars(t_vars *vars, t_command *cmd_struct)
     return (0);
 }
 
-int   ft_get_$(t_vars *vars, t_command *temp_cmd)
+int   ft_get_dollar(t_vars *vars, t_command *temp_cmd)
 {
     (void)vars;
       int i = 1;
@@ -315,9 +338,11 @@ void ft_mi_exec(t_vars *vars)
     char *path;
     char *cmd_path;
     char *temp;
-    t_command *temp_cmd;
+    t_command   *temp_cmd;
+    //int i = 0;
 
     temp_cmd = vars->cmd_list;
+    //temp_cmd->child_pid = (pid_t *)malloc(sizeof(pid_t) * vars->num_pipes + 1);
     while (temp_cmd != NULL)
     {
         //signal(SIGUSR2, SIG_IGN);
@@ -357,7 +382,7 @@ void ft_mi_exec(t_vars *vars)
                 cmd_path = ft_strjoin(cmd_path, temp_cmd->cmd[0]);
                 free(temp);
                 printf("cmd_path is %s \n", cmd_path);
-                ft_get_$(vars, temp_cmd);
+                ft_get_dollar(vars, temp_cmd);
     
                 ft_execuve(cmd_path, temp_cmd, vars);  // ATENTION
                 free(cmd_path);
@@ -381,5 +406,7 @@ void ft_mi_exec(t_vars *vars)
             printf("Minishell: command not found: %s \n", temp_cmd->cmd[0]);
         }*/
         temp_cmd = temp_cmd->next;
+        //printf("i is %d \n", i);
+        //i++;
     }
 }
