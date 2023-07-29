@@ -62,7 +62,7 @@ int	*ft_mask(char *line, t_vars *vars)
 			if(line[vars->i + 1] != '\0' && line[vars->i] != '"' && line[vars->i] != vars->quotes[0])
 				type[vars->i] = 0;
 		// printf("str[%d] - %c, type[%d] - %d\n", vars->i, line[vars->i], vars->i, type[vars->i]);
-		printf("vars i %d\n", vars->i);
+		// printf("vars i %d\n", vars->i);
 	}
 	return (type);
 }
@@ -73,7 +73,7 @@ char	*ft_acumulate(char *dest, char *part)
 	char	*temp;
 
 	lenpart = ft_strlen(part);
-	printf("lenpart %d\n", lenpart);
+	// printf("lenpart %d\n", lenpart);
 	if (lenpart == 0)
 	{
 		// printf("lenpart %d\n", lenpart);

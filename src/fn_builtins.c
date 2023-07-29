@@ -77,11 +77,11 @@ int ft_change_temp_env(t_vars *vars, char *name, char *new_value, int len)
     {
         if (ft_strncmp(vars->temp_env[i], name, len) == 0)
         {    
-            printf("11111%s \n", vars->temp_env[i]);
+            // printf("11111%s \n", vars->temp_env[i]);
             free(vars->temp_env[i]);
-            printf("22222%s \n", name);
+            // printf("22222%s \n", name);
             vars->temp_env[i] = ft_strjoin(name, new_value);
-            printf("VARI %s\n", vars->temp_env[i]);
+            // printf("VARI %s\n", vars->temp_env[i]);
             return (1);
         }
         i++;
@@ -118,11 +118,11 @@ int ft_change_env(t_vars *vars, char *name, char *new_value, int len)
 int	ft_cd(t_vars *vars, t_command *cmd)
 {
     char *cdir;
-    printf("cd builtin\n");
+    // printf("cd builtin\n");
     if (chdir(cmd->cmd[1]) == 0)
     {
         cdir = getcwd(NULL, 0);
-        printf("%s \n",  cdir);
+        // printf("%s \n",  cdir);
         ft_change_env(vars, "OLDPWD=", ft_get_value("PWD", vars->env_var), 6);
         ft_change_env(vars, "PWD=", cdir, 4);
         free(cdir);
@@ -143,7 +143,7 @@ int	ft_pwd(t_vars *vars, t_command *cmd)
 
     (void)vars;(void)cmd;
     i = 0;
-    printf("pwd builtin\n");
+    // printf("pwd builtin\n");
     while (vars->env_var[i] != NULL)
     {
         if (ft_strncmp(vars->env_var[i], "PWD=", 4) == 0)
@@ -164,13 +164,13 @@ int		ft_export(t_vars *vars, t_command *cmd)
 
     if(cmd->cmd[1] != NULL)
     {
-        printf("export builtin%s\n", cmd->cmd[1]);
+        // printf("export builtin%s\n", cmd->cmd[1]);
         if (ft_strchr(cmd->cmd[1], '=') != NULL)
             vars->env_var = ft_append_to_env(vars, cmd->cmd[1]);
         else if (ft_find_in_temp_env(vars, cmd->cmd[1]) != NULL)
         {
             temp = ft_find_in_temp_env(vars, cmd->cmd[1]);
-            printf("temp is %s\n", temp);
+            // printf("temp is %s\n", temp);
             vars->env_var = ft_append_to_env(vars, temp);
 
         }
@@ -220,7 +220,7 @@ int	ft_env(t_vars *vars, t_command *cmd)
 
     (void)cmd;
     i = 0;
-    printf("env builtin\n");
+    // printf("env builtin\n");
     while (vars->env_var[i] != NULL)
     {
         ft_putstr_fd(vars->env_var[i++], 1);
