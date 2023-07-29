@@ -30,7 +30,7 @@ void    handle_process_on(int sig)
 void handler_ctrl_d(int sig) 
 {
     (void)sig;
-    printf("exit\n");
+    printf("mi exit\n");
     exit(0);//no esta fiuncionando
 }
 

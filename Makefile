@@ -1,8 +1,8 @@
 
 
 
-R42LFLAG = -L/Users/mandriic/.brew/opt/readline/lib
-R42IFLAG = -I/Users/mandriic/.brew/opt/readline/include
+R42LFLAG = -L/Users/angalsty/.brew/opt/readline/lib
+R42IFLAG = -I/Users/angalsty/.brew/opt/readline/include
 R42LFLAGM = -L/opt/homebrew/opt/readline/lib 
 R42IFLAGM = -I/opt/homebrew/opt/readline/include
 R42LFLAGU = -L/usr/share/readline 
@@ -26,11 +26,11 @@ NAME     = minishell
 RM       = rm -f
 
 $(BIN_PATH)%.o: $(SRCS_PATH)%.c
-	$(CC) $(CFLAGS) -c $< -o $@ -I$(INCS) $(R42IFLAGM) #-I/opt/homebrew/opt/readline/include
+	$(CC) $(CFLAGS) -c $< -o $@ -I$(INCS) $(R42IFLAG) #-I/opt/homebrew/opt/readline/include
 
 $(NAME): $(OBJS)
 	@$(MAKE) -C $(LIBFT_PATH) --silent
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_FLAGS) -I$(INCS) -o $(NAME) $(R42LFLAGM) $(R42IFLAGM) -lreadline #-L/opt/homebrew/opt/readline/lib -I/opt/homebrew/opt/readline/include -lreadline
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_FLAGS) -I$(INCS) -o $(NAME) $(R42LFLAG) $(R42IFLAG) -lreadline #-L/opt/homebrew/opt/readline/lib -I/opt/homebrew/opt/readline/include -lreadline
 
 all:		$(NAME)
 
