@@ -67,7 +67,7 @@ char *ft_pars_path(char *path, char *cmd, int len, t_vars *vars) //char *
                 if(dir)
                     free(dir);
                 dir = ft_strjoin(ifhome, dir);
-                printf("dir is %s \n", dir);
+                // printf("dir is %s \n", dir);
             }
             if (ft_check_dir(dir, cmd, ft_strlen(cmd)) == 1)
             {
@@ -173,7 +173,8 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
 {
 
     int status, pid;
- 
+    if (ft_strncmp("exit", cmd->cmd[0], 4) == 0)
+        exit(0);
     pipe(cmd->fd);
     //pid_t* child_pid;
 
@@ -201,7 +202,6 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
             ft_redirections(cmd);
             close(cmd->prev->fd[0]);
         }
-        // printf("cmd2 is %s \n", cmd->next->cmd[0]);
         if (ft_check_if_builtins(vars, cmd) == 0)
         {    
             //printf("debug %s \n", cmd->cmd[0]);
@@ -368,7 +368,7 @@ void ft_mi_exec(t_vars *vars)
             printf("cmd CHECK is %s \n", temp_cmd->cmd[0]);
             path = ft_get_val("PATH", vars->env_var);
             cmd_path = ft_pars_path(path, temp_cmd->cmd[0], 5, vars);
-            printf("cmd_path is %s \n", cmd_path);
+            // printf("cmd_path is %s \n", cmd_path);
             if (!cmd_path && (temp_cmd->cmd[0][0] == '.' || temp_cmd->cmd[0][0] == '/')) //&& (temp_cmd->cmd[0][1] == '/' || temp_cmd->cmd[0][1] == '.'))
                 ft_execuve(temp_cmd->cmd[0], temp_cmd, vars); // ATENTION
 
