@@ -6,7 +6,7 @@
 /*   By: angalsty <angalsty@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:14:18 by mandriic          #+#    #+#             */
-/*   Updated: 2023/07/29 19:42:42 by angalsty         ###   ########.fr       */
+/*   Updated: 2023/07/29 19:56:49 by angalsty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	ft_check_shlvl(t_vars *vars)
 		printf( "inttest %d\n", ft_atoi(shlvl) + 1);
 		temp = ft_itoa(ft_atoi(shlvl) + 1);
 		ft_change_env(vars, "SHLVL=", temp, 6);
+		free(temp);
 	}
 	// free(temp);
 	// else
@@ -103,8 +104,18 @@ void	ft_submain(t_vars *vars)
 			free(vars->line);
 			exit(0);
 		}
+		// if (vars->line == NULL)
+		// {
+		// 	//signal(SIGTERM, handler_ctrl_d);
+		// 	ft_putstr_fd ("exit\n", 1); //coregir para que escriba exit bien
+		// 	system("leaks minishell");
+		// 	free(vars->line);
+		// 	exit(0);
+		// }
 		//this one is also Sirus code
 		if (ft_pre_check(vars) || ft_check_rl(vars))
+		{
+			free(vars->line);
 		{
 			free(vars->line);
 			continue ;

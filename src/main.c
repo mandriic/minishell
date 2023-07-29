@@ -41,6 +41,7 @@ int main(int argc, char *argv[], char *envp[])
 	vars = (t_vars){};
 	vars.split = NULL;
 	vars.cmd_list = NULL;
+	vars.error = 0;
 	vars.line = NULL;
 	vars.quotes  = "'";
 	vars.temp_env = NULL;
