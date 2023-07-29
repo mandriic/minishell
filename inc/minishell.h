@@ -33,7 +33,7 @@
 // 	char				**export;
 // }	t_data;
 
-int g_error; //global variable to store the exit status
+// int g_error; //global variable to store the exit status
 
 typedef struct s_command
 {
@@ -74,6 +74,7 @@ typedef struct s_vars
 	char 	**temp_env;
 	int		i;
 	int		i2;
+	int		error;
 	char	*temp;
 	char	*temp2;
 	int		start;
