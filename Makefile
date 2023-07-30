@@ -1,8 +1,8 @@
 
 
 
-R42LFLAG = -L/Users/mandriic/.brew/opt/readline/lib
-R42IFLAG = -I/Users/mandriic/.brew/opt/readline/include
+R42LFLAG = -L/Users/angalsty/.brew/opt/readline/lib
+R42IFLAG = -I/Users/angalsty/.brew/opt/readline/include
 R42LFLAGM = -L/opt/homebrew/opt/readline/lib 
 R42IFLAGM = -I/opt/homebrew/opt/readline/include
 R42LFLAGU = -L/usr/share/readline 

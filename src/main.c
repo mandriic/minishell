@@ -33,7 +33,7 @@ int main(int argc, char *argv[], char *envp[])
 
 	// atexit(leaks);
 	t_vars  vars;
-	(void)argc;(void)argv;
+	//(void)argc;(void)argv;
 	
 	// ft_preliminar_check(argc, argv);
 	set_signal(); //signals set to start
