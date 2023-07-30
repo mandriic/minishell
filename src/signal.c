@@ -29,8 +29,8 @@ void    handle_process_on(int sig)
 
 void handler_ctrl_d(int sig) 
 {
-    printf("%d",sig);
-    printf("exit\n");
+    (void)sig;
+    printf("mi exit\n");
     exit(0);//no esta fiuncionando
 }
 

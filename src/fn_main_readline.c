@@ -6,7 +6,7 @@
 /*   By: angalsty <angalsty@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:14:18 by mandriic          #+#    #+#             */
-/*   Updated: 2023/07/29 16:13:22 by angalsty         ###   ########.fr       */
+/*   Updated: 2023/07/29 19:42:42 by angalsty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,7 @@ void	ft_submain(t_vars *vars)
 			exit (0);
 		}*/
 		if (vars->line && ft_strncmp(" ", vars->line, ft_strlen(vars->line) == 0))
-		{
-			free(vars->line);
 			continue ; //this helps to get off the leaks when you try to exit the program
-
-		}
 		if (vars->line == NULL)
 		{
 			//signal(SIGTERM, handler_ctrl_d);
@@ -113,6 +109,7 @@ void	ft_submain(t_vars *vars)
 
 		}
 		if (vars->line)
+		
 			add_history(vars->line);
 		vars->line_len = ft_strlen(vars->line);
 		vars->type = ft_mask(vars->line, vars, 1);
