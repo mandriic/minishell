@@ -6,7 +6,7 @@
 /*   By: angalsty <angalsty@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:14:18 by mandriic          #+#    #+#             */
-/*   Updated: 2023/07/29 19:56:49 by angalsty         ###   ########.fr       */
+/*   Updated: 2023/07/29 21:47:37 by angalsty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	ft_check_rl(t_vars *vars)
 		rl_clear_history();
 		exit(0);
 	}
-	if (vars->line[0] == '\0')
+	if (vars->line[0] != '\0')
 	{
 		rl_on_new_line();
 		return (1);
@@ -113,11 +113,9 @@ void	ft_submain(t_vars *vars)
 		// 	exit(0);
 		// }
 		//this one is also Sirus code
-		if (ft_pre_check(vars) || ft_check_rl(vars))
+		if (ft_pre_check(vars)) //|| ft_check_rl(vars))
 		{
-			free(vars->line);
-		{
-			free(vars->line);
+			//free(vars->line);
 			continue ;
 		}
 		if (vars->line)

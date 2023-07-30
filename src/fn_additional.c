@@ -6,7 +6,7 @@
 /*   By: angalsty <angalsty@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:10:25 by mandriic          #+#    #+#             */
-/*   Updated: 2023/06/18 18:59:55 by angalsty         ###   ########.fr       */
+/*   Updated: 2023/07/29 21:56:49 by angalsty         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,12 +133,12 @@ int	ft_pre_check(t_vars *vars)
 		if (ft_isalnum(vars->line[vars->i]))
 			alpha++;
 	}
-	/*if (alpha == 0)
+	if (alpha == 0)
 	{
-		printf("Minishell: syntax error near unexpected token \n");
+		//printf("Minishell: syntax error near unexpected token \n");
 		free(vars->line);
 		return (1);
-	}*/
+	}
 	return (0);
 }
 
