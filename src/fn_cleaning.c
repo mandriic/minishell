@@ -33,7 +33,7 @@ void	ft_subcleaning(char *str, char **clear, t_vars *vars, int *type)
 		vars->i2++;
 	if (!vars->temp || str[vars->i2 + 1] == '\0')
 	{
-		printf("vars->temp is null\n");
+		// printf("vars->temp is null\n");
 		vars->temp = ft_substr(str, vars->start2 + 1, vars->i2 - vars->start2 - 1);
 	}
 	vars->start2 = vars->i2;

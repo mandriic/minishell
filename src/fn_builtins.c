@@ -30,7 +30,8 @@ int	ft_echo(t_vars *vars, t_command *cmd)
 
         // if (ft_strncmp(cmd->cmd[1], "-n", 2) != 0) //(cmd->cmd[i + 1] != NULL)// && ft_strncmp(cmd->cmd[1], "-n", 2) != 0)
         //if (cmd->cmd[i + 1] != NULL)
-        ft_putstr_fd(" ", 1);
+        if(cmd->cmd[i + 1] != NULL)
+            ft_putstr_fd(" ", 1);
         //printf("the cmd is %s \n", cmd->cmd[i]);
         i++;
     }
@@ -126,12 +127,33 @@ int	ft_cd(t_vars *vars, t_command *cmd)
         ft_change_env(vars, "OLDPWD=", ft_get_value("PWD", vars->env_var), 6);
         ft_change_env(vars, "PWD=", cdir, 4);
         free(cdir);
-        ft_print_dp(vars->env_var, "ENVVAR");
+        // ft_print_dp(vars->env_var, "ENVVAR");
 
         // ft_change_env(vars, "PWD=", cmd->cmd[1], 4);
 
         // printf("success\n");
         // printf("%s\n", cmd->cmd[1]);
+    }
+    else if(cmd->cmd[1] == NULL)
+    {
+        if (chdir(ft_get_value("HOME", vars->env_var)) == 0)
+        {
+            cdir = getcwd(NULL, 0);
+            // printf("%s \n",  cdir);
+            ft_change_env(vars, "OLDPWD=", ft_get_value("PWD", vars->env_var), 6);
+            ft_change_env(vars, "PWD=", cdir, 4);
+            free(cdir);
+        }
+        // printf("cd builtin\n");
+        // printf("success\n");
+        // printf("%s\n", cmd->cmd[1]);
+        // printf("cd: %s: No such file or directory\n", cmd->cmd[1]);
+        // printf("error\n");
+    }
+    else if (chdir(cmd->cmd[1]) == -1)
+    {
+        printf("cd: %s: No such file or directory\n", cmd->cmd[1]);
+        // printf("error\n");
     }
     // printf("TEST\n");
     return(1);
@@ -246,8 +268,8 @@ int	ft_exit(t_vars *vars, t_command *cmd)
             {
                 printf("minishell: exit: %s: numeric argument required\n", cmd->cmd[i]);
                 vars->error = 255;
-                printf("vars->error = %d\n", vars->error);
-                system("leaks minishell");
+                // printf("vars->error = %d\n", vars->error);
+                // system("leaks minishell");
         		// free(vars->line);
                 exit(0); //added by Anush in order to exit the program
                 return(1);
@@ -256,8 +278,8 @@ int	ft_exit(t_vars *vars, t_command *cmd)
         }
         i++;
     }
-    printf("exit builtin\n");
-    system("leaks minishell");
+    // printf("exit builtin\n");
+    // system("leaks minishell");
     // ft_end_of_cicle(vars);
     // free(vars->line);
     exit(0); //added by Anush in order to exit the program

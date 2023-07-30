@@ -20,13 +20,13 @@ void	ft_check_shlvl(t_vars *vars)
 
 	(void)int_shlvl;(void)temp;
 	shlvl = ft_get_value("SHLVL", vars->env_var);
-	printf("shlvl: %s\n", shlvl);
+	// printf("shlvl: %s\n", shlvl);
 	
 	// shlvl = shlvl + 1;
 	// printf("shlvl: %s\n", shlvl);
 	if (shlvl)
 	{
-		printf( "inttest %d\n", ft_atoi(shlvl) + 1);
+		// printf( "inttest %d\n", ft_atoi(shlvl) + 1);
 		temp = ft_itoa(ft_atoi(shlvl) + 1);
 		ft_change_env(vars, "SHLVL=", temp, 6);
 		free(temp);
@@ -101,7 +101,7 @@ void	ft_submain(t_vars *vars)
 		{
 			//signal(SIGTERM, handler_ctrl_d);
 			printf("exit\n"); //coregir para que escriba exit bien
-			system("leaks minishell");
+			// system("leaks minishell");
 			free(vars->line);
 			exit(0);
 		}
