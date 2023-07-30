@@ -41,6 +41,11 @@ typedef struct s_command
 	char	*vars_resolv;
 	char	**pre_comand_bon;
 	char	**pre_args;
+<<<<<<< HEAD
+=======
+	//pid_t*	child_pid;
+	int 	pid;
+>>>>>>> 3062c0a (Fix segFau << EOF)
 	int		fd[2];
 	int		mem_pipe;
 	char	*arg;

@@ -37,10 +37,10 @@ $(BIN_PATH)%.o: $(SRCS_PATH)%.c
 	@$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c $< -o $@
 
 $(NAME): $(OBJS)
-	@$(MAKE) -C $(LIBFT_PATH) --silent
-	@echo $(PURPLE)"[Creating $(NAME)]"$(NONE)
-	@$(CC) -o $(NAME) $(OBJS) $(LIBFT_FLAGS) $(LIBRL_FLAGS) #-fsanitize=address
-	@echo $(GREEN)"$(NAME): ready to be executed"$(NONE)
+	make -C $(LIBFT_PATH)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_FLAGS) -I$(INCS) -o $(NAME) $(R42LFLAGM) $(R42IFLAGM) -lreadline #-L/opt/homebrew/opt/readline/lib -I/opt/homebrew/opt/readline/include -lreadline
+
+all:		$(NAME)
 
 clean:
 	@$(RM) $(OBJS)
@@ -48,10 +48,9 @@ clean:
 	@$(MAKE) -C $(LIBFT_PATH) clean --silent
 	@echo $(RED)"[Object Files Deleted]"$(NONE)
 
-fclean: clean
-	@$(RM) $(NAME)
-	@$(MAKE) -C $(LIBFT_PATH) fclean --silent
-	@echo $(RED)"[Executable File Deleted]"$(NONE)
+fclean:		clean
+			make fclean -C $(LIBFT_PATH)
+			$(RM) $(NAME)
 
 re: fclean 
 	@$(MAKE)

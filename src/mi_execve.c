@@ -182,15 +182,15 @@ int ft_check_if_vars(t_vars *vars, t_command *cmd_struct)
     char *temp;
     char **temp2;
     int i = 0;
-        while(cmd_struct->cmd[0][i])
-            if (cmd_struct->cmd[0][i++] == '=')
-            {
-                temp = ft_substr(cmd_struct->cmd[0],0, i);
-                if (ft_change_env(vars, temp, cmd_struct->cmd[0] + i, ft_strlen(cmd_struct->cmd[0]) - i) == 0)
-                    vars->temp_env =ft_append_to_temp_env(vars, cmd_struct->cmd[0]);
-                free(temp);
-                return (1);
-            }
+    while(cmd_struct->cmd[0][i])
+        if (cmd_struct->cmd[0][i++] == '=')
+        {
+            temp = ft_substr(cmd_struct->cmd[0],0, i);
+            if (ft_change_env(vars, temp, cmd_struct->cmd[0] + i, ft_strlen(cmd_struct->cmd[0]) - i) == 0)
+                vars->temp_env =ft_append_to_temp_env(vars, cmd_struct->cmd[0]);
+            free(temp);
+            return (1);
+        }
     return (0);
 }
 
@@ -202,8 +202,11 @@ void ft_mi_exec(t_vars *vars)
     char *temp;
     t_command *temp_cmd;
     temp_cmd = vars->cmd_list;
-    while (temp_cmd != NULL)
+    //temp_cmd->child_pid = (pid_t *)malloc(sizeof(pid_t) * vars->num_pipes + 1);
+    while (temp_cmd != NULL && temp_cmd->cmd)
     {
+        printf("temp_cmd->cmd[0] is %s \n", temp_cmd->cmd[0]);
+        //signal(SIGUSR2, SIG_IGN);
         if(ft_check_if_vars(vars, temp_cmd))
         {
             if (temp_cmd->next)
