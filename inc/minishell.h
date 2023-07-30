@@ -45,6 +45,7 @@ typedef struct s_command
 	char	**pre_comand_bon;
 	char	**pre_args;
 	//pid_t*	child_pid;
+	int 	pid;
 	int		fd[2];
 	int		mem_pipe;
 	char	*arg;

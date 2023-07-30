@@ -29,7 +29,7 @@ $(BIN_PATH)%.o: $(SRCS_PATH)%.c
 	$(CC) $(CFLAGS) -c $< -o $@ -I$(INCS) $(R42IFLAGM) #-I/opt/homebrew/opt/readline/include
 
 $(NAME): $(OBJS)
-	@$(MAKE) -C $(LIBFT_PATH) --silent
+	make -C $(LIBFT_PATH)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_FLAGS) -I$(INCS) -o $(NAME) $(R42LFLAGM) $(R42IFLAGM) -lreadline #-L/opt/homebrew/opt/readline/lib -I/opt/homebrew/opt/readline/include -lreadline
 
 all:		$(NAME)
@@ -38,6 +38,7 @@ clean:
 			$(RM) $(OBJS)
 
 fclean:		clean
+			make fclean -C $(LIBFT_PATH)
 			$(RM) $(NAME)
 
 re:			fclean all
