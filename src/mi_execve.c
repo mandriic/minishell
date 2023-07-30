@@ -345,7 +345,7 @@ void ft_mi_exec(t_vars *vars)
     //temp_cmd->child_pid = (pid_t *)malloc(sizeof(pid_t) * vars->num_pipes + 1);
     while (temp_cmd != NULL && temp_cmd->cmd)
     {
-        printf("temp_cmd->cmd[0] is %s \n", temp_cmd->cmd[0]);
+        // printf("temp_cmd->cmd[0] is %s \n", temp_cmd->cmd[0]);
         //signal(SIGUSR2, SIG_IGN);
         if(ft_check_if_vars(vars, temp_cmd))
         {
@@ -366,7 +366,7 @@ void ft_mi_exec(t_vars *vars)
         }
         else
         {
-            printf("cmd CHECK is %s \n", temp_cmd->cmd[0]);
+            // printf("cmd CHECK is %s \n", temp_cmd->cmd[0]);
             path = ft_get_val("PATH", vars->env_var);
             cmd_path = ft_pars_path(path, temp_cmd->cmd[0], 5, vars);
             // printf("cmd_path is %s \n", cmd_path);
@@ -382,7 +382,7 @@ void ft_mi_exec(t_vars *vars)
                 temp = cmd_path;
                 cmd_path = ft_strjoin(cmd_path, temp_cmd->cmd[0]);
                 free(temp);
-                printf("cmd_path is %s \n", cmd_path);
+                // printf("cmd_path is %s \n", cmd_path);
                 ft_get_dollar(vars, temp_cmd);
     
                 ft_execuve(cmd_path, temp_cmd, vars);  // ATENTION

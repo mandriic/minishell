@@ -273,7 +273,7 @@ void ft_lst_cmd(t_vars *vars)
 	temp = vars->cmd_list;
 	while (temp)
 	{
-		 printf("print puntero from list ->%s\n", temp->comando_con_flags);
+		//  printf("print puntero from list ->%s\n", temp->comando_con_flags);
 		temp = temp->next;
 	}
 	// printf("I%d",i);
