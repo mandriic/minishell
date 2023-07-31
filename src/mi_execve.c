@@ -257,6 +257,7 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
     }
              //free(child_pid);
 }
+
 int ft_check_if_builtins_true(t_vars *vars, t_command *cmd)
 {
     (void)vars;
@@ -298,17 +299,23 @@ int ft_check_if_builtins(t_vars *vars, t_command *cmd)
         return (0);
 }
 
-int ft_check_if_vars(t_vars *vars, t_command *cmd_struct)
+int ft_check_if_vars(t_vars *vars, t_command *cmd_struct, int j)
 {
     char *temp;
     // char **temp2;
     int i = 0;
-        while(cmd_struct->cmd[0][i])
-            if (cmd_struct->cmd[0][i++] == '=')
+        while(cmd_struct->cmd[j][i])
+            if (cmd_struct->cmd[j][i++] == '=')
             {
-                temp = ft_substr(cmd_struct->cmd[0],0, i);
-                if (ft_change_env(vars, temp, cmd_struct->cmd[0] + i, ft_strlen(cmd_struct->cmd[0]) - i) == 0)
-                    vars->temp_env =ft_append_to_temp_env(vars, cmd_struct->cmd[0]);
+                temp = ft_substr(cmd_struct->cmd[j],0, i);
+                printf("temp is %s \n", temp);
+                //add a function to compare if there is an existing temp alredy, if yes replace if no add
+                if (ft_change_env(vars, temp, cmd_struct->cmd[j] + i, ft_strlen(cmd_struct->cmd[j]) - i) == 0)
+                {
+                    printf("cmd_struct->cmd[j] is %s \n", cmd_struct->cmd[j]);
+                    printf("cmd_struct->cmd[j] + i is %s \n", cmd_struct->cmd[j] + i);
+                    vars->temp_env =ft_append_to_temp_env(vars, cmd_struct->cmd[j]);
+                }
                 free(temp);
                 return (1);
             }
@@ -339,21 +346,31 @@ void ft_mi_exec(t_vars *vars)
     char *cmd_path;
     char *temp;
     t_command   *temp_cmd;
-    //int i = 0;
+    int i = 0;
 
     temp_cmd = vars->cmd_list;
     //temp_cmd->child_pid = (pid_t *)malloc(sizeof(pid_t) * vars->num_pipes + 1);
     while (temp_cmd != NULL)
     {
         //signal(SIGUSR2, SIG_IGN);
-        if(ft_check_if_vars(vars, temp_cmd))
+        if(ft_check_if_vars(vars, temp_cmd, i) && temp_cmd->cmd[i] != NULL)
         {
-            if (temp_cmd->next)
-                continue ;
-            else
+            while (temp_cmd->cmd[i] != NULL)
+                {
+                    printf("temp_cmd->cmd[0] is %s \n", temp_cmd->cmd[0]);
+                    printf("temp_cmd->cmd[0] is %s \n", temp_cmd->cmd[1]);
+                   ft_check_if_vars(vars, temp_cmd, i );
+                   i++;
+                }
+               // need to add break here after check if vars is done  
+            /*else
+            {
+                printf("vars->error of break is %d \n", vars->error);
                 break ;
+            }*/
         }
-        if (ft_check_if_builtins_true(vars, temp_cmd))
+
+        else if (ft_check_if_builtins_true(vars, temp_cmd))
         {
             if (ft_check_if_builtins_true(vars, temp_cmd) && temp_cmd->next != NULL)
                 ft_execuve(NULL, temp_cmd, vars); // ATENTION
@@ -406,7 +423,6 @@ void ft_mi_exec(t_vars *vars)
             printf("Minishell: command not found: %s \n", temp_cmd->cmd[0]);
         }*/
         temp_cmd = temp_cmd->next;
-        //printf("i is %d \n", i);
-        //i++;
+        
     }
 }
