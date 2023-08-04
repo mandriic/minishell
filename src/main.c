@@ -36,8 +36,6 @@ int main(int argc, char *argv[], char *envp[])
 	//(void)argc;(void)argv;
 	
 	// ft_preliminar_check(argc, argv);
-	set_signal(); //signals set to start
-	//signal(SIGQUIT, SIG_IGN);
 	vars = (t_vars){};
 	vars.split = NULL;
 	vars.cmd_list = NULL;
