@@ -128,6 +128,11 @@ int	ft_pre_check(t_vars *vars)
 
 	vars->i = -1;
 	alpha = 0;
+	if (vars->line[0] == '\0')
+	{
+		free(vars->line);
+		return (1);
+	}
 	while (vars->line[++vars->i])
 	{
 		if (ft_isalnum(vars->line[vars->i]))

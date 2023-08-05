@@ -1,40 +1,32 @@
-### --- COLORS --- ###
-
-RED		= '\033[1;31m'
-GREEN	= '\033[1;32m'
-PURPLE	= '\033[1;35m'
-YELLOW	= '\033[1;33m'
-NONE	= '\033[0m'
-BLUE	= '\033[1;34m'
 
 
-### --- VARIABLES --- ###
-NAME = minishell
 
-
-SRCS_PATH = src/
-INCS_PATH = inc/
+R42LFLAG = -L/Users/angalsty/.brew/opt/readline/lib
+R42IFLAG = -I/Users/angalsty/.brew/opt/readline/include
+R42LFLAGM = -L/opt/homebrew/opt/readline/lib 
+R42IFLAGM = -I/opt/homebrew/opt/readline/include
+R42LFLAGU = -L/usr/share/readline 
+R42IFLAGU = -I/usr/include/readline
+INCS     = inc/
 BIN_PATH = bin/
+SRCS_PATH = src/
 LIBFT_PATH = libft/
-
-SRCS = fn_list.c fn_builtins.c fn_main_readline.c fnadd_free.c fnadd_libftmod.c fn_additional.c fn_cleaning.c fn_getenvs.c\
-fn_mask.c fn_pip_splt_trim.c fn_vars.c main.c fn_redirs.c fn_create_data.c mi_execve.c fn_cd.c\
-
-OBJS = $(SRCS:%.c=bin/%.o)
-CC = gcc
-CFLAGS = -g -O0 # -Wall -Werror -Wextra
 LIBFT_FLAGS = -I$(LIBFT_PATH) -L$(LIBFT_PATH) -lft
-LIBRL_FLAGS = -L/usr/local/opt/readline/lib -I/usr/local/opt/readline/include -lreadline
-LIBRL_FLAGS += -L/Users/$(USER)/.brew/opt/readline/lib -I/Users/$(USER)/.brew/opt/readline/include -lreadline
-RM = rm -f
+SRCS = fn_list.c fn_builtins.c fn_main_readline.c fnadd_free.c fnadd_libftmod.c fn_additional.c fn_cleaning.c fn_getenvs.c \
+fn_mask.c fn_pip_splt_trim.c fn_vars.c main.c fn_redirs.c fn_create_data.c mi_execve.c fn_cd.c 
 
-###		RULES		###
+CC       = gcc
 
-all: $(NAME)
+OBJS     = $(SRCS:%.c=$(BIN_PATH)%.o)
+
+CFLAGS   = -g -O0#-Wall -Wextra -Werror
+
+NAME     = minishell
+
+RM       = rm -f
 
 $(BIN_PATH)%.o: $(SRCS_PATH)%.c
-	@mkdir -p $(BIN_PATH)
-	@$(CC) $(CFLAGS) -I$(LIBFT_PATH) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@ -I$(INCS) $(R42IFLAGM) #-I/opt/homebrew/opt/readline/include
 
 $(NAME): $(OBJS)
 	make -C $(LIBFT_PATH)
@@ -43,16 +35,13 @@ $(NAME): $(OBJS)
 all:		$(NAME)
 
 clean:
-	@$(RM) $(OBJS)
-	@rm -rf $(BIN_PATH)
-	@$(MAKE) -C $(LIBFT_PATH) clean --silent
-	@echo $(RED)"[Object Files Deleted]"$(NONE)
+			$(RM) $(OBJS)
+			make clean -C $(LIBFT_PATH)
 
 fclean:		clean
 			make fclean -C $(LIBFT_PATH)
 			$(RM) $(NAME)
 
-re: fclean 
-	@$(MAKE)
+re:			fclean all
 
-.PHONY: all clean fclean re
+.PHONY:		all clean fclean re

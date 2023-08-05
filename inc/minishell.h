@@ -20,7 +20,6 @@
 # define BUFFER_SIZE 10000
 # define READ_END    0    /* index pipe extremo lectura */
 # define WRITE_END   1 
-//no hay nada preparado para $_ (el último comando utilizado, se guarda en las variables de entorno)
 
 // typedef struct s_data
 // {
@@ -32,63 +31,61 @@
 // 	char				**export;
 // }	t_data;
 
-typedef struct s_command
+//structuras estan violadas por todo el mundo, las voy a limpiar en el futuro 
+typedef struct s_command //structura de UN comando. Si existe un pipe, se crea una nueva structura t_command
 {
 	char	**cmd_splited; //data->cmd_splited[0] [1] - args
 	// char 	*comando_con_flags;//este se transforma en cmd con un split
-	char	**cmd;//este si se usa
-	char	*comando_a_pelo;//este si se usa
-	char	*vars_resolv;
-	char	**pre_comand_bon;
-	char	**pre_args;
-<<<<<<< HEAD
-=======
+	char	**cmd; //array de strings, cada string es comando[0] y comando[1] son los args o flags etc. comando[x] es NULL
+	char	*comando_a_pelo; // es un artifacto de la funcion ft_pre_com_bon, se puede borrar creo, pero no estoy seguro
+	char	*vars_resolv; //es un artifacto de la funcion ft_pre_com_bon, se puede borrar creo, pero no estoy seguro
+	char	**pre_comand_bon; //utiliza en parser, variable tecnica
+	char	**pre_args; //utiliza en parser, variable tecnica
 	//pid_t*	child_pid;
-	int 	pid;
->>>>>>> 3062c0a (Fix segFau << EOF)
-	int		fd[2];
-	int		mem_pipe;
-	char	*arg;
-	char	**infiles;  // 	<
-	char	**heredocs; //	<<
-	char	**outfiles; //	>
-	char	**appends; 	//	>>
-	int		menos;
-	int		menos_dob;
-	int		mas;
-	int		mas_dob;
-	char   **cpy_env;
-	char 	*sub_arg;
-	struct s_command	*next;
-	struct s_command	*prev;
+	int 	pid; //pid del proceso (no se si esta realizado)
+	int		fd[2]; //pipe 
+	int		mem_pipe; // ni idea
+	char	*arg; // ni idea
+	char	**infiles;  // 	< redirecciones cada string de este array es texto que va despues de <
+	char	**heredocs; //	<< redirecciones cada string de este array es texto que va despues de <<
+	char	**outfiles; //	> redirecciones cada string de este array es texto que va despues de >
+	char	**appends; 	//	>> 
+	int		menos; // artificato de la funcion ft_check_redir, se puede borrar creo, pero no estoy seguro
+	int		menos_dob; // artificato de la funcion ft_check_redir, se puede borrar creo, pero no estoy seguro
+	int		mas; // artificato de la funcion ft_check_redir, se puede borrar creo, pero no estoy seguro
+	int		mas_dob; // artificato de la funcion ft_check_redir, se puede borrar creo, pero no estoy seguro
+	char   **cpy_env; // copia del envp
+	char 	*sub_arg; // ni idea, parece a variable tecnica
+	struct s_command	*next; //siguiente comando en la lista
+	struct s_command	*prev; //comando anterior en la lista
 }t_command;
 
 typedef struct s_vars
 {
 	// t_command	*list;
-	struct s_command	*cmd_list; //t_comad
-	char	**split;
-	char	*quotes;
-	char	*line;
-	int		*type;
-	char	**env_var;
-	char 	**temp_env;
-	int		i;
-	int		i2;
-	char	*temp;
-	char	*temp2;
-	int		start;
-	int		start2;
-	char	*var;
-	int		need_cleaning;
-	int					num_cmds;
+	struct s_command	*cmd_list; //lista de comandos que contiene todos t_command y cmd_list->next es el siguiente comando
+	char	**split; // tecnica variable
+	char	*quotes; // tecnica variable
+	char	*line; //linea que devuelve readline
+	int		*type; // tecnica variable
+	char	**env_var; // variable de entorno, que se copia en envp_copy
+	char 	**temp_env; //technica variable
+	int		i; //technica variable
+	int		i2; //technica variable
+	char	*temp; //technica variable
+	char	*temp2; //technica variable
+	int		start; //technica variable
+	int		start2; //technica variable
+	char	*var; //technica variable
+	int		need_cleaning; //technica variable
+	int					num_cmds; //numero de comandos
 	// int					num_pipes;
-	int					last_code;
+	int					last_code; //codigo de salida (no esta realizado)
 	// char				**envp_copy;
-	char				**export;
+	// char				**export;  //variable fatal creada porque palabra export es reservada
 	
-	size_t 	num_pipes;
-	size_t	line_len;
+	size_t 	num_pipes; //numero de pipes
+	size_t	line_len; //longitud de la linea
 }	t_vars;
 
 // typedef struct s_command
@@ -105,11 +102,11 @@ typedef struct s_vars
 // }	t_command;
 
 // extern t_data	g_data;
-void c(char *str);
+void c(char *str); //funcion de debug
 
-void ft_print_arrint(int *arr, char *name);
-void ft_print_dp(char **str, char *name);
-char	*leelinea(void);
+void ft_print_arrint(int *arr, char *name); //funcion de debug
+void ft_print_dp(char **str, char *name); //funcion de debug
+char	*leelinea(void);  // ni idea
 // void	ft_cd(char *route);
 
 //export.c
@@ -143,7 +140,7 @@ char	*leelinea(void);
 // int		ft_matrix_len(char **matrix);
 
 
-void leaks ();
+void leaks (); //funcion de debug
 
 /* pipe.c */
 // void	ft_close_pipes(t_command *cmd);
@@ -155,33 +152,17 @@ void leaks ();
 // void	ft_multiple_pipes(t_vars *vars);
 
 /* builtins.c */
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> e6c0c31 (export with var, fn check_if_builtin_true)
-int	ft_echo(t_vars *vars, t_command *cmd);
-int	ft_cd(t_vars *vars, t_command *cmd);
-int	ft_pwd(t_vars *vars, t_command *cmd);
-int		ft_export(t_vars *vars, t_command *cmd);
-int	ft_unset(t_vars *vars, t_command *cmd);
-<<<<<<< HEAD
-int	ft_env(t_vars *vars, t_command *cmd);
-int	ft_exit(t_vars *vars, t_command *cmd);
-=======
-int	ft_echo(t_vars *vars);
-int	ft_cd(t_vars *vars);
-int	ft_pwd(t_vars *vars);
-int		ft_export(t_vars *vars);
-int	ft_unset(t_vars *vars);
-int	ft_env(t_vars *vars, t_command *cmd);
-int	ft_exit(t_vars *vars);
->>>>>>> 73e2ec5 (chacnge check if builtins)
-=======
-int	ft_env(t_vars *vars, t_command *cmd);
-int	ft_exit(t_vars *vars, t_command *cmd);
->>>>>>> e6c0c31 (export with var, fn check_if_builtin_true)
-int ft_change_env(t_vars *vars, char *name, char *new_value, int len);
-char *ft_get_value(char *str, char **env);
+int	ft_echo(t_vars *vars, t_command *cmd); //builtins
+int	ft_cd(t_vars *vars, t_command *cmd); //builtins
+int	ft_pwd(t_vars *vars, t_command *cmd); //builtins
+int		ft_export(t_vars *vars, t_command *cmd); //builtins
+int	ft_unset(t_vars *vars, t_command *cmd); //builtins
+int	ft_env(t_vars *vars, t_command *cmd); //builtins
+int	ft_exit(t_vars *vars, t_command *cmd); //builtins
+int	ft_env(t_vars *vars, t_command *cmd);  //builtins 
+int	ft_exit(t_vars *vars, t_command *cmd); //builtins
+int ft_change_env(t_vars *vars, char *name, char *new_value, int len); //builtins cambiar variable de entorno
+char *ft_get_value(char *str, char **env); //builtins obtener valor de variable de entorno
 // bool	ft_is_builtin(t_command cmd);
 // void	ft_execute_buitlin(t_command cmd, t_vars *vars);
 
@@ -192,14 +173,14 @@ char *ft_get_value(char *str, char **env);
 /* export.c */
 // int	ft_check_existing_variable_in_matrix(char **matrix, char *var_name, int *index);
 
-// fn_list.c
-char		**ft_pre_com_bon(char *str, t_vars *vars);
-void		ft_merge_comando_args(t_command *data);
-int			ft_check_redir(char **arr, t_command *data);
-void		ft_resolv_com_bon(t_command *data, t_vars *vars);
-t_command 	*ft_create_data(char *str, t_vars *vars);
-void		ft_add2list(t_vars *vars, t_command *data, t_command **prev, t_command **temp);
-void		ft_lst_cmd(t_vars *vars);
+// fn_list.c parseo todo
+char		**ft_pre_com_bon(char *str, t_vars *vars); // funcion de parseo
+void		ft_merge_comando_args(t_command *data); // funcion de parseo
+int			ft_check_redir(char **arr, t_command *data); // funcion de parseo
+void		ft_resolv_com_bon(t_command *data, t_vars *vars); // funcion de parseo
+t_command 	*ft_create_data(char *str, t_vars *vars); // funcion de parseo
+void		ft_add2list(t_vars *vars, t_command *data, t_command **prev, t_command **temp); // funcion de parseo
+void		ft_lst_cmd(t_vars *vars); // funcion de parseo
 int			ft_check_apphdoc(char *str, char **com_bon, int *i, int *type);
 int			ft_check_inoutfile(char *str, char **com_bon, int *i, int *type);
 void		ft_check_total(char *str, char **com_bon, int *i, int *type);
@@ -277,14 +258,9 @@ void ft_chdir(t_vars *vars);
 void ft_mi_exec(t_vars *vars);
 
 int ft_check_if_builtins(t_vars *vars, t_command *cmd);
-<<<<<<< HEAD
-<<<<<<< HEAD
-int ft_check_if_builtins_true(t_vars *vars, t_command *cmd);
-=======
 
->>>>>>> d780366 (builts with pipes works)
-=======
 int ft_check_if_builtins_true(t_vars *vars, t_command *cmd);
->>>>>>> e6c0c31 (export with var, fn check_if_builtin_true)
+
+int ft_check_if_builtins_true(t_vars *vars, t_command *cmd);
 #endif
 

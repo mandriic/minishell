@@ -177,7 +177,7 @@ int ft_check_if_builtins(t_vars *vars, t_command *cmd)
         return (0);
 }
 
-int ft_check_if_vars(t_vars *vars, t_command *cmd_struct)
+int ft_check_if_vars(t_vars *vars, t_command *cmd_struct) // Debe ser cambiado no funciona bien
 {
     char *temp;
     char **temp2;
@@ -214,27 +214,27 @@ void ft_mi_exec(t_vars *vars)
             else
                 break ;
         }
-        if ( ft_check_if_builtins_true(vars, temp_cmd))
-                ft_check_if_builtins(vars, temp_cmd);
+        if ( ft_check_if_builtins_true(vars, temp_cmd))//Aqui esta comprobando si es un builtin <
+                ft_check_if_builtins(vars, temp_cmd);  //si arriba es true, aqui ejecuta el builtin 
         // else if (ft_check_if_builtins(vars, temp_cmd) == 0)
         // {
             printf("cmd CHECK is %s \n", temp_cmd->cmd[0]);
-            path = ft_get_val("PATH", vars->env_var);
-            cmd_path = ft_pars_path(path, temp_cmd->cmd[0], 5, vars);
+            path = ft_get_val("PATH", vars->env_var); //cogemos el valor de la variable de entorno PATH
+            cmd_path = ft_pars_path(path, temp_cmd->cmd[0], 5, vars); //parseo path con comando
             printf("cmd_path is %s \n", cmd_path);
-            if (!cmd_path && (temp_cmd->cmd[0][0] == '.' || temp_cmd->cmd[0][0] == '/')) //&& (temp_cmd->cmd[0][1] == '/' || temp_cmd->cmd[0][1] == '.'))
-                ft_execuve(temp_cmd->cmd[0], temp_cmd, vars); // ATENTION
+            if (!cmd_path && (temp_cmd->cmd[0][0] == '.' || temp_cmd->cmd[0][0] == '/')) // comprobamos ruta si es relativa o absoluta y binario no esta en PATH //&& (temp_cmd->cmd[0][1] == '/' || temp_cmd->cmd[0][1] == '.'))
+                ft_execuve(temp_cmd->cmd[0], temp_cmd, vars); // ATENTION ejecutamos binario
 
-            else if (cmd_path)
+            else if (cmd_path) //si esta en PATH
             {
                 temp = cmd_path;
-                cmd_path = ft_strjoin(cmd_path, "/");
+                cmd_path = ft_strjoin(cmd_path, "/"); //creamos ruta completa
                 free(temp);
                 temp = cmd_path;
-                cmd_path = ft_strjoin(cmd_path, temp_cmd->cmd[0]);
+                cmd_path = ft_strjoin(cmd_path, temp_cmd->cmd[0]); //creamos ruta completa
                 free(temp);
                 printf("cmd_path is %s \n", cmd_path);
-                ft_execuve(cmd_path, temp_cmd, vars);  // ATENTION
+                ft_execuve(cmd_path, temp_cmd, vars);  // ATENTION execuvamos binario
                 free(cmd_path);
             }
             // printf("PATH is %s \n", path);
@@ -245,6 +245,6 @@ void ft_mi_exec(t_vars *vars)
             //     printf("Minishell: command not found: %s \n", temp_cmd->cmd[0]);
             // }
         // }
-        temp_cmd = temp_cmd->next;
+        temp_cmd = temp_cmd->next; //vamos a siguiente comando
     }
 }

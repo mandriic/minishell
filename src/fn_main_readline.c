@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
+// Chequear variable de entorno SHLVL y sumarle 1
 void	ft_check_shlvl(t_vars *vars)
 {
 	char	*shlvl;
@@ -36,7 +36,7 @@ void	ft_check_shlvl(t_vars *vars)
 
 void	ft_readline(t_vars *vars)
 {
-	ft_check_shlvl(vars);
+	ft_check_shlvl(vars); // Chequear variable de entorno SHLVL y sumarle 1
 	// vars = (t_vars){};
 	// vars.split = NULL;
 	// // vars.list = NULL;
@@ -59,29 +59,34 @@ void	ft_line_exist(t_vars *vars)
 	ft_lst_cmd(vars);
 }
 
-void	ft_submain(t_vars *vars)
+void	ft_submain(t_vars *vars) // main funcion while (1)
 {
 	while (1)
 	{
-		vars->line = readline("Minishell $ "); 
+		vars->line = readline("Minishell $ "); // readline devuelve no parseado string
 		printf("line: %s\n", vars->line);
-		if (!ft_strncmp ("exit", vars->line, ft_strlen(vars->line)))
+		if (!ft_strncmp ("exit", vars->line, ft_strlen(vars->line))) //esta funcion es temporal, hace exit si linea es vacia, estoy usando cuando busco leaks
+
 		{
 			write(1, "exit\n", 5);
 			system("leaks minishell");
 			exit (0);
 		}
-		if (ft_pre_check(vars))
+		if (ft_pre_check(vars)) // checkea si linea contiene caracteres permitidos (hay que hacerlo mejor)
 			continue ;
-		add_history(vars->line);
+		add_history(vars->line); // funcion de readline
 		vars->line_len = ft_strlen(vars->line);
-		vars->type = ft_mask(vars->line, vars, 1);
+		vars->type = ft_mask(vars->line, vars, 1); // devuelve un array de int con los tipos de comillas, pipes, etc (imprimibles o no) no hay que cambiar nada puede explotar
 		if (vars->type != NULL)
-			ft_line_exist(vars);
+		{
+			ft_line_exist(vars); //puro parsing, si hace falta cambiar algo, mejor que hablas conmigo
+			ft_mi_exec(vars); // ejecuta los comandos, aqui si que tienes que trabajar
+			ft_end_of_cicle(vars); //libera memoria despues del circulo, no hay que cambiar nada
+		}
+		else
+			ft_end_of_cicle(vars);
 		// ft_jose(vars);
 		// printf("%s\n", vars->cmd_list->cmd_splited[0]);
 		// ft_print_dp(vars->cmd_list->next->cmd, "vars->cmd_list->cmd");
-		ft_mi_exec(vars);
-		ft_end_of_cicle(vars);
 	}
 }
