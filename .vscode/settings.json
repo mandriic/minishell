@@ -1,7 +1,8 @@
 {
     "files.associations": {
         "stdio.h": "c",
-        "fcntl.h": "c"
+        "fcntl.h": "c",
+        "sstream": "c"
     },
     "makefile.launchConfigurations": [
         {

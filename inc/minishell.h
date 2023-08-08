@@ -221,6 +221,7 @@ char		*ft_get_env(char *str, int len, t_vars *vars);
 void		ft_pre_getenv(char *str, char **acum, t_vars *vars);
 void		ft_get_env2(char ***arr, t_vars *vars);
 void		ft_sub_get_env(char *str, char *var, int len, int *i);
+char 		*ft_var_exit_code(t_vars *vars, char *str);
 
 // fnadd_free.c
 void ft_my_free_d(char **arr);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_vars.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: pepealkalina <pepealkalina@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:15:50 by mandriic          #+#    #+#             */
-/*   Updated: 2022/09/30 16:15:53 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/08 11:51:59 by pepealkalin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 		free(type);
 		if (vars->start - 1 > 0 && str[vars->start - 1] == '\0'
 			&& acum != NULL)
+			printf("%s ddasdasd\n", acum);
 			return (acum);
 		return (str);
 	}
@@ -36,6 +37,7 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 		free(type);
 		return (acum);
 	}
+	acum = ft_var_exit_code(vars, str);
 	free(type);
 	return (acum);
 }
@@ -91,4 +93,15 @@ void	ft_sub_get_env(char *str, char *var, int len, int *i)
 			break ;
 	}
 	var[*i] = '\0';
+}
+
+char *ft_var_exit_code(t_vars *vars, char *str)
+{
+	vars->i = 0;
+	while (str[vars->i++])
+	{
+		if (str[vars->i] == '$' && str[vars->i + 1] == '?')
+			return (ft_itoa(vars->last_code));
+	}
+	return(NULL);
 }
