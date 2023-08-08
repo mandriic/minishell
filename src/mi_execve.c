@@ -182,7 +182,7 @@ int ft_check_if_vars(t_vars *vars, t_command *cmd_struct) // Debe ser cambiado n
     char *temp;
     char **temp2;
     int i = 0;
-    while(cmd_struct->cmd[0][i])
+    while( cmd_struct->cmd[0] != NULL && cmd_struct->cmd[0][i])
         if (cmd_struct->cmd[0][i++] == '=')
         {
             temp = ft_substr(cmd_struct->cmd[0],0, i);
@@ -203,7 +203,7 @@ void ft_mi_exec(t_vars *vars)
     t_command *temp_cmd;
     temp_cmd = vars->cmd_list;
     //temp_cmd->child_pid = (pid_t *)malloc(sizeof(pid_t) * vars->num_pipes + 1);
-    while (temp_cmd != NULL && temp_cmd->cmd)
+    while (temp_cmd != NULL && temp_cmd->cmd && temp_cmd->cmd[0] != NULL)
     {
         printf("temp_cmd->cmd[0] is %s \n", temp_cmd->cmd[0]);
         //signal(SIGUSR2, SIG_IGN);
