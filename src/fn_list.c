@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_list.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: pepealkalina <pepealkalina@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:13:45 by mandriic          #+#    #+#             */
-/*   Updated: 2022/09/30 16:13:49 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/08 12:55:37 by pepealkalin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void	ft_lst_cmd(t_vars *vars)
 			ft_print_dp(temp->appends, "appends");
 		if (temp->heredocs)
 			ft_print_dp(temp->heredocs, "heredocs");
-		printf("end\n");
+		//printf("end\n");
 		temp = temp->next;
 	}
 	if (i != 1)

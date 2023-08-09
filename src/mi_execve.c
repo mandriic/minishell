@@ -182,7 +182,7 @@ int ft_check_if_vars(t_vars *vars, t_command *cmd_struct) // Debe ser cambiado n
     char *temp;
     char **temp2;
     int i = 0;
-    while( cmd_struct->cmd[0] != NULL && cmd_struct->cmd[0][i])
+    while (cmd_struct->cmd[0][i])
         if (cmd_struct->cmd[0][i++] == '=')
         {
             temp = ft_substr(cmd_struct->cmd[0],0, i);

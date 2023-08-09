@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_main_readline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: pepealkalina <pepealkalina@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:14:18 by mandriic          #+#    #+#             */
-/*   Updated: 2022/09/30 16:14:20 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/09 11:16:41 by pepealkalin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	ft_submain(t_vars *vars) // main funcion while (1)
 		if (vars->type != NULL)
 		{
 			ft_line_exist(vars); //puro parsing, si hace falta cambiar algo, mejor que hablas conmigo
+			//printf("%p adspok\n", vars->cmd_list->cmd[0]);
 			ft_mi_exec(vars); // ejecuta los comandos, aqui si que tienes que trabajar
 			ft_end_of_cicle(vars); //libera memoria despues del circulo, no hay que cambiar nada
 		}
