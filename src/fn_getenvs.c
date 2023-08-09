@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_getenvs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: pepealkalina <pepealkalina@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:13:16 by mandriic          #+#    #+#             */
-/*   Updated: 2022/09/30 16:13:24 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/09 13:16:13 by pepealkalin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@
 // {
 // 	ft_get_value(valor, vars->env);
 // }
+
+char *ft_last_c(t_vars *vars)
+{
+	printf("%i dsfkjniodsf\n", vars->last_code);
+	return(ft_itoa(vars->last_code));
+}
 
 char	*ft_get_env(char *str, int len, t_vars *vars)
 {
@@ -31,7 +37,9 @@ char	*ft_get_env(char *str, int len, t_vars *vars)
 	{
 		free(var);
 		var = malloc(sizeof(char *) * 3);
-		ft_strlcpy(var, "$?", 3);
+		temp = ft_last_c(vars);
+		ft_strlcpy(var, temp, 10);
+		free(temp);
 		return (var);
 	}
 	else if (str[1] == '~')
