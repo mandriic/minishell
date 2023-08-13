@@ -44,7 +44,7 @@ int	ft_clear_quot(char *str, char **clear, t_vars *vars, int *type)
 {
 	if (type[vars->i2] == 2 || type[vars->i2] == 1 || str[vars->i2] == '~')
 	{
-		if ((str[vars->i2] == '"' && str[vars->i2 + 1] == '"')
+		if ((str[vars->i2] == '"' && str[vars->i2 + 1] == '"' && ft_strlen(str) == 2)
 			|| (str[vars->i2] == vars->quotes[0]
 				&& str[vars->i2 + 1] == vars->quotes[0]))
 		{
