@@ -153,7 +153,7 @@ int	ft_cd(t_vars *vars, t_command *cmd)
     else if (chdir(cmd->cmd[1]) == -1)
     {
         printf("cd: %s: No such file or directory\n", cmd->cmd[1]);
-        // printf("error\n");
+        vars->error = 1;
     }
     // printf("TEST\n");
     return(1);

@@ -67,7 +67,7 @@ char *ft_pars_path(char *path, char *cmd, int len, t_vars *vars) //char *
                 if(dir)
                     free(dir);
                 dir = ft_strjoin(ifhome, dir);
-                // printf("dir is %s \n", dir);
+                printf("dir is %s \n", dir);
             }
             if (ft_check_dir(dir, cmd, ft_strlen(cmd)) == 1)
             {
@@ -298,7 +298,7 @@ int ft_check_if_builtins(t_vars *vars, t_command *cmd)
         return (0);
 }
 
-int ft_check_if_vars(t_vars *vars, t_command *cmd_struct)
+int ft_check_if_vars(t_vars *vars, t_command *cmd_struct) // Debe ser cambiado no funciona bien
 {
     char *temp;
     // char **temp2;
@@ -319,7 +319,7 @@ int   ft_get_dollar(t_vars *vars, t_command *temp_cmd)
 {
     (void)vars;
       int i = 1;
-
+    printf("dsadsdad %s\n");
       while (temp_cmd->cmd[i])
       {
           if (ft_strncmp(temp_cmd->cmd[i], "$?", 2) == 0)
@@ -377,10 +377,10 @@ void ft_mi_exec(t_vars *vars)
             {
                 //signal(SIGUSR2, SIG_IGN);
                 temp = cmd_path;
-                cmd_path = ft_strjoin(cmd_path, "/");
+                cmd_path = ft_strjoin(cmd_path, "/"); //creamos ruta completa
                 free(temp);
                 temp = cmd_path;
-                cmd_path = ft_strjoin(cmd_path, temp_cmd->cmd[0]);
+                cmd_path = ft_strjoin(cmd_path, temp_cmd->cmd[0]); //creamos ruta completa
                 free(temp);
                 // printf("cmd_path is %s \n", cmd_path);
                 ft_get_dollar(vars, temp_cmd);
