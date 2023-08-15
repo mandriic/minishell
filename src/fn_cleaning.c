@@ -89,6 +89,7 @@ char	*ft_cleaning(char *str, t_vars *vars)
 	vars->temp = NULL;
 	type = ft_mask(str, vars, 0);
 	clear = ft_del_quot(str, type, vars);
+	free(type);
 	// while (str[++vars->i2])
 	// {
 	// 	if (type[vars->i2] == 2)
