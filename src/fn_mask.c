@@ -16,7 +16,12 @@ int	ft_singquot(char *line, int *type, t_vars *vars, int check)
 {
 	type[vars->i] = 1;
 	while (line[++vars->i] != vars->quotes[0] && line[vars->i] != '\0' )
-		type[vars->i] = 5;
+		{
+			type[vars->i] = 5;
+			if (line[vars->i] == '$')
+				type[vars->i] = 8;
+		}
+
 	if (line[vars->i] == '\0' && check)
 	{
 		printf("Minishell: Not interpret unclosed quotes \n");
@@ -37,7 +42,11 @@ int	ft_dobquot(char *line, int *type, t_vars *vars, int check)
 {
 	type[vars->i] = 2;
 	while (line[++vars->i] != '"' && line[vars->i] != '\0')
+	{
 		type[vars->i] = 6;
+		if (line[vars->i] == '$')
+			type[vars->i] = 7;
+	}
 	if (line[vars->i] == '\0' && check)
 	{
 		printf("Minishell: Not interpret unclosed quotes \n");
