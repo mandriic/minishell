@@ -267,21 +267,15 @@ int	ft_exit(t_vars *vars, t_command *cmd)
             if (ft_isdigit(cmd->cmd[i][j]) == 0)
             {
                 printf("minishell: exit: %s: numeric argument required\n", cmd->cmd[i]);
-                vars->error = 255;
                 // printf("vars->error = %d\n", vars->error);
                 // system("leaks minishell");
         		// free(vars->line);
-                exit(0); //added by Anush in order to exit the program
+                exit(vars->errors); //added by Anush in order to exit the program
                 return(1);
             }
             j++;
         }
         i++;
     }
-    // printf("exit builtin\n");
-    // system("leaks minishell");
-    // ft_end_of_cicle(vars);
-    // free(vars->line);
-    exit(0); //added by Anush in order to exit the program
-    return(1);
+    exit(0);
 }

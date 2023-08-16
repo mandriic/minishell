@@ -6,7 +6,7 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:13:16 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/14 12:32:09 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/16 13:24:10 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,29 @@
 // {
 // 	ft_get_value(valor, vars->env);
 // }
+char *ft_add_strin_before(char *str);
+{
+	char *temp_str;
+	char *r_str;
+	int i;
+	int j;
+
+	temp_str = (char *)malloc(sizeof(char) * ft_strlen(str) - 2)
+	i = 1;
+	j = -1;
+	while(str[++i] && temp_str[++j])
+		temp_str[j] = str[i];
+	r_str = temp_str;
+	free(temp_str);
+	return(r_str)
+}
 
 char	*ft_get_env(char *str, int len, t_vars *vars)
 {
 	char	*var;
 	char	*valor;
 	char	*temp;
+	char	*str_temp;
 	int		i;
 
 	valor = NULL;
@@ -30,9 +47,11 @@ char	*ft_get_env(char *str, int len, t_vars *vars)
 	if (str[1] == '?')
 	{
 		free(var);
-		var = malloc(sizeof(char *) * 3);
-		ft_strlcpy(var, "$?", 3);
-		return (var);
+		str_temp = ft_add_strin_before(str);
+		temp = ft_itoa(vars->error);
+		var = ft_strdup(temp);
+		free(temp);
+		return (ft_strlcpy(var, str_temp, ft_strlen(str_temp)));
 	}
 	else if (str[1] == '~')
 	{

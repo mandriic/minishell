@@ -319,7 +319,6 @@ int   ft_get_dollar(t_vars *vars, t_command *temp_cmd)
 {
     (void)vars;
       int i = 1;
-    printf("dsadsdad %s\n");
       while (temp_cmd->cmd[i])
       {
           if (ft_strncmp(temp_cmd->cmd[i], "$?", 2) == 0)
