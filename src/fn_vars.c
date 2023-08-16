@@ -47,19 +47,30 @@ void	ft_pre_getenv(char *str, char **acum, t_vars *vars)
 	if (vars->i - vars->start > 0 && (str [vars->i - 1] == ' ' \
 			|| lastchar == '/' || str[vars->i - 1] != vars->quotes[0]) && str[0] != '~')
 	{
+		// printf("CHECK1vars->i: %d\n", vars->i);
 		vars->temp = ft_substr(str, vars->start, vars->i - vars->start);
 		*acum = ft_acumulate(*acum, vars->temp);
 	}
 	vars->start = vars->i + 1;
 	vars->i++;
+	// printf("!!!str[%d]: %c\n", vars->i, str[vars->i]);
 	while ( str[vars->i] != '\0' && str[vars->i] != '/' // && str[vars->i] != ' ' // <- ' ' was comented, made error in "$HOME "
 		&& str[vars->i] != '"' && str[vars->i] != '$'
-		&& str[vars->i] != vars->quotes[0] && str[vars->i] != '~') // && str[vars->i] != '~'
+		&& str[vars->i] != vars->quotes[0] && str[vars->i] != '~') 
+	{
+		if (str[vars->i] == '?' && str[vars->i - 1] == '$')
+			break ;
 		vars->i++;
+		// printf("str5[%d]: %c\n", vars->i, str[vars->i]);
+
+	}// && str[vars->i] != '~'
 	vars->var = ft_get_env(str + vars->start - 1, vars->i - vars->start, vars);
+	// printf("vars->var: %s\n", vars->var);
 	vars->start = vars->i + 1;
 	*acum = ft_acumulate(*acum, vars->var);
+	// printf("acum: %s\n", *acum);
 	lastchar = str[vars->i];
+	// printf("lastchar: %c\n", lastchar);
 	if (str[vars->i] == '$' && str[vars->i - 1] != ' '
 		&& str[vars->i - 1] != '"')
 		vars->i--;

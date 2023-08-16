@@ -111,9 +111,12 @@ int	ft_search_redir(char *line, t_vars *vars, int check, int *type)
 		type[vars->i] = 11;
 	else if (line[vars->i] == '<' || line[vars->i] == '>')
 		type[vars->i] = 10;
+	else if (line[vars->i] == '$')
+		type[vars->i] = 7;
 	else if (line[vars->i] != '"' && line[vars->i] != vars->quotes[0]
 		&& line[vars->i] != '\0')
 		type[vars->i] = 0;
+
 	return (0);
 }
 
