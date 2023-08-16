@@ -25,13 +25,15 @@ char	*ft_get_env(char *str, int len, t_vars *vars)
 	int		i;
 
 	valor = NULL;
+	// printf("str3: %s\n", str);
 	var = malloc(sizeof(char *) * len + 1);
 	i = -1;
 	if (str[1] == '?')
 	{
 		free(var);
-		var = malloc(sizeof(char *) * 3);
-		ft_strlcpy(var, "$?", 3);
+		// var = malloc(sizeof(char *) * 3);
+		// ft_strlcpy(var, "55", 3);
+		var = ft_itoa(vars->error);
 		return (var);
 	}
 	else if (str[1] == '~')
@@ -46,7 +48,8 @@ char	*ft_get_env(char *str, int len, t_vars *vars)
 	if (vars->temp_env)
 		valor = ft_get_value(var, vars->temp_env);
 	if (valor == NULL)
-		valor = ft_get_value(var, vars->env_var);	// printf("valor: %s\n", valor);
+		valor = ft_get_value(var, vars->env_var);
+	printf("valor: %s\n", valor);
 	free(var);
 	if (!valor)
 		return (NULL);
