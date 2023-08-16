@@ -52,7 +52,7 @@ void	ft_pre_getenv(char *str, char **acum, t_vars *vars)
 	}
 	vars->start = vars->i + 1;
 	vars->i++;
-	while ( str[vars->i] != '\0' && str[vars->i] != '/' && str[vars->i] != ' ' // <- ' ' was comented, made error in "$HOME "
+	while ( str[vars->i] != '\0' && str[vars->i] != '/' // && str[vars->i] != ' ' // <- ' ' was comented, made error in "$HOME "
 		&& str[vars->i] != '"' && str[vars->i] != '$'
 		&& str[vars->i] != vars->quotes[0] && str[vars->i] != '~') // && str[vars->i] != '~'
 		vars->i++;
@@ -73,8 +73,7 @@ void	ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars)
 	{
 		// printf("str[%d]: %c\n", vars->i, str[vars->i]);
 		// printf("type[%d]: %d\n", vars->i, type[vars->i]);
-		if ((str[vars->i] == '$' && (type[vars->i] == 6 \
-		|| type[vars->i] == 0) && str[vars->i + 1] != ' ')) // && str[vars->i] != '~'
+		if ((type[vars->i] == 7 && str[vars->i + 1] != ' ' && str[vars->i + 1] != '"')) // && str[vars->i] != '~'&& (type[vars->i] == 6 || type[vars->i] == 0) && 
 			ft_pre_getenv(str, acum, vars);
 		if (str[vars->i] == '\0')
 			break ;
