@@ -6,16 +6,12 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:13:16 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/18 19:29:39 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/18 19:32:39 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-// char *ft_loc_getenv(char *valor, t_vars vars)
-// {
-// 	ft_get_value(valor, vars->env);
-// }
 char	*ft_change_symbol(char *str, char *var, t_vars *vars)
 {
 	if (str[1] == '?')
