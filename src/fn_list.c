@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_list.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:13:45 by mandriic          #+#    #+#             */
-/*   Updated: 2022/09/30 16:13:49 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/18 16:46:28 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,24 +110,6 @@ void	ft_lst_cmd(t_vars *vars)
 		prev = temp;
 		temp = temp->next;
 	}
-	temp = vars->cmd_list;
-	// while (temp)
-	// {
-	// 	if (temp->cmd)
-	// 		ft_print_dp(temp->cmd, "!comando bonito!");
-	// 	if (temp->prev)
-	// 		ft_print_dp(temp->prev->cmd, "prev ");
-	// 	if (temp->infiles)
-	// 		ft_print_dp(temp->infiles, "infiles");
-	// 	if (temp->outfiles)
-	// 		ft_print_dp(temp->outfiles, "outfiles");
-	// 	if (temp->appends)
-	// 		ft_print_dp(temp->appends, "appends");
-	// 	if (temp->heredocs)
-	// 		ft_print_dp(temp->heredocs, "heredocs");
-	// 	printf("end\n");
-	// 	temp = temp->next;
-	// }
 	if (i != 1)
 		ft_free_dob_arr(vars->split);
 }
