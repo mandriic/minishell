@@ -6,7 +6,7 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:13:16 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/18 17:27:58 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/18 18:52:53 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,17 @@ char	*ft_get_env(char *str, int len, t_vars *vars)
 	int		i;
 
 	valor = NULL;
-	// printf("str3: %s\n", str);
 	var = malloc(sizeof(char *) * len + 1);
 	i = -1;
 	if (str[1] == '?')
 	{
 		free(var);
-		// var = malloc(sizeof(char *) * 3);
-		// ft_strlcpy(var, "55", 3);
-		var = ft_itoa(vars->error);
-		return (var);
+		return (ft_itoa(vars->error));
 	}
-	else if (str[1] == '~')
+	else if (str[0] == '~')
 	{
 		free(var);
-		var = malloc(sizeof(char *) * 6);
-		ft_strlcpy(var, "HOME", 5);
+		return (ft_strdup(ft_get_value("HOME", vars->env_var)));
 	}
 	else if (str[0] == '$' && str[1] == '\0')
 	{
@@ -49,7 +44,6 @@ char	*ft_get_env(char *str, int len, t_vars *vars)
 	}
 	else
 		ft_sub_get_env(str, var, len, &i);
-		// printf("var: %s\n", var);
 	if (vars->temp_env)
 		valor = ft_get_value(var, vars->temp_env);
 	if (valor == NULL)
@@ -57,7 +51,7 @@ char	*ft_get_env(char *str, int len, t_vars *vars)
 	free(var);
 	if (!valor)
 		return (NULL);
-	if (str[i + 1] == ' ' )
+	if (str[i + 1] == ' ')
 		temp = ft_strjoin(valor, " ");
 	else if (str[i + 1] == '/')
 		temp = ft_strjoin(valor, "/");

@@ -6,7 +6,7 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:15:50 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/18 17:18:00 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/18 18:40:47 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ void	ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars)
 	{
 		if (str[vars->i] == '\0')
 			break ;
-		if ((type[vars->i] == 7 && str[vars->i + 1] != ' '
-				&& str[vars->i + 1] != '"'))
+		if (((type[vars->i] == 7 && str[vars->i + 1] != ' '
+				&& str[vars->i + 1] != '"')) || str[vars->i] == '~')
 			ft_pre_getenv(str, acum, vars);
 		vars->i++;
 	}
