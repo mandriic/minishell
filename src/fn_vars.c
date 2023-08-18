@@ -6,7 +6,7 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:15:50 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/18 16:44:39 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/18 17:18:00 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ft_pre_getenv(char *str, char **acum, t_vars *vars)
 	}
 	vars->start = vars->i + 1;
 	vars->i++;
-	while (str[vars->i] != '\0' && str[vars->i] != '/'
+	while (str[vars->i] != '\0' && str[vars->i] != '/' && str[vars->i] != ' '
 		&& str[vars->i] != '"' && str[vars->i] != '$'
 		&& str[vars->i] != vars->quotes[0] && str[vars->i] != '~')
 	{
