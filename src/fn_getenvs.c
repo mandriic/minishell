@@ -6,7 +6,7 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:13:16 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/18 18:52:53 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/18 19:29:39 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,8 @@
 // {
 // 	ft_get_value(valor, vars->env);
 // }
-
-char	*ft_get_env(char *str, int len, t_vars *vars)
+char	*ft_change_symbol(char *str, char *var, t_vars *vars)
 {
-	char	*var;
-	char	*valor;
-	char	*temp;
-	int		i;
-
-	valor = NULL;
-	var = malloc(sizeof(char *) * len + 1);
-	i = -1;
 	if (str[1] == '?')
 	{
 		free(var);
@@ -40,8 +31,23 @@ char	*ft_get_env(char *str, int len, t_vars *vars)
 	else if (str[0] == '$' && str[1] == '\0')
 	{
 		free(var);
-		return(ft_strdup("$"));
+		return (ft_strdup("$"));
 	}
+	return (NULL);
+}
+
+char	*ft_get_env(char *str, int len, t_vars *vars)
+{
+	char	*var;
+	char	*valor;
+	char	*temp;
+	int		i;
+
+	valor = NULL;
+	var = malloc(sizeof(char *) * len + 1);
+	i = -1;
+	if (str[1] == '?' || str[0] == '~' || (str[0] == '$' && str[1] == '\0'))
+		return (ft_change_symbol(str, var, vars));
 	else
 		ft_sub_get_env(str, var, len, &i);
 	if (vars->temp_env)
@@ -51,10 +57,8 @@ char	*ft_get_env(char *str, int len, t_vars *vars)
 	free(var);
 	if (!valor)
 		return (NULL);
-	if (str[i + 1] == ' ')
-		temp = ft_strjoin(valor, " ");
-	else if (str[i + 1] == '/')
-		temp = ft_strjoin(valor, "/");
+	if (str[i + 1] == ' ' || str[i + 1] == '/')
+		temp = ft_strjoin_mod(valor, ft_substr(str, i + 1, 1));
 	else
 		temp = ft_strdup(valor);
 	return (temp);

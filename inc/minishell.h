@@ -108,7 +108,7 @@ typedef struct s_vars
 
 // extern t_data	g_data;
 void c(char *str);
-
+char	*ft_strjoin_mod(char *s1, char *s2);
 void ft_print_arrint(int *arr, char *name);
 void ft_print_dp(char **str, char *name);
 char	*leelinea(void);
