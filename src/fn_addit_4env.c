@@ -6,7 +6,7 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:09:29 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/18 18:25:56 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/18 18:28:43 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,18 @@ char	**ft_append_to_env(t_vars *vars, char *to_append)
 	}
 	else
 		return (NULL);
+}
+
+void	ft_print_dp(char **str, char *name)
+{
+	int	i;
+
+	i = -1;
+	printf("_____________printing doble punbtero %s _______\n", name);
+	while (str[++i])
+	{
+		printf("\t %s[%d] = .%s.\n", name, i, str[i]);
+	}
+	printf("check NULL %s", str[i]);
+	printf("\n");
 }
