@@ -6,64 +6,24 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:10:48 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/18 18:36:10 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/18 19:41:38 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-// void	ft_subcleaning(char *str, char **clear, t_vars *vars, int *type)
-// {
-// 	if (str[vars->i2] == '~')
-// 	{
-// 		vars->temp = ft_strdup(getenv("HOME"));
-// 	}
-// 	else if (vars->i2 - vars->start2 != 0)
-// 	{
-// 		if (vars->start2 == 0)
-// 			vars->temp = ft_substr(str, vars->start2, vars->i2 - vars->start2);
-// 		else
-// 			vars->temp = ft_substr(str, vars->start2 + 1,
-// 					vars->i2 - vars->start2 - 1);
-// 		*clear = ft_acumulate(*clear, vars->temp);
-// 	}
-// 	vars->start2 = vars->i2;
-// 	vars->i2++;
-// 	while(str[vars->i2] != '\0' && type[vars->i2] != 1 && type[vars->i2] != 2)
-// 		vars->i2++;
-// 	if (!vars->temp || str[vars->i2 + 1] == '\0')
-// 		vars->temp = ft_substr(str, vars->start2 + 1, vars->i2 - vars->start2 - 1);
-// 	vars->start2 = vars->i2;
-// 	*clear = ft_acumulate(*clear, vars->temp);
-// }
-
-// int	ft_clear_quot(char *str, char **clear, t_vars *vars, int *type)
-// {
-// 	if (type[vars->i2] == 2 || type[vars->i2] == 1 || str[vars->i2] == '~')
-// 	{
-// 		if ((str[vars->i2] == '"' && str[vars->i2 + 1] == '"' && ft_strlen(str) == 2)
-// 			|| (str[vars->i2] == vars->quotes[0]
-// 				&& str[vars->i2 + 1] == vars->quotes[0]))
-// 		{
-// 			free(type);
-// 			return (1);
-// 		}
-// 		ft_subcleaning(str, clear, vars, type);
-// 	}
-// 	return (0);
-// }
-char *ft_del_quot(char *str, int *type, t_vars *vars)
+char	*ft_del_quot(char *str, int *type, t_vars *vars)
 {
 	char	*clear;
 	int		i;
 	int		j;
-	clear = malloc(sizeof(char) * ft_strlen(str) + 1);
 
+	clear = malloc(sizeof(char) * ft_strlen(str) + 1);
 	i = 0;
 	j = 0;
 	while (str[i])
 	{
-		if (type[i]!= 2 && type[i] != 1)
+		if (type[i] != 2 && type[i] != 1)
 		{
 			clear[j] = str[i];
 			j++;
