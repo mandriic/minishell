@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_pip_splt_trim.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:15:12 by mandriic          #+#    #+#             */
-/*   Updated: 2022/09/30 16:15:19 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/18 16:35:22 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,9 @@ void	ft_subtrim(char **separ, char **temp, int *i, t_vars *vars)
 	sub_type = ft_mask(temp[0], vars, 1);
 	while (temp[0][++i[1]])
 	{
-		// printf("temp %c sub_type%d \n", temp[0][i[1]], sub_type[i[1]]);
 		if (temp[0][i[1]] == ' ' && temp[0][i[1] + 1] == ' '
 			&& sub_type[i[1]] != 5 && sub_type[i[1]] != 6)
 			continue ;
-		// if (sub_type[i[1]] == 2 || sub_type [i[1]] == 1)
-		// 	continue ;
 		separ[i[0]][i3] = temp[0][i[1]];
 		i3++;
 	}
