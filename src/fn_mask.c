@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_mask.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:14:34 by mandriic          #+#    #+#             */
-/*   Updated: 2022/09/30 16:14:37 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/18 15:35:23 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,11 @@ int	ft_singquot(char *line, int *type, t_vars *vars, int check)
 {
 	type[vars->i] = 1;
 	while (line[++vars->i] != vars->quotes[0] && line[vars->i] != '\0' )
-		{
-			type[vars->i] = 5;
-			if (line[vars->i] == '$')
-				type[vars->i] = 8;
-		}
-
+	{
+		type[vars->i] = 5;
+		if (line[vars->i] == '$')
+			type[vars->i] = 8;
+	}
 	if (line[vars->i] == '\0' && check)
 	{
 		printf("Minishell: Not interpret unclosed quotes \n");
@@ -62,39 +61,37 @@ int	ft_dobquot(char *line, int *type, t_vars *vars, int check)
 		type[vars->i] = 2;
 	return (0);
 }
-int ft_check_error(char *line, int *type, int len)
+
+int	ft_check_error(char *line, int *type, int len)
 {
 	int i;
+
 	i = -1;
 	while (++i < len)
 	{
-		// printf("type[%d] = %d\n", i, type[i]);
-		if (type[i] == 11 && (type[i + 1] != 10 || type[i + 2] == 10) || (type[i] == 10 && type[i + 1] == 10))
+		if (type[i] == 11 && (type[i + 1] != 10 || type[i + 2] == 10)
+			|| (type[i] == 10 && type[i + 1] == 10))
 		{
-		// printf("type[%d] = %d\n", i, type[i + 1]);
-
 			if (type[i + 1] == 11)
 			{
-				printf("Minishell: syntax error near unexpected token `%c%c'\n", line[i + 1], line[i + 2]);
+				printf("Minishell: syntax error near unexpected token `%c%c'\n",
+					line[i + 1], line[i + 2]);
 				free(type);
 				return (1);
 			}
 			else
 			{
-				printf("Minishell: syntax error near unexpected token `%c'\n", line[i + 1]);
+				printf("Minishell: syntax error near unexpected token `%c'\n",
+					line[i + 1]);
 				free(type);
 				return (1);
 			}
 			return (0);
 		}
 	}
-	// if (type[vars->i] == 11 && type[vars->i + 2] != ' ' || ft_isalpha(line[vars->i + 1])))
-	// {
-	// 		printf("Minishell: syntax error near unexpected token `<<'\n");
-	// 		return (1);
-	// 	}
 	return (0);
 }
+
 int	ft_search_redir(char *line, t_vars *vars, int check, int *type)
 {
 	if (line[vars->i] == vars->quotes[0]
@@ -116,7 +113,6 @@ int	ft_search_redir(char *line, t_vars *vars, int check, int *type)
 	else if (line[vars->i] != '"' && line[vars->i] != vars->quotes[0]
 		&& line[vars->i] != '\0')
 		type[vars->i] = 0;
-
 	return (0);
 }
 
