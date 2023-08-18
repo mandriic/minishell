@@ -84,10 +84,11 @@ void	ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars)
 	{
 		// printf("str[%d]: %c\n", vars->i, str[vars->i]);
 		// printf("type[%d]: %d\n", vars->i, type[vars->i]);
-		if ((type[vars->i] == 7 && str[vars->i + 1] != ' ' && str[vars->i + 1] != '"')) // && str[vars->i] != '~'&& (type[vars->i] == 6 || type[vars->i] == 0) && 
-			ft_pre_getenv(str, acum, vars);
 		if (str[vars->i] == '\0')
 			break ;
+		if ((type[vars->i] == 7 && str[vars->i + 1] != ' ' && str[vars->i + 1] != '"')) // && str[vars->i] != '~'&& (type[vars->i] == 6 || type[vars->i] == 0) && 
+			ft_pre_getenv(str, acum, vars);
+
 		vars->i++;
 	}
 }
