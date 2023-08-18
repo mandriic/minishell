@@ -6,7 +6,7 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:09:29 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/18 18:28:43 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/18 20:00:11 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,31 @@ void	ft_print_dp(char **str, char *name)
 	}
 	printf("check NULL %s", str[i]);
 	printf("\n");
+}
+
+
+char	*ft_acumulate(char *dest, char *part)
+{
+	int		lenpart;
+	char	*temp;
+
+	lenpart = ft_strlen(part);
+	if (lenpart == 0)
+	{
+		ft_my_free(part);
+		return (dest);
+	}
+	if (!dest)
+	{
+		temp = ft_strdup(part);
+		ft_my_free(part);
+	}
+	else
+	{
+		temp = ft_strjoin(dest, part);
+		if (dest != NULL)
+			ft_my_free(dest);
+		ft_my_free(part);
+	}
+	return (temp);
 }

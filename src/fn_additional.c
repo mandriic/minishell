@@ -6,7 +6,7 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:10:25 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/18 18:29:15 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/18 19:46:51 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	ft_pre_check(t_vars *vars)
 	}
 	if (alpha == 0)
 	{
-		printf("Minishell: syntax error near unexpected token \n");
+		printf("Minishell: syntax error near unexpected token `newline'\n");
 		free(vars->line);
 		return (1);
 	}
