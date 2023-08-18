@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_getenvs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:13:16 by mandriic          #+#    #+#             */
-/*   Updated: 2022/09/30 16:13:24 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/18 17:27:58 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ char	*ft_get_env(char *str, int len, t_vars *vars)
 		var = malloc(sizeof(char *) * 6);
 		ft_strlcpy(var, "HOME", 5);
 	}
+	else if (str[0] == '$' && str[1] == '\0')
+	{
+		free(var);
+		return(ft_strdup("$"));
+	}
 	else
 		ft_sub_get_env(str, var, len, &i);
 		// printf("var: %s\n", var);
@@ -49,7 +54,6 @@ char	*ft_get_env(char *str, int len, t_vars *vars)
 		valor = ft_get_value(var, vars->temp_env);
 	if (valor == NULL)
 		valor = ft_get_value(var, vars->env_var);
-	printf("valor: %s\n", valor);
 	free(var);
 	if (!valor)
 		return (NULL);
