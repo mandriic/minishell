@@ -6,7 +6,7 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:14:34 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/18 15:35:23 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/18 19:59:54 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,20 +73,13 @@ int	ft_check_error(char *line, int *type, int len)
 			|| (type[i] == 10 && type[i + 1] == 10))
 		{
 			if (type[i + 1] == 11)
-			{
 				printf("Minishell: syntax error near unexpected token `%c%c'\n",
 					line[i + 1], line[i + 2]);
-				free(type);
-				return (1);
-			}
 			else
-			{
 				printf("Minishell: syntax error near unexpected token `%c'\n",
 					line[i + 1]);
-				free(type);
-				return (1);
-			}
-			return (0);
+			free(type);
+			return (1);
 		}
 	}
 	return (0);
@@ -139,28 +132,3 @@ int	*ft_mask(char *line, t_vars *vars, int check)
 	return (type);
 }
 
-char	*ft_acumulate(char *dest, char *part)
-{
-	int		lenpart;
-	char	*temp;
-
-	lenpart = ft_strlen(part);
-	if (lenpart == 0)
-	{
-		ft_my_free(part);
-		return (dest);
-	}
-	if (!dest)
-	{
-		temp = ft_strdup(part);
-		ft_my_free(part);
-	}
-	else
-	{
-		temp = ft_strjoin(dest, part);
-		if (dest != NULL)
-			ft_my_free(dest);
-		ft_my_free(part);
-	}
-	return (temp);
-}
