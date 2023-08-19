@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_vars.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: pepealkalina <pepealkalina@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:15:50 by mandriic          #+#    #+#             */
-/*   Updated: 2022/09/30 16:15:53 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/18 13:02:30 by pepealkalin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	ft_pre_getenv(char *str, char **acum, t_vars *vars)
 		if (str[vars->i] == '?' && str[vars->i - 1] == '$')
 			break ;
 		vars->i++;
-		// printf("str5[%d]: %c\n", vars->i, str[vars->i]);
+		//printf("str5[%d]: %c\n", vars->i, str[vars->i]);
 
 	}// && str[vars->i] != '~'
 	vars->var = ft_get_env(str + vars->start - 1, vars->i - vars->start, vars);

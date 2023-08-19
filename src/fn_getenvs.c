@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_getenvs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: pepealkalina <pepealkalina@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:13:16 by mandriic          #+#    #+#             */
-/*   Updated: 2022/09/30 16:13:24 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/17 14:42:31 by pepealkalin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ char	*ft_get_env(char *str, int len, t_vars *vars)
 	if (str[1] == '?')
 	{
 		free(var);
-		// var = malloc(sizeof(char *) * 3);
-		// ft_strlcpy(var, "55", 3);
 		var = ft_itoa(vars->error);
 		return (var);
 	}
@@ -49,7 +47,7 @@ char	*ft_get_env(char *str, int len, t_vars *vars)
 		valor = ft_get_value(var, vars->temp_env);
 	if (valor == NULL)
 		valor = ft_get_value(var, vars->env_var);
-	printf("valor: %s\n", valor);
+	//printf("valor: %s\n", valor);
 	free(var);
 	if (!valor)
 		return (NULL);
