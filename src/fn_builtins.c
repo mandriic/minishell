@@ -189,7 +189,6 @@ int	ft_pwd(t_vars *vars, t_command *cmd)
 	return (1);
 }
 
-
 int		ft_export(t_vars *vars, t_command *cmd)
 {
 	int i;
@@ -201,7 +200,6 @@ int		ft_export(t_vars *vars, t_command *cmd)
 	i = 0;
 	if(cmd->cmd[1] != NULL)
 	{
-		// printf("export builtin%s\n", cmd->cmd[1]);
 		if (ft_strchr(cmd->cmd[1], '=') != NULL)
 			vars->env_var = ft_append_to_env(vars, cmd->cmd[1]);
 		else if (ft_find_in_temp_env(vars, cmd->cmd[1]) != NULL)
@@ -245,7 +243,8 @@ int		ft_export(t_vars *vars, t_command *cmd)
 		}
 		return (1);
 	}
-	i = 0;
+	if (ft_get_value("OLDPWD", vars->env_var) == 0)
+		printf("declare -x OLDPWD\n");
 	while (vars->env_var[i])
 	{
 		j = 0;
