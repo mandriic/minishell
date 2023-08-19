@@ -127,14 +127,14 @@ int ft_doublen(char **str)
 
 int	ft_cd_err(t_vars *vars, t_command *cmd)
 {
-	if (ft_doublen(cmd->cmd) > 2)
-	{
-		printf("cd: %s", cmd->cmd[1]);
-		ft_putstr_fd(" too many arguments", 2);
-		vars->error = 1;
-		return (0);
-	}
-	else if (chdir(cmd->cmd[1]) == -1)
+	// if (ft_doublen(cmd->cmd) > 2)
+	// {
+	// 	printf("cd: %s", cmd->cmd[1]);
+	// 	ft_putstr_fd(" too many arguments", 2);
+	// 	vars->error = 1;
+	// 	return (0);
+	// }
+	if (chdir(cmd->cmd[1]) == -1)
 	{
 		printf("cd: %s", cmd->cmd[1]);
 		ft_putstr_fd(" No such file or directory", 2);
@@ -335,7 +335,7 @@ int	ft_exit(t_vars *vars, t_command *cmd)
 			ft_putstr_fd(cmd->cmd[1], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
 			printf("exit\n");
-			exit(2);
+			exit(255);
 		}
 		else if (ft_doublen(cmd->cmd) > 2)
 		{
