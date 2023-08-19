@@ -37,6 +37,9 @@ void	ft_heredoc(char **arr, t_command *data, int *i)
 
 void	ft_infile(char **arr, t_command *data, int *i)
 {
+	int i2;
+
+	i2 = i[3];
 	if (!data->infiles)
 	{
 		data->infiles = malloc(sizeof(char *) * BUFFER_SIZE);
@@ -46,8 +49,10 @@ void	ft_infile(char **arr, t_command *data, int *i)
 		data->comando_a_pelo = arr[3];
 	else if (!data->comando_a_pelo)
 		data->comando_a_pelo = arr[0];
-	data->infiles[i[3]++] = ft_strdup(arr[i[0] + 1]);
-	data->infiles[i[3]] = NULL;
+	if (data->infiles && data->infiles[0] == 0)
+		free(data->infiles);
+	data->infiles[0] = ft_strdup(arr[i[0] + 1]);
+	data->infiles[1] = NULL;
 	i[0]++;
 }
 
