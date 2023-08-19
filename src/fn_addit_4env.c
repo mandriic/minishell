@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_addit_4env.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:09:29 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/18 20:00:11 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/19 18:40:35 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ void	ft_print_dp(char **str, char *name)
 	printf("check NULL %s", str[i]);
 	printf("\n");
 }
-
 
 char	*ft_acumulate(char *dest, char *part)
 {

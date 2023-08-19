@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_mask.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:14:34 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/18 19:59:54 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/19 19:20:25 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ int	ft_dobquot(char *line, int *type, t_vars *vars, int check)
 
 int	ft_check_error(char *line, int *type, int len)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (++i < len)
 	{
-		if (type[i] == 11 && (type[i + 1] != 10 || type[i + 2] == 10)
-			|| (type[i] == 10 && type[i + 1] == 10))
+		if (type[i] == 11 && ((type[i + 1] != 10 || type[i + 2] == 10)
+				|| (type[i] == 10 && type[i + 1] == 10)))
 		{
 			if (type[i + 1] == 11)
 				printf("Minishell: syntax error near unexpected token `%c%c'\n",
@@ -131,4 +131,3 @@ int	*ft_mask(char *line, t_vars *vars, int check)
 		return (NULL);
 	return (type);
 }
-

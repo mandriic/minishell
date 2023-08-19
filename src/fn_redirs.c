@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_redirs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:15:36 by mandriic          #+#    #+#             */
-/*   Updated: 2022/09/30 16:15:39 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/19 18:43:16 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	ft_heredoc(char **arr, t_command *data, int *i)
 	}
 	free(data->heredocs[i[1]]);
 	data->heredocs[i[1]--] = NULL;
-	// ft_print_dp(data->heredocs, "heredocs");
 	i[0]++;
 }
 

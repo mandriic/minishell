@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/18 15:18:52 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/19 16:33:35 by preina-g         ###   ########.fr       */
+/*   Created: 2023/08/19 17:58:20 by preina-g          #+#    #+#             */
+/*   Updated: 2023/08/19 18:36:27 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	main(int argc, char *argv[], char *envp[])
+int	ft_env(t_vars *vars, t_command *cmd)
 {
-	t_vars	vars;
+	int	i;
 
-	(void)argc;
-	(void)argv;
-	vars = (t_vars){};
-	vars.split = NULL;
-	vars.cmd_list = NULL;
-	vars.error = 0;
-	vars.line = NULL;
-	vars.quotes = "'";
-	vars.temp_env = NULL;
-	vars.env_var = ft_dupl_dp(envp);
-	ft_readline(&vars);
+	(void)cmd;
+	i = 0;
+	while (vars->env_var[i] != NULL)
+	{
+		ft_putstr_fd(vars->env_var[i++], 1);
+		ft_putstr_fd("\n", 1);
+	}
+	return (1);
 }
