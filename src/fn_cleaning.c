@@ -33,7 +33,6 @@ char	*ft_del_quot(char *str, int *type, t_vars *vars)
 	clear[j] = '\0';
 	return (clear);
 }
-
 char	*ft_cleaning(char *str, t_vars *vars)
 {
 	char	*clear;

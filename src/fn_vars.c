@@ -16,7 +16,6 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 {
 	int		*type;
 	char	*acum;
-
 	vars->start = 0;
 	type = ft_mask(str, vars, 0);
 	acum = NULL;
