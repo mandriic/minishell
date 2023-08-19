@@ -127,7 +127,7 @@ int ft_doublen(char **str)
 
 int	ft_cd_err(t_vars *vars, t_command *cmd)
 {
-	if (ft_doublen(cmd->cmd) > 2)
+	/*if (ft_doublen(cmd->cmd) > 2)
 	{
 		printf("cd: ", cmd->cmd[1], cmd->cmd[2]);
 		ft_putstr_fd(" too many arguments", 2);
@@ -140,7 +140,7 @@ int	ft_cd_err(t_vars *vars, t_command *cmd)
 		ft_putstr_fd(" No such file or directory", 2);
 		vars->error = 1;
 		return (0);
-	}
+	}*/
 	return (1);
 }
 
@@ -296,36 +296,48 @@ int	ft_env(t_vars *vars, t_command *cmd)
 	return(1);
 }
 
+int	ft_isnum_exit(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (!ft_isdigit(str[i]) || str[0] == '-')
+			return (0);
+	}
+	return (1);
+}
+
 int	ft_exit(t_vars *vars, t_command *cmd)
 {
-	(void)vars;
-	int i;
-	int j;
+	__int128_t	num;
 
-	i = 1;
-	while (cmd->cmd[i] != NULL)
+	if (cmd->cmd[1] != NULL)
 	{
-		j = 0;
-		while (cmd->cmd[i][j] != '\0')
+		num = ft_atoll(cmd->cmd[1]);
+		if ((num > LLONG_MAX || num < LLONG_MIN) || !ft_isnum_exit(cmd->cmd[1]))
 		{
-			if (ft_isdigit(cmd->cmd[i][j]) == 0)
-			{
-				printf("minishell: exit: %s: numeric argument required\n", cmd->cmd[i]);
-				vars->error = 255;
-				// printf("vars->error = %d\n", vars->error);
-				// system("leaks minishell");
-				// free(vars->line);
-				exit(0); //added by Anush in order to exit the program
-				return(1);
-			}
-			j++;
+			printf("Minishell: exit: %s: numeric argument required\n", \
+			cmd->cmd[1]);
+			printf("exit\n");
+			exit(255);
 		}
-		i++;
+		else if (ft_doublen(cmd->cmd) > 2)
+		{
+			printf("Minishell: exit: too many arguments\n");
+			vars->error = 1;
+			return (1);
+		}
+		else
+		{
+			printf("exit\n");
+			exit(num);
+		}
 	}
-	// printf("exit builtin\n");
-	// system("leaks minishell");
-	// ft_end_of_cicle(vars);
-	// free(vars->line);
-	exit(0); //added by Anush in order to exit the program
-	return(1);
+	else
+	{
+		printf("exit\n");
+		exit(vars->error);
+	}
 }

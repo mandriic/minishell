@@ -272,5 +272,8 @@ void 	handler_ctrl_d(int signum);
 
 int ft_check_if_builtins(t_vars *vars, t_command *cmd);
 int ft_check_if_builtins_true(t_vars *vars, t_command *cmd);
-#endif
 
+//ft_atoll.c
+__int128_t	ft_atoll(const char *str);
+
+#endif
