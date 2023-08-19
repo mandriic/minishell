@@ -13,7 +13,7 @@ SRCS_PATH = src/
 LIBFT_PATH = libft/
 LIBFT_FLAGS = -I$(LIBFT_PATH) -L$(LIBFT_PATH) -lft
 SRCS = fn_list.c fn_builtins.c fn_main_readline.c fnadd_free.c fnadd_libftmod.c fn_additional.c fn_cleaning.c fn_getenvs.c \
-fn_mask.c fn_pip_splt_trim.c fn_vars.c main.c fn_redirs.c fn_create_data.c mi_execve.c signal.c fn_addit_4env.c
+fn_mask.c fn_pip_splt_trim.c fn_vars.c main.c fn_redirs.c fn_create_data.c mi_execve.c signal.c fn_addit_4env.c ft_atoll.c
 
 CC       = gcc
 
