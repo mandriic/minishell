@@ -116,55 +116,6 @@ int ft_change_env(t_vars *vars, char *name, char *new_value, int len)
 	return (0);
 }
 
-int	ft_cd(t_vars *vars, t_command *cmd)
-{
-	char *cdir;
-	if (chdir(cmd->cmd[1]) == 0)
-	{
-		cdir = getcwd(NULL, 0);
-		ft_change_env(vars, "OLDPWD=", ft_get_value("PWD", vars->env_var), 6);
-		ft_change_env(vars, "PWD=", cdir, 4);
-		vars->error = 0;
-		free(cdir);
-	}
-	else if(cmd->cmd[1] == NULL)
-	{
-		if (chdir(ft_get_value("HOME", vars->env_var)) == 0)
-		{
-			cdir = getcwd(NULL, 0);
-			ft_change_env(vars, "OLDPWD=", ft_get_value("PWD", vars->env_var), 6);
-			ft_change_env(vars, "PWD=", cdir, 4);
-			vars->error = 0;
-			free(cdir);
-		}
-	}
-	else if (chdir(cmd->cmd[1]) == -1)
-	{
-		printf("cd: %s:", cmd->cmd[1]);
-		ft_putstr_fd(" No such file or directory", 2);
-		vars->error = 1;
-	}
-	vars->error = 0;
-	return (1);
-}
-
-int	ft_pwd(t_vars *vars, t_command *cmd)
-{
-	int i;
-
-	(void)vars;(void)cmd;
-	i = 0;
-	// printf("pwd builtin\n");
-	while (vars->env_var[i] != NULL)
-	{
-		if (ft_strncmp(vars->env_var[i], "PWD=", 4) == 0)
-			printf("%s\n", vars->env_var[i] + 4);
-		i++;
-	}
-	// ft_print_dp(vars->env_var, "ENVVAR");
-	return(1);
-}
-
 int ft_doublen(char **str)
 {
 	int i;
@@ -173,6 +124,71 @@ int ft_doublen(char **str)
 		;
 	return (i);
 }
+
+int	ft_cd_err(t_vars *vars, t_command *cmd)
+{
+	if (ft_doublen(cmd->cmd) > 2)
+	{
+		printf("cd: ", cmd->cmd[1], cmd->cmd[2]);
+		ft_putstr_fd(" too many arguments", 2);
+		vars->error = 1;
+		return (0);
+	}
+	else if (chdir(cmd->cmd[1]) == -1)
+	{
+		printf("cd: %s", cmd->cmd[1]);
+		ft_putstr_fd(" No such file or directory", 2);
+		vars->error = 1;
+		return (0);
+	}
+	return (1);
+}
+
+int	ft_cd(t_vars *vars, t_command *cmd)
+{
+	char	*cdir;
+
+	if (!ft_cd_err(vars, cmd))
+		return (1);
+	else if (chdir(cmd->cmd[1]) == 0)
+	{
+		cdir = getcwd(NULL, 0);
+		ft_change_env(vars, "OLDPWD=", ft_get_value("PWD", vars->env_var), 6);
+		ft_change_env(vars, "PWD=", cdir, 4);
+		vars->error = 0;
+		free(cdir);
+	}
+	else if (cmd->cmd[1] == NULL)
+	{
+		if (chdir(ft_get_value("HOME", vars->env_var)) == 0)
+		{
+			cdir = getcwd(NULL, 0);
+			ft_change_env(vars, "OLDPWD=", \
+			ft_get_value("PWD", vars->env_var), 6);
+			ft_change_env(vars, "PWD=", cdir, 4);
+			vars->error = 0;
+			free(cdir);
+		}
+	}
+	return (1);
+}
+
+int	ft_pwd(t_vars *vars, t_command *cmd)
+{
+	int	i;
+
+	(void)vars;
+	(void)cmd;
+	i = 0;
+	while (vars->env_var[i] != NULL)
+	{
+		if (ft_strncmp(vars->env_var[i], "PWD=", 4) == 0)
+			printf("%s\n", vars->env_var[i] + 4);
+		i++;
+	}
+	return (1);
+}
+
 
 int		ft_export(t_vars *vars, t_command *cmd)
 {
