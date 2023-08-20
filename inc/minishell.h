@@ -107,6 +107,8 @@ typedef struct s_vars
 // }	t_command;
 
 // extern t_data	g_data;
+char *ft_last_redir(char **redirs, t_vars *vars);
+int ft_redirections(t_command *cmd, t_vars *vars);
 void c(char *str);
 char	*ft_strjoin_mod(char *s1, char *s2);
 char	*ft_acumulate(char *dest, char *part);

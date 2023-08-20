@@ -4,13 +4,18 @@ int	ft_echo(t_vars *vars, t_command *cmd)
 {
 	int i;
 
-	(void)vars;
 	i = 1;
 	//printf("%s\n", cmd->cmd[1]);
 	// if (cmd->cmd[i] != NULL && strncmp(cmd->cmd[i], "$", 1) == 0) {
 	//     ft_putstr_fd("$", 1);
 	//     i++;
 	// }
+	if (cmd->infiles && cmd->cmd[1] == NULL)
+	{
+		if (ft_last_redir(cmd->infiles, vars))
+			vars->error = 0;
+        	return(1);
+	}
 	if (ft_strncmp(cmd->cmd[1], "-n", 2) == 0  && ft_strlen(cmd->cmd[1]) == 2)
 		i++;
 

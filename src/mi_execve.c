@@ -87,77 +87,109 @@ char *ft_last_redir(char **redirs, t_vars *vars)
 {
     int i = 0;
     while (redirs[i])
-        i++;
+    {
+        if (access(redirs[i], F_OK) == 0)
+            i++;
+        else if (access(redirs[i], F_OK) == -1)
+        {
+            ft_putstr_fd(redirs[i], 2);
+            ft_putstr_fd(": No such file or directory\n", 2);
+            vars->error = 1;
+            return (NULL);
+            // exit(1);
+        }
+    }
     return (redirs[i - 1]);
 }
 
-void ft_dup_infile(t_command *cmd, t_vars *vars)
+int ft_dup_infile(t_command *cmd, t_vars *vars)
 {
+    char * test_infile;
     int	fd_infile;
-    int i = 0;
-
-    if (cmd->heredocs)
+    if (cmd->infiles)
     {
-        fd_infile = open("./.temp", O_TRUNC | O_CREAT | O_RDWR, 0664);
-        while(cmd->heredocs[i])
+        // printf("infile is %s \n", cmd->infiles[0]);
+        test_infile = ft_last_redir(cmd->infiles, vars);
+        if (!test_infile)
+            return (1);
+        fd_infile = open(test_infile, O_RDONLY);
+        if (fd_infile < 0)
         {
-            write(fd_infile, cmd->heredocs[i], ft_strlen(cmd->heredocs[i]));
-            write(fd_infile, "\n", 1);
-            i++;
+            ft_putstr_fd(cmd->infiles[0], 2);
+            ft_putstr_fd(": No such file or directory\n", 2);
+            vars->error = 1;
+            return (1);
         }
-        fd_infile = open("./.temp", O_RDONLY);
         dup2(fd_infile, 0);
         close(fd_infile);
+
     }
-    else if (cmd->infiles)
-	{
-		fd_infile = open(ft_last_redir(cmd->infiles, vars), O_RDONLY);
-		// if (fd_infile < 0)
-        // {
-        //     ft_putstr_fd(ft_last_redir(cmd->infiles, vars), 2);
-		// 	ft_putstr_fd(": No such file or directory\n", 2);
-        //     vars->error = 1;
-        //     exit(1);
-        // }
-		// perror("fd_infile");
-    	dup2(fd_infile, 0);
- 		close(fd_infile);
-	}
+    return (0);
 }
+//     // if (cmd->heredocs)
+//     // {
+//     //     fd_infile = open("./.temp", O_TRUNC | O_CREAT | O_RDWR, 0664);
+//     //     while(cmd->heredocs[i])
+//     //     {
+//     //         write(fd_infile, cmd->heredocs[i], ft_strlen(cmd->heredocs[i]));
+//     //         write(fd_infile, "\n", 1);
+//     //         i++;
+//     //     }
+//     //     fd_infile = open("./.temp", O_RDONLY);
+//     //     dup2(fd_infile, 0);
+//     //     close(fd_infile);
+//     // }
+//     if (cmd->infiles)
+// 	{
+// 		fd_infile = open(ft_last_redir(cmd->infiles, vars), O_RDONLY);
+// 		// if (fd_infile < 0)
+//         // {
+//         //     ft_putstr_fd(ft_last_redir(cmd->infiles, vars), 2);
+// 		// 	ft_putstr_fd(": No such file or directory\n", 2);
+//         //     vars->error = 1;
+//         //     exit(1);
+//         // }
+// 		// perror("fd_infile");
+//     	dup2(fd_infile, 0);
+//  		close(fd_infile);
+// 	}
+// }
 
 
-void	ft_dup_outfile(t_command *cmd, t_vars *vars)
-{
-	int	fd_outfile;
+// void	ft_dup_outfile(t_command *cmd, t_vars *vars)
+// {
+// 	int	fd_outfile;
 
-    if (cmd->appends)
-    {
-        fd_outfile = open(cmd->appends[0], O_APPEND | O_CREAT | O_RDWR, 0664);
-        if (fd_outfile < 0)
-            perror("fd_outfile:");
-        close(STDOUT_FILENO);
-        dup2(fd_outfile, 1);
-        close(fd_outfile);
-    }    
-     else if (cmd->outfiles != NULL)
-    {
-        fd_outfile = open(cmd->outfiles[0], O_TRUNC | O_CREAT | O_RDWR, 0664);
-        if (fd_outfile < 0)
-            perror("fd_outfile:");
-        close(STDOUT_FILENO);
-        dup2(fd_outfile, 1);
-        close(fd_outfile);
-	}
-}
+//     // if (cmd->appends)
+//     // {
+//     //     fd_outfile = open(cmd->appends[0], O_APPEND | O_CREAT | O_RDWR, 0664);
+//     //     if (fd_outfile < 0)
+//     //         perror("fd_outfile:");
+//     //     close(STDOUT_FILENO);
+//     //     dup2(fd_outfile, 1);
+//     //     close(fd_outfile);
+//     // }    
+//     // if (cmd->outfiles != NULL)
+//     // {
+//     //     fd_outfile = open(cmd->outfiles[0], O_TRUNC | O_CREAT | O_RDWR, 0664);
+//     //     if (fd_outfile < 0)
+//     //         perror("fd_outfile:");
+//     //     close(STDOUT_FILENO);
+//     //     dup2(fd_outfile, 1);
+//     //     close(fd_outfile);
+// 	// }
+// }
 
-void	ft_redirections(t_command *cmd, t_vars *vars)
+int	ft_redirections(t_command *cmd, t_vars *vars)
 {
 	/*if (cmd->prev != NULL)
 		dup2(cmd->prev->fd[0], 0);
 	if (cmd->next != NULL)
 		dup2(cmd->fd[1], 1);*/
-	ft_dup_infile(cmd, vars);
-	ft_dup_outfile(cmd, vars);
+	if (ft_dup_infile(cmd, vars))
+        return (1);
+    return (0);
+	// ft_dup_outfile(cmd, vars);
 }
 
 /*char	ft_exit_cmd(int exit, t_command *cmd)
@@ -198,27 +230,28 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
     
     if (pid == 0)
     {
-        
+
         signal(SIGUSR2, handle_process_on); //signal to catch
-        ft_redirections(cmd, vars); //si es echo no lo hace
+
         if (cmd->next)
         {  
             close(cmd->fd[0]);
             dup2(cmd->fd[1], 1);
-            ft_redirections(cmd, vars);
+            // ft_redirections(cmd, vars);
             close(cmd->fd[1]);
         }
         if (cmd->prev && cmd->prev->fd[0] != -1)
         {
             close(cmd->prev->fd[1]);
             dup2(cmd->prev->fd[0], 0);
-            ft_redirections(cmd, vars);
+            // ft_redirections(cmd, vars);
             close(cmd->prev->fd[0]);
         }
-
+        if (ft_redirections(cmd, vars))
+            exit(1);
         if (ft_check_if_builtins(vars, cmd) == 0)
         {
-
+        
             //printf("debug %s \n", cmd->cmd[0]);
             if (execve(path, cmd->cmd, vars->env_var) == -1)
             {
@@ -258,23 +291,47 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
     
         // close(cmd->prev->fd[0]);
 
-        if (cmd->next == NULL) // it prints only the last command
-        {
+        // if (cmd->next == NULL) // it prints only the last command
+        // {
             // if (vars->error == 0)
                 // {
                     // if (ft_strncmp("cat", cmd->cmd[0], 3))
                     //     waitpid(pid, &status, WNOWAIT);
                     // else
-                        waitpid(pid, &status, 0);
-                    vars->error = WEXITSTATUS(status);
+                    //     waitpid(pid, &status, 0);
+                    //     // printf("error %d\n", WEXITSTATUS(status));
+                    // vars->error = WEXITSTATUS(status);
+            if (ft_strncmp("cat", cmd->cmd[0], 3) == 0 && cmd->next != NULL)
+            {
+                waitpid(pid, &status, WNOWAIT);
 
+                    // perror("waitpid() failed");
+
+                    vars->error = 0;
+
+            }
+            else
+            {
+                if(waitpid(pid, &status, 0) == -1)
+                {
+                    perror("waitpid() failed");
+                    exit(EXIT_FAILURE);
+                }    
+                if ( WIFEXITED(status) )
+                {
+                    vars->error = WEXITSTATUS(status);
+                    // printf("Exit status was %d\n", vars->error);
+                }
+            }
+
+        // }
                 // }
             // else if (vars->error != 0 && !cmd->infiles)
                 // kill(pid, 9);
             //printf("exit %d\n", WEXITSTATUS(status));
             // vars->error = 0;
           
-        }  
+        // }  
     }
              //free(child_pid);
 }
@@ -353,32 +410,32 @@ int   ft_get_dollar(t_vars *vars, t_command *temp_cmd)
       return(0);
 }
 
-int ft_check_redir_open(t_vars *vars, t_command *command)
-{
-    int fd;
-    int i;
+// int ft_check_redir_open(t_vars *vars, t_command *command)
+// {
+//     int fd;
+//     int i;
 
-    i = -1;
-    if (command->infiles)
-    {
-        while(command->infiles[++i])
-        {
-            fd = open(command->infiles[i], O_RDONLY);
-            if (fd < 0)
-            {
-                ft_putstr_fd("minishell: ", 2);
-                ft_putstr_fd(command->infiles[i], 2);
-                ft_putstr_fd(": No such file or directory\n", 2);
-                vars->error = 1;
-                if (!command->next)
-                    return(1);
-            }
-            else
-                close(fd);        
-        }
-    }
-    return (0);
-}
+//     i = -1;
+//     if (command->infiles)
+//     {
+//         while(command->infiles[++i])
+//         {
+//             fd = open(command->infiles[i], O_RDONLY);
+//             if (fd < 0)
+//             {
+//                 ft_putstr_fd("minishell: ", 2);
+//                 ft_putstr_fd(command->infiles[i], 2);
+//                 ft_putstr_fd(": No such file or directory\n", 2);
+//                 vars->error = 1;
+//                 if (!command->next)
+//                     return(1);
+//             }
+//             else
+//                 close(fd);        
+//         }
+//     }
+//     return (0);
+// }
 
 void ft_mi_exec(t_vars *vars)
 {
@@ -401,11 +458,10 @@ void ft_mi_exec(t_vars *vars)
             else
                 break ;
         }
-        if (ft_check_redir_open(vars, temp_cmd) == 1)
-        {
-            temp_cmd = temp_cmd->next;
-            continue ;
-        }
+        // if (ft_check_redir_open(vars, temp_cmd) == 1)
+        // {
+        //     continue;
+        // }
             // break ;
         
         if (ft_check_if_builtins_true(vars, temp_cmd))

@@ -1,4 +1,4 @@
 #!/bin/bash
-make
+make re
 cd minishell_tester
 ./tester
