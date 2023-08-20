@@ -6,7 +6,7 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:00:19 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/19 18:35:54 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/20 15:39:03 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_export_err_equal(t_vars *vars, t_command *cmd)
 		ft_putstr_fd("Minishell: export: `", 2);
 		ft_putstr_fd(cmd->cmd[1], 2);
 		ft_putstr_fd("': not a valid identifier\n", 2);
-		vars->error = 1;
+		g_e_status = 1;
 		return (1);
 	}
 	return (0);
@@ -40,7 +40,7 @@ void	ft_put_err(t_vars *vars, char *str)
 	ft_putstr_fd("Minishell: export: ", 2);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd(": not a valid identifier\n", 2);
-	vars->error = 1;
+	g_e_status = 1;
 }
 
 int	ft_export_err(t_vars *vars, t_command *cmd)

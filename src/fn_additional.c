@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_additional.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:10:25 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/18 19:46:51 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/20 11:05:52 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	ft_pre_check(t_vars *vars)
 	alpha = 0;
 	while (vars->line[++vars->i])
 	{
-		if (ft_isalnum(vars->line[vars->i]))
+		if (ft_isascii(vars->line[vars->i]))
 			alpha++;
 	}
 	if (alpha == 0)

@@ -6,11 +6,13 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:04:25 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/19 18:10:21 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/20 15:45:45 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+extern int g_e_status;
 
 int	ft_change_env(t_vars *vars, char *name, char *new_value, int len)
 {
@@ -57,14 +59,14 @@ int	ft_cd_err(t_vars *vars, t_command *cmd)
 	{
 		printf("cd: %s", cmd->cmd[1]);
 		ft_putstr_fd(" too many arguments", 2);
-		vars->error = 1;
+		g_e_status = 1;
 		return (0);
 	}
 	else if (chdir(cmd->cmd[1]) == -1)
 	{
 		printf("cd: %s", cmd->cmd[1]);
 		ft_putstr_fd(" No such file or directory", 2);
-		vars->error = 1;
+		g_e_status = 1;
 		return (0);
 	}
 	return (1);
@@ -79,7 +81,7 @@ int	ft_cd(t_vars *vars, t_command *cmd)
 		cdir = getcwd(NULL, 0);
 		ft_change_env(vars, "OLDPWD=", ft_get_value("PWD", vars->env_var), 6);
 		ft_change_env(vars, "PWD=", cdir, 4);
-		vars->error = 0;
+		g_e_status = 0;
 		free(cdir);
 	}
 	else if (cmd->cmd[1] == NULL)
@@ -90,7 +92,7 @@ int	ft_cd(t_vars *vars, t_command *cmd)
 			ft_change_env(vars, "OLDPWD=", \
 			ft_get_value("PWD", vars->env_var), 6);
 			ft_change_env(vars, "PWD=", cdir, 4);
-			vars->error = 0;
+			g_e_status = 0;
 			free(cdir);
 		}
 	}

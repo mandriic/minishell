@@ -6,11 +6,13 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 18:26:04 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/19 20:00:56 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/20 15:45:31 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+extern int	g_e_status;
 
 char	*ft_get_val(char *str, char **env)
 {
@@ -52,7 +54,8 @@ int	ft_check_dir(char *dir, char *cmd, size_t len)
 	return (0);
 }
 
-char *ft_pars_path(char *path, char *cmd, int len, t_vars *vars) //char *
+
+char	*ft_pars_path(char *path, char *cmd, int len, t_vars *vars)
 {
 	int		i;
 	int		start;
@@ -60,8 +63,8 @@ char *ft_pars_path(char *path, char *cmd, int len, t_vars *vars) //char *
 	char	*ifhome;
 
 	i = len + 1;
-	ifhome = NULL;
 	start = len;
+	ifhome = NULL;
 	while (path[i])
 	{
 		if (path[i] == '~')
@@ -165,7 +168,6 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
 	pid = fork();
 	if (pid == 0)
 	{
-		signal(SIGUSR2, handle_process_on); //signal to catch
 		ft_redirections(cmd); //si es echo no lo hace
 		if (cmd->next)
 		{
@@ -212,7 +214,7 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
 			waitpid(pid, &status, 0);
 			if (WIFEXITED(status))
 			{
-				vars->error = WEXITSTATUS(status);
+				g_e_status = WEXITSTATUS(status);
 			}
 		}
 	}
@@ -277,7 +279,7 @@ int ft_check_if_vars(t_vars *vars, t_command *cmd_struct)
 	int		i;
 
 	i = 0;
-	while (cmd_struct->cmd[0][i])
+	while (cmd_struct->cmd[0] && cmd_struct->cmd[0][i])
 	{
 		if (cmd_struct->cmd[0][i++] == '=')
 		{
@@ -304,7 +306,7 @@ int   ft_get_dollar(t_vars *vars, t_command *temp_cmd)
 		if (ft_strncmp(temp_cmd->cmd[i], "$?", 2) == 0)
 		{
 			free(temp_cmd->cmd[i]);
-			temp_cmd->cmd[i] = ft_itoa(vars->error);
+			temp_cmd->cmd[i] = ft_itoa(g_e_status);
 		}
 		i++;
 	}
@@ -333,18 +335,19 @@ void ft_sub_exec(t_vars *vars, t_command *temp_cmd)
 
 	path = ft_get_val("PATH", vars->env_var);
 	cmd_path = ft_pars_path(path, temp_cmd->cmd[0], 5, vars);
-	if (!cmd_path && (temp_cmd->cmd[0][0] == '.'
+	if (!cmd_path && temp_cmd->cmd[0] && (temp_cmd->cmd[0][0] == '.'
 		|| temp_cmd->cmd[0][0] == '/'))
 		ft_execuve(temp_cmd->cmd[0], temp_cmd, vars);
 	else if (cmd_path)
 		ft_sub_sub_exec(vars, cmd_path, temp_cmd);
-	else
+	else if (temp_cmd->cmd[0])
 	{
-		printf("Minishell: command not found: %s \n", temp_cmd->cmd[0]);
-		vars->error = 127;
+		ft_putstr_fd("Minishell: command not found: ", 2);
+		ft_putstr_fd(temp_cmd->cmd[0], 2);
+		ft_putstr_fd("\n", 2);
+		g_e_status = 127;
 	}
 }
-
 void ft_mi_exec(t_vars *vars)
 {
 	t_command	*temp_cmd;

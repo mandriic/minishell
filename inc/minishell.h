@@ -6,7 +6,7 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:16:58 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/19 17:22:08 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/20 15:49:28 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@
 // 	char				**export;
 // }	t_data;
 
-// int g_error; //global variable to store the exit status
+/*global var to set the exit status, 
+we can do it with vars.error,
+but in signals it cannot change.*/
+extern int	g_e_status;
 
 typedef struct s_command
 {
@@ -282,6 +285,7 @@ int			ft_check_if_builtins_true(t_vars *vars, t_command *cmd);
 //utils
 __int128_t	ft_atoll(const char *str);
 int			ft_doublen(char **str);
+void		ft_singint_hand(int sigs);
 
 #endif
 
