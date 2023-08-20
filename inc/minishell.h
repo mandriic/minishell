@@ -6,7 +6,7 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:16:58 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/20 15:49:28 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/20 15:58:11 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,6 +286,7 @@ int			ft_check_if_builtins_true(t_vars *vars, t_command *cmd);
 __int128_t	ft_atoll(const char *str);
 int			ft_doublen(char **str);
 void		ft_singint_hand(int sigs);
+void		ft_here_signal(int sig);
 
 #endif
 

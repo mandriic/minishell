@@ -6,7 +6,7 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:04:25 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/20 15:45:45 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/20 17:12:23 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,9 @@ char	*ft_get_value(char *str, char **env)
 
 int	ft_cd_err(t_vars *vars, t_command *cmd)
 {
-	if (ft_doublen(cmd->cmd) > 2)
+	if (chdir(cmd->cmd[1]) == -1)
 	{
-		printf("cd: %s", cmd->cmd[1]);
-		ft_putstr_fd(" too many arguments", 2);
-		g_e_status = 1;
-		return (0);
-	}
-	else if (chdir(cmd->cmd[1]) == -1)
-	{
-		printf("cd: %s", cmd->cmd[1]);
-		ft_putstr_fd(" No such file or directory", 2);
+		perror("Minishel: cd");
 		g_e_status = 1;
 		return (0);
 	}

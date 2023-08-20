@@ -6,7 +6,7 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:15:36 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/19 18:43:16 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/20 16:40:39 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_heredoc(char **arr, t_command *data, int *i)
 		data->heredocs = malloc(sizeof(char *) * BUFFER_SIZE);
 	while (1)
 	{
-		data->heredocs[++i[1]] = readline(">");
+		data->heredocs[++i[1]] = readline("> ");
 		str_cmp = ft_strncmp(eofile, data->heredocs[i[1]], ft_strlen(eofile));
 		if (!str_cmp && ft_strlen(data->heredocs[i[1]]) == ft_strlen(eofile))
 			break ;
