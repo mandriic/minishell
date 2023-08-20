@@ -102,7 +102,7 @@ char *ft_last_redir(char **redirs, t_vars *vars)
     return (redirs[i - 1]);
 }
 
-int ft_dup_infile(t_command *cmd, t_vars *vars)
+int ft_dup_file(t_command *cmd, t_vars *vars)
 {
     char * test_infile;
     int	fd_infile;
@@ -122,6 +122,19 @@ int ft_dup_infile(t_command *cmd, t_vars *vars)
         }
         dup2(fd_infile, 0);
         close(fd_infile);
+    }
+    if (cmd->outfiles)
+    {
+        // close();
+        fd_infile = open(cmd->outfiles[0], O_TRUNC | O_CREAT | O_RDWR, 0664);
+        // close(cmd->fd[1]);
+        // close(cmd->fd[0]);
+        dup2( fd_infile, 1);
+        // write(fd_infile, "test", 4);
+        close(fd_infile);
+        // close(1);  
+
+        // return (fd_infile);
 
     }
     return (0);
@@ -186,7 +199,7 @@ int	ft_redirections(t_command *cmd, t_vars *vars)
 		dup2(cmd->prev->fd[0], 0);
 	if (cmd->next != NULL)
 		dup2(cmd->fd[1], 1);*/
-	if (ft_dup_infile(cmd, vars))
+	if (ft_dup_file(cmd, vars))
         return (1);
     return (0);
 	// ft_dup_outfile(cmd, vars);
@@ -218,8 +231,8 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
 {
 
     int status, pid;
-    if (ft_strncmp("exit", cmd->cmd[0], 4) == 0)
-        exit(0);
+    // if (ft_strncmp("exit", cmd->cmd[0], 4) == 0)
+    //     exit(0);
     pipe(cmd->fd);
     //pid_t* child_pid;
 
@@ -230,16 +243,16 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
     
     if (pid == 0)
     {
-
         signal(SIGUSR2, handle_process_on); //signal to catch
-
-        if (cmd->next)
+        if (cmd->next || cmd->outfiles)
         {  
             close(cmd->fd[0]);
             dup2(cmd->fd[1], 1);
             // ft_redirections(cmd, vars);
             close(cmd->fd[1]);
         }
+        // if (cmd->prev && cmd->prev->outfiles)
+        // 	close(cmd->prev->fd[1]);
         if (cmd->prev && cmd->prev->fd[0] != -1)
         {
             close(cmd->prev->fd[1]);
@@ -258,7 +271,16 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
                 printf("Minishell: command not found: %s \n", cmd->cmd[0]);
                 exit(1);
             }
+            
+            // else
+            // {
+            //     ft_redirections(cmd, vars);
+        
+            // }
         }
+        else
+            exit(vars->error);
+                
 
           /*if (cmd->next && cmd->fd[1] != 1)
             exit(1);
@@ -266,7 +288,8 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
       //if (cmd->next ==  NULL)
          //exit(1);
         //else 
-         exit(0);
+
+        exit(0);
             //ft_execuve(path, cmd->next, vars);
     }
     else if (pid < 0)
@@ -288,7 +311,7 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
             close(cmd->prev->fd[1]);
             close (cmd->prev->fd[0]);//added after to check the signals
         }
-    
+
         // close(cmd->prev->fd[0]);
 
         // if (cmd->next == NULL) // it prints only the last command
@@ -466,13 +489,13 @@ void ft_mi_exec(t_vars *vars)
         
         if (ft_check_if_builtins_true(vars, temp_cmd))
         {
-            if (ft_check_if_builtins_true(vars, temp_cmd) && temp_cmd->next != NULL)
+            // if (temp_cmd->next != NULL)
                 ft_execuve(NULL, temp_cmd, vars); // ATENTION
-            else
-            {
-                //printf("vars->error is %d \n", vars->error);
-                ft_check_if_builtins(vars, temp_cmd);
-            }
+            // else
+            // {
+            //     //printf("vars->error is %d \n", vars->error);
+            //     ft_check_if_builtins(vars, temp_cmd);
+            // }
         }
         else
         {
@@ -516,6 +539,9 @@ void ft_mi_exec(t_vars *vars)
         {
             printf("Minishell: command not found: %s \n", temp_cmd->cmd[0]);
         }*/
+
+        // if (temp_cmd->fd[1] >= 0)
+        //     close(temp_cmd->fd[1]);
         temp_cmd = temp_cmd->next;
         //printf("i is %d \n", i);
         //i++;

@@ -3,6 +3,8 @@
 int	ft_echo(t_vars *vars, t_command *cmd)
 {
 	int i;
+	int fd;
+
 
 	i = 1;
 	//printf("%s\n", cmd->cmd[1]);
@@ -10,6 +12,11 @@ int	ft_echo(t_vars *vars, t_command *cmd)
 	//     ft_putstr_fd("$", 1);
 	//     i++;
 	// }
+	// ft_print_dp(cmd->outfiles, "outfiles");
+		if (cmd->outfiles)
+	{
+		ft_dup_file(cmd, vars);
+	}
 	if (cmd->infiles && cmd->cmd[1] == NULL)
 	{
 		if (ft_last_redir(cmd->infiles, vars))
@@ -43,6 +50,7 @@ int	ft_echo(t_vars *vars, t_command *cmd)
 	if (cmd->cmd[1] == NULL || (ft_strncmp(cmd->cmd[1], "-n", 2) != 0 || ft_strlen(cmd->cmd[1]) != 2))
 	printf("\n");
 	vars->error = 0;
+
 	return(1);
 }
 // int ft_check_root(char * root)
@@ -265,6 +273,7 @@ int		ft_export(t_vars *vars, t_command *cmd)
 		printf("=\"%s\"\n", vars->env_var[i] + j + 1);
 		i++;
 	}
+	// vars->error = 1;
 	return (1);
 }
 
