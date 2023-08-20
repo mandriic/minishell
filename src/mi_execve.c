@@ -83,14 +83,28 @@ char *ft_pars_path(char *path, char *cmd, int len, t_vars *vars) //char *
     return (0);
 }
 
-char *ft_last_redir(char **redirs, t_vars *vars)
+char *ft_last_redir(char **redirs, t_vars *vars, int outfile)
 {
     int i = 0;
+    int fd;
     while (redirs[i])
     {
-        if (access(redirs[i], F_OK) == 0)
+        if (outfile == 1)
+        {
+            fd = open(redirs[i], O_TRUNC | O_CREAT | O_RDWR, 0644);
+            if (fd < 0)
+            {
+                ft_putstr_fd(redirs[i], 2);
+                ft_putstr_fd(": Permission denied\n", 2);
+                vars->error = 1;
+                return (NULL);
+                // exit(1);
+            }
+            close(fd);
+        }
+        if (access(redirs[i], F_OK) == 0 || outfile == 1)
             i++;
-        else if (access(redirs[i], F_OK) == -1)
+        else if (access(redirs[i], F_OK) == -1 && outfile != 1)
         {
             ft_putstr_fd(redirs[i], 2);
             ft_putstr_fd(": No such file or directory\n", 2);
@@ -106,10 +120,14 @@ int ft_dup_file(t_command *cmd, t_vars *vars)
 {
     char * test_infile;
     int	fd_infile;
+    // if (cmd->outfiles && cmd->infiles)
+    // {
+
+    // }
     if (cmd->infiles)
     {
         // printf("infile is %s \n", cmd->infiles[0]);
-        test_infile = ft_last_redir(cmd->infiles, vars);
+        test_infile = ft_last_redir(cmd->infiles, vars, 0);
         if (!test_infile)
             return (1);
         fd_infile = open(test_infile, O_RDONLY);
@@ -118,6 +136,27 @@ int ft_dup_file(t_command *cmd, t_vars *vars)
             ft_putstr_fd(cmd->infiles[0], 2);
             ft_putstr_fd(": No such file or directory\n", 2);
             vars->error = 1;
+            if (cmd->outfiles)
+            {
+                        // close();
+                test_infile = ft_last_redir(cmd->outfiles, vars, 1);
+                printf("test_infile is %s \n", test_infile);
+                if (!test_infile)
+                    return (1);
+                fd_infile = open(ft_last_redir(cmd->outfiles, vars, 1), O_TRUNC | O_CREAT | O_RDWR, 0664);
+                if (fd_infile < 0)
+                {
+                    ft_putstr_fd(cmd->outfiles[0], 2);
+                    ft_putstr_fd(": Permission denied\n", 2);
+                    vars->error = 1;
+                    return (1);
+                }
+                // close(cmd->fd[1]);
+                // close(cmd->fd[0]);
+                dup2( fd_infile, 1);
+                // write(fd_infile, "test", 4);
+                close(fd_infile);
+            }
             return (1);
         }
         dup2(fd_infile, 0);
@@ -126,7 +165,26 @@ int ft_dup_file(t_command *cmd, t_vars *vars)
     if (cmd->outfiles)
     {
         // close();
-        fd_infile = open(cmd->outfiles[0], O_TRUNC | O_CREAT | O_RDWR, 0664);
+        test_infile = ft_last_redir(cmd->outfiles, vars, 1);
+        if (!test_infile)
+            return (1);
+        fd_infile = open(ft_last_redir(cmd->outfiles, vars, 1), O_TRUNC | O_CREAT | O_RDWR, 0664);
+        if (fd_infile < 0)
+        {
+            ft_putstr_fd(cmd->outfiles[0], 2);
+            ft_putstr_fd(": Permission denied\n", 2);
+            vars->error = 1;
+            if (cmd->infiles)
+            {
+                test_infile = ft_last_redir(cmd->infiles, vars, 0);
+                if (!test_infile)
+                    return (1);
+                fd_infile = open(test_infile, O_RDONLY);
+                dup2(fd_infile, 0);
+                close(fd_infile);
+            }
+            return (1);
+        }
         // close(cmd->fd[1]);
         // close(cmd->fd[0]);
         dup2( fd_infile, 1);
@@ -137,6 +195,7 @@ int ft_dup_file(t_command *cmd, t_vars *vars)
         // return (fd_infile);
 
     }
+
     return (0);
 }
 //     // if (cmd->heredocs)
