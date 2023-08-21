@@ -109,54 +109,79 @@ char *ft_last_redir(char **redirs, t_vars *vars, int outfile)
             ft_putstr_fd(redirs[i], 2);
             ft_putstr_fd(": No such file or directory\n", 2);
             vars->error = 1;
-            return (NULL);
+            exit(vars->error);
             // exit(1);
         }
     }
     return (redirs[i - 1]);
 }
-
+char *ft_what_is_first(char *line, t_vars *vars)
+{
+    int i = -1;
+    // printf("line is %s \n", line);
+    while (line[++i])
+    {
+        if (line[i] == '<' || line[i] == '>' )
+        {
+            // printf("line + i is %s \n", line + i);  
+            return(line + i);
+        }
+    }
+    return (NULL);
+}
 int ft_dup_file(t_command *cmd, t_vars *vars)
 {
     char * test_infile;
     int	fd_infile;
+    char * first;
     // if (cmd->outfiles && cmd->infiles)
     // {
-
     // }
+    first = ft_what_is_first(vars->line, vars);
+    // if (first[0] == '<')
+    //     printf("first is < \n");
     if (cmd->infiles)
     {
         // printf("infile is %s \n", cmd->infiles[0]);
+        // if (cmd->outfiles)
+        // {
+
+        // }
         test_infile = ft_last_redir(cmd->infiles, vars, 0);
         if (!test_infile)
+            vars->error = 1;
+        if (!test_infile && first[0] == '<')
             return (1);
         fd_infile = open(test_infile, O_RDONLY);
         if (fd_infile < 0)
+            vars->error = 1;
+        if (fd_infile < 0 && first[0] == '<')
         {
+            ft_putstr_fd("check", 1);
             ft_putstr_fd(cmd->infiles[0], 2);
             ft_putstr_fd(": No such file or directory\n", 2);
             vars->error = 1;
-            if (cmd->outfiles)
-            {
-                        // close();
-                test_infile = ft_last_redir(cmd->outfiles, vars, 1);
-                printf("test_infile is %s \n", test_infile);
-                if (!test_infile)
-                    return (1);
-                fd_infile = open(ft_last_redir(cmd->outfiles, vars, 1), O_TRUNC | O_CREAT | O_RDWR, 0664);
-                if (fd_infile < 0)
-                {
-                    ft_putstr_fd(cmd->outfiles[0], 2);
-                    ft_putstr_fd(": Permission denied\n", 2);
-                    vars->error = 1;
-                    return (1);
-                }
-                // close(cmd->fd[1]);
-                // close(cmd->fd[0]);
-                dup2( fd_infile, 1);
-                // write(fd_infile, "test", 4);
-                close(fd_infile);
-            }
+            // if (cmd->outfiles)
+            // {
+            //             // close();
+            //     test_infile = ft_last_redir(cmd->outfiles, vars, 1);
+            //     printf("test_infile is %s \n", test_infile);
+            //     if (!test_infile )
+            //         return (1);
+            //     fd_infile = open(ft_last_redir(cmd->outfiles, vars, 1), O_TRUNC | O_CREAT | O_RDWR, 0664);
+            //     if (fd_infile < 0)
+            //     {
+            //         ft_putstr_fd(cmd->outfiles[0], 2);
+            //         ft_putstr_fd(": Permission denied\n", 2);
+            //         vars->error = 1;
+            //         return (1);
+            //     }
+            //     // close(cmd->fd[1]);
+            //     // close(cmd->fd[0]);
+            //     dup2( fd_infile, 1);
+            //     // write(fd_infile, "test", 4);
+            //     close(fd_infile);
+            // }
             return (1);
         }
         dup2(fd_infile, 0);
@@ -320,7 +345,7 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
             close(cmd->prev->fd[0]);
         }
         if (ft_redirections(cmd, vars))
-            exit(1);
+            exit(vars->error);
         if (ft_check_if_builtins(vars, cmd) == 0)
         {
         
