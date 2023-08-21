@@ -37,6 +37,8 @@ void	ft_heredoc(char **arr, t_command *data, int *i)
 
 void	ft_infile(char **arr, t_command *data, int *i)
 {
+	int fd_infile = 0;
+
 	if (!data->infiles)
 	{
 		data->infiles = malloc(sizeof(char *) * BUFFER_SIZE);

@@ -3,14 +3,26 @@
 int	ft_echo(t_vars *vars, t_command *cmd)
 {
 	int i;
+	int fd;
 
-	(void)vars;
+
 	i = 1;
 	//printf("%s\n", cmd->cmd[1]);
 	// if (cmd->cmd[i] != NULL && strncmp(cmd->cmd[i], "$", 1) == 0) {
 	//     ft_putstr_fd("$", 1);
 	//     i++;
 	// }
+	// ft_print_dp(cmd->outfiles, "outfiles");
+		if (cmd->outfiles)
+	{
+		ft_dup_file(cmd, vars);
+	}
+	if (cmd->infiles && cmd->cmd[1] == NULL)
+	{
+		if (ft_last_redir(cmd->infiles, vars, 0))
+			vars->error = 0;
+        	return(1);
+	}
 	if (ft_strncmp(cmd->cmd[1], "-n", 2) == 0  && ft_strlen(cmd->cmd[1]) == 2)
 		i++;
 
@@ -38,6 +50,7 @@ int	ft_echo(t_vars *vars, t_command *cmd)
 	if (cmd->cmd[1] == NULL || (ft_strncmp(cmd->cmd[1], "-n", 2) != 0 || ft_strlen(cmd->cmd[1]) != 2))
 	printf("\n");
 	vars->error = 0;
+
 	return(1);
 }
 // int ft_check_root(char * root)
@@ -127,14 +140,14 @@ int ft_doublen(char **str)
 
 int	ft_cd_err(t_vars *vars, t_command *cmd)
 {
-	if (ft_doublen(cmd->cmd) > 2)
-	{
-		printf("cd: %s", cmd->cmd[1]);
-		ft_putstr_fd(" too many arguments", 2);
-		vars->error = 1;
-		return (0);
-	}
-	else if (chdir(cmd->cmd[1]) == -1)
+	// if (ft_doublen(cmd->cmd) > 2)
+	// {
+	// 	printf("cd: %s", cmd->cmd[1]);
+	// 	ft_putstr_fd(" too many arguments", 2);
+	// 	vars->error = 1;
+	// 	return (0);
+	// }
+	if (chdir(cmd->cmd[1]) == -1)
 	{
 		printf("cd: %s", cmd->cmd[1]);
 		ft_putstr_fd(" No such file or directory", 2);
@@ -260,6 +273,7 @@ int		ft_export(t_vars *vars, t_command *cmd)
 		printf("=\"%s\"\n", vars->env_var[i] + j + 1);
 		i++;
 	}
+	// vars->error = 1;
 	return (1);
 }
 
@@ -335,7 +349,7 @@ int	ft_exit(t_vars *vars, t_command *cmd)
 			ft_putstr_fd(cmd->cmd[1], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
 			printf("exit\n");
-			exit(2);
+			exit(255);
 		}
 		else if (ft_doublen(cmd->cmd) > 2)
 		{
