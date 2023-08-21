@@ -174,16 +174,16 @@ int ft_dup_file(t_command *cmd, t_vars *vars)
             ft_putstr_fd(cmd->outfiles[0], 2);
             ft_putstr_fd(": Permission denied\n", 2);
             vars->error = 1;
-            if (cmd->infiles)
-            {
-                test_infile = ft_last_redir(cmd->infiles, vars, 0);
-                if (!test_infile)
-                    return (1);
-                fd_infile = open(test_infile, O_RDONLY);
-                dup2(fd_infile, 0);
-                close(fd_infile);
-            }
-            return (1);
+            // if (cmd->infiles)
+            // {
+            //     test_infile = ft_last_redir(cmd->infiles, vars, 0);
+            //     if (!test_infile)
+            //         return (1);
+            //     fd_infile = open(test_infile, O_RDONLY);
+            //     dup2(fd_infile, 0);
+            //     close(fd_infile);
+            // }
+            // return (1);
         }
         // close(cmd->fd[1]);
         // close(cmd->fd[0]);
