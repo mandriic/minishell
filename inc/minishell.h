@@ -43,6 +43,7 @@ typedef struct s_command
 	char	*comando_a_pelo;//este si se usa
 	char	*vars_resolv;
 	char	**pre_comand_bon;
+	char	*str_raw;
 	char	**pre_args;
 	//pid_t*	child_pid;
 	int 	pid;
@@ -108,7 +109,7 @@ typedef struct s_vars
 
 // extern t_data	g_data;
 int ft_dup_file(t_command *cmd, t_vars *vars);
-char *ft_last_redir(char **redirs, t_vars *vars, int outfile);
+char *ft_last_redir(char **redirs, t_vars *vars, int outfile, char *first);
 int ft_redirections(t_command *cmd, t_vars *vars);
 void c(char *str);
 char	*ft_strjoin_mod(char *s1, char *s2);
