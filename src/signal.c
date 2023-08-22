@@ -1,18 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: pepealkalina <pepealkalina@student.42.f    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/22 13:51:02 by pepealkalin       #+#    #+#             */
-/*   Updated: 2023/08/22 13:51:08 by pepealkalin      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../inc/minishell.h"
 
-extern int  g_e_status;
+extern int g_e_status;
 
 void	ft_singint_hand(int sig)
 {
@@ -31,4 +19,6 @@ void	ft_singint_hand(int sig)
 	prompt_conf.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSANOW, &prompt_conf);
 }
+
+
 

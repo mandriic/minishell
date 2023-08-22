@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_cleaning.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:10:48 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/18 19:41:38 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/19 16:31:53 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ char	*ft_del_quot(char *str, int *type, t_vars *vars)
 	int		i;
 	int		j;
 
+	(void)vars;
 	clear = malloc(sizeof(char) * ft_strlen(str) + 1);
 	i = 0;
 	j = 0;
@@ -33,6 +34,7 @@ char	*ft_del_quot(char *str, int *type, t_vars *vars)
 	clear[j] = '\0';
 	return (clear);
 }
+
 char	*ft_cleaning(char *str, t_vars *vars)
 {
 	char	*clear;

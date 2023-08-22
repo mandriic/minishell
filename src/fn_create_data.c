@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_create_data.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:12:58 by mandriic          #+#    #+#             */
-/*   Updated: 2022/09/30 16:13:02 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/19 18:41:00 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ char	**ft_pre_com_bon(char *str, t_vars *vars)
 t_command	*ft_create_data(char *str, t_vars *vars)
 {
 	t_command	*data;
-
 
 	data = malloc(sizeof(t_command));
 	*data = (t_command){};
