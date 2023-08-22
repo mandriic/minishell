@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_vars.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:15:50 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/18 18:40:47 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/19 18:42:19 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 {
 	int		*type;
 	char	*acum;
+
 	vars->start = 0;
 	type = ft_mask(str, vars, 0);
 	acum = NULL;
@@ -76,7 +77,7 @@ void	ft_checkif_var_subfoo(char *str, char **acum, int *type, t_vars *vars)
 		if (str[vars->i] == '\0')
 			break ;
 		if (((type[vars->i] == 7 && str[vars->i + 1] != ' '
-				&& str[vars->i + 1] != '"')) || str[vars->i] == '~')
+					&& str[vars->i + 1] != '"')) || str[vars->i] == '~')
 			ft_pre_getenv(str, acum, vars);
 		vars->i++;
 	}

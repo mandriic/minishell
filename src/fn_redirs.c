@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_redirs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:15:36 by mandriic          #+#    #+#             */
-/*   Updated: 2022/09/30 16:15:39 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/20 16:40:39 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,13 @@ void	ft_heredoc(char **arr, t_command *data, int *i)
 		data->heredocs = malloc(sizeof(char *) * BUFFER_SIZE);
 	while (1)
 	{
-		data->heredocs[++i[1]] = readline(">");
+		data->heredocs[++i[1]] = readline("> ");
 		str_cmp = ft_strncmp(eofile, data->heredocs[i[1]], ft_strlen(eofile));
 		if (!str_cmp && ft_strlen(data->heredocs[i[1]]) == ft_strlen(eofile))
 			break ;
 	}
 	free(data->heredocs[i[1]]);
 	data->heredocs[i[1]--] = NULL;
-	// ft_print_dp(data->heredocs, "heredocs");
 	i[0]++;
 }
 

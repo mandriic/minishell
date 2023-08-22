@@ -6,7 +6,7 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:12:58 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/22 15:37:57 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/22 21:20:47 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ char	**ft_pre_com_bon(char *str, t_vars *vars)
 t_command	*ft_create_data(char *str, t_vars *vars)
 {
 	t_command	*data;
-
 
 	data = malloc(sizeof(t_command));
 	*data = (t_command){};

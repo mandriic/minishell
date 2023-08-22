@@ -3,21 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   fn_getenvs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: pepealkalina <pepealkalina@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:13:16 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/18 19:32:39 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/22 14:12:38 by pepealkalin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+extern int g_e_status;
 
 char	*ft_change_symbol(char *str, char *var, t_vars *vars)
 {
 	if (str[1] == '?')
 	{
 		free(var);
-		return (ft_itoa(vars->error));
+		return (ft_itoa(g_e_status));
 	}
 	else if (str[0] == '~')
 	{
