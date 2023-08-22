@@ -6,7 +6,7 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:16:58 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/22 21:18:57 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/22 21:42:37 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ typedef struct s_vars
 
 // extern t_data	g_data;
 int ft_dup_file(t_command *cmd, t_vars *vars);
-char *ft_last_redir(char **redirs, t_vars *vars, int outfile, char *first);
+char *ft_last_redir(char **redirs, t_vars *vars, int outfile);
 int ft_redirections(t_command *cmd, t_vars *vars);
 void c(char *str);
 char	*ft_strjoin_mod(char *s1, char *s2);

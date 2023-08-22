@@ -6,7 +6,7 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 18:26:04 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/22 21:34:40 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/22 22:11:52 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char *ft_pars_path(char *path, char *cmd, int len, t_vars *vars) //char *
 	return (0);
 }
 
-char *ft_last_redir(char **redirs, t_vars *vars, int outfile, char *first)
+char *ft_last_redir(char **redirs, t_vars *vars, int outfile)
 {
 	int i = 0;
 	int fd;
@@ -115,7 +115,7 @@ char *ft_last_redir(char **redirs, t_vars *vars, int outfile, char *first)
 				ft_putstr_fd(redirs[i], 2);
 				ft_putstr_fd(": Permission denied\n", 2);
 				g_e_status = 1;
-				exit(vars->error);
+				exit(g_e_status);
 				// exit(1);
 			}
 			close(fd);
@@ -182,7 +182,7 @@ int ft_dup_file(t_command *cmd, t_vars *vars)
             {
                 // printf("I append I go %d\n", i);
                 i++;
-                fd_infile = open(ft_last_redir(cmd->appends, vars ,1, first), O_APPEND | O_CREAT | O_RDWR, 0664);
+                fd_infile = open(ft_last_redir(cmd->appends, vars ,1), O_APPEND | O_CREAT | O_RDWR, 0664);
                 dup2(fd_infile, 1);
                 close(fd_infile);
             }
@@ -191,20 +191,18 @@ int ft_dup_file(t_command *cmd, t_vars *vars)
                 // printf("I infile I go %d\n", i);
 
 		// }
-		test_infile = ft_last_redir(cmd->infiles, vars, 0);
-		if (!test_infile)
-			g_e_status = 1;
-		if (!test_infile && first[0] == '<')
-			return (1);
-		fd_infile = open(test_infile, O_RDONLY);
-		if (fd_infile < 0)
-			g_e_status = 1;
-		if (fd_infile < 0 && first[0] == '<')
-		{
-			ft_putstr_fd("check", 1);
-			ft_putstr_fd(cmd->infiles[0], 2);
-			ft_putstr_fd(": No such file or directory\n", 2);
-			g_e_status = 1;
+            test_infile = ft_last_redir(cmd->infiles, vars, 0);
+            if (!test_infile)
+                g_e_status = 1;
+            fd_infile = open(test_infile, O_RDONLY);
+            if (fd_infile < 0)
+                g_e_status = 1;
+            if (fd_infile < 0)
+		    {
+                ft_putstr_fd("check", 1);
+                ft_putstr_fd(cmd->infiles[0], 2);
+                ft_putstr_fd(": No such file or directory\n", 2);
+                g_e_status = 1;
 			// if (cmd->outfiles)
 			// {
 			//             // close();
@@ -226,46 +224,40 @@ int ft_dup_file(t_command *cmd, t_vars *vars)
 			//     // write(fd_infile, "test", 4);
 			//     close(fd_infile);
 			// }
-			return (1);
-		}
-		dup2(fd_infile, 0);
-		close(fd_infile);
-	}
-	if (cmd->outfiles)
-	{
-		// close();
-		test_infile = ft_last_redir(cmd->outfiles, vars, 1);
-		if (!test_infile)
-			return (1);
-		fd_infile = open(ft_last_redir(cmd->outfiles, vars, 1), O_TRUNC | O_CREAT | O_RDWR, 0664);
-		if (fd_infile < 0)
-		{
-			ft_putstr_fd("Minishel: ", 2);
-			ft_putstr_fd(cmd->outfiles[0], 2);
-			ft_putstr_fd(": Permission denied\n", 2);
-			g_e_status = 1;
-			if (cmd->infiles)
-			{
-				test_infile = ft_last_redir(cmd->infiles, vars, 0);
-				if (!test_infile)
-					return (1);
-				fd_infile = open(test_infile, O_RDONLY);
-				dup2(fd_infile, 0);
-				close(fd_infile);
-			}
-			return (1);
-		}
+			    exit(g_e_status);
+		    }
+		    dup2(fd_infile, 0);
+		    close(fd_infile);
+	    }
+        if (cmd->outfiles && mask[i] == 10 && cmd->str_raw[i] == '>')
+        {
+        // printf("I outfile I go %d\n", i);
+            // if (cmd->outfiles
+        
+            // close();
+            test_infile = ft_last_redir(cmd->outfiles, vars, 1);
+            if (!test_infile)
+                return (1);
+            fd_infile = open(ft_last_redir(cmd->outfiles, vars, 1), O_TRUNC | O_CREAT | O_RDWR, 0664);
+            if (fd_infile < 0)
+            {
+                ft_putstr_fd("Minishel: ", 2);
+                ft_putstr_fd(cmd->outfiles[0], 2);
+                ft_putstr_fd(": Permission denied\n", 2);
+                g_e_status = 1;
+                exit (g_e_status);
+            }
 		// close(cmd->fd[1]);
 		// close(cmd->fd[0]);
-		dup2( fd_infile, 1); //
+		    dup2( fd_infile, 1); //
 		// write(fd_infile, "test", 4);
-		close(fd_infile); //
+		    close(fd_infile); //
 		// close(1);  
 
 		// return (fd_infile);
 
-	}
-
+	    }
+    }
 	return (0);
 }
 //     // if (cmd->heredocs)
@@ -645,7 +637,7 @@ void ft_mi_exec(t_vars *vars)
 				ft_putstr_fd(": command not found\n", 2);
 				g_e_status = 127;
 			}
-			else
+			// else
 			// printf("PATH is %s \n", path);
 			// printf("cmd is %s \n", vars->cmd_list->cmd[0]);
 			// printf("cmd_path is %s \n", cmd_path);         

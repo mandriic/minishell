@@ -19,7 +19,7 @@ int	ft_echo(t_vars *vars, t_command *cmd)
 	}
 	if (cmd->infiles && cmd->cmd[1] == NULL)
 	{
-		if (ft_last_redir(cmd->infiles, vars, 0, NULL))
+		if (ft_last_redir(cmd->infiles, vars, 0))
 			vars->error = 0;
         	return(1);
 	}
