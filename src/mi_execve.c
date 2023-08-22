@@ -97,7 +97,7 @@ char *ft_last_redir(char **redirs, t_vars *vars, int outfile)
                 ft_putstr_fd(redirs[i], 2);
                 ft_putstr_fd(": Permission denied\n", 2);
                 vars->error = 1;
-                return (NULL);
+                exit(vars->error);
                 // exit(1);
             }
             close(fd);
@@ -142,7 +142,7 @@ int ft_dup_file(t_command *cmd, t_vars *vars)
         // printf("first is %c\n", first[0]);
     if (cmd->appends)
         {
-            fd_infile = open(cmd->appends[0], O_APPEND | O_CREAT | O_RDWR, 0664);
+            fd_infile = open(ft_last_redir(cmd->appends, vars ,1), O_APPEND | O_CREAT | O_RDWR, 0664);
             dup2(fd_infile, 1);
             close(fd_infile);
         }
