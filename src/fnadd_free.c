@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fnadd_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: angalsty <angalsty@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:11:23 by mandriic          #+#    #+#             */
-/*   Updated: 2023/06/18 14:14:16 by angalsty         ###   ########.fr       */
+/*   Updated: 2023/08/23 15:20:25 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	ft_del_list(t_command *list)
 		ft_free_dob_arr(list->heredocs);
 		ft_free_dob_arr(list->cmd);
 		free(list->cmd_splited);
+		free(list->str_raw);
 		if (list->sub_arg)
 			ft_my_free(list->sub_arg);
 		free(list);

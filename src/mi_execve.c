@@ -6,7 +6,7 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 18:26:04 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/22 22:11:52 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/23 21:44:48 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,10 +156,14 @@ int ft_what_is_first(char *line, t_vars *vars)
             return (10);
         
     }
-    write(1, "tester\n", 7);
     return (0);
 }
+void free_from_dupfile(int *mask, t_command *cmd)
+{
+    free(mask);
+    free(cmd->str_raw);
 
+}
 int ft_dup_file(t_command *cmd, t_vars *vars)
 {
     char * test_infile;
@@ -173,13 +177,14 @@ int ft_dup_file(t_command *cmd, t_vars *vars)
         // printf("first is %c\n", first[0]);
     // first2 = ft_what_is_first(cmd->str_raw, vars);
     // printf("first2 is %d\n", first2);
-    mask = ft_mask(cmd->str_raw, vars, 0);
+    mask = ft_mask(cmd->str_raw, vars, 0); 
     int i = -1;
     while (++i < ft_strlen(cmd->str_raw))
     {
         // printf("mask is %d \n", mask[i]);
         if (cmd->appends && mask[i] == 11)
             {
+
                 // printf("I append I go %d\n", i);
                 i++;
                 fd_infile = open(ft_last_redir(cmd->appends, vars ,1), O_APPEND | O_CREAT | O_RDWR, 0664);
@@ -191,6 +196,7 @@ int ft_dup_file(t_command *cmd, t_vars *vars)
                 // printf("I infile I go %d\n", i);
 
 		// }
+
             test_infile = ft_last_redir(cmd->infiles, vars, 0);
             if (!test_infile)
                 g_e_status = 1;
@@ -203,27 +209,7 @@ int ft_dup_file(t_command *cmd, t_vars *vars)
                 ft_putstr_fd(cmd->infiles[0], 2);
                 ft_putstr_fd(": No such file or directory\n", 2);
                 g_e_status = 1;
-			// if (cmd->outfiles)
-			// {
-			//             // close();
-			//     test_infile = ft_last_redir(cmd->outfiles, vars, 1);
-			//     printf("test_infile is %s \n", test_infile);
-			//     if (!test_infile )
-			//         return (1);
-			//     fd_infile = open(ft_last_redir(cmd->outfiles, vars, 1), O_TRUNC | O_CREAT | O_RDWR, 0664);
-			//     if (fd_infile < 0)
-			//     {
-			//         ft_putstr_fd(cmd->outfiles[0], 2);
-			//         ft_putstr_fd(": Permission denied\n", 2);
-			//         g_e_status = 1;
-			//         return (1);
-			//     }
-			//     // close(cmd->fd[1]);
-			//     // close(cmd->fd[0]);
-			//     dup2( fd_infile, 1);
-			//     // write(fd_infile, "test", 4);
-			//     close(fd_infile);
-			// }
+                free_from_dupfile(mask, cmd);
 			    exit(g_e_status);
 		    }
 		    dup2(fd_infile, 0);
@@ -245,8 +231,10 @@ int ft_dup_file(t_command *cmd, t_vars *vars)
                 ft_putstr_fd(cmd->outfiles[0], 2);
                 ft_putstr_fd(": Permission denied\n", 2);
                 g_e_status = 1;
+                free_from_dupfile(mask, cmd);
                 exit (g_e_status);
             }
+
 		// close(cmd->fd[1]);
 		// close(cmd->fd[0]);
 		    dup2( fd_infile, 1); //
@@ -258,6 +246,8 @@ int ft_dup_file(t_command *cmd, t_vars *vars)
 
 	    }
     }
+    free_from_dupfile(mask, cmd);
+    
 	return (0);
 }
 //     // if (cmd->heredocs)
@@ -320,10 +310,33 @@ int	ft_redirections(t_command *cmd, t_vars *vars)
 		dup2(cmd->prev->fd[0], 0);
 	if (cmd->next != NULL)
 		dup2(cmd->fd[1], 1);*/
+    
 	if (ft_dup_file(cmd, vars))
 		return (1);
 	return (0);
 	// ft_dup_outfile(cmd, vars);
+}
+
+void ft_checkifdir(char *path)
+{
+    int dir;
+    dir = open(path, O_DIRECTORY | O_RDONLY);
+    if (dir > 0)
+    {
+            ft_putstr_fd("Minishell: ", 2);
+            ft_putstr_fd(path, 2);
+            ft_putstr_fd(": is a directory\n", 2);
+            g_e_status = 126;
+        exit(g_e_status);
+    }
+    // else if (dir < 0)
+    // {
+    //     ft_putstr_fd("Minishel: ", 2);
+    //     ft_putstr_fd(path, 2);
+    //     ft_putstr_fd(": Permission denied\n", 2);
+    //     g_e_status = 126;
+    //     exit(g_e_status);
+    // }
 }
 
 void ft_execuve(char *path, t_command *cmd, t_vars *vars)
@@ -334,12 +347,8 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
 	//     exit(0);
 	pipe(cmd->fd);
 	//pid_t* child_pid;
-
 	//child_pid = (pid_t *)malloc(sizeof(pid_t) * vars->num_pipes + 1);
-   
 	pid = fork();
-	
-	
 	if (pid == 0)
 	{
 		if (cmd->next || cmd->outfiles)
@@ -360,14 +369,34 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
 		}
 		if (ft_redirections(cmd, vars))
 			exit(g_e_status);
+        
 		if (ft_check_if_builtins(vars, cmd) == 0)
 		{
+            ft_checkifdir(path);
 			if (execve(path, cmd->cmd, vars->env_var) == -1)
 			{
-				ft_putstr_fd("Minishel: ", 2);
-				ft_putstr_fd(cmd->cmd[0], 2);
-				ft_putstr_fd(": command not found\n", 2);
-				exit(1);
+                // printf("%s", strerror(errno));
+				// ft_putstr_fd("Minishell: ", 2);
+				// ft_putstr_fd(cmd->cmd[0], 2);
+                if (path[0] == '/' || path[0] == '.')
+                {
+                    if (access(path, F_OK))
+                        ft_putstr_fd(strerror(errno), 2);
+                    else if (access(path, X_OK))
+                    {
+                        ft_putstr_fd(" Permission denied\n", 2);
+                        exit(126);
+                    }
+                    else
+                        ft_putstr_fd("No such file or directory\n", 2);
+                    // ft_putstr_fd(": No such file or directory\n", 2);
+                    exit(127);
+                }
+                else
+                {
+                    ft_putstr_fd(": command not found\n", 2);
+                    exit(126);
+                }
 			}
 		}
 		else
@@ -419,12 +448,17 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
 			if (ft_strncmp("cat", cmd->cmd[0], 3) == 0 && cmd->next != NULL)
 			{
 				waitpid(pid, &status, WNOWAIT);
-
 					// perror("waitpid() failed");
 
 					g_e_status = 0;
 
 			}
+            else if (ft_strncmp("exit", cmd->cmd[0], 4) == 0)
+            {
+                waitpid(pid, &status, 0);
+                g_e_status = WEXITSTATUS(status);
+                exit(g_e_status);
+            }
 			else
 			{
 				if(waitpid(pid, &status, 0) == -1)
@@ -434,9 +468,41 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
 				}    
 				if ( WIFEXITED(status) )
 				{
+
 					g_e_status = WEXITSTATUS(status);
-					// printf("Exit status was %d\n", g_e_status);
+					// printf("Exit1 status was %d\n", g_e_status);
+                    // exit(g_e_status);
 				}
+                // else if ( WIFSIGNALED(status) )
+                // {
+                //     printf("check5\n");
+                //     g_e_status = WTERMSIG(status);
+                //     printf("Exit2 status was %d\n", g_e_status);
+                //     exit(g_e_status);
+                // }
+                // else if ( WIFSTOPPED(status) )
+                // {
+                //     printf("check6\n");
+                //     g_e_status = WSTOPSIG(status);
+                //     printf("Exit3 status was %d\n", g_e_status);
+                //     exit(g_e_status);
+                // }
+                // // else if ( WIFCONTINUED(status) )
+                // // {
+                // //     printf("check7\n");
+                // //     g_e_status = WCONTINUED(status);
+                // //     printf("Exit status was %d\n", g_e_status);
+                // //     exit(g_e_status);
+                // // }
+                // else
+                // {
+                //     printf("check8\n");
+                //     g_e_status = 1;
+                //     printf("Exit4 status was %d\n", g_e_status);
+                //     exit(g_e_status);
+                // }
+                // printf("check2\n");
+                // exit(g_e_status);
 			}
 
 		// }
@@ -496,9 +562,11 @@ int ft_check_if_builtins(t_vars *vars, t_command *cmd)
 	else if (ft_strncmp(cmd->cmd[0], "env", 3) == 0
 		&& ft_strlen(cmd->cmd[0]) == 3)
 		return (ft_env(vars, cmd));
-	else if (ft_strncmp(cmd->cmd[0], "exit", 4) == 0
-		&& ft_strlen(cmd->cmd[0]) == 4)
+	else if (ft_strncmp(cmd->cmd[0], "exit", 4) == 0 && ft_strlen(cmd->cmd[0]) == 4)
+    {
 		return (ft_exit(vars, cmd));
+
+    }
 	else
 		return (0);
 }

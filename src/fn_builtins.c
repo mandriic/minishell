@@ -338,8 +338,12 @@ int	ft_isnum_exit(char *str)
 
 int	ft_exit(t_vars *vars, t_command *cmd)
 {
+        write(1, "1234\n", 5);
+
 	__int128_t	num;
 
+
+	printf("cmd->cmd[1] is %s\n", cmd->cmd[1]);
 	if (cmd->cmd[1])
 	{
 		num = ft_atoll(cmd->cmd[1]);
@@ -348,7 +352,7 @@ int	ft_exit(t_vars *vars, t_command *cmd)
 			ft_putstr_fd("Minishell: exit: ", 2);
 			ft_putstr_fd(cmd->cmd[1], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
-			printf("exit\n");
+			printf("exit TEST2\n");
 			exit(255);
 		}
 		else if (ft_doublen(cmd->cmd) > 2)
@@ -359,13 +363,13 @@ int	ft_exit(t_vars *vars, t_command *cmd)
 		}
 		else
 		{
-			printf("exit\n");
-			exit(num);
+			printf("exit TEST\n");
+			exit(123);
 		}
 	}
 	else
 	{
-		printf("exit\n");
+		printf("exit TEST3\n");
 		exit(vars->error);
 	}
 }
