@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_main_readline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:22:00 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/20 14:42:25 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/23 16:48:59 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	ft_submain(t_vars *vars)
 			continue ;
 		if (vars->line == NULL)
 		{
-			printf("exit\n");
+			printf("exit TEST4\n");
 			free(vars->line);
 			exit(0);
 		}

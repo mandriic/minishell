@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:17:35 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/20 15:46:01 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/23 19:26:22 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ int	ft_exit_errors(t_vars *vars, t_command *cmd, __int128_t	num)
 			ft_putstr_fd("Minishell: exit: ", 2);
 			ft_putstr_fd(cmd->cmd[1], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
-			printf("exit\n");
-			exit(2);
+			// printf("exit TEST6\n");
+			exit(255);
 		}
 		else if (ft_doublen(cmd->cmd) > 2)
 		{
@@ -69,7 +69,7 @@ int	ft_exit_errors(t_vars *vars, t_command *cmd, __int128_t	num)
 		}
 		else
 		{
-			printf("exit\n");
+			// printf("exit TEST7\n");
 			exit(num);
 		}
 	}
@@ -85,7 +85,7 @@ int	ft_exit(t_vars *vars, t_command *cmd)
 		return (1);
 	else
 	{
-		printf("exit\n");
 		exit(g_e_status);
 	}
+	return (0);
 }
