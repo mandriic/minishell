@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_list.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: pepealkalina <pepealkalina@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:13:45 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/18 16:46:28 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/24 11:25:10 by pepealkalin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

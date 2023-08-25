@@ -2,6 +2,19 @@
 
 extern int g_e_status;
 
+void	ft_here_signal(int sig)
+{
+	int	i;
+
+	i = -1;
+	if (sig == SIGINT)
+	{
+		printf("\n");
+		g_e_status = 127 + sig;
+		exit(1);
+	}
+}
+
 void	ft_singint_hand(int sig)
 {
 	struct termios	prompt_conf;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: pepealkalina <pepealkalina@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:16:58 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/22 21:42:37 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/25 13:25:33 by pepealkalin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,6 +291,7 @@ __int128_t	ft_atoll(const char *str);
 int			ft_doublen(char **str);
 void		ft_singint_hand(int sigs);
 void		ft_here_signal(int sig);
+char		*get_next_line(int fd);
 
 #endif
 

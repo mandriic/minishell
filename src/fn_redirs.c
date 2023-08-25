@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   fn_redirs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pepealkalina <pepealkalina@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:15:36 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/20 16:40:39 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/25 13:44:21 by pepealkalin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	ft_heredoc(char **arr, t_command *data, int *i)
+static void	ft_read_here(char **arr, int*fd, int *i, t_command *data)
 {
 	char	*eofile;
 	int		str_cmp;
@@ -22,6 +22,7 @@ void	ft_heredoc(char **arr, t_command *data, int *i)
 	i[1] = -1;
 	if (!data->heredocs)
 		data->heredocs = malloc(sizeof(char *) * BUFFER_SIZE);
+	signal(SIGINT, ft_here_signal);
 	while (1)
 	{
 		data->heredocs[++i[1]] = readline("> ");
@@ -29,9 +30,47 @@ void	ft_heredoc(char **arr, t_command *data, int *i)
 		if (!str_cmp && ft_strlen(data->heredocs[i[1]]) == ft_strlen(eofile))
 			break ;
 	}
+	close(fd[0]);
+	close(fd[1]);
 	free(data->heredocs[i[1]]);
-	data->heredocs[i[1]--] = NULL;
+	data->heredocs[i[1]--] = NULL; 
 	i[0]++;
+	exit(0);
+}
+
+void	ft_heredoc(char **arr, t_command *data, int *i)
+{
+	int	pid;
+	int	fd[2];
+	int	status;
+
+	pipe(fd);
+	pid = fork();
+	status = 0;
+	signal(SIGINT, SIG_IGN);
+	if (pid < 0)
+	{
+		close(fd[0]);
+		close(fd[1]);
+		return ;
+	}
+	if (pid == 0)
+	{
+		ft_read_here(arr, fd, i, data);
+		close(fd[0]);
+		close(fd[1]);
+	}
+	else
+	{
+		close(fd[1]);
+		waitpid(pid, &status, 0);
+	}
+	if (!status)
+	{
+		close(fd[0]);
+		close(fd[1]);
+		return ;
+	}
 }
 
 void	ft_infile(char **arr, t_command *data, int *i)
@@ -81,7 +120,10 @@ void	ft_outfiles(char **arr, t_command *data, int *i)
 void	ft_check_redir_create(char **arr, t_command *data, int *i)
 {
 	if (arr[i[0]][0] == '<' && arr[i[0]][1] == '<')
+	{
 		ft_heredoc(arr, data, i);
+		i[0]++;
+	}
 	else if (arr[i[0]][0] == '<')
 		ft_infile(arr, data, i);
 	else if (arr[i[0]][0] == '>' && arr[i[0]][1] == '>')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: pepealkalina <pepealkalina@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:17:35 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/23 19:26:22 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/24 10:49:17 by pepealkalin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int	ft_exit_errors(t_vars *vars, t_command *cmd, __int128_t	num)
 			ft_putstr_fd("Minishell: exit: ", 2);
 			ft_putstr_fd(cmd->cmd[1], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
-			// printf("exit TEST6\n");
 			exit(255);
 		}
 		else if (ft_doublen(cmd->cmd) > 2)
@@ -68,10 +67,7 @@ int	ft_exit_errors(t_vars *vars, t_command *cmd, __int128_t	num)
 			return (1);
 		}
 		else
-		{
-			// printf("exit TEST7\n");
 			exit(num);
-		}
 	}
 	return (0);
 }

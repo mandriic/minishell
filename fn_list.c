@@ -1,4 +1,5 @@
 #include "../inc/minishell.h"
+
 void ft_free_dob_p(char **str)
 {
 	int i;
@@ -196,24 +197,12 @@ t_command *ft_create_data(char *str, t_vars *vars)
 
 	data = malloc(sizeof(t_command));
 	*data = (t_command){};
-	// data->cmd_splited = malloc(sizeof(char *) * 3);
-	// data->cmd_splited[0] = data->comando_a_pelo;
-	// data->cmd_splited[1] = data->arg;
-	// data->cmd_splited[2] = NULL;
-	// printf("str %c\n", str[0]);
 	if (!str[0])
 	{
 		// printf("chl\n");
 		while (str[0] == '\0')
 			str = readline(">");
 	}
-
-	// data->comando_con_flags = str;
-	// data->pre_comand_bon = ft_pre_com_bon(str, vars);
-	// data->vars_resolv = ft_checkif_var(str, vars);
-	// printf("resolved %s\n", data->vars_resolv);
-
-	// data->pre_comand_bon = ft_pre_com_bon(data->vars_resolv, vars);
 
 
 
