@@ -676,7 +676,9 @@ void ft_mi_exec(t_vars *vars)
 			// if (temp_cmd->next != NULL)
 			if (ft_strncmp("export", temp_cmd->cmd[0], 6) == 0)
 				ft_export(vars, temp_cmd);
-			 if (ft_strncmp("cd", temp_cmd->cmd[0], 2) == 0)
+			else if (ft_strncmp("unset", temp_cmd->cmd[0], 5) == 0)
+				ft_unset(vars, temp_cmd);
+			else if (ft_strncmp("cd", temp_cmd->cmd[0], 2) == 0)
 				ft_cd(vars, temp_cmd);
 			else 				
 				ft_execuve(NULL, temp_cmd, vars); // ATENTION

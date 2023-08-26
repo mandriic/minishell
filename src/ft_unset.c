@@ -38,7 +38,8 @@ int	ft_unset(t_vars *vars, t_command *cmd)
 	{
 		if (ft_get_value(cmd->cmd[1], vars->env_var) != NULL)
 		{
-			ft_change_env(vars, cmd->cmd[1], "", ft_strlen(cmd->cmd[1]));
+			// ft_change_env(vars, cmd->cmd[1], "", ft_strlen(cmd->cmd[1]));
+			ft_del_from_dob_arr(vars, cmd->cmd[1], &vars->env_var);
 			g_e_status = 0;
 			return (1);
 		}

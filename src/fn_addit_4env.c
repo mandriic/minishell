@@ -59,6 +59,26 @@ char	*ft_find_in_temp_env(t_vars *vars, char *to_append)
 	return (NULL);
 }
 
+char	*ft_find_in_env(t_vars *vars, char *to_find)
+{
+	int		i;
+	char	*dst;
+
+	i = -1;
+	if (!vars->env_var)
+		return (NULL);
+	while (vars->env_var[++i])
+	{
+		if (ft_strncmp(vars->env_var[i], to_find, ft_strlen(to_find)) == 0)
+		{
+			// printf("check find in env\n");
+			dst = vars->env_var[i];
+			return (dst);
+		}
+	}
+	return (NULL);
+}
+
 char	**ft_append_to_env(t_vars *vars, char *to_append)
 {
 	int		i;

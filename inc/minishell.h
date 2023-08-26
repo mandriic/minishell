@@ -127,6 +127,9 @@ char	*ft_acumulate(char *dest, char *part);
 void ft_print_arrint(int *arr, char *name);
 void ft_print_dp(char **str, char *name);
 char	*leelinea(void);
+char	*ft_find_in_env(t_vars *vars, char *to_find);
+void ft_del_from_dob_arr(t_vars *vars, char *to_del, char ***src);
+
 // void	ft_cd(char *route);
 
 //export.c
