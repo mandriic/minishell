@@ -27,11 +27,11 @@ NAME     = minishell
 RM       = rm -f
 
 $(BIN_PATH)%.o: $(SRCS_PATH)%.c
-	$(CC) $(CFLAGS) -c $< -o $@ -I$(INCS) $(R42IFLAGM) #-I/opt/homebrew/opt/readline/include
+	$(CC) $(CFLAGS) -c $< -o $@ -I$(INCS) $(R42IFLAG) #-I/opt/homebrew/opt/readline/include
 
 $(NAME): $(OBJS)
 	make -C $(LIBFT_PATH)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_FLAGS) -I$(INCS) -o $(NAME) $(R42LFLAGM) $(R42IFLAGM) -lreadline #-L/opt/homebrew/opt/readline/lib -I/opt/homebrew/opt/readline/include -lreadline
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_FLAGS) -I$(INCS) -o $(NAME) $(R42LFLAG) $(R42IFLAG) -lreadline #-L/opt/homebrew/opt/readline/lib -I/opt/homebrew/opt/readline/include -lreadline
 
 all:		$(NAME)
 

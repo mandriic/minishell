@@ -87,6 +87,7 @@ typedef struct s_vars
 	char				**env_var;
 	char				**temp_env;
 	char				lastchar;
+	int					com_it;
 	int					i;
 	int					i2;
 	int					error;

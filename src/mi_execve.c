@@ -644,13 +644,17 @@ void ft_mi_exec(t_vars *vars)
 	char	*path;
 	char	*cmd_path;
 	char    *temp;
+	int		i;
 
+	i = 0;
 	temp_cmd = vars->cmd_list;
 	//temp_cmd->child_pid = (pid_t *)malloc(sizeof(pid_t) * vars->num_pipes + 1);
 	while (temp_cmd != NULL && temp_cmd->cmd)
 	{
 		// printf("temp_cmd->cmd[0] is %s \n", temp_cmd->cmd[0]);
 		//signal(SIGUSR2, SIG_IGN);
+		if (ft_strncmp("0x0", temp_cmd->cmd[i], 3) == 0)
+			i++;			
 		if(ft_check_if_vars(vars, temp_cmd))
 		{
 			if (temp_cmd->next)
@@ -667,7 +671,11 @@ void ft_mi_exec(t_vars *vars)
 		if (ft_check_if_builtins_true(vars, temp_cmd))
 		{
 			// if (temp_cmd->next != NULL)
+			 if (ft_strncmp("cd", temp_cmd->cmd[i], 2) == 0)
+				ft_cd(vars, temp_cmd);
+			else 				
 				ft_execuve(NULL, temp_cmd, vars); // ATENTION
+
 			// else
 			// {
 			//     //printf("g_e_status is %d \n", g_e_status);
@@ -678,10 +686,10 @@ void ft_mi_exec(t_vars *vars)
 		{
 			// printf("cmd CHECK is %s \n", temp_cmd->cmd[0]);
 			path = ft_get_val("PATH", vars->env_var);
-			cmd_path = ft_pars_path(path, temp_cmd->cmd[0], 5, vars);
+			cmd_path = ft_pars_path(path, temp_cmd->cmd[i], 5, vars);
 			// printf("cmd_path is %s \n", cmd_path);
-			if (temp_cmd->cmd[0] && !cmd_path && (temp_cmd->cmd[0][0] == '.' || temp_cmd->cmd[0][0] == '/')) //&& (temp_cmd->cmd[0][1] == '/' || temp_cmd->cmd[0][1] == '.'))
-				ft_execuve(temp_cmd->cmd[0], temp_cmd, vars); // ATENTION
+			if (temp_cmd->cmd[i] && !cmd_path && (temp_cmd->cmd[i][0] == '.' || temp_cmd->cmd[i][0] == '/')) //&& (temp_cmd->cmd[0][1] == '/' || temp_cmd->cmd[0][1] == '.'))
+				ft_execuve(temp_cmd->cmd[i], temp_cmd, vars); // ATENTION
 
 			else if (cmd_path)
 			{
@@ -698,10 +706,10 @@ void ft_mi_exec(t_vars *vars)
 				ft_execuve(cmd_path, temp_cmd, vars);  // ATENTION
 				free(cmd_path);
 			}
-			else if(temp_cmd->cmd[0])
+			else if(temp_cmd->cmd[i])
 			{
 				ft_putstr_fd("Minishel: ", 2);
-				ft_putstr_fd(temp_cmd->cmd[0], 2);
+				ft_putstr_fd(temp_cmd->cmd[i], 2);
 				ft_putstr_fd(": command not found\n", 2);
 				g_e_status = 127;
 			}
