@@ -20,11 +20,9 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 	vars->start = 0;
 	type = ft_mask(str, vars, 0);
 	acum = NULL;
-	printf("str: %s\n", str);
 	ft_checkif_var_subfoo(str, &acum, type, vars);
 	if ((acum == NULL || str[vars->start - 1] == '\0') && str[0] != '$')
 	{
-		printf("check-var1.\n");
 		free(type);
 		if (vars->start - 1 > 0 && str[vars->start - 1] == '\0'
 			&& acum != NULL)
@@ -34,13 +32,11 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 	vars->temp2 = ft_substr(str, vars->start, vars->i - vars->start + 1);
 	if (vars->temp2 != NULL)
 	{
-		printf("check-var2.\n");
 
 		acum = ft_acumulate(acum, vars->temp2);
 		free(type);
 		if (acum == NULL && str + 1)
 		{
-			printf("check-var3.\n");
 			free(acum);
 			acum = ft_strdup("0x0");
 			return (acum);
