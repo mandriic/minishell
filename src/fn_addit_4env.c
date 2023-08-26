@@ -87,7 +87,7 @@ char	**ft_append_to_env(t_vars *vars, char *to_append)
 
 	i = -1;
 	temp = ft_find_in_temp_env(vars, to_append);
-	if (temp == NULL)
+	if (temp == NULL && ft_find_in_env(vars, to_append) == NULL)
 		temp = to_append;
 	if (vars->env_var)
 	{

@@ -381,14 +381,17 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
                 if (path[0] == '/' || path[0] == '.')
                 {
                     if (access(path, F_OK))
+					{
                         ft_putstr_fd(strerror(errno), 2);
+						write(2, "\n", 1);
+					}
                     else if (access(path, X_OK))
                     {
                         ft_putstr_fd(" Permission denied\n", 2);
                         exit(126);
                     }
                     else
-                        ft_putstr_fd("No such file or directory\n", 2);
+                        ft_putstr_fd("No such file or directory2\n", 2);
                     // ft_putstr_fd(": No such file or directory\n", 2);
                     exit(127);
                 }
@@ -571,27 +574,77 @@ int ft_check_if_builtins(t_vars *vars, t_command *cmd)
 		return (0);
 }
 
-int ft_check_if_vars(t_vars *vars, t_command *cmd_struct)
+int ft_check_if_vars(t_vars *vars, t_command *cmd)
 {
 	char	*temp;
-	int		i;
-
-	i = 0;
-	while (cmd_struct->cmd[0] && cmd_struct->cmd[0][i])
+	int		j;
+	char	*valor;
+	char	*name;
+	char	*var;
+	j = -1;
+	// ft_print_dp(cmd_struct->cmd, "cmd_struct->cmd");
+	while (cmd->cmd[++j])
 	{
-		if (cmd_struct->cmd[0][i++] == '=')
-		{
-			temp = ft_substr(cmd_struct->cmd[0], 0, i);
-			if (ft_change_env(vars, temp, cmd_struct->cmd[0] + i, \
-				ft_strlen(cmd_struct->cmd[0]) - i) == 0)
-				vars->temp_env = ft_append_to_temp_env(vars, \
-				cmd_struct->cmd[0]);
-			free(temp);
-			return (1);
-		}
+		if(ft_strchr(cmd->cmd[j], '=') == NULL || ft_strnstr(cmd->cmd[j], "==", ft_strlen(cmd->cmd[j])))
+				continue ;
+			printf("cmd: %s\n", cmd->cmd[j]);
+			var = ft_substr(cmd->cmd[j], 0, ft_strlen(cmd->cmd[j]) - ft_strlen(ft_strchr(cmd->cmd[j], '=')));
+			valor = ft_substr(cmd->cmd[j], ft_strlen(cmd->cmd[j]) - ft_strlen(ft_strchr(cmd->cmd[j], '=')), ft_strlen(ft_strchr(cmd->cmd[j], '=')));
+			printf("var: %s\n", var);
+			printf("valor: %s\n", valor);
+			if (ft_find_in_env(vars,var))
+			{
+				printf("check2\n");
+				ft_change_env(vars, var, valor, ft_strlen(var));
+			}
+			else if (ft_find_in_temp_env(vars, var) == 0)
+			{
+				printf("check1\n");
+				vars->temp_env = ft_append_to_temp_env(vars, cmd->cmd[j]);
+			}
+			else if (ft_find_in_temp_env(vars, var) != 0)
+			{
+				// printf("check finded\n");
+				ft_change_temp_env(vars, var, valor, ft_strlen(var));
+			}
+			free(var);
+			free(valor);
+			ft_print_dp(vars->temp_env, "vars->envT_var");
+			if (cmd->cmd[j + 1] == NULL)
+				return (1);
+			
 	}
 	return (0);
 }
+
+		// if (ft_strnstr(cmd_struct->cmd[i], "=", ft_strlen(cmd_struct->cmd[i])))
+		// {
+		// 	name = ft_substr(cmd_struct->cmd[i], 0, ft_strlen(cmd_struct->cmd[i]) - ft_strlen(ft_strchr(cmd_struct->cmd[i], '=')));
+		// 	valor = ft_strchr(cmd_struct->cmd[i], '=') + 1;
+		// 	printf("name is %s \n", name);
+		// 	printf("valor is %s \n", valor);
+		// 	if(!ft_find_in_temp_env(vars, cmd_struct->cmd[i]))
+		// 	{
+		// 		printf("check1\n");
+		// 		ft_append_to_temp_env(vars, cmd_struct->cmd[i]);
+		// 	}
+		// 	else
+		// 	{
+		// 		printf("check2\n");
+		// 		ft_change_temp_env(vars, name, valor, ft_strlen(name));
+		// 	}
+		// 	// temp = ft_strjoin(cmd_struct->cmd[i], "\0");
+		// 	// ft_add_var(vars, temp);
+		// 	// free(temp);
+		// 	free(name);
+		// 	if (cmd_struct->cmd[i + 1] == NULL)
+		// 	{
+		// 		printf("check3\n");
+		// 		return (1);
+		// 	}
+	// 	}
+	// }
+
 
 int   ft_get_dollar(t_vars *vars, t_command *temp_cmd)
 {

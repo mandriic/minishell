@@ -37,3 +37,21 @@ void ft_del_from_dob_arr(t_vars *vars, char *to_del, char ***src)
     ft_free_dob_arr(src[0]);
     src[0] = dst;
 }
+
+// int	ft_change_temp_env(t_vars *vars, char *name, char *new_value, int len)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (vars->env_var[i] != NULL)
+// 	{
+// 		if (ft_strncmp(vars->env_var[i], name, len) == 0)
+// 		{
+// 			free(vars->env_var[i]);
+// 			vars->env_var[i] = ft_strjoin(name, new_value);
+// 			return (1);
+// 		}
+// 		i++;
+// 	}
+// 	return (0);
+// }

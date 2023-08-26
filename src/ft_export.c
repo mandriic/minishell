@@ -150,31 +150,65 @@ int	ft_export(t_vars *vars, t_command *cmd)
 		{
 			if (ft_export_err_equal(vars, cmd) || ft_export_err(vars, cmd))
 				return (1);
-			if(ft_strchr(cmd->cmd[j], '=') == NULL || ft_strnstr(cmd->cmd[j], "==", ft_strlen(cmd->cmd[j])))
-				continue ;
-			// printf("cmd: %s\n", cmd->cmd[j]);
 			var = ft_substr(cmd->cmd[j], 0, ft_strlen(cmd->cmd[j]) - ft_strlen(ft_strchr(cmd->cmd[j], '=')));
 			valor = ft_substr(cmd->cmd[j], ft_strlen(cmd->cmd[j]) - ft_strlen(ft_strchr(cmd->cmd[j], '=')), ft_strlen(ft_strchr(cmd->cmd[j], '=')));
+			printf("var: %s\n", var);
+			printf("valor: %s\n", valor);
+			printf("cmd: %s\n", cmd->cmd[j]);
+			if (ft_strchr(cmd->cmd[j], '=') == NULL && ft_find_in_temp_env(vars, cmd->cmd[j]) && !ft_find_in_env(vars, cmd->cmd[j]))
+			{
+				temp = ft_find_in_temp_env(vars, cmd->cmd[j]);
+				printf("temp: %s\n", temp);
+				vars->env_var = ft_append_to_env(vars, temp);
+				// vars->env_var = ft_append_to_env(vars, temp);
+			}
+			// if(ft_strchr(cmd->cmd[j], '=') == NULL || ft_strnstr(cmd->cmd[j], "==", ft_strlen(cmd->cmd[j])))
+			// {
+			// 	if (ft_find_in_env(vars, cmd->cmd[j]))
+			// 	{
+			// 		printf("was in env\n");
+			// 		temp = ft_find_in_env(vars, cmd->cmd[j]);
+			// 		ft_change_env(vars, temp, "", ft_strlen(temp));
+			// 		// vars->env_var = ft_append_to_env(vars, temp);
+			// 	}
+				// if(ft_find_in_temp_env(vars, cmd->cmd[j]))
+				// {
+				// 	printf("was in temp env\n");
+				// 	temp = ft_find_in_temp_env(vars, cmd->cmd[j]);
+				// 	vars->env_var = ft_append_to_env(vars, temp);
+				// }
+				// else
+				// {
+				// 	ft_putstr_fd("Minishell: export: `", 2);
+				// 	ft_putstr_fd(cmd->cmd[j], 2);
+				// 	ft_putstr_fd("': not a valid identifier\n", 2);
+				// 	g_e_status = 1;
+				// 	return (1);
+				// }
+
+			// }
+			// printf("cmd: %s\n", cmd->cmd[j]);
+
 			// printf("var: %s\n", var);
 			// printf("valor: %s\n", valor);
 
-			if (ft_find_in_env(vars, var) == 0)
-				{
-				// printf("check1\n");
-				vars->env_var = ft_append_to_env(vars, cmd->cmd[j]);
-				}
-			else if (ft_find_in_env(vars, var) != 0)
-			{
-				// printf("check finded\n");
-				ft_change_env(vars, var, valor, ft_strlen(var));
-			}
+			// if (ft_find_in_env(vars, var) == 0)
+			// 	{
+			// 	// printf("check1\n");
+			// 	vars->env_var = ft_append_to_env(vars, cmd->cmd[j]);
+			// 	}
+			// else if (ft_find_in_env(vars, var) != 0)
+			// {
+			// 	// printf("check finded\n");
+			// 	ft_change_env(vars, var, valor, ft_strlen(var));
+			// }
 
-			else if (ft_find_in_temp_env(vars, cmd->cmd[j]) != NULL)
-			{
-				// printf("check2\n");
-				temp = ft_find_in_temp_env(vars, cmd->cmd[j]);
-				vars->env_var = ft_append_to_env(vars, temp);
-			}
+			// else if (ft_find_in_temp_env(vars, cmd->cmd[j]) != NULL)
+			// {
+			// 	// printf("check2\n");
+			// 	temp = ft_find_in_temp_env(vars, cmd->cmd[j]);
+			// 	vars->env_var = ft_append_to_env(vars, temp);
+			// }
 			free(var);
 			free(valor);
 		}

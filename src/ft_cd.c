@@ -21,9 +21,12 @@ int	ft_change_env(t_vars *vars, char *name, char *new_value, int len)
 	i = 0;
 	while (vars->env_var[i] != NULL)
 	{
+					printf("new_value: %s\n", new_value);
+			printf("name: %s\n", name);
 		if (ft_strncmp(vars->env_var[i], name, len) == 0)
 		{
 			free(vars->env_var[i]);
+
 			vars->env_var[i] = ft_strjoin(name, new_value);
 			return (1);
 		}

@@ -89,7 +89,7 @@ int ft_change_temp_env(t_vars *vars, char *name, char *new_value, int len)
 	// }
 	while(vars->temp_env[i] != NULL)
 	{
-		if (ft_strncmp(vars->temp_env[i], name, len) == 0)
+		if (ft_strncmp(vars->temp_env[i], name, ft_strlen(name)) == 0)
 		{    
 			// printf("11111%s \n", vars->temp_env[i]);
 			free(vars->temp_env[i]);

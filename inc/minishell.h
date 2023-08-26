@@ -129,6 +129,7 @@ void ft_print_dp(char **str, char *name);
 char	*leelinea(void);
 char	*ft_find_in_env(t_vars *vars, char *to_find);
 void ft_del_from_dob_arr(t_vars *vars, char *to_del, char ***src);
+int ft_change_temp_env(t_vars *vars, char *name, char *new_value, int len);
 
 // void	ft_cd(char *route);
 
