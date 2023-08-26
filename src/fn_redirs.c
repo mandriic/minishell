@@ -6,13 +6,13 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:15:36 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/26 16:17:53 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/26 17:31:20 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-extern int g_e_status;
+extern int	g_e_status;
 
 void	ft_heredoc(char **arr, t_command *data, int *i)
 {
@@ -40,9 +40,6 @@ void	ft_heredoc(char **arr, t_command *data, int *i)
 
 void	ft_infile(char **arr, t_command *data, int *i)
 {
-	int	fd_infile;
-
-	infile = 0;
 	if (!data->infiles)
 	{
 		data->infiles = malloc(sizeof(char *) * BUFFER_SIZE);
@@ -85,7 +82,6 @@ void	ft_outfiles(char **arr, t_command *data, int *i)
 
 void	ft_check_redir_create(char **arr, t_command *data, int *i)
 {
-
 	if (arr[i[0]][0] == '<' && arr[i[0]][1] == '<')
 		ft_heredoc(arr, data, i);
 	else if (arr[i[0]][0] == '<')

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   fn_getenvs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pepealkalina <pepealkalina@student.42.f    +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:13:16 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/22 14:12:38 by pepealkalin      ###   ########.fr       */
+/*   Updated: 2023/08/26 16:38:31 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-extern int g_e_status;
+extern int	g_e_status;
 
 char	*ft_change_symbol(char *str, char *var, t_vars *vars)
 {

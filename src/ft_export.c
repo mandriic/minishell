@@ -6,13 +6,13 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:00:19 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/20 15:39:03 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/26 17:35:19 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	ft_export_err_equal(t_vars *vars, t_command *cmd)
+int	ft_export_err_equal(t_command *cmd)
 {
 	size_t		temp3;
 	int			i;
@@ -35,7 +35,7 @@ int	ft_export_err_equal(t_vars *vars, t_command *cmd)
 	return (0);
 }
 
-void	ft_put_err(t_vars *vars, char *str)
+void	ft_put_err(char *str)
 {
 	ft_putstr_fd("Minishell: export: ", 2);
 	ft_putstr_fd(str, 2);
@@ -43,7 +43,7 @@ void	ft_put_err(t_vars *vars, char *str)
 	g_e_status = 1;
 }
 
-int	ft_export_err(t_vars *vars, t_command *cmd)
+int	ft_export_err(t_command *cmd)
 {
 	char		**temp2;
 	size_t		temp3;
@@ -63,7 +63,7 @@ int	ft_export_err(t_vars *vars, t_command *cmd)
 			if (i == 0 && (!ft_isalnum(temp2[i][j])
 				|| temp3 == ft_strlen(temp2[0])))
 			{
-				ft_put_err(vars, cmd->cmd[1]);
+				ft_put_err(cmd->cmd[1]);
 				return (1);
 			}
 		}
@@ -99,7 +99,7 @@ int	ft_export(t_vars *vars, t_command *cmd)
 	i = 0;
 	if (cmd->cmd[1] != NULL)
 	{
-		if (ft_export_err_equal(vars, cmd) || ft_export_err(vars, cmd))
+		if (ft_export_err_equal(cmd) || ft_export_err(cmd))
 			return (1);
 		if (ft_strchr(cmd->cmd[1], '=') != NULL)
 			vars->env_var = ft_append_to_env(vars, cmd->cmd[1]);

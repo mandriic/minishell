@@ -6,13 +6,13 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:13:45 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/26 16:10:30 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/26 16:42:03 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-extern int g_e_status;
+extern int	g_e_status;
 
 void	ft_merge_comando_args(t_command *data)
 {
@@ -39,11 +39,11 @@ int	ft_check_redir(char **arr, t_command *data)
 	int	i[6];
 
 	i[0] = -1;
-	g_e_status == 0;
 	while (arr[++i[0]] != NULL)
 	{
 		if (arr[i[0]][0] == '<' || arr[i[0]][0] == '>')
 		{
+			g_e_status = 0;
 			ft_initint(i, 6);
 			while (arr[i[0]] != NULL)
 			{

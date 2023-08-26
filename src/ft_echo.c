@@ -6,13 +6,13 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:19:48 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/20 15:44:41 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/26 16:43:49 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int g_e_status;
+int	g_e_status;
 
 int	ft_echo(t_vars *vars, t_command *cmd)
 {

@@ -6,7 +6,7 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:16:58 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/26 15:33:24 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/26 17:36:37 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,15 +118,15 @@ typedef struct s_vars
 // }	t_command;
 
 // extern t_data	g_data;
-int ft_dup_file(t_command *cmd, t_vars *vars);
-char *ft_last_redir(char **redirs, t_vars *vars, int outfile);
-int ft_redirections(t_command *cmd, t_vars *vars);
-void c(char *str);
-char	*ft_strjoin_mod(char *s1, char *s2);
-char	*ft_acumulate(char *dest, char *part);
-void ft_print_arrint(int *arr, char *name);
-void ft_print_dp(char **str, char *name);
-char	*leelinea(void);
+int			ft_dup_file(t_command *cmd, t_vars *vars);
+char		*ft_last_redir(char **redirs, int outfile);
+int			ft_redirections(t_command *cmd, t_vars *vars);
+void		c(char *str);
+char		*ft_strjoin_mod(char *s1, char *s2);
+char		*ft_acumulate(char *dest, char *part);
+void		ft_print_arrint(int *arr, char *name);
+void		ft_print_dp(char **str, char *name);
+char		*leelinea(void);
 // void	ft_cd(char *route);
 
 //export.c
@@ -178,7 +178,7 @@ int			ft_pwd(t_vars *vars, t_command *cmd);
 int			ft_export(t_vars *vars, t_command *cmd);
 int			ft_unset(t_vars *vars, t_command *cmd);
 int			ft_env(t_vars *vars, t_command *cmd);
-int			ft_exit(t_vars *vars, t_command *cmd);
+int			ft_exit(t_command *cmd);
 int			ft_change_env(t_vars *vars, char *name, char *new_value, int len);
 char		*ft_get_value(char *str, char **env);
 // bool	ft_is_builtin(t_command cmd);
@@ -204,7 +204,6 @@ int			ft_check_apphdoc(char *str, char **com_bon, int *i, int *type);
 int			ft_check_inoutfile(char *str, char **com_bon, int *i, int *type);
 void		ft_check_total(char *str, char **com_bon, int *i, int *type);
 t_command	*ft_create_data(char *str, t_vars *vars);
-
 
 // fn_main_readline.c
 void		ft_readline(t_vars *vars);
@@ -291,6 +290,6 @@ int			ft_doublen(char **str);
 void		ft_singint_hand(int sigs);
 void		ft_here_signal(int sig);
 char		*get_next_line(int fd);
+void		ft_exit_mini(t_vars *vars);
 
 #endif
-

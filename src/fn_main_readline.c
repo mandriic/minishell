@@ -6,7 +6,7 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:22:00 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/26 15:31:42 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/26 16:42:41 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,7 @@ void	ft_submain(t_vars *vars)
 				ft_strlen(vars->line) == 0))
 			continue ;
 		if (vars->line == NULL)
-		{
-			printf("exit\n");
-			free(vars->line);
-			exit(0);
-		}
+			ft_exit_mini(vars);
 		if (ft_pre_check(vars))
 			continue ;
 		if (vars->line)

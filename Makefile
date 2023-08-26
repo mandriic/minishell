@@ -20,7 +20,7 @@ CC       = gcc
 
 OBJS     = $(SRCS:%.c=$(BIN_PATH)%.o)
 
-CFLAGS   = -g -O0 #-Wall -Wextra -Werror
+CFLAGS   = -g -O0 -Wall -Wextra -Werror
 
 NAME     = minishell
 

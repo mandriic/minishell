@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pepealkalina <pepealkalina@student.42.f    +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:17:35 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/24 10:49:17 by pepealkalin      ###   ########.fr       */
+/*   Updated: 2023/08/26 17:36:06 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-extern int g_e_status;
+extern int	g_e_status;
 
 int	ft_doublen(char **str)
 {
@@ -48,7 +48,7 @@ int	ft_isnum_exit(char *str)
 	return (1);
 }
 
-int	ft_exit_errors(t_vars *vars, t_command *cmd, __int128_t	num)
+int	ft_exit_errors(t_command *cmd, __int128_t	num)
 {
 	if (cmd->cmd[1])
 	{
@@ -72,12 +72,12 @@ int	ft_exit_errors(t_vars *vars, t_command *cmd, __int128_t	num)
 	return (0);
 }
 
-int	ft_exit(t_vars *vars, t_command *cmd)
+int	ft_exit(t_command *cmd)
 {
 	__int128_t	num;
 
 	num = 0;
-	if (ft_exit_errors(vars, cmd, num))
+	if (ft_exit_errors(cmd, num))
 		return (1);
 	else
 	{
