@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_main_readline.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:22:00 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/23 16:48:59 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/26 15:31:42 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	ft_submain(t_vars *vars)
 	rl_catch_signals = 0;
 	while (1)
 	{
-		signal(SIGQUIT, ft_singint_hand);
+		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, ft_singint_hand);
 		vars->line = readline("Minishell $ ");
 		if (vars->line && ft_strncmp(" ", vars->line,
@@ -75,7 +75,7 @@ void	ft_submain(t_vars *vars)
 			continue ;
 		if (vars->line == NULL)
 		{
-			printf("exit TEST4\n");
+			printf("exit\n");
 			free(vars->line);
 			exit(0);
 		}

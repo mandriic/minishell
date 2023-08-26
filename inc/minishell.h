@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pepealkalina <pepealkalina@student.42.f    +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:16:58 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/25 13:25:33 by pepealkalin      ###   ########.fr       */
+/*   Updated: 2023/08/26 15:33:24 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <stdbool.h>
 # include <sys/wait.h>//para linux funcion wait
 # include <sys/param.h>
+# include <sys/ioctl.h>
 # include <string.h>
 # include <sys/types.h>
 # include <dirent.h>
@@ -271,8 +272,6 @@ void		ft_infile(char **arr, t_command *data, int *i);
 void		ft_appends(char **arr, t_command *data, int *i);
 void		ft_outfiles(char **arr, t_command *data, int *i);
 void		ft_check_redir_create(char **arr, t_command *data, int *i);
-
-
 
 void		set_signal(void);
 void		handle_process_on(int sig);

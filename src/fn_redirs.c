@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   fn_redirs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pepealkalina <pepealkalina@student.42.f    +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:15:36 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/25 13:44:21 by pepealkalin      ###   ########.fr       */
+/*   Updated: 2023/08/26 16:17:53 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static void	ft_read_here(char **arr, int*fd, int *i, t_command *data)
+extern int g_e_status;
+
+void	ft_heredoc(char **arr, t_command *data, int *i)
 {
 	char	*eofile;
 	int		str_cmp;
@@ -22,61 +24,25 @@ static void	ft_read_here(char **arr, int*fd, int *i, t_command *data)
 	i[1] = -1;
 	if (!data->heredocs)
 		data->heredocs = malloc(sizeof(char *) * BUFFER_SIZE);
-	signal(SIGINT, ft_here_signal);
 	while (1)
 	{
 		data->heredocs[++i[1]] = readline("> ");
 		str_cmp = ft_strncmp(eofile, data->heredocs[i[1]], ft_strlen(eofile));
-		if (!str_cmp && ft_strlen(data->heredocs[i[1]]) == ft_strlen(eofile))
+		if (g_e_status == 130
+			|| (!str_cmp
+				&& ft_strlen(data->heredocs[i[1]]) == ft_strlen(eofile)))
 			break ;
 	}
-	close(fd[0]);
-	close(fd[1]);
 	free(data->heredocs[i[1]]);
-	data->heredocs[i[1]--] = NULL; 
+	data->heredocs[i[1]--] = NULL;
 	i[0]++;
-	exit(0);
-}
-
-void	ft_heredoc(char **arr, t_command *data, int *i)
-{
-	int	pid;
-	int	fd[2];
-	int	status;
-
-	pipe(fd);
-	pid = fork();
-	status = 0;
-	signal(SIGINT, SIG_IGN);
-	if (pid < 0)
-	{
-		close(fd[0]);
-		close(fd[1]);
-		return ;
-	}
-	if (pid == 0)
-	{
-		ft_read_here(arr, fd, i, data);
-		close(fd[0]);
-		close(fd[1]);
-	}
-	else
-	{
-		close(fd[1]);
-		waitpid(pid, &status, 0);
-	}
-	if (!status)
-	{
-		close(fd[0]);
-		close(fd[1]);
-		return ;
-	}
 }
 
 void	ft_infile(char **arr, t_command *data, int *i)
 {
-	int fd_infile = 0;
+	int	fd_infile;
 
+	infile = 0;
 	if (!data->infiles)
 	{
 		data->infiles = malloc(sizeof(char *) * BUFFER_SIZE);
@@ -119,11 +85,9 @@ void	ft_outfiles(char **arr, t_command *data, int *i)
 
 void	ft_check_redir_create(char **arr, t_command *data, int *i)
 {
+
 	if (arr[i[0]][0] == '<' && arr[i[0]][1] == '<')
-	{
 		ft_heredoc(arr, data, i);
-		i[0]++;
-	}
 	else if (arr[i[0]][0] == '<')
 		ft_infile(arr, data, i);
 	else if (arr[i[0]][0] == '>' && arr[i[0]][1] == '>')
