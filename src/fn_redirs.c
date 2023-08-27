@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_redirs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:15:36 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/26 17:31:20 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/27 12:23:36 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	ft_heredoc(char **arr, t_command *data, int *i)
 	int		str_cmp;
 
 	eofile = arr[i[0] + 1];
+	printf("eofile: %s\n", eofile);
 	str_cmp = 1;
 	i[1] = -1;
 	if (!data->heredocs)
@@ -27,6 +28,7 @@ void	ft_heredoc(char **arr, t_command *data, int *i)
 	while (1)
 	{
 		data->heredocs[++i[1]] = readline("> ");
+		// ft_print_dp(data->heredocs, "heredocs");
 		str_cmp = ft_strncmp(eofile, data->heredocs[i[1]], ft_strlen(eofile));
 		if (g_e_status == 130
 			|| (!str_cmp
