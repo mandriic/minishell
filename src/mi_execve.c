@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mi_execve.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 18:26:04 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/26 17:37:08 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/27 12:51:01 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,36 @@ int	ft_dup_file(t_command *cmd, t_vars *vars)
 			}
 			dup2( fd_infile, 1);
 			close(fd_infile);
+		}
+		if (cmd->heredocs && mask[i] == 11)
+		{
+			int i2 = -1;
+			i++;
+			pipe(cmd->fd);
+			close(cmd->fd[1]);
+			dup2(cmd->fd[0], 0);
+			close(cmd->fd[0]);
+
+			while (cmd->heredocs[++i2])
+			{
+				ft_putstr_fd(cmd->heredocs[i2], 1);
+				// if (cmd->heredocs[i2 + 1])
+					ft_putstr_fd("\n", 1);
+			}
+			return (0);
+			// fd_infile = open(ft_last_redir(cmd->heredocs, 1), \
+			// O_TRUNC | O_CREAT | O_RDWR, 0664);
+			// if (fd_infile < 0)
+			// {
+			// 	ft_putstr_fd("Minishel: ", 2);
+			// 	ft_putstr_fd(cmd->heredocs[0], 2);
+			// 	ft_putstr_fd(": Permission denied\n", 2);
+			// 	g_e_status = 1;
+			// 	free_from_dupfile(mask, cmd);
+			// 	exit (g_e_status);
+			// }
+			// dup2( fd_infile, 1);
+			// close(fd_infile);
 		}
 	}
 	free_from_dupfile(mask, cmd);
