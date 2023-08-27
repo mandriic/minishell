@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   fn_vars.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:15:50 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/19 18:42:19 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/27 14:10:46 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+char	*ft_check_if_ends(t_vars *vars, int *type, char *acum, char *str)
+{
+	free(type);
+	if (vars->start - 1 > 0 && str[vars->start - 1] == '\0'
+		&& acum != NULL)
+		return (acum);
+	return (str);
+}
 
 char	*ft_checkif_var(char *str, t_vars *vars)
 {
@@ -22,17 +31,10 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 	acum = NULL;
 	ft_checkif_var_subfoo(str, &acum, type, vars);
 	if ((acum == NULL || str[vars->start - 1] == '\0') && str[0] != '$')
-	{
-		free(type);
-		if (vars->start - 1 > 0 && str[vars->start - 1] == '\0'
-			&& acum != NULL)
-			return (acum);
-		return (str);
-	}
+		return (ft_check_if_ends(vars, type, acum, str));
 	vars->temp2 = ft_substr(str, vars->start, vars->i - vars->start + 1);
 	if (vars->temp2 != NULL)
 	{
-
 		acum = ft_acumulate(acum, vars->temp2);
 		free(type);
 		if (acum == NULL && str + 1)

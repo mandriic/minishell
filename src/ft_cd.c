@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:04:25 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/26 17:35:35 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/27 15:57:32 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_cd(t_vars *vars, t_command *cmd)
 {
 	char	*cdir;
 
-	if (chdir(cmd->cmd[1]) == 0)
+	if (cmd->cmd && cmd->cmd[1] && chdir(cmd->cmd[1]) == 0)
 	{
 		cdir = getcwd(NULL, 0);
 		ft_change_env(vars, "OLDPWD=", ft_get_value("PWD", vars->env_var), 6);

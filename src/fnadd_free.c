@@ -6,7 +6,7 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:11:23 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/23 15:20:25 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/27 14:01:29 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,10 @@ void	ft_del_list(t_command *list)
 			break ;
 		list = temp;
 	}
+}
+
+void	ft_end_of_cicle(t_vars *vars)
+{
+	ft_my_free(vars->line);
+	free(vars->type);
 }

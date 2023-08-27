@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_additional.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:10:25 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/20 11:05:52 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/27 14:01:17 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,6 @@ int	ft_pre_check(t_vars *vars)
 	return (0);
 }
 
-void	ft_end_of_cicle(t_vars *vars)
-{
-	ft_my_free(vars->line);
-	free(vars->type);
-}
-
 void	ft_initint(int *i, int len)
 {
 	int	cou;
@@ -78,4 +72,18 @@ void	ft_initint(int *i, int len)
 	cou = -1;
 	while (++cou != len)
 		i[cou] = 0;
+}
+
+void	ft_print_dp(char **str, char *name)
+{
+	int	i;
+
+	i = -1;
+	printf("_____________printing doble punbtero %s _______\n", name);
+	while (str[++i])
+	{
+		printf("\t %s[%d] = .%s.\n", name, i, str[i]);
+	}
+	printf("check NULL %s", str[i]);
+	printf("\n");
 }

@@ -6,7 +6,7 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:15:36 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/27 12:23:36 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/27 14:02:30 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	ft_heredoc(char **arr, t_command *data, int *i)
 	while (1)
 	{
 		data->heredocs[++i[1]] = readline("> ");
-		// ft_print_dp(data->heredocs, "heredocs");
 		str_cmp = ft_strncmp(eofile, data->heredocs[i[1]], ft_strlen(eofile));
 		if (g_e_status == 130
 			|| (!str_cmp
