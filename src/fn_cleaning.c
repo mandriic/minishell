@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_cleaning.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:10:48 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/19 16:31:53 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/27 13:42:25 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ char	*ft_del_quot(char *str, int *type, t_vars *vars)
 	{
 		if (type[i] != 2 && type[i] != 1)
 		{
+			if (str[i] == '"' && str[i + 1] == '\0')
+			{
+				clear[j] = '\0';
+				return(clear);
+			}
 			clear[j] = str[i];
 			j++;
 		}

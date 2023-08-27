@@ -6,7 +6,7 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 18:26:04 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/27 12:55:34 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/27 12:59:33 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,23 +217,9 @@ int	ft_dup_file(t_command *cmd, t_vars *vars)
 			while (cmd->heredocs[++i2])
 			{
 				ft_putstr_fd(cmd->heredocs[i2], 1);
-				// if (cmd->heredocs[i2 + 1])
-					ft_putstr_fd("\n", 1);
+				ft_putstr_fd("\n", 1);
 			}
 			return (0);
-			// fd_infile = open(ft_last_redir(cmd->heredocs, 1), \
-			// O_TRUNC | O_CREAT | O_RDWR, 0664);
-			// if (fd_infile < 0)
-			// {
-			// 	ft_putstr_fd("Minishel: ", 2);
-			// 	ft_putstr_fd(cmd->heredocs[0], 2);
-			// 	ft_putstr_fd(": Permission denied\n", 2);
-			// 	g_e_status = 1;
-			// 	free_from_dupfile(mask, cmd);
-			// 	exit (g_e_status);
-			// }
-			// dup2( fd_infile, 1);
-			// close(fd_infile);
 		}
 	}
 	free_from_dupfile(mask, cmd);
