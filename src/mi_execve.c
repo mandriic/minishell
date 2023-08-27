@@ -6,7 +6,7 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 18:26:04 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/27 16:51:02 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/27 17:48:24 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -322,22 +322,9 @@ void	ft_hijo(t_command *cmd, t_vars *vars, char *path)
 		exit(0);
 	}
 
-void ft_execuve(char *path, t_command *cmd, t_vars *vars)
+void	ft_check_pipes(t_command *cmd)
 {
-	int	status;
-	int	pid;
-
-	pipe(cmd->fd);
-	pid = fork();
-	if (pid == 0)
-		ft_hijo(cmd, vars, path);
-	else if (pid < 0)
-		printf("Error forking \n");
-	else if (pid > 0)
-	{
-		signal(SIGUSR2, SIG_IGN);
-		rl_set_prompt("");
-		if (cmd->prev && cmd->prev->fd[0] != -1)
+			if (cmd->prev && cmd->prev->fd[0] != -1)
 		{
 			close(cmd->prev->fd[0]);
 			close (cmd->prev->fd[1]);
@@ -347,7 +334,12 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
 			close(cmd->prev->fd[1]);
 			close (cmd->prev->fd[0]);
 		}
-		if (ft_strncmp("cat", cmd->cmd[0], 3) == 0 && cmd->next != NULL)
+}
+
+void 	ft_wait(t_command *cmd, int pid)
+{
+	int status;
+			if (ft_strncmp("cat", cmd->cmd[0], 3) == 0 && cmd->next != NULL)
 		{
 			waitpid(pid, &status, WNOWAIT);
 			g_e_status = 0;
@@ -365,6 +357,25 @@ void ft_execuve(char *path, t_command *cmd, t_vars *vars)
 			if (WIFEXITED(status))
 				g_e_status = WEXITSTATUS(status);
 		}	
+}
+
+void ft_execuve(char *path, t_command *cmd, t_vars *vars)
+{
+	int	status;
+	int	pid;
+
+	pipe(cmd->fd);
+	pid = fork();
+	if (pid == 0)
+		ft_hijo(cmd, vars, path);
+	else if (pid < 0)
+		printf("Error forking \n");
+	else if (pid > 0)
+	{
+		signal(SIGUSR2, SIG_IGN);
+		rl_set_prompt("");
+		ft_check_pipes(cmd);
+		ft_wait(cmd, pid);
 	}
 }
 
@@ -420,39 +431,43 @@ int ft_check_if_builtins(t_vars *vars, t_command *cmd)
 	else
 		return (0);
 }
+char	**ft_get_name_val(t_command *cmd_struct, int j)
+{
+	char **name_val;
 
+	name_val = malloc((sizeof(char *)) * 3);
+	name_val[0] = ft_substr(cmd_struct->cmd[j], 0, ft_strlen(cmd_struct->cmd[j])\
+		- ft_strlen(ft_strchr(cmd_struct->cmd[j], '=')));
+	name_val[1] = ft_substr(cmd_struct->cmd[j], ft_strlen(cmd_struct->cmd[j])\
+		- ft_strlen(ft_strchr(cmd_struct->cmd[j], '=')), 
+			ft_strlen(ft_strchr(cmd_struct->cmd[j], '=')));
+	name_val[2] = NULL;
+	return (name_val);
+
+}
 int ft_check_if_vars(t_vars *vars, t_command *cmd_struct)
 {
 	char	*temp;
-	int		i;
 	int		j;
-	char *var;
-	char *valor;
-	i = 0;
+	char **name_val;
+	
 	j = -1;
-	// ft_print_dp(cmd_struct->cmd, "cmd_struct->cmd");
 	while (cmd_struct->cmd[++j])
 	{
 		if (ft_strchr(cmd_struct->cmd[j], '='))
 		{
-			valor = ft_substr(cmd_struct->cmd[j], ft_strlen(cmd_struct->cmd[j]) - ft_strlen(ft_strchr(cmd_struct->cmd[j], '=')), ft_strlen(ft_strchr(cmd_struct->cmd[j], '=')));
-			temp = ft_substr(cmd_struct->cmd[j], 0, ft_strlen(cmd_struct->cmd[j]) - ft_strlen(ft_strchr(cmd_struct->cmd[j], '=')));
-			if (ft_find_in_env(vars, temp) != 0)
-				ft_change_env(vars, temp, valor, \
-					ft_strlen(temp));
-			else if (ft_find_in_temp_env(vars, temp) == 0)
+			name_val = ft_get_name_val(cmd_struct, j);
+			if (ft_find_in_env(vars, name_val[0]) != 0)
+				ft_change_env(vars, name_val[0], name_val[1], \
+					ft_strlen(name_val[0]));
+			else if (ft_find_in_temp_env(vars, name_val[0]) == 0)
 				vars->temp_env = ft_append_to_temp_env(vars, \
 				cmd_struct->cmd[j]);
-			else{
-				// printf("check\n");
-				ft_change_temp_env(vars,temp, valor, ft_strlen(temp));
-				}
-			free(temp);
-			free(valor);
+			else
+				ft_change_temp_env(vars,name_val[0], name_val[1], ft_strlen(name_val[0]));
+			ft_free_dob_arr(name_val);
 			if (cmd_struct->cmd[j + 1] == NULL)
 				return (1);
-
-
 		}
 	}
 	return (0);
@@ -475,6 +490,86 @@ int   ft_get_dollar(t_vars *vars, t_command *temp_cmd)
 	}
 	return (0);
 }
+int	ft_check_if_vars_asign(t_command *temp_cmd, t_vars *vars)
+{
+	char	**temp2;
+
+	if (ft_strncmp("0x0", temp_cmd->cmd[0], 3) == 0)
+	{
+		temp2 = temp_cmd->cmd;
+		temp_cmd->cmd = ft_dupl_dp(temp_cmd->cmd + 1);
+		ft_free_dob_arr(temp2);			
+	}			
+	if(ft_check_if_vars(vars, temp_cmd) && ft_strchr(temp_cmd->cmd[0], '=')) //&& ft_strncmp("export", temp_cmd->cmd[0], 6) != 0 
+	{
+		if (temp_cmd->next)
+			return(2) ;
+		else
+			return (1) ;
+	}
+	return (0);
+}
+// ret1 - cont, ret0 - break
+
+void 	ft_run_bltn(t_command *temp_cmd, t_vars *vars)
+{
+		// if (temp_cmd->next != NULL)
+	if (ft_strncmp("export", temp_cmd->cmd[0], 6) == 0)
+		ft_export(vars, temp_cmd);
+	else if (ft_strncmp("unset", temp_cmd->cmd[0], 5) == 0)
+		ft_unset(vars, temp_cmd);
+	else if (ft_strncmp("cd", temp_cmd->cmd[0], 2) == 0)
+		ft_cd(vars, temp_cmd);
+	else 				
+		ft_execuve(NULL, temp_cmd, vars); // ATENTION
+}
+
+void	ft_if_path_true(char *cmd_path, t_command *temp_cmd, t_vars *vars)
+{
+	char *temp;
+
+		temp = cmd_path;
+		cmd_path = ft_strjoin(cmd_path, "/");
+		free(temp);
+		temp = cmd_path;
+		cmd_path = ft_strjoin(cmd_path, temp_cmd->cmd[0]);
+		free(temp);
+		ft_get_dollar(vars, temp_cmd);
+		ft_execuve(cmd_path, temp_cmd, vars);  // ATENTION
+		free(cmd_path);
+}
+
+void	ft_exec(t_command *temp_cmd, t_vars *vars)
+{
+	char *path;
+	char *cmd_path;
+	char *temp;
+
+	path = ft_get_val("PATH", vars->env_var);
+	cmd_path = ft_pars_path(path, temp_cmd->cmd[0], 5, vars);
+	if (temp_cmd->cmd[0] && !cmd_path && \
+		(temp_cmd->cmd[0][0] == '.' || temp_cmd->cmd[0][0] == '/'))
+		ft_execuve(temp_cmd->cmd[0], temp_cmd, vars);
+	else if (cmd_path)
+	{
+		ft_if_path_true(cmd_path, temp_cmd, vars);
+		// temp = cmd_path;
+		// cmd_path = ft_strjoin(cmd_path, "/");
+		// free(temp);
+		// temp = cmd_path;
+		// cmd_path = ft_strjoin(cmd_path, temp_cmd->cmd[0]);
+		// free(temp);
+		// ft_get_dollar(vars, temp_cmd);
+		// ft_execuve(cmd_path, temp_cmd, vars);  // ATENTION
+		// free(cmd_path);
+	}
+	else if(temp_cmd->cmd[0])
+	{
+		ft_putstr_fd("Minishel: ", 2);
+		ft_putstr_fd(temp_cmd->cmd[0], 2);
+		ft_print_err(vars, ": command not found\n", 127, 2);
+	}
+}
 
 void ft_mi_exec(t_vars *vars)
 {
@@ -482,69 +577,44 @@ void ft_mi_exec(t_vars *vars)
 	char	*path;
 	char	*cmd_path;
 	char    *temp;
-	char	**temp2;
+	int 	check;
 
 	temp_cmd = vars->cmd_list;
 	while (temp_cmd != NULL && temp_cmd->cmd)
 	{
-		// printf("temp_cmd->cmd[0] is %s \n", temp_cmd->cmd[0]);
-		//signal(SIGUSR2, SIG_IGN);
-		if (ft_strncmp("0x0", temp_cmd->cmd[0], 3) == 0)
-		{
-			temp2 = temp_cmd->cmd;
-			temp_cmd->cmd = ft_dupl_dp(temp_cmd->cmd + 1);
-			ft_free_dob_arr(temp2);			
-		}			
-		if(ft_check_if_vars(vars, temp_cmd) && ft_strchr(temp_cmd->cmd[0], '=')) //&& ft_strncmp("export", temp_cmd->cmd[0], 6) != 0 
-		{
-			if (temp_cmd->next)
-				continue ;
-			else
-				break ;
-		}
+		check = ft_check_if_vars_asign(temp_cmd, vars);
+		if (check == 2)
+			continue ;
+		else if (check == 1)
+			break ;
 		if (ft_check_if_builtins_true(vars, temp_cmd))
-		{
-			// if (temp_cmd->next != NULL)
-			if (ft_strncmp("export", temp_cmd->cmd[0], 6) == 0)
-				ft_export(vars, temp_cmd);
-			else if (ft_strncmp("unset", temp_cmd->cmd[0], 5) == 0)
-				ft_unset(vars, temp_cmd);
-			else if (ft_strncmp("cd", temp_cmd->cmd[0], 2) == 0)
-				ft_cd(vars, temp_cmd);
-			else 				
-				ft_execuve(NULL, temp_cmd, vars); // ATENTION
-
-			// else
-			// {
-			//     //printf("g_e_status is %d \n", g_e_status);
-			//     ft_check_if_builtins(vars, temp_cmd);
-			// }
-		}
+			ft_run_bltn(temp_cmd, vars);
 		else
 		{
-			path = ft_get_val("PATH", vars->env_var);
-			cmd_path = ft_pars_path(path, temp_cmd->cmd[0], 5, vars);
-			if (temp_cmd->cmd[0] && !cmd_path && (temp_cmd->cmd[0][0] == '.' || temp_cmd->cmd[0][0] == '/'))
-				ft_execuve(temp_cmd->cmd[0], temp_cmd, vars);
-			else if (cmd_path)
-			{
-				temp = cmd_path;
-				cmd_path = ft_strjoin(cmd_path, "/");
-				free(temp);
-				temp = cmd_path;
-				cmd_path = ft_strjoin(cmd_path, temp_cmd->cmd[0]);
-				free(temp);
-				ft_get_dollar(vars, temp_cmd);
-				ft_execuve(cmd_path, temp_cmd, vars);  // ATENTION
-				free(cmd_path);
-			}
-			else if(temp_cmd->cmd[0])
-			{
-				ft_putstr_fd("Minishel: ", 2);
-				ft_putstr_fd(temp_cmd->cmd[0], 2);
-				ft_putstr_fd(": command not found\n", 2);
-				g_e_status = 127;
-			}
+			ft_exec(temp_cmd, vars);
+			// path = ft_get_val("PATH", vars->env_var);
+			// cmd_path = ft_pars_path(path, temp_cmd->cmd[0], 5, vars);
+			// if (temp_cmd->cmd[0] && !cmd_path && (temp_cmd->cmd[0][0] == '.' || temp_cmd->cmd[0][0] == '/'))
+			// 	ft_execuve(temp_cmd->cmd[0], temp_cmd, vars);
+			// else if (cmd_path)
+			// {
+			// 	temp = cmd_path;
+			// 	cmd_path = ft_strjoin(cmd_path, "/");
+			// 	free(temp);
+			// 	temp = cmd_path;
+			// 	cmd_path = ft_strjoin(cmd_path, temp_cmd->cmd[0]);
+			// 	free(temp);
+			// 	ft_get_dollar(vars, temp_cmd);
+			// 	ft_execuve(cmd_path, temp_cmd, vars);  // ATENTION
+			// 	free(cmd_path);
+			// }
+			// else if(temp_cmd->cmd[0])
+			// {
+			// 	ft_putstr_fd("Minishel: ", 2);
+			// 	ft_putstr_fd(temp_cmd->cmd[0], 2);
+			// 	ft_putstr_fd(": command not found\n", 2);
+			// 	g_e_status = 127;
+			// }
 		}
 		temp_cmd = temp_cmd->next;
 	}
