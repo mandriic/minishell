@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:19:48 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/20 15:44:41 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/27 11:23:57 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_echo(t_vars *vars, t_command *cmd)
 	i = 1;
 	if (ft_strncmp(cmd->cmd[1], "-n", 2) == 0 && ft_strlen(cmd->cmd[1]) == 2)
 		i++;
-	while (cmd->cmd[i] != NULL)
+	while (cmd->cmd[i] != NULL && ft_strncmp(cmd->cmd[i], "0x0", 3))
 	{
 		if (ft_strncmp(cmd->cmd[i], "$?", 2) == 0)
 			ft_putnbr_fd(g_e_status, 1);
