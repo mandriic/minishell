@@ -6,7 +6,7 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:16:58 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/22 21:42:37 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/27 11:50:04 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <stdbool.h>
 # include <sys/wait.h>//para linux funcion wait
 # include <sys/param.h>
+# include <sys/ioctl.h>
 # include <string.h>
 # include <sys/types.h>
 # include <dirent.h>
@@ -182,7 +183,7 @@ int			ft_pwd(t_vars *vars, t_command *cmd);
 int			ft_export(t_vars *vars, t_command *cmd);
 int			ft_unset(t_vars *vars, t_command *cmd);
 int			ft_env(t_vars *vars, t_command *cmd);
-int			ft_exit(t_vars *vars, t_command *cmd);
+int			ft_exit(t_command *cmd);
 int			ft_change_env(t_vars *vars, char *name, char *new_value, int len);
 char		*ft_get_value(char *str, char **env);
 // bool	ft_is_builtin(t_command cmd);
@@ -208,7 +209,6 @@ int			ft_check_apphdoc(char *str, char **com_bon, int *i, int *type);
 int			ft_check_inoutfile(char *str, char **com_bon, int *i, int *type);
 void		ft_check_total(char *str, char **com_bon, int *i, int *type);
 t_command	*ft_create_data(char *str, t_vars *vars);
-
 
 // fn_main_readline.c
 void		ft_readline(t_vars *vars);
@@ -277,8 +277,6 @@ void		ft_appends(char **arr, t_command *data, int *i);
 void		ft_outfiles(char **arr, t_command *data, int *i);
 void		ft_check_redir_create(char **arr, t_command *data, int *i);
 
-
-
 void		set_signal(void);
 void		handle_process_on(int sig);
 void		handle_ctrl_c(int sig);
@@ -296,6 +294,7 @@ __int128_t	ft_atoll(const char *str);
 int			ft_doublen(char **str);
 void		ft_singint_hand(int sigs);
 void		ft_here_signal(int sig);
+char		*get_next_line(int fd);
+void		ft_exit_mini(t_vars *vars);
 
 #endif
-

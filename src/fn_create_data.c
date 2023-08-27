@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_create_data.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: pepealkalina <pepealkalina@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:12:58 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/22 21:20:47 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/24 11:02:52 by pepealkalin      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ t_command	*ft_create_data(char *str, t_vars *vars)
 	if (!str[0])
 	{
 		while (str[0] == '\0')
-			str = readline(">");
+			str = readline("> ");
 	}
 	data->str_raw = ft_strdup(str);
 	data->pre_comand_bon = ft_pre_com_bon(str, vars);

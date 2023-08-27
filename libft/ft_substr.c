@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 16:33:58 by mandriic          #+#    #+#             */
-/*   Updated: 2021/10/01 16:34:03 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/26 17:22:45 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 static char	*ft_asign(char const *s, unsigned int start, size_t len, int size)
 {
 	char	*p;

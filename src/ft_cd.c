@@ -6,13 +6,13 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:04:25 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/20 17:12:23 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/26 17:35:35 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-extern int g_e_status;
+extern int	g_e_status;
 
 char	*ft_get_value(char *str, char **env)
 {
@@ -35,7 +35,7 @@ char	*ft_get_value(char *str, char **env)
 	return (0);
 }
 
-int	ft_cd_err(t_vars *vars, t_command *cmd)
+int	ft_cd_err(t_command *cmd)
 {
 	if (chdir(cmd->cmd[1]) == -1)
 	{
@@ -70,7 +70,7 @@ int	ft_cd(t_vars *vars, t_command *cmd)
 			free(cdir);
 		}
 	}
-	else if (!ft_cd_err(vars, cmd))
+	else if (!ft_cd_err(cmd))
 		return (1);
 	return (1);
 }

@@ -6,11 +6,13 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:15:36 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/20 16:40:39 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/26 17:31:20 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
+
+extern int	g_e_status;
 
 void	ft_heredoc(char **arr, t_command *data, int *i)
 {
@@ -26,7 +28,9 @@ void	ft_heredoc(char **arr, t_command *data, int *i)
 	{
 		data->heredocs[++i[1]] = readline("> ");
 		str_cmp = ft_strncmp(eofile, data->heredocs[i[1]], ft_strlen(eofile));
-		if (!str_cmp && ft_strlen(data->heredocs[i[1]]) == ft_strlen(eofile))
+		if (g_e_status == 130
+			|| (!str_cmp
+				&& ft_strlen(data->heredocs[i[1]]) == ft_strlen(eofile)))
 			break ;
 	}
 	free(data->heredocs[i[1]]);
@@ -36,8 +40,6 @@ void	ft_heredoc(char **arr, t_command *data, int *i)
 
 void	ft_infile(char **arr, t_command *data, int *i)
 {
-	int fd_infile = 0;
-
 	if (!data->infiles)
 	{
 		data->infiles = malloc(sizeof(char *) * BUFFER_SIZE);

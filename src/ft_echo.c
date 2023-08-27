@@ -6,13 +6,13 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:19:48 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/27 11:23:57 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/27 11:46:56 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int g_e_status;
+int	g_e_status;
 
 int	ft_echo(t_vars *vars, t_command *cmd)
 {
