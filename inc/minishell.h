@@ -6,7 +6,7 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:16:58 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/27 20:36:31 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/27 20:58:48 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ typedef struct s_vars
 }	t_vars;
 
 int			ft_dup_file(t_command *cmd, t_vars *vars);
-char		*ft_last_redir(char **redirs, int outfile);
+char		*ft_last_redir(char **redirs, t_vars *vars, int outfile);
 int			ft_redirections(t_command *cmd, t_vars *vars);
 void		c(char *str);
 char		*ft_strjoin_mod(char *s1, char *s2);
@@ -105,6 +105,38 @@ char		*ft_find_in_env(t_vars *vars, char *to_find);
 void		ft_del_from_dob_arr(char *to_del, char ***src);
 int			ft_change_temp_env(t_vars *vars, char *name, \
 char *new_value, int len);
+char		*ft_get_val(char *str, char **env);
+void		ft_if_appends(t_command *cmd, t_vars *vars);
+int			ft_dup_file(t_command *cmd, t_vars *vars);
+int			ft_redirections(t_command *cmd, t_vars *vars);
+void		ft_checkifdir(char *path);
+void		ft_hijo_exec(t_command *cmd, t_vars *vars, char *path);
+void		free_from_dupfile(int *mask, t_command *cmd);
+int			ft_if_outfile(char **outfiles, \
+t_command *cmd, t_vars *vars, int *mask);
+void		ft_if_heredoc(t_command *cmd);
+void		ft_if_infile(char **infiles, \
+t_command *cmd, t_vars *vars, int *mask);
+int			ft_check_dir(char *dir, char *cmd, size_t len);
+char		*ft_sub_pars(char *path, char *ifhome, char *cmd, int *i);
+char		*ft_pars_path(char *path, char *cmd, int len, t_vars *vars);
+void		ft_print_err(t_vars *vars, char *err_str, int err, int io_err);
+void		ft_check_if_exists(char *str, t_vars *vars);
+void		ft_hijo(t_command *cmd, t_vars *vars, char *path);
+void		ft_check_pipes(t_command *cmd);
+void		ft_wait(t_command *cmd, int pid);
+void		ft_execuve(char *path, t_command *cmd, t_vars *vars);
+int			ft_check_if_builtins_true(t_vars *vars, t_command *cmd);
+int			ft_check_if_builtins(t_vars *vars, t_command *cmd);
+char		**ft_get_name_val(t_command *cmd_struct, int j);
+int			ft_check_if_vars(t_vars *vars, t_command *cmd_struct);
+int			ft_get_dollar(t_vars *vars, t_command *temp_cmd);
+int			ft_check_if_vars_asign(t_command *temp_cmd, t_vars *vars);
+int			ft_export_err_equal(char *cmd);
+void		ft_put_err(char *str, char **temp2);
+int			ft_export_err(char *cmd);
+void		ft_subhijo_export(t_vars *vars, int i, int j);
+void		ft_export_hijo(t_command *cmd, t_vars *vars, int i, int j);
 
 void		leaks(void);
 int			ft_echo(t_vars *vars, t_command *cmd);
@@ -218,7 +250,6 @@ void		ft_here_signal(int sig);
 char		*get_next_line(int fd);
 void		ft_exit_mini(t_vars *vars);
 int			ft_export_err_equal(char *cmd);
-void		ft_put_err(char *str, char **temp2);
 int			ft_export_err(char *cmd);
 
 #endif

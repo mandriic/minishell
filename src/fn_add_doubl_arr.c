@@ -6,7 +6,7 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:09:29 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/27 20:35:46 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/27 20:39:02 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	ft_del_from_dob_arr(char *to_del, char ***src)
 	int		j;
 	char	**dst;
 
-	(void)vars;
 	i = -1;
 	j = 0;
 	while (src[0][++i])

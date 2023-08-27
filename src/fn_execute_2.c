@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_execute_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 19:02:46 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/27 19:05:32 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/27 20:47:44 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	ft_if_outfile(char **outfiles, t_command *cmd, t_vars *vars, int *mask)
 		free_from_dupfile(mask, cmd);
 		exit (g_e_status);
 	}
-	dup2( fd_infile, 1);
+	dup2(fd_infile, 1);
 	close(fd_infile);
 	return (0);
 }

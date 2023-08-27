@@ -6,7 +6,7 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:17:35 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/26 17:36:06 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/27 21:24:04 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,18 @@ int	ft_exit_errors(t_command *cmd, __int128_t	num)
 	if (cmd->cmd[1])
 	{
 		num = ft_atoll(cmd->cmd[1]);
-		if (!ft_isnum_exit(cmd->cmd[1]) || (num > LLONG_MAX || num < LLONG_MIN))
+		if (ft_doublen(cmd->cmd) > 2)
+		{
+			ft_putstr_fd("Minishell: exit: too many arguments\n", 2);
+			g_e_status = 1;
+			return (1);
+		}
+		else if (!ft_isnum_exit(cmd->cmd[1]) || (num > LLONG_MAX || num < LLONG_MIN))
 		{
 			ft_putstr_fd("Minishell: exit: ", 2);
 			ft_putstr_fd(cmd->cmd[1], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
 			exit(255);
-		}
-		else if (ft_doublen(cmd->cmd) > 2)
-		{
-			ft_putstr_fd("Minishell: exit: too many arguments\n", 2);
-			g_e_status = 1;
-			return (1);
 		}
 		else
 			exit(num);

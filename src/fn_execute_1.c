@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_execute_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 18:58:08 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/27 19:34:49 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/27 21:38:21 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*ft_pars_path(char *path, char *cmd, int len, t_vars *vars)
 	ifhome = NULL;
 	i[0] = len;
 	i[1] = len + 1;
-	while (path[i[1]])
+	while (path && path[i[1]])
 	{
 		if (path[i[1]] == '~')
 		{

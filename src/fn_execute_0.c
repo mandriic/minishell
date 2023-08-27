@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_execute_0.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 18:26:04 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/27 19:27:56 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/27 21:15:23 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ void	ft_exec(t_command *temp_cmd, t_vars *vars)
 		ft_execuve(temp_cmd->cmd[0], temp_cmd, vars);
 	else if (cmd_path)
 		ft_if_path_true(cmd_path, temp_cmd, vars);
-	else if (temp_cmd->cmd[0])
+	else if (temp_cmd->cmd[0] && !ft_strncmp(temp_cmd->cmd[0], " ", 1))
 	{
 		ft_putstr_fd("Minishel: ", 2);
 		ft_putstr_fd(temp_cmd->cmd[0], 2);
-		ft_print_err(vars, ": command not found\n", 127, 2);
+		ft_putstr_fd(": command not found\n", 2);
 	}
 }
 

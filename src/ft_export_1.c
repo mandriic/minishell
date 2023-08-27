@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 20:15:10 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/27 20:16:06 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/27 20:56:49 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,12 @@ int	ft_export_err_equal(char *cmd)
 	return (0);
 }
 
-void	ft_put_err(char *str)
+void	ft_put_err(char *str, char **temp2)
 {
 	ft_putstr_fd("Minishell: export: ", 2);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd(": not a valid identifier\n", 2);
+	ft_free_dob_arr(temp2);
 	g_e_status = 1;
 }
 
@@ -65,8 +66,7 @@ int	ft_export_err(char *cmd)
 			if (i == 0 && (!ft_isalnum(temp2[i][j])
 				|| temp3 == ft_strlen(temp2[0])))
 			{
-				ft_put_err(cmd);
-				ft_free_dob_arr(temp2);
+				ft_put_err(cmd, temp2);
 				return (1);
 			}
 		}
@@ -75,7 +75,7 @@ int	ft_export_err(char *cmd)
 	return (0);
 }
 
-void	ft_subhijo_export(t_command *cmd, t_vars *vars, int i, int j)
+void	ft_subhijo_export(t_vars *vars, int i, int j)
 {
 	if (ft_get_value("OLDPWD", vars->env_var) == 0)
 		printf("declare -x OLDPWD\n");
@@ -104,7 +104,7 @@ void	ft_export_hijo(t_command *cmd, t_vars *vars, int i, int j)
 	{
 		dup2(cmd->fd[1], 1);
 		close(cmd->fd[0]);
-		ft_subhijo_export(cmd, vars, i, j);
+		ft_subhijo_export(vars, i, j);
 		exit(0);
 	}
 	else
