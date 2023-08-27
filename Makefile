@@ -1,8 +1,8 @@
 
 
 
-R42LFLAG = -L/Users/mandriic/.brew/opt/readline/lib
-R42IFLAG = -I/Users/mandriic/.brew/opt/readline/include
+R42LFLAG = -L/Users/$USER/.brew/opt/readline/lib
+R42IFLAG = -I/Users/$USER/.brew/opt/readline/include
 R42LFLAGM = -L/opt/homebrew/opt/readline/lib 
 R42IFLAGM = -I/opt/homebrew/opt/readline/include
 R42LFLAGU = -L/usr/share/readline 
@@ -13,8 +13,9 @@ SRCS_PATH = src/
 LIBFT_PATH = libft/
 LIBFT_FLAGS = -I$(LIBFT_PATH) -L$(LIBFT_PATH) -lft
 SRCS = fn_list.c fn_main_readline.c fnadd_free.c fnadd_libftmod.c fn_additional.c fn_cleaning.c fn_getenvs.c \
-fn_mask.c fn_pip_splt_trim.c fn_vars.c main.c fn_redirs.c fn_create_data.c mi_execve.c signal.c fn_addit_4env.c ft_atoll.c \
-ft_export.c ft_export2.c ft_cd.c ft_unset.c ft_exit.c ft_pwd.c ft_echo.c ft_env.c get_next_line.c fn_add_doubl_arr.c fn_addit_4loc_env.c
+fn_mask.c fn_pip_splt_trim.c fn_vars.c main.c fn_redirs.c fn_create_data.c signal.c fn_addit_4env.c ft_atoll.c \
+ft_export.c ft_export2.c ft_cd.c ft_unset.c ft_exit.c ft_pwd.c ft_echo.c ft_env.c get_next_line.c fn_add_doubl_arr.c fn_addit_4loc_env.c \
+fn_execute_0.c fn_execute_1.c fn_execute_2.c fn_execute_3.c fn_execute_4.c fn_execute_5.c ft_export_1.c
 
 CC       = gcc
 

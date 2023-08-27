@@ -6,7 +6,7 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:16:58 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/27 20:00:59 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/27 20:36:31 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # include <sys/types.h>
 # include <dirent.h>
 # include <termios.h>
-# define BUFFER_SIZE 10000
+# define BUFFER_SIZE 100000
 # define READ_END    0    /* index pipe extremo lectura */
 # define WRITE_END   1 
 
@@ -70,6 +70,7 @@ typedef struct s_vars
 	char				**split;
 	char				*quotes;
 	char				*line;
+	char				*temp_cmd_saver;
 	int					*type;
 	char				**env_var;
 	char				**temp_env;

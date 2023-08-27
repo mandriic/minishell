@@ -6,7 +6,7 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:00:19 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/27 19:57:27 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/27 20:34:53 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ int	ft_export(t_vars *vars, t_command *cmd)
 	if (cmd->cmd[1] != NULL)
 	{
 		j = 0;
+		while (cmd->cmd[++j])
 		while (cmd->cmd[++j])
 		{
 			if (ft_export_err_equal(cmd->cmd[j])

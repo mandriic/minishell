@@ -6,7 +6,7 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:09:29 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/27 18:28:02 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/27 20:36:16 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,20 @@ char	*ft_acumulate(char *dest, char *part)
 		ft_my_free(part);
 	}
 	return (temp);
+}
+
+char	*ft_get_val(char *str, char **env)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (NULL);
+	while (env[i])
+	{
+		if (ft_strncmp(str, env[i], ft_strlen(str)) == 0)
+			return (env[i]);
+		i++;
+	}
+	return (0);
 }
