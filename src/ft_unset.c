@@ -14,23 +14,6 @@
 
 extern int	g_e_status;
 
-int	ft_change_temp_env(t_vars *vars, char *name, char *new_value, int len)
-{
-	int	i;
-
-	i = 0;
-	while (vars->temp_env[i] != NULL)
-	{
-		if (ft_strncmp(vars->temp_env[i], name, len) == 0)
-		{
-			free(vars->temp_env[i]);
-			vars->temp_env[i] = ft_strjoin(name, new_value);
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
 
 int	ft_unset(t_vars *vars, t_command *cmd)
 {

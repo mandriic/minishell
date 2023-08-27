@@ -106,6 +106,62 @@ char	**ft_append_to_env(t_vars *vars, char *to_append)
 		return (NULL);
 }
 
+int	ft_change_env(t_vars *vars, char *name, char *new_value, int len)
+{
+	int	i;
+
+	i = 0;
+	while (vars->env_var[i] != NULL)
+	{
+		if (ft_strncmp(vars->env_var[i], name, len) == 0)
+		{
+			free(vars->env_var[i]);
+			vars->env_var[i] = ft_strjoin(name, new_value);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	ft_change_temp_env(t_vars *vars, char *name, char *new_value, int len)
+{
+	int	i;
+
+	i = 0;
+	while (vars->temp_env[i] != NULL)
+	{
+		if (ft_strncmp(vars->temp_env[i], name, len) == 0)
+		{
+			free(vars->temp_env[i]);
+			vars->temp_env[i] = ft_strjoin(name, new_value);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+
+// int	ft_change_temp_env(t_vars *vars, char *name, char *new_value, int len)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (vars->temp_env[i] != NULL)
+// 	{
+// 		if (ft_strncmp(vars->temp_env[i], name, len) == 0)
+// 		{
+// 			free(vars->temp_env[i]);
+// 			vars->temp_env[i] = ft_strjoin(name, new_value);
+// 			return (1);
+// 		}
+// 		i++;
+// 	}
+// 	return (0);
+// }
+
+
 void	ft_print_dp(char **str, char *name)
 {
 	int	i;

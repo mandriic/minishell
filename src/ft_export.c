@@ -12,22 +12,22 @@
 
 #include "../inc/minishell.h"
 
-int	ft_export_err_equal(t_vars *vars, t_command *cmd)
+int	ft_export_err_equal(t_vars *vars, char *cmd)
 {
 	size_t		temp3;
 	int			i;
 
 	i = -1;
 	temp3 = 0;
-	while (cmd->cmd[1][++i])
+	while (cmd[++i])
 	{
-		if (cmd->cmd[1][i] == '=')
+		if (cmd[i] == '=')
 			temp3++;
 	}
-	if (temp3 == ft_strlen(cmd->cmd[1]))
+	if (temp3 == ft_strlen(cmd))
 	{
 		ft_putstr_fd("Minishell: export: `", 2);
-		ft_putstr_fd(cmd->cmd[1], 2);
+		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd("': not a valid identifier\n", 2);
 		g_e_status = 1;
 		return (1);
@@ -43,14 +43,14 @@ void	ft_put_err(t_vars *vars, char *str)
 	g_e_status = 1;
 }
 
-int	ft_export_err(t_vars *vars, t_command *cmd)
+int	ft_export_err(t_vars *vars, char *cmd)
 {
 	char		**temp2;
 	size_t		temp3;
 	int			i;
 	int			j;
 
-	temp2 = ft_split(cmd->cmd[1], '=');
+	temp2 = ft_split(cmd, '=');
 	i = -1;
 	while (temp2[++i])
 	{
@@ -63,7 +63,7 @@ int	ft_export_err(t_vars *vars, t_command *cmd)
 			if (i == 0 && (!ft_isalnum(temp2[i][j])
 				|| temp3 == ft_strlen(temp2[0])))
 			{
-				ft_put_err(vars, cmd->cmd[1]);
+				ft_put_err(vars, cmd);
 				ft_free_dob_arr(temp2);
 				return (1);
 			}
@@ -143,15 +143,16 @@ int	ft_export(t_vars *vars, t_command *cmd)
 	// ft_print_dp(cmd->cmd, "cmd");
 	if (cmd->cmd[1] && cmd->next)
 		return(0);
+	// printf("cmd->cmd[1]!: %s\n", cmd->cmd[1]);
 	if (cmd->cmd[1] != NULL)
 	{
 		j = 0;
 		while(cmd->cmd[++j])
 		{
-			if (ft_export_err_equal(vars, cmd) || ft_export_err(vars, cmd))
+			if (ft_export_err_equal(vars, cmd->cmd[j]) || ft_export_err(vars, cmd->cmd[j]))
 				return (1);
-			if(ft_strchr(cmd->cmd[j], '=') == NULL || ft_strnstr(cmd->cmd[j], "==", ft_strlen(cmd->cmd[j])))
-				continue ;
+			if( ft_strnstr(cmd->cmd[j], "==", ft_strlen(cmd->cmd[j]))) //ft_strchr(cmd->cmd[j], '=') == NULL ||
+					continue ;
 			// printf("cmd: %s\n", cmd->cmd[j]);
 			var = ft_substr(cmd->cmd[j], 0, ft_strlen(cmd->cmd[j]) - ft_strlen(ft_strchr(cmd->cmd[j], '=')));
 			valor = ft_substr(cmd->cmd[j], ft_strlen(cmd->cmd[j]) - ft_strlen(ft_strchr(cmd->cmd[j], '=')), ft_strlen(ft_strchr(cmd->cmd[j], '=')));

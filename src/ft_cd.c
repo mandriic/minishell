@@ -14,24 +14,6 @@
 
 extern int g_e_status;
 
-int	ft_change_env(t_vars *vars, char *name, char *new_value, int len)
-{
-	int	i;
-
-	i = 0;
-	while (vars->env_var[i] != NULL)
-	{
-		if (ft_strncmp(vars->env_var[i], name, len) == 0)
-		{
-			free(vars->env_var[i]);
-			vars->env_var[i] = ft_strjoin(name, new_value);
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
 char	*ft_get_value(char *str, char **env)
 {
 	int	i;

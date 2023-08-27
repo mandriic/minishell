@@ -575,19 +575,33 @@ int ft_check_if_vars(t_vars *vars, t_command *cmd_struct)
 {
 	char	*temp;
 	int		i;
-
+	int		j;
+	char *var;
+	char *valor;
+	int *mask;
 	i = 0;
-	while (cmd_struct->cmd[0] && cmd_struct->cmd[0][i])
+	j = -1;
+	while (cmd_struct->cmd[++j])
 	{
-		if (cmd_struct->cmd[0][i++] == '=')
+		if (ft_strchr(cmd_struct->cmd[j], '='))
 		{
-			temp = ft_substr(cmd_struct->cmd[0], 0, i);
-			if (ft_change_env(vars, temp, cmd_struct->cmd[0] + i, \
-				ft_strlen(cmd_struct->cmd[0]) - i) == 0)
+			valor = ft_substr(cmd_struct->cmd[j], ft_strlen(cmd_struct->cmd[j]) - ft_strlen(ft_strchr(cmd_struct->cmd[j], '=')), ft_strlen(ft_strchr(cmd_struct->cmd[j], '=')));
+			temp = ft_substr(cmd_struct->cmd[j], 0, ft_strlen(cmd_struct->cmd[j]) - ft_strlen(ft_strchr(cmd_struct->cmd[j], '=')));
+			if (ft_find_in_env(vars, temp) != 0)
+				ft_change_env(vars, temp, valor, \
+					ft_strlen(temp));
+			else if (ft_find_in_temp_env(vars, temp) == 0)
 				vars->temp_env = ft_append_to_temp_env(vars, \
-				cmd_struct->cmd[0]);
+				cmd_struct->cmd[j]);
+			else{
+				// printf("check\n");
+				ft_change_temp_env(vars,temp, valor, ft_strlen(temp));
+				}
 			free(temp);
-			return (1);
+			free(valor);
+			free(mask);
+			if (!cmd_struct->cmd[j + 1])
+				return (1);
 		}
 	}
 	return (0);
@@ -658,7 +672,7 @@ void ft_mi_exec(t_vars *vars)
 			temp_cmd->cmd = ft_dupl_dp(temp_cmd->cmd + 1);
 			ft_free_dob_arr(temp2);			
 		}			
-		if(ft_check_if_vars(vars, temp_cmd))
+		if(ft_check_if_vars(vars, temp_cmd) && ft_strchr(temp_cmd->cmd[0], '=')) //&& ft_strncmp("export", temp_cmd->cmd[0], 6) != 0 
 		{
 			if (temp_cmd->next)
 				continue ;
