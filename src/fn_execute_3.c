@@ -6,7 +6,7 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 19:04:38 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/27 19:05:43 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/27 19:26:47 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_if_appends(t_command *cmd, t_vars *vars)
 {
 	int	fd_infile;
 
-	fd_infile = open(ft_last_redir(cmd->appends, vars, 1),\
+	fd_infile = open(ft_last_redir(cmd->appends, vars, 1), \
 		O_APPEND | O_CREAT | O_RDWR, 0664);
 	dup2(fd_infile, 1);
 	close(fd_infile);

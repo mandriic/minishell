@@ -6,7 +6,7 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:16:58 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/27 19:09:45 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/27 20:17:13 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,21 @@ char	*ft_sub_pars(char *path, char *ifhome, char *cmd, int *i);
 char	*ft_pars_path(char *path, char *cmd, int len, t_vars *vars);
 void	ft_print_err(t_vars *vars, char *err_str, int err, int io_err);
 void	ft_check_if_exists(char *str, t_vars *vars);
+void	ft_hijo(t_command *cmd, t_vars *vars, char *path);
+void	ft_check_pipes(t_command *cmd);
+void	ft_wait(t_command *cmd, int pid);
+void	ft_execuve(char *path, t_command *cmd, t_vars *vars);
+int	ft_check_if_builtins_true(t_vars *vars, t_command *cmd);
+int	ft_check_if_builtins(t_vars *vars, t_command *cmd);
+char	**ft_get_name_val(t_command *cmd_struct, int j);
+int	ft_check_if_vars(t_vars *vars, t_command *cmd_struct);
+int	ft_get_dollar(t_vars *vars, t_command *temp_cmd);
+int	ft_check_if_vars_asign(t_command *temp_cmd, t_vars *vars);
+int	ft_export_err_equal(char *cmd);
+void	ft_put_err(char *str);
+int	ft_export_err(char *cmd);
+void	ft_subhijo_export(t_command *cmd, t_vars *vars, int i, int j);
+void	ft_export_hijo(t_command *cmd, t_vars *vars, int i, int j);
 
 
 

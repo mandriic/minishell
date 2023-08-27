@@ -6,14 +6,13 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 18:58:08 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/27 19:00:58 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/27 19:34:49 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 extern int	g_e_status;
-
 
 int	ft_check_dir(char *dir, char *cmd, size_t len)
 {
@@ -23,7 +22,8 @@ int	ft_check_dir(char *dir, char *cmd, size_t len)
 	d = opendir(dir);
 	if (d)
 	{
-		while ((dirr = readdir(d)) != NULL)
+		dirr = readdir(d);
+		while (dirr != NULL)
 		{
 			if (ft_strncmp(dirr->d_name, cmd, len) == 0
 				&& ft_strlen(dirr->d_name) == len)
@@ -31,6 +31,7 @@ int	ft_check_dir(char *dir, char *cmd, size_t len)
 				closedir(d);
 				return (1);
 			}
+			dirr = readdir(d);
 		}
 		closedir(d);
 	}

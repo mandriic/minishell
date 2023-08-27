@@ -6,12 +6,11 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:09:29 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/27 18:18:45 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/27 19:29:52 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
 
 char	*ft_find_in_env(t_vars *vars, char *to_find)
 {
@@ -76,8 +75,6 @@ int	ft_change_env(t_vars *vars, char *name, char *new_value, int len)
 	}
 	return (0);
 }
-
-
 
 char	*ft_acumulate(char *dest, char *part)
 {
