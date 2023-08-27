@@ -6,7 +6,7 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:16:58 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/27 11:50:04 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/27 19:09:45 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # include <sys/types.h>
 # include <dirent.h>
 # include <termios.h>
-# define BUFFER_SIZE 10000
+# define BUFFER_SIZE 100000
 # define READ_END    0    /* index pipe extremo lectura */
 # define WRITE_END   1 
 
@@ -84,6 +84,7 @@ typedef struct s_vars
 	char				**split;
 	char				*quotes;
 	char				*line;
+	char				*temp_cmd_saver;
 	int					*type;
 	char				**env_var;
 	char				**temp_env;
@@ -131,6 +132,25 @@ char	*leelinea(void);
 char	*ft_find_in_env(t_vars *vars, char *to_find);
 void ft_del_from_dob_arr(t_vars *vars, char *to_del, char ***src);
 int	ft_change_temp_env(t_vars *vars, char *name, char *new_value, int len);
+char	*ft_get_val(char *str, char **env);
+void	ft_if_appends(t_command *cmd, t_vars *vars);
+int	ft_dup_file(t_command *cmd, t_vars *vars);
+int	ft_redirections(t_command *cmd, t_vars *vars);
+void	ft_checkifdir(char *path);
+void	ft_hijo_exec(t_command *cmd, t_vars *vars, char *path);
+char	*ft_last_redir(char **redirs, t_vars *vars, int outfile);
+void	free_from_dupfile(int *mask, t_command *cmd);
+int	ft_if_outfile(char **outfiles, t_command *cmd, t_vars *vars, int *mask);
+void	ft_if_heredoc(t_command *cmd);
+void	ft_if_infile(char **infiles, t_command *cmd, t_vars *vars, int *mask);
+int	ft_check_dir(char *dir, char *cmd, size_t len);
+char	*ft_sub_pars(char *path, char *ifhome, char *cmd, int *i);
+char	*ft_pars_path(char *path, char *cmd, int len, t_vars *vars);
+void	ft_print_err(t_vars *vars, char *err_str, int err, int io_err);
+void	ft_check_if_exists(char *str, t_vars *vars);
+
+
+
 
 // void	ft_cd(char *route);
 

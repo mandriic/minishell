@@ -6,7 +6,7 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:09:29 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/27 13:55:19 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/27 17:59:19 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	ft_del_from_dob_arr(t_vars *vars, char *to_del, char ***src)
 	int		j;
 	char	**dst;
 
+	(void)vars;
 	i = -1;
 	j = 0;
 	while (src[0][++i])

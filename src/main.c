@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:18:52 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/20 15:30:27 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/27 18:42:11 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ int	main(int argc, char *argv[], char *envp[])
 	vars.quotes = "'";
 	vars.temp_env = NULL;
 	vars.env_var = ft_dupl_dp(envp);
+	vars.temp_cmd_saver = NULL;
 	ft_readline(&vars);
 }

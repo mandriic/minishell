@@ -6,7 +6,7 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:09:29 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/27 13:59:24 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/27 18:18:45 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,20 @@ char	*ft_acumulate(char *dest, char *part)
 		ft_my_free(part);
 	}
 	return (temp);
+}
+
+char	*ft_get_val(char *str, char **env)
+{
+	int	i;
+
+	i = 0;
+	if (!str)
+		return (NULL);
+	while (env[i])
+	{
+		if (ft_strncmp(str, env[i], ft_strlen(str)) == 0)
+			return (env[i]);
+		i++;
+	}
+	return (0);
 }

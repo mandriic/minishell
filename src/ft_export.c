@@ -6,13 +6,13 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:00:19 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/27 11:56:19 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/27 17:58:46 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-int	ft_export_err_equal(t_vars *vars, char *cmd)
+int	ft_export_err_equal(char *cmd)
 {
 	size_t		temp3;
 	int			i;
@@ -35,7 +35,7 @@ int	ft_export_err_equal(t_vars *vars, char *cmd)
 	return (0);
 }
 
-void	ft_put_err( t_vars *vars, char *str)
+void	ft_put_err(char *str)
 {
 	ft_putstr_fd("Minishell: export: ", 2);
 	ft_putstr_fd(str, 2);
@@ -43,7 +43,7 @@ void	ft_put_err( t_vars *vars, char *str)
 	g_e_status = 1;
 }
 
-int	ft_export_err(t_vars *vars, char *cmd)
+int	ft_export_err(char *cmd)
 {
 	char		**temp2;
 	size_t		temp3;
@@ -63,7 +63,7 @@ int	ft_export_err(t_vars *vars, char *cmd)
 			if (i == 0 && (!ft_isalnum(temp2[i][j])
 				|| temp3 == ft_strlen(temp2[0])))
 			{
-				ft_put_err(vars, cmd);
+				ft_put_err(cmd);
 				ft_free_dob_arr(temp2);
 				return (1);
 			}
@@ -149,7 +149,7 @@ int	ft_export(t_vars *vars, t_command *cmd)
 		j = 0;
 		while(cmd->cmd[++j])
 		{
-			if (ft_export_err_equal(vars, cmd->cmd[j]) || ft_export_err(vars, cmd->cmd[j]))
+			if (ft_export_err_equal(cmd->cmd[j]) || ft_export_err( cmd->cmd[j]))
 				return (1);
 			if( ft_strnstr(cmd->cmd[j], "==", ft_strlen(cmd->cmd[j]))) //ft_strchr(cmd->cmd[j], '=') == NULL ||
 					continue ;
