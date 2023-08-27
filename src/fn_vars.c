@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_vars.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:15:50 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/27 14:10:46 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/27 19:58:01 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ft_checkif_var(char *str, t_vars *vars)
 	{
 		acum = ft_acumulate(acum, vars->temp2);
 		free(type);
-		if (acum == NULL && str + 1)
+		if (acum == NULL)
 		{
 			free(acum);
 			acum = ft_strdup("0x0");

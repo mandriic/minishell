@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mi_execve.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 18:26:04 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/27 17:48:24 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/27 19:51:47 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*ft_sub_pars(char *path, char *ifhome, char *cmd, int *i, int *start)
 	if (ft_check_dir(dir, cmd, ft_strlen(cmd)) == 1)
 		return (dir);
 	free(dir);
-	return(NULL);
+	return (NULL);
 }
 
 char	*ft_pars_path(char *path, char *cmd, int len, t_vars *vars)
@@ -98,7 +98,7 @@ char	*ft_pars_path(char *path, char *cmd, int len, t_vars *vars)
 	return (0);
 }
 
-void	ft_print_err(t_vars *vars, char *err_str, int err, int io_err)
+void	ft_print_err(char *err_str, int err, int io_err)
 {
 	ft_putstr_fd(err_str, io_err);
 	if (err != -1)
@@ -107,36 +107,35 @@ void	ft_print_err(t_vars *vars, char *err_str, int err, int io_err)
 		exit(g_e_status);
 	}
 }
-void	ft_check_if_exists(char *str, t_vars *vars)
+void	ft_check_if_exists(char *str)
 {
 	int	fd;
 
 	fd = open(str, O_TRUNC | O_CREAT | O_RDWR, 0644);
 	if (fd < 0)
 	{
-		ft_print_err(vars, "Minishel: ", -1, 2);
-		ft_print_err(vars, str, -1, 2);
-		ft_print_err(vars, ": Permission denied\n", 1, 2);
+		ft_print_err("Minishel: ", -1, 2);
+		ft_print_err(str, -1, 2);
+		ft_print_err(": Permission denied\n", 1, 2);
 	}
 	close(fd);
 }
 
-char	*ft_last_redir(char **redirs, t_vars *vars, int outfile)
+char	*ft_last_redir(char **redirs, int outfile)
 {
 	int	i;
-	int	fd;
 
 	i = 0;
 	while (redirs[i])
 	{
 		if (outfile == 1)
-			ft_check_if_exists(redirs[i], vars);
+			ft_check_if_exists(redirs[i]);
 		if (access(redirs[i], F_OK) == 0 || outfile == 1)
 			i++;
 		else if (access(redirs[i], F_OK) == -1 && outfile != 1)
 		{
 			ft_putstr_fd(redirs[i], 2);
-			ft_print_err(vars, ": No such file or directory\n", 1, 2);
+			ft_print_err(": No such file or directory\n", 1, 2);
 		}
 	}
 	return (redirs[i - 1]);
@@ -148,15 +147,15 @@ void	free_from_dupfile(int *mask, t_command *cmd)
 	free(cmd->str_raw);
 }
 
-int	ft_if_outfile(char **outfiles, t_command *cmd, t_vars *vars, int *mask)
+int	ft_if_outfile(t_command *cmd, int *mask)
 {
 	char	*test_infile;
 	int		fd_infile;
 
-	test_infile = ft_last_redir(cmd->outfiles, vars, 1);
+	test_infile = ft_last_redir(cmd->outfiles, 1);
 	if (!test_infile)
 		return (1);
-	fd_infile = open(ft_last_redir(cmd->outfiles, vars, 1), \
+	fd_infile = open(ft_last_redir(cmd->outfiles, 1), \
 	O_TRUNC | O_CREAT | O_RDWR, 0664);
 	if (fd_infile < 0)
 	{
@@ -167,15 +166,15 @@ int	ft_if_outfile(char **outfiles, t_command *cmd, t_vars *vars, int *mask)
 		free_from_dupfile(mask, cmd);
 		exit (g_e_status);
 	}
-	dup2( fd_infile, 1);
+	dup2(fd_infile, 1);
 	close(fd_infile);
 	return (0);
 }
 void	ft_if_heredoc(t_command *cmd)
 {
-	int i2;
-				
-	i2= -1;
+	int	i2;
+
+	i2 = -1;
 	pipe(cmd->fd);
 	close(cmd->fd[1]);
 	dup2(cmd->fd[0], 0);
@@ -188,12 +187,12 @@ void	ft_if_heredoc(t_command *cmd)
 	}
 }
 
-void	ft_if_infile(char **infiles, t_command *cmd, t_vars *vars, int *mask)
+void	ft_if_infile(t_command *cmd, int *mask)
 {
 	char	*test_infile;
 	int		fd_infile;
 
-	test_infile = ft_last_redir(cmd->infiles, vars, 0);
+	test_infile = ft_last_redir(cmd->infiles, 0);
 	if (!test_infile)
 		g_e_status = 1;
 	fd_infile = open(test_infile, O_RDONLY);
@@ -210,11 +209,11 @@ void	ft_if_infile(char **infiles, t_command *cmd, t_vars *vars, int *mask)
 	dup2(fd_infile, 0);
 	close(fd_infile);
 }
-void	ft_if_appends(t_command *cmd, t_vars *vars)
+void	ft_if_appends(t_command *cmd)
 {
 	int	fd_infile;
 
-	fd_infile = open(ft_last_redir(cmd->appends, vars, 1),\
+	fd_infile = open(ft_last_redir(cmd->appends, 1),\
 		O_APPEND | O_CREAT | O_RDWR, 0664);
 	dup2(fd_infile, 1);
 	close(fd_infile);
@@ -231,13 +230,13 @@ int	ft_dup_file(t_command *cmd, t_vars *vars)
 	{
 		if (cmd->appends && mask[i] == 11)
 		{
-			ft_if_appends(cmd, vars);
+			ft_if_appends(cmd);
 			i++;
 		}
 		if (cmd->infiles && mask[i] == 10 && cmd->str_raw[i] == '<')
-			ft_if_infile(cmd->infiles, cmd, vars, mask);
+			ft_if_infile(cmd, mask);
 		if (cmd->outfiles && mask[i] == 10 && cmd->str_raw[i] == '>')
-			ft_if_outfile(cmd->outfiles, cmd, vars, mask);
+			ft_if_outfile(cmd, mask);
 		if (cmd->heredocs && mask[i] == 11)
 		{
 			ft_if_heredoc(cmd);
@@ -361,7 +360,6 @@ void 	ft_wait(t_command *cmd, int pid)
 
 void ft_execuve(char *path, t_command *cmd, t_vars *vars)
 {
-	int	status;
 	int	pid;
 
 	pipe(cmd->fd);
@@ -447,10 +445,9 @@ char	**ft_get_name_val(t_command *cmd_struct, int j)
 }
 int ft_check_if_vars(t_vars *vars, t_command *cmd_struct)
 {
-	char	*temp;
 	int		j;
-	char **name_val;
-	
+	char	**name_val;
+
 	j = -1;
 	while (cmd_struct->cmd[++j])
 	{
@@ -464,7 +461,8 @@ int ft_check_if_vars(t_vars *vars, t_command *cmd_struct)
 				vars->temp_env = ft_append_to_temp_env(vars, \
 				cmd_struct->cmd[j]);
 			else
-				ft_change_temp_env(vars,name_val[0], name_val[1], ft_strlen(name_val[0]));
+				ft_change_temp_env(vars,name_val[0], \
+				name_val[1], ft_strlen(name_val[0]));
 			ft_free_dob_arr(name_val);
 			if (cmd_struct->cmd[j + 1] == NULL)
 				return (1);
@@ -498,14 +496,15 @@ int	ft_check_if_vars_asign(t_command *temp_cmd, t_vars *vars)
 	{
 		temp2 = temp_cmd->cmd;
 		temp_cmd->cmd = ft_dupl_dp(temp_cmd->cmd + 1);
-		ft_free_dob_arr(temp2);			
+		ft_free_dob_arr(temp2);
 	}			
-	if(ft_check_if_vars(vars, temp_cmd) && ft_strchr(temp_cmd->cmd[0], '=')) //&& ft_strncmp("export", temp_cmd->cmd[0], 6) != 0 
+	if (ft_check_if_vars(vars, temp_cmd)
+		&& ft_strchr(temp_cmd->cmd[0], '='))
 	{
 		if (temp_cmd->next)
-			return(2) ;
+			return (2);
 		else
-			return (1) ;
+			return (1);
 	}
 	return (0);
 }
@@ -513,37 +512,35 @@ int	ft_check_if_vars_asign(t_command *temp_cmd, t_vars *vars)
 
 void 	ft_run_bltn(t_command *temp_cmd, t_vars *vars)
 {
-		// if (temp_cmd->next != NULL)
 	if (ft_strncmp("export", temp_cmd->cmd[0], 6) == 0)
 		ft_export(vars, temp_cmd);
 	else if (ft_strncmp("unset", temp_cmd->cmd[0], 5) == 0)
 		ft_unset(vars, temp_cmd);
 	else if (ft_strncmp("cd", temp_cmd->cmd[0], 2) == 0)
 		ft_cd(vars, temp_cmd);
-	else 				
-		ft_execuve(NULL, temp_cmd, vars); // ATENTION
+	else
+		ft_execuve(NULL, temp_cmd, vars);
 }
 
 void	ft_if_path_true(char *cmd_path, t_command *temp_cmd, t_vars *vars)
 {
-	char *temp;
+	char	*temp;
 
-		temp = cmd_path;
-		cmd_path = ft_strjoin(cmd_path, "/");
-		free(temp);
-		temp = cmd_path;
-		cmd_path = ft_strjoin(cmd_path, temp_cmd->cmd[0]);
-		free(temp);
-		ft_get_dollar(vars, temp_cmd);
-		ft_execuve(cmd_path, temp_cmd, vars);  // ATENTION
-		free(cmd_path);
+	temp = cmd_path;
+	cmd_path = ft_strjoin(cmd_path, "/");
+	free(temp);
+	temp = cmd_path;
+	cmd_path = ft_strjoin(cmd_path, temp_cmd->cmd[0]);
+	free(temp);
+	ft_get_dollar(vars, temp_cmd);
+	ft_execuve(cmd_path, temp_cmd, vars);
+	free(cmd_path);
 }
 
 void	ft_exec(t_command *temp_cmd, t_vars *vars)
 {
-	char *path;
-	char *cmd_path;
-	char *temp;
+	char	*path;
+	char	*cmd_path;
 
 	path = ft_get_val("PATH", vars->env_var);
 	cmd_path = ft_pars_path(path, temp_cmd->cmd[0], 5, vars);
@@ -551,33 +548,19 @@ void	ft_exec(t_command *temp_cmd, t_vars *vars)
 		(temp_cmd->cmd[0][0] == '.' || temp_cmd->cmd[0][0] == '/'))
 		ft_execuve(temp_cmd->cmd[0], temp_cmd, vars);
 	else if (cmd_path)
-	{
 		ft_if_path_true(cmd_path, temp_cmd, vars);
-		// temp = cmd_path;
-		// cmd_path = ft_strjoin(cmd_path, "/");
-		// free(temp);
-		// temp = cmd_path;
-		// cmd_path = ft_strjoin(cmd_path, temp_cmd->cmd[0]);
-		// free(temp);
-		// ft_get_dollar(vars, temp_cmd);
-		// ft_execuve(cmd_path, temp_cmd, vars);  // ATENTION
-		// free(cmd_path);
-	}
-	else if(temp_cmd->cmd[0])
+	else if (temp_cmd->cmd[0])
 	{
 		ft_putstr_fd("Minishel: ", 2);
 		ft_putstr_fd(temp_cmd->cmd[0], 2);
-		ft_print_err(vars, ": command not found\n", 127, 2);
+		ft_print_err(": command not found\n", 127, 2);
 	}
 }
 
 void ft_mi_exec(t_vars *vars)
 {
 	t_command	*temp_cmd;
-	char	*path;
-	char	*cmd_path;
-	char    *temp;
-	int 	check;
+	int			check;
 
 	temp_cmd = vars->cmd_list;
 	while (temp_cmd != NULL && temp_cmd->cmd)
@@ -590,32 +573,7 @@ void ft_mi_exec(t_vars *vars)
 		if (ft_check_if_builtins_true(vars, temp_cmd))
 			ft_run_bltn(temp_cmd, vars);
 		else
-		{
 			ft_exec(temp_cmd, vars);
-			// path = ft_get_val("PATH", vars->env_var);
-			// cmd_path = ft_pars_path(path, temp_cmd->cmd[0], 5, vars);
-			// if (temp_cmd->cmd[0] && !cmd_path && (temp_cmd->cmd[0][0] == '.' || temp_cmd->cmd[0][0] == '/'))
-			// 	ft_execuve(temp_cmd->cmd[0], temp_cmd, vars);
-			// else if (cmd_path)
-			// {
-			// 	temp = cmd_path;
-			// 	cmd_path = ft_strjoin(cmd_path, "/");
-			// 	free(temp);
-			// 	temp = cmd_path;
-			// 	cmd_path = ft_strjoin(cmd_path, temp_cmd->cmd[0]);
-			// 	free(temp);
-			// 	ft_get_dollar(vars, temp_cmd);
-			// 	ft_execuve(cmd_path, temp_cmd, vars);  // ATENTION
-			// 	free(cmd_path);
-			// }
-			// else if(temp_cmd->cmd[0])
-			// {
-			// 	ft_putstr_fd("Minishel: ", 2);
-			// 	ft_putstr_fd(temp_cmd->cmd[0], 2);
-			// 	ft_putstr_fd(": command not found\n", 2);
-			// 	g_e_status = 127;
-			// }
-		}
 		temp_cmd = temp_cmd->next;
 	}
 }

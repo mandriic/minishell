@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   fn_add_doubl_arr.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:09:29 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/27 13:55:19 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/27 19:54:07 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	ft_del_from_dob_arr(t_vars *vars, char *to_del, char ***src)
+void	ft_del_from_dob_arr(char *to_del, char ***src)
 {
 	int		i;
 	int		j;

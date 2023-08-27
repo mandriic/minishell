@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:16:58 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/27 11:50:04 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/27 20:00:59 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
 
 # include "../libft/libft.h"
 # include <stdio.h>
@@ -35,39 +34,26 @@
 # define READ_END    0    /* index pipe extremo lectura */
 # define WRITE_END   1 
 
-// typedef struct s_data
-// {
-// 	int					num_cmds;
-// 	int					num_pipes;
-// 	int					last_code;
-// 	struct s_command	*cmd_list;
-// 	char				**envp_copy;
-// 	char				**export;
-// }	t_data;
-
-/*global var to set the exit status, 
-we can do it with vars.error,
-but in signals it cannot change.*/
 extern int	g_e_status;
 
 typedef struct s_command
 {
-	char				**cmd_splited; //data->cmd_splited[0] [1] - args
-	char				**cmd;//este si se usa
-	char				*comando_a_pelo;//este si se usa
+	char				**cmd_splited;
+	char				**cmd;
+	char				*comando_a_pelo;
 	char				*vars_resolv;
 	char				**pre_comand_bon;
-	char	*str_raw;
+	char				*str_raw;
 	char				**pre_args;
 
 	int					pid;
 	int					fd[2];
 	int					mem_pipe;
 	char				*arg;
-	char				**infiles;  // 	<
-	char				**heredocs; //	<<
-	char				**outfiles; //	>
-	char				**appends; 	//	>>
+	char				**infiles;
+	char				**heredocs;
+	char				**outfiles;
+	char				**appends;
 	int					menos;
 	int					menos_dob;
 	int					mas;
@@ -105,78 +91,21 @@ typedef struct s_vars
 	size_t				line_len;
 }	t_vars;
 
-// typedef struct s_command
-// {
-// 	char		*comando_a_pelo;
-// 	char		*comando_con_flags;
-// 	char		**cmd;
-// 	char		**infiles;
-// 	char		**outfiles;
-
-// 	struct s_command	*next;
-// 	struct s_command	*prev;
-
-// }	t_command;
-
-// extern t_data	g_data;
-int ft_dup_file(t_command *cmd, t_vars *vars);
-char *ft_last_redir(char **redirs, t_vars *vars, int outfile);
-int ft_redirections(t_command *cmd, t_vars *vars);
-void c(char *str);
-char	*ft_strjoin_mod(char *s1, char *s2);
-char	*ft_acumulate(char *dest, char *part);
-void ft_print_arrint(int *arr, char *name);
-void ft_print_dp(char **str, char *name);
-char	*leelinea(void);
-char	*ft_find_in_env(t_vars *vars, char *to_find);
-void ft_del_from_dob_arr(t_vars *vars, char *to_del, char ***src);
-int	ft_change_temp_env(t_vars *vars, char *name, char *new_value, int len);
-
-// void	ft_cd(char *route);
-
-//export.c
-// void	ft_add_line_to_matrix(char ***matrix, char *line); //pepeline :( )
-
-/* pwd.c */
-
-// char	**ft_copy_enviroment_vars_into_matrix(char *envp_original[]);
-// void	ft_free_array(char **envp_copy);
-// void	ft_free_list(t_command *lst);
-// t_command	**ft_copy_enviroment_vars_into_list(t_command **env_copy, char **envp);
-// void	ft_print_command(t_command *env_copy);
-// void	ft_pwd(char **env);
-// void	ft_pwd_2(void);
-
-/* execve.c */
-// char	**ft_copy_enviroment_vars_into_matrix(char *envp_original[]);
-// char	*ft_get_path_to_execve(char **envp, char *arg);
-// void	ft_execute(char *path_to_execve, char **args, char **envp_copy);  //pepeline :( 
-
-/* hardcoded.c */
-// t_command	*dar_datos_a_los_cmd();
-
-/* aux_functions.c */
-// void	ft_error_exit(char *err_msg);
-// void	ft_free_nodes(t_command *cmd);
-// void	ft_preliminar_check(int argc, char *argv[]);
-// int		ft_strchr_index(char *str, char c);
-// int		ft_env_var_key_len(char *env_var);
-// void	ft_print_matrix(char **matrix, int fd);
-// int		ft_matrix_len(char **matrix);
-
+int			ft_dup_file(t_command *cmd, t_vars *vars);
+char		*ft_last_redir(char **redirs, int outfile);
+int			ft_redirections(t_command *cmd, t_vars *vars);
+void		c(char *str);
+char		*ft_strjoin_mod(char *s1, char *s2);
+char		*ft_acumulate(char *dest, char *part);
+void		ft_print_arrint(int *arr, char *name);
+void		ft_print_dp(char **str, char *name);
+char		*leelinea(void);
+char		*ft_find_in_env(t_vars *vars, char *to_find);
+void		ft_del_from_dob_arr(char *to_del, char ***src);
+int			ft_change_temp_env(t_vars *vars, char *name, \
+char *new_value, int len);
 
 void		leaks(void);
-
-/* pipe.c */
-// void	ft_close_pipes(t_command *cmd);
-// void	ft_dup_infile(t_command *cmd);
-// void	ft_dup_outfile(t_command *cmd);
-// void	ft_redirections(t_command *cmd);
-
-/* multiple_pipes */
-// void	ft_multiple_pipes(t_vars *vars);
-
-/* builtins.c */
 int			ft_echo(t_vars *vars, t_command *cmd);
 int			ft_cd(t_vars *vars, t_command *cmd);
 int			ft_pwd(t_vars *vars, t_command *cmd);
@@ -186,15 +115,6 @@ int			ft_env(t_vars *vars, t_command *cmd);
 int			ft_exit(t_command *cmd);
 int			ft_change_env(t_vars *vars, char *name, char *new_value, int len);
 char		*ft_get_value(char *str, char **env);
-// bool	ft_is_builtin(t_command cmd);
-// void	ft_execute_buitlin(t_command cmd, t_vars *vars);
-
-//main.c
-
-// int	ft_jose(t_vars *vars);
-
-/* export.c */
-// int	ft_check_existing_variable_in_matrix(char **matrix, char *var_name, int *index);
 
 // fn_list.c
 char		**ft_pre_com_bon(char *str, t_vars *vars);
@@ -296,5 +216,8 @@ void		ft_singint_hand(int sigs);
 void		ft_here_signal(int sig);
 char		*get_next_line(int fd);
 void		ft_exit_mini(t_vars *vars);
+int			ft_export_err_equal(char *cmd);
+void		ft_put_err(char *str, char **temp2);
+int			ft_export_err(char *cmd);
 
 #endif
