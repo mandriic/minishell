@@ -6,7 +6,7 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 18:26:04 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/23 21:44:48 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/27 11:04:28 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -578,9 +578,9 @@ int ft_check_if_vars(t_vars *vars, t_command *cmd_struct)
 	int		j;
 	char *var;
 	char *valor;
-	int *mask;
 	i = 0;
 	j = -1;
+	// ft_print_dp(cmd_struct->cmd, "cmd_struct->cmd");
 	while (cmd_struct->cmd[++j])
 	{
 		if (ft_strchr(cmd_struct->cmd[j], '='))
@@ -599,9 +599,10 @@ int ft_check_if_vars(t_vars *vars, t_command *cmd_struct)
 				}
 			free(temp);
 			free(valor);
-			free(mask);
-			if (!cmd_struct->cmd[j + 1])
+			if (cmd_struct->cmd[j + 1] == NULL)
 				return (1);
+
+
 		}
 	}
 	return (0);
