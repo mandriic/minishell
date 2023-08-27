@@ -6,7 +6,7 @@
 /*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 18:26:04 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/27 11:46:33 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/27 11:55:19 by mandriic         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char	*ft_pars_path(char *path, char *cmd, int len, t_vars *vars)
 	return (0);
 }
 
-char	*ft_last_redir(char **redirs, int outfile)
+char	*ft_last_redir(char **redirs, t_vars *vars, int outfile)
 {
 	int i = 0;
 	int fd;
@@ -162,13 +162,13 @@ int	ft_dup_file(t_command *cmd, t_vars *vars)
 		if (cmd->appends && mask[i] == 11)
 		{
 			i++;
-			fd_infile = open(ft_last_redir(cmd->appends,1), O_APPEND | O_CREAT | O_RDWR, 0664);
+			fd_infile = open(ft_last_redir(cmd->appends,vars, 1), O_APPEND | O_CREAT | O_RDWR, 0664);
 			dup2(fd_infile, 1);
 			close(fd_infile);
 		}
 		if (cmd->infiles && mask[i] == 10 && cmd->str_raw[i] == '<')
 		{
-			test_infile = ft_last_redir(cmd->infiles, 0);
+			test_infile = ft_last_redir(cmd->infiles, vars, 0);
 			if (!test_infile)
 				g_e_status = 1;
 			fd_infile = open(test_infile, O_RDONLY);
@@ -188,10 +188,10 @@ int	ft_dup_file(t_command *cmd, t_vars *vars)
 		}
 		if (cmd->outfiles && mask[i] == 10 && cmd->str_raw[i] == '>')
 		{
-			test_infile = ft_last_redir(cmd->outfiles, 1);
+			test_infile = ft_last_redir(cmd->outfiles, vars, 1);
 			if (!test_infile)
 				return (1);
-			fd_infile = open(ft_last_redir(cmd->outfiles, 1), \
+			fd_infile = open(ft_last_redir(cmd->outfiles, vars, 1), \
 			O_TRUNC | O_CREAT | O_RDWR, 0664);
 			if (fd_infile < 0)
 			{
