@@ -65,6 +65,7 @@ int	ft_check_rl(t_vars *vars)
 void	ft_submain(t_vars *vars)
 {
 	rl_catch_signals = 0;
+	// rl_bind_key('\t', NULL);
 	while (1)
 	{
 		signal(SIGQUIT, SIG_IGN);
