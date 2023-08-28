@@ -6,13 +6,22 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 16:36:41 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/26 17:33:58 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/28 10:56:23 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
 extern int	g_e_status;
+
+void	ft_sigint_proc(int sig)
+{
+	if (sig == SIGINT)
+	{
+		g_e_status = 130;
+		printf("\n");
+	}
+}
 
 void	ft_singint_hand(int sig)
 {

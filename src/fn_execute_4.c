@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_execute_4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 19:12:44 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/27 19:27:31 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/28 10:58:20 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	ft_execuve(char *path, t_command *cmd, t_vars *vars)
 		printf("Error forking \n");
 	else if (pid > 0)
 	{
-		signal(SIGUSR2, SIG_IGN);
+		signal(SIGINT, ft_sigint_proc);
 		rl_set_prompt("");
 		ft_check_pipes(cmd);
 		ft_wait(cmd, pid);

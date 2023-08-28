@@ -6,7 +6,7 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 17:16:58 by preina-g          #+#    #+#             */
-/*   Updated: 2023/08/27 20:58:48 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/28 10:57:16 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,5 +251,6 @@ char		*get_next_line(int fd);
 void		ft_exit_mini(t_vars *vars);
 int			ft_export_err_equal(char *cmd);
 int			ft_export_err(char *cmd);
+void		ft_sigint_proc(int sig);
 
 #endif
