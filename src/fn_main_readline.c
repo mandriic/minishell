@@ -6,7 +6,7 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 15:22:00 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/26 16:42:41 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/28 13:00:11 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int	ft_check_rl(t_vars *vars)
 void	ft_submain(t_vars *vars)
 {
 	rl_catch_signals = 0;
-	// rl_bind_key('\t', NULL);
 	while (1)
 	{
 		signal(SIGQUIT, SIG_IGN);

@@ -1,8 +1,17 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/08/28 13:03:57 by preina-g          #+#    #+#              #
+#    Updated: 2023/08/28 13:07:30 by preina-g         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-
-
-R42LFLAG = -L/Users/mandriic/.brew/opt/readline/lib
-R42IFLAG = -I/Users/mandriic/.brew/opt/readline/include
+R42LFLAG = -L/Users/$(USER)/.brew/opt/readline/lib
+R42IFLAG = -I/Users/$(USER)/.brew/opt/readline/include
 R42LFLAGM = -L/opt/homebrew/opt/readline/lib 
 R42IFLAGM = -I/opt/homebrew/opt/readline/include
 R42LFLAGU = -L/usr/share/readline 
