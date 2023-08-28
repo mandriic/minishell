@@ -6,7 +6,7 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 18:58:08 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/28 11:32:30 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/28 11:55:28 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ char	*ft_sub_pars(char *path, char *ifhome, char *cmd, int *i)
 	{
 		if (dir)
 			free(dir);
+		printf("ifhome: %s\n", ifhome);
+		printf("dir: %s\n", dir);
+		printf("len: %zu\n", ft_strlen(dir));
 		dir = ft_strjoin(ifhome, dir);
 	}
 	if (ft_check_dir(dir, cmd, ft_strlen(cmd)) == 1)
@@ -78,6 +81,7 @@ char	*ft_pars_path(char *path, char *cmd, int len, t_vars *vars)
 		if (path[i[1]] == ':')
 		{
 			dir = ft_sub_pars(path, ifhome, cmd, i);
+			printf("dirdasdass: %s\n", dir);
 			if (dir)
 				return (dir);
 		}
