@@ -48,14 +48,19 @@ void	ft_exec(t_command *temp_cmd, t_vars *vars)
 	cmd_path = ft_pars_path(path, temp_cmd->cmd[0], 5, vars);
 	if (temp_cmd->cmd[0] && !cmd_path && \
 		(temp_cmd->cmd[0][0] == '.' || temp_cmd->cmd[0][0] == '/'))
-		ft_execuve(temp_cmd->cmd[0], temp_cmd, vars);
+		ft_execuve(temp_cmd->cmd[0], temp_cmd, vars);		
+
 	else if (cmd_path)
 		ft_if_path_true(cmd_path, temp_cmd, vars);
-	else if (temp_cmd->cmd[0] && !ft_strncmp(temp_cmd->cmd[0], " ", 1))
+
+	else if (temp_cmd->cmd[0])
 	{
+		if (!ft_strncmp(temp_cmd->cmd[0], " ", ft_strlen(temp_cmd->cmd[0])))
+			return ;
 		ft_putstr_fd("Minishel: ", 2);
 		ft_putstr_fd(temp_cmd->cmd[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
+		g_e_status = 127;
 	}
 }
 

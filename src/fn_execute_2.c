@@ -51,11 +51,14 @@ int	ft_if_outfile(char **outfiles, t_command *cmd, t_vars *vars, int *mask)
 		return (1);
 	fd_infile = open(ft_last_redir(cmd->outfiles, vars, 1), \
 	O_TRUNC | O_CREAT | O_RDWR, 0664);
-	if (fd_infile < 0)
+	if (fd_infile < 0 )
 	{
-		ft_putstr_fd("Minishel: ", 2);
-		ft_putstr_fd(cmd->outfiles[0], 2);
-		ft_putstr_fd(": Permission denied\n", 2);
+		if (!cmd->infiles)
+		{
+			ft_putstr_fd("Minishel: ", 2);
+			ft_putstr_fd(cmd->outfiles[0], 2);
+			ft_putstr_fd(": Permission denied\n", 2);
+		}
 		g_e_status = 1;
 		free_from_dupfile(mask, cmd);
 		exit (g_e_status);
