@@ -82,7 +82,10 @@ void	ft_hijo_exec(t_command *cmd, t_vars *vars, char *path)
 		if (path[0] == '/' || path[0] == '.')
 		{
 			if (access(path, F_OK))
+			{
 				ft_putstr_fd(strerror(errno), 2);
+				ft_putstr_fd("\n", 2);
+			}
 			else if (access(path, X_OK))
 			{
 				ft_putstr_fd(" Permission denied\n", 2);
