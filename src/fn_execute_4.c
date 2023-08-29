@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_execute_4.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 19:12:44 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/27 19:27:31 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/28 14:45:29 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,7 @@ void	ft_wait(t_command *cmd, int pid)
 {
 	int	status;
 
-	if (ft_strncmp("cat", cmd->cmd[0], 3) == 0 && cmd->next != NULL)
-	{
-		waitpid(pid, &status, WNOWAIT);
-		g_e_status = 0;
-	}
-	else if (ft_strncmp("exit", cmd->cmd[0], 4) == 0)
+	if (ft_strncmp("exit", cmd->cmd[0], 4) == 0)
 	{
 		waitpid(pid, &status, 0);
 		g_e_status = WEXITSTATUS(status);
@@ -90,7 +85,7 @@ void	ft_execuve(char *path, t_command *cmd, t_vars *vars)
 		printf("Error forking \n");
 	else if (pid > 0)
 	{
-		signal(SIGUSR2, SIG_IGN);
+		signal(SIGINT, ft_sigint_proc);
 		rl_set_prompt("");
 		ft_check_pipes(cmd);
 		ft_wait(cmd, pid);

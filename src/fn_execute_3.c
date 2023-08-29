@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fn_execute_3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mandriic <mandriic@student.42malaga.com    +#+  +:+       +#+        */
+/*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 19:04:38 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/27 19:26:47 by mandriic         ###   ########.fr       */
+/*   Updated: 2023/08/29 11:31:11 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void	ft_hijo_exec(t_command *cmd, t_vars *vars, char *path)
 			if (access(path, F_OK))
 			{
 				ft_putstr_fd("Minishell: ", 2);
-				// ft_putstr_fd(cmd->cmd[0], 2);
 				ft_putstr_fd(strerror(errno), 2);
 				ft_putstr_fd("\n", 2);
 			}
@@ -94,7 +93,6 @@ void	ft_hijo_exec(t_command *cmd, t_vars *vars, char *path)
 				exit(126);
 			}
 			else
-
 				ft_putstr_fd(": command not found\n", 2);
 			exit(127);
 		}

@@ -6,7 +6,7 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 19:02:46 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/27 20:47:44 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/28 13:06:58 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_if_outfile(char **outfiles, t_command *cmd, t_vars *vars, int *mask)
 		return (1);
 	fd_infile = open(ft_last_redir(cmd->outfiles, vars, 1), \
 	O_TRUNC | O_CREAT | O_RDWR, 0664);
-	if (fd_infile < 0 )
+	if (fd_infile < 0)
 	{
 		if (!cmd->infiles)
 		{
@@ -77,7 +77,6 @@ void	ft_if_heredoc(t_command *cmd)
 	close(cmd->fd[1]);
 	dup2(cmd->fd[0], 0);
 	close(cmd->fd[0]);
-
 	while (cmd->heredocs[++i2])
 	{
 		ft_putstr_fd(cmd->heredocs[i2], 1);

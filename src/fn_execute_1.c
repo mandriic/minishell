@@ -6,7 +6,7 @@
 /*   By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 18:58:08 by mandriic          #+#    #+#             */
-/*   Updated: 2023/08/27 21:38:21 by preina-g         ###   ########.fr       */
+/*   Updated: 2023/08/29 11:31:14 by preina-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	ft_check_if_exists(char *str, t_vars *vars)
 {
 	int	fd;
 
-	fd = open(str, O_TRUNC | O_CREAT | O_RDWR, 0644);
+	fd = open(str, O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (fd < 0)
 	{
 		ft_print_err(vars, "Minishel: ", -1, 2);

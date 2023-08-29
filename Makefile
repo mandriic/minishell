@@ -1,12 +1,32 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: preina-g <preina-g@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/08/28 20:24:52 by mandriic          #+#    #+#              #
+#    Updated: 2023/08/29 12:02:32 by preina-g         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
+USER = $(shell whoami)
+UNAME_S := $(shell uname -s)
+ifeq ($(USER), $(filter $(USER), mandriic preina-g))
+	R42LFLAG = -L/Users/$(USER)/.brew/opt/readline/lib
+	R42IFLAG = -I/Users/$(USER)/.brew/opt/readline/include
+endif
+ifeq ($(USER), sirius)
+ifeq ($(UNAME_S),Darwin)
+	R42LFLAG = -L/opt/homebrew/opt/readline/lib 
+	R42IFLAG = -I/opt/homebrew/opt/readline/include
+endif
+endif
+ifeq ($(UNAME_S),Linux)
+	R42LFLAG = -L/usr/share/readline 
+	R42IFLAG = -I/usr/include/readline
+endif
 
-
-R42LFLAG = -L/Users/mandriic/.brew/opt/readline/lib
-R42IFLAG = -I/Users/mandriic/.brew/opt/readline/include
-R42LFLAGM = -L/opt/homebrew/opt/readline/lib 
-R42IFLAGM = -I/opt/homebrew/opt/readline/include
-R42LFLAGU = -L/usr/share/readline 
-R42IFLAGU = -I/usr/include/readline
 INCS     = inc/
 BIN_PATH = bin/
 SRCS_PATH = src/
@@ -27,14 +47,16 @@ NAME     = minishell
 
 RM       = rm -f
 
+
+$(shell mkdir -p $(BIN_PATH))
+
 $(BIN_PATH)%.o: $(SRCS_PATH)%.c
 	$(CC) $(CFLAGS) -c $< -o $@ -I$(INCS) $(R42IFLAG)
-
-$(NAME): $(OBJS)
+$(NAME): $(BIN_PATH) $(OBJS)
 	make -C $(LIBFT_PATH)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT_FLAGS) -I$(INCS) -o $(NAME) $(R42LFLAG) $(R42IFLAG) -lreadline
 
-all:		$(NAME)
+all:	$(NAME)
 
 clean:
 			$(RM) $(OBJS)
